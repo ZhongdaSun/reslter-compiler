@@ -1,4 +1,0 @@
-inflect
-deepDiff
-pyyaml
-six
