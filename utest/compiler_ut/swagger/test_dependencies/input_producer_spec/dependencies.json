@@ -1,0 +1,112 @@
+{
+  "/archive": {
+    "POST": {
+      "Body": [
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "name",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "tag",
+          "consumer_param": "tag"
+        }
+      ],
+      "Query": [
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "hash",
+          "consumer_param": "hash"
+        }
+      ]
+    }
+  },
+  "/archive/{archiveId}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__archiveId",
+          "consumer_param": "archiveId"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "name",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "tag",
+          "consumer_param": "tag"
+        }
+      ],
+      "Query": [
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "hash",
+          "consumer_param": "sig"
+        }
+      ]
+    }
+  },
+  "/archive/{archiveId}/{label}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "archiveId"
+        },
+        {
+          "producer_endpoint": "/archive",
+          "producer_method": "POST",
+          "producer_resource_name": "tag",
+          "consumer_param": "label"
+        }
+      ]
+    }
+  },
+  "/file/{fileId}": {
+    "DELETE": {
+      "Path": [
+        {
+          "producer_endpoint": "/file/{fileId}",
+          "producer_method": "POST",
+          "producer_resource_name": "fileId",
+          "consumer_param": "fileId"
+        }
+      ]
+    },
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/file/{fileId}",
+          "producer_method": "POST",
+          "producer_resource_name": "fileId",
+          "consumer_param": "fileId"
+        }
+      ]
+    },
+    "POST": {
+      "Path": [
+        {
+          "producer_endpoint": "/file/{fileId}",
+          "producer_method": "POST",
+          "producer_resource_name": "fileId",
+          "consumer_param": "fileId"
+        }
+      ]
+    }
+  }
+}

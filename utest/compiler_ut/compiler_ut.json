@@ -1,0 +1,97 @@
+{
+  "debug_mode": false,
+  "debug_file": "test_combined.py",
+  "openapi_2.0": false,
+  "openapi_3.0": false,
+  "compiler_ut": true,
+  "restler_ut": false,
+
+  "test_combined": {
+    "test_combined_array_example_spec": 2,
+    "test_null_test_swagger": 100,
+    "test_path_parameter_read_from_global_parameters": 0,
+    "test_array_example": 100,
+    "test_example_demo1": 100
+  },
+
+  "test_dependencies": {
+    "test_demo_server_path_dependencies_resolved_without_annotations": 4,
+    "test_inferred_put_producer": 0,
+    "test_get_dependency_for_path_parameter": 0,
+    "test_get_dependency_from_openapi_v3_links": 4,
+    "test_path_annotation_to_body_parameter": 0,
+    "test_get_header_dependency_from_openapi_v3_links": 4,
+    "test_full_path_to_body_parameter_in_dictionary_custom_payload": 0,
+    "test_local_annotations_to_body_properties": 0,
+    "test_no_dependencies_when_same_body_in_unrelated_requests": 0,
+    "test_dependencies_inferred_for_lowercase_container_and_object": 3,
+    "test_inconsistent_camel_case_fixed_by_restler": 100,
+    "test_patch_request_body_parameter_producers_from_post": 2,
+    "test_array_dependencies_with_multiple_array_items": 0,
+    "test_input_producers_work_with_annotations": 100
+    },
+  "test_dictionary": {
+    "test_quoting_is_correct_in_the_grammar": 0,
+    "test_path_and_body_parameter_set_to_same_uuid_suffix_payload": 2,
+    "test_custom_payload_query_and_header_is_correctly_injected_1": 0,
+    "test_custom_payload_query_and_header_is_correctly_injected_2": 0,
+    "test_content_type_can_be_modified_via_custom_payload_header": 0,
+    "test_generated_custom_value_generator_template_is_correct": 0,
+    "test_date_format_is_preserved_after_deserialization_and_serialization": 0
+  },
+  "test_example": {
+    "test_no_example_in_grammar_with_dependencies": 0,
+    "test_example_config_file": 0,
+    "test_array_example_in_grammar_without_dependencies_1": 0,
+    "test_array_example_in_grammar_without_dependencies_2": 0,
+    "test_array_example_in_grammar_without_dependencies_3": 0,
+    "test_array_example_dynamic_object": 3,
+    "test_object_example_in_grammar_without_dependencies": 4,
+    "test_allof_property_omitted_in_example": 0,
+    "test_empty_array_example_in_grammar_1": 0,
+    "test_empty_array_example_in_grammar_2": 0,
+    "test_empty_array_example_in_grammar_3": 0,
+    "test_header_example_with_and_without_dependencies": 0,
+    "test_example_in_grammar_without_dependencies": 4,
+    "test_example_in_grammar_with_dependencies": 4,
+    "test_logic_example_in_grammar_with_dependencies": 0,
+    "test_body_dependency_nested_object_can_be_inferred_via_parent": 0,
+    "test_nested_objects_naming_sanity_test": 0,
+    "test_body_payload_contains_both_producer_and_consumer": 100,
+    "test_get_dependencies_can_be_inferred_from_body_payload": 100,
+    "test_inline_examples_used_instead_of_fuzzstring": 0,
+    "test_exact_copy_values_are_correct": 0,
+    "test_examples_with_optional_parameters": 0,
+    "test_replace_entire_body_with_example": 0
+  },
+  "test_reference": {
+    "test_external_refs_multiple_visits_first": 0,
+    "test_external_refs_multiple_visits_second": 0,
+    "test_array_circular_reference": 4,
+    "test_cached_circular_references_infinite_recursion": 0,
+    "test_cached_circular_references_missing_properties": 0
+  },
+  "test_schema": {
+    "test_required_header_parsed_successfully": 4,
+    "test_spec_with_x_ms_paths_parsed_successfully": 4,
+    "test_path_parameter_read_from_global_parameters": 0,
+    "test_swagger_escape_characters_parsed_successfully": 4,
+    "test_json_depth_limit": 0,
+    "test_additional_properties_schema": 4,
+    "test_path_parameter_substrings": 4
+  },
+  "test_config": {
+    "test_swagger_config_custom_dictionary_sanity_1": 0,
+    "test_swagger_config_custom_dictionary_sanity_2": 0,
+    "test_swagger_config_custom_annotations_sanity_1": 0,
+    "test_swagger_config_custom_annotations_sanity_2": 0,
+    "test_multiple_example_configs_sanity": 0
+  },
+  "test_code_generate": {
+    "test_python_grammar_request_sanity": 0,
+    "test_python_grammar_parameter_sanity": 0,
+    "test_tracked_parameters": 0
+  },
+  "test_jsongrammar": {
+  }
+}

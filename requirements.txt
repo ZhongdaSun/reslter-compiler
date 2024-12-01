@@ -1,0 +1,4 @@
+inflect
+deepDiff
+pyyaml
+six

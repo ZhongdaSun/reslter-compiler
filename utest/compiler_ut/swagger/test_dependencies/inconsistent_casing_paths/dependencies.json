@@ -1,0 +1,74 @@
+{
+  "/api/dataItem/{dataITEMName}/dataPoints/{dataPOIntName}/metadata/{id}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/dataItem/{dataItemName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "dataITEMName"
+        },
+        {
+          "producer_endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "dataPOIntName"
+        },
+        {
+          "producer_endpoint": "/api/dataItem/{dataIteMName}/dataPoints/{dataPointName}/metadata",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "id"
+        }
+      ]
+    }
+  },
+  "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/dataItem/{dataItemName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "dataITeMName"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__dataPOInTName",
+          "consumer_param": "dataPOInTName"
+        }
+      ]
+    }
+  },
+  "/api/dataItem/{dataIteMName}/dataPoints/{dataPointName}/metadata": {
+    "POST": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/dataItem/{dataItemName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "dataIteMName"
+        },
+        {
+          "producer_endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "dataPointName"
+        }
+      ]
+    }
+  },
+  "/api/dataItem/{dataItemName}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__dataItemName",
+          "consumer_param": "dataItemName"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "SwaggerSpecConfig": [
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger1.json",
+      "DictionaryFilePath": "/opt/AutoTest/swagger/configTests/dict1.json"
+    },
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger2.json",
+      "DictionaryFilePath": "/opt/AutoTest/swagger/configTests/dict2.json"
+    },
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger3.json"
+    }
+  ],
+  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
+  "CustomDictionaryFilePath": "/opt/AutoTest/swagger/configTests/maindict.json",
+  "EngineSettingsFilePath": "/opt/AutoTest/swagger/configTests/restlerEngineSettings.json",
+  "IncludeOptionalParameters": true,
+  "UseHeaderExamples": true,
+  "UsePathExamples": false,
+  "UseQueryExamples": true,
+  "UseBodyExamples": false,
+  "UseAllExamplePayloads": false,
+  "DiscoverExamples": false,
+  "ExamplesDirectory": "",
+  "DataFuzzing": false,
+  "ReadOnlyFuzz": false,
+  "ResolveQueryDependencies": true,
+  "ResolveBodyDependencies": true,
+  "ResolveHeaderDependencies": false,
+  "UseRefreshableToken": true,
+  "AllowGetProducers": false,
+  "TrackFuzzedParameterNames": false
+}

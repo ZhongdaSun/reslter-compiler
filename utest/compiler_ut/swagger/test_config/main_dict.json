@@ -1,0 +1,19 @@
+{
+  "CustomDictionaryFilePath": "/opt/AutoTest/swagger/configTests/maindict.json",
+  "UseBodyExamples": false,
+  "ResolveBodyDependencies": true,
+  "SwaggerSpecConfig": [
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger1.json",
+      "DictionaryFilePath": "/opt/AutoTest/swagger/configTests/dict1.json"
+    },
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger2.json",
+      "DictionaryFilePath": "/opt/AutoTest/swagger/configTests/dict2.json"
+    },
+    {
+      "SpecFilePath": "/opt/AutoTest/swagger/configTests/swagger3.json"
+    }
+  ],
+  "EngineSettingsFilePath": "/opt/AutoTest/swagger/configTests/restlerEngineSettings.json"
+}

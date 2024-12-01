@@ -1,0 +1,78 @@
+{
+  "/stores/{storeId}/order": {
+    "POST": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "storeId"
+        }
+      ],
+      "Query": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "apiVersion"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "arrayQueryParameter"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "arrayQueryParameter2"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "arrayQueryParameter3"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "expiration"
+        }
+      ]
+    }
+  },
+  "/stores/{storeId}/order/{orderId}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/stores/{storeId}/order",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "orderId"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "storeId"
+        }
+      ],
+      "Query": [
+        {
+          "producer_endpoint": "/stores/{storeId}/order",
+          "producer_method": "POST",
+          "producer_resource_name": "order_items",
+          "consumer_param": "arrayQueryParameter99"
+        },
+        {
+          "producer_endpoint": "/stores/{storeId}/order",
+          "producer_method": "POST",
+          "producer_resource_name": "order_items/[0]",
+          "consumer_param": "stringQueryParameter77"
+        }
+      ]
+    }
+  }
+}
