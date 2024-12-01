@@ -1,0 +1,760 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/archive/{archiveId}/{label}",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "archive"
+          ]
+        },
+        {
+          "Fuzzable": {
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
+          }
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "String",
+            "variableName": "_archive_post_tag",
+            "isWriter": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/archive",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "archive"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false,
+                        "dynamicObject": {
+                          "primitiveType": "Number",
+                          "variableName": "_archive_post_hash_query",
+                          "isWriter": false
+                        }
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "bodyParam",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Object",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "LeafNode": {
+                          "name": "name",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Object",
+                              "defaultValue": "{ \"fuzz\": false }",
+                              "dynamicObject": {
+                                "primitiveType": "Object",
+                                "variableName": "_archive_post_name",
+                                "isWriter": false
+                              }
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "LeafNode": {
+                          "name": "tag",
+                          "payload": {
+                            "Custom": {
+                              "payloadType": "String",
+                              "primitiveType": "String",
+                              "payloadValue": "tag",
+                              "isObject": false,
+                              "dynamicObject": {
+                                "primitiveType": "String",
+                                "variableName": "_archive_post_tag",
+                                "isWriter": false
+                              }
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "responseParser": {
+          "writerVariables": [],
+          "headerWriterVariables": []
+        },
+        "inputWriterVariables": [
+          {
+            "requestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "accessPathParts": {
+              "path": [
+                "hash",
+                "query"
+              ]
+            },
+            "primitiveType": "String",
+            "kind": "InputParameter"
+          },
+          {
+            "requestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "accessPathParts": {
+              "path": [
+                "name"
+              ]
+            },
+            "primitiveType": "Object",
+            "kind": "InputParameter"
+          },
+          {
+            "requestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "accessPathParts": {
+              "path": [
+                "tag"
+              ]
+            },
+            "primitiveType": "String",
+            "kind": "InputParameter"
+          }
+        ],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/archive/{archiveId}",
+        "method": "Put"
+      },
+      "method": "Put",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "archive"
+          ]
+        },
+        {
+          "Custom": {
+            "payloadType": "UuidSuffix",
+            "primitiveType": "String",
+            "payloadValue": "archiveId",
+            "isObject": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "sig",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "DynamicObject": {
+                        "primitiveType": "Number",
+                        "variableName": "_archive_post_hash_query",
+                        "isWriter": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "bodyParam",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Object",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "LeafNode": {
+                          "name": "name",
+                          "payload": {
+                            "DynamicObject": {
+                              "primitiveType": "Object",
+                              "variableName": "_archive_post_name",
+                              "isWriter": false
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "LeafNode": {
+                          "name": "tag",
+                          "payload": {
+                            "DynamicObject": {
+                              "primitiveType": "String",
+                              "variableName": "_archive_post_tag",
+                              "isWriter": false
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/file/{fileId}",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "file"
+          ]
+        },
+        {
+          "Custom": {
+            "payloadType": "UuidSuffix",
+            "primitiveType": "String",
+            "payloadValue": "fileId",
+            "isObject": false,
+            "dynamicObject": {
+              "primitiveType": "Object",
+              "variableName": "_file__fileId__post_fileId_path",
+              "isWriter": false
+            }
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "responseParser": {
+          "writerVariables": [],
+          "headerWriterVariables": []
+        },
+        "inputWriterVariables": [
+          {
+            "requestId": {
+              "endpoint": "/file/{fileId}",
+              "method": "Post"
+            },
+            "accessPathParts": {
+              "path": [
+                "fileId",
+                "path"
+              ]
+            },
+            "primitiveType": "String",
+            "kind": "InputParameter"
+          }
+        ],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/file/{fileId}",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "file"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Object",
+            "variableName": "_file__fileId__post_fileId_path",
+            "isWriter": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/file/{fileId}",
+        "method": "Delete"
+      },
+      "method": "Delete",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "file"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Object",
+            "variableName": "_file__fileId__post_fileId_path",
+            "isWriter": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "hash",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Query",
+                        "primitiveType": "String",
+                        "payloadValue": "hash",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}

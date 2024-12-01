@@ -1,0 +1,20 @@
+{
+  "/resource/{resourceId}": {
+    "PUT": {
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "resource"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "resource/name"
+        }
+      ]
+    }
+  }
+}

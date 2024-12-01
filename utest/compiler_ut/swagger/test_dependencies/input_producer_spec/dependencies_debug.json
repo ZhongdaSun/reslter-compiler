@@ -1,0 +1,942 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "hash"
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "hash",
+        "ProducerParameterName": "hash",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "QueryResource": "hash"
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "hash",
+            "ProducerParameterName": "hash",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Query"
+        },
+        {
+          "payloadType": "Query",
+          "primitiveType": "String",
+          "name": "hash",
+          "isObject": false
+        },
+        true
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPath": "name",
+        "AccessPathParts": {
+          "path": [
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Object"
+      },
+      "parameterKind": "Body",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "name"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourcePath": {
+            "path": [
+              "name"
+            ]
+          }
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "BodyResource": {
+                "name": "name",
+                "fullPath": {
+                  "path": [
+                    "name"
+                  ]
+                }
+              }
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPath": "name",
+            "AccessPathParts": {
+              "path": [
+                "name"
+              ]
+            },
+            "ResourceName": "name",
+            "ProducerParameterName": "name",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "Object"
+          },
+          "parameterKind": "Body"
+        },
+        null,
+        true
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "tag",
+            "fullPath": {
+              "path": [
+                "tag"
+              ]
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPath": "tag",
+        "AccessPathParts": {
+          "path": [
+            "tag"
+          ]
+        },
+        "ResourceName": "tag",
+        "ProducerParameterName": "tag",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "tag"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourcePath": {
+            "path": [
+              "tag"
+            ]
+          }
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "BodyResource": {
+                "name": "tag",
+                "fullPath": {
+                  "path": [
+                    "tag"
+                  ]
+                }
+              }
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPath": "tag",
+            "AccessPathParts": {
+              "path": [
+                "tag"
+              ]
+            },
+            "ResourceName": "tag",
+            "ProducerParameterName": "tag",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Body"
+        },
+        {
+          "payloadType": "String",
+          "primitiveType": "String",
+          "name": "tag",
+          "isObject": false
+        },
+        true
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "QueryResource": "sig"
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "sig",
+        "ProducerParameterName": "sig",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourceName": "hash"
+        },
+        "consumerParameter": {
+          "ResourceName": "sig"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "QueryResource": "hash"
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "hash",
+            "ProducerParameterName": "hash",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Query"
+        },
+        null,
+        false
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "archiveId",
+            "pathToParameter": [
+              "archive"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "archiveId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "archiveId",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPath": "name",
+        "AccessPathParts": {
+          "path": [
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Object"
+      },
+      "parameterKind": "Body",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "name"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourcePath": {
+            "path": [
+              "name"
+            ]
+          }
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "BodyResource": {
+                "name": "name",
+                "fullPath": {
+                  "path": [
+                    "name"
+                  ]
+                }
+              }
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPath": "name",
+            "AccessPathParts": {
+              "path": [
+                "name"
+              ]
+            },
+            "ResourceName": "name",
+            "ProducerParameterName": "name",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "Object"
+          },
+          "parameterKind": "Body"
+        },
+        null,
+        false
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "tag",
+            "fullPath": {
+              "path": [
+                "tag"
+              ]
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "PathContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPath": "tag",
+        "AccessPathParts": {
+          "path": [
+            "tag"
+          ]
+        },
+        "ResourceName": "tag",
+        "ProducerParameterName": "tag",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "tag"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourcePath": {
+            "path": [
+              "tag"
+            ]
+          }
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "BodyResource": {
+                "name": "tag",
+                "fullPath": {
+                  "path": [
+                    "tag"
+                  ]
+                }
+              }
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPath": "tag",
+            "AccessPathParts": {
+              "path": [
+                "tag"
+              ]
+            },
+            "ResourceName": "tag",
+            "ProducerParameterName": "tag",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Body"
+        },
+        null,
+        false
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}/{label}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "label",
+            "pathToParameter": [
+              "archive",
+              "{archiveId}"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "label",
+        "ProducerParameterName": "label",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/archive",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "tag"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourceName": "label"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/archive",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "BodyResource": {
+                "name": "tag",
+                "fullPath": {
+                  "path": [
+                    "tag"
+                  ]
+                }
+              }
+            },
+            "ContainerName": "archive",
+            "PathContainerName": "archive",
+            "CandidateTypeNames": [
+              "archive"
+            ],
+            "AccessPath": "tag",
+            "AccessPathParts": {
+              "path": [
+                "tag"
+              ]
+            },
+            "ResourceName": "tag",
+            "ProducerParameterName": "tag",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Body"
+        },
+        null,
+        false
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/archive/{archiveId}/{label}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "archiveId",
+            "pathToParameter": [
+              "archive"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "archive",
+        "CandidateTypeNames": [
+          "archive"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "archiveId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "fileId",
+            "pathToParameter": [
+              "file"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "file",
+        "PathContainerName": "file",
+        "CandidateTypeNames": [
+          "file"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "fileId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourceName": "fileId"
+        },
+        "consumerParameter": {
+          "ResourceName": "fileId"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/file/{fileId}",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "PathResource": {
+                "name": "fileId",
+                "pathToParameter": [
+                  "file"
+                ],
+                "responsePath": {
+                  "path": []
+                }
+              }
+            },
+            "ContainerName": "file",
+            "PathContainerName": "file",
+            "CandidateTypeNames": [
+              "file"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "fileId",
+            "ProducerParameterName": "id",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Path"
+        },
+        null,
+        false
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "fileId",
+            "pathToParameter": [
+              "file"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "file",
+        "PathContainerName": "file",
+        "CandidateTypeNames": [
+          "file"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "fileId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourceName": "fileId"
+        },
+        "consumerParameter": {
+          "ResourceName": "fileId"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/file/{fileId}",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "PathResource": {
+                "name": "fileId",
+                "pathToParameter": [
+                  "file"
+                ],
+                "responsePath": {
+                  "path": []
+                }
+              }
+            },
+            "ContainerName": "file",
+            "PathContainerName": "file",
+            "CandidateTypeNames": [
+              "file"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "fileId",
+            "ProducerParameterName": "id",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Path"
+        },
+        {
+          "payloadType": "UuidSuffix",
+          "primitiveType": "String",
+          "name": "fileId",
+          "isObject": false
+        },
+        true
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Delete"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "fileId",
+            "pathToParameter": [
+              "file"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "file",
+        "PathContainerName": "file",
+        "CandidateTypeNames": [
+          "file"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "fileId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/file/{fileId}",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourceName": "fileId"
+        },
+        "consumerParameter": {
+          "ResourceName": "fileId"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/file/{fileId}",
+              "method": "Post"
+            },
+            "ResourceReference": {
+              "PathResource": {
+                "name": "fileId",
+                "pathToParameter": [
+                  "file"
+                ],
+                "responsePath": {
+                  "path": []
+                }
+              }
+            },
+            "ContainerName": "file",
+            "PathContainerName": "file",
+            "CandidateTypeNames": [
+              "file"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "fileId",
+            "ProducerParameterName": "id",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Path"
+        },
+        null,
+        false
+      ]
+    }
+  }
+]
