@@ -14,22 +14,22 @@ from compiler_ut.utilities import (
     get_grammar_file_content,
     compare_difference,
     DebugConfig,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     custom_skip_decorator)
 
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
 class TestDependencies(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(TestDependencies.test_root_dir):
-            shutil.rmtree(TestDependencies.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(TestDependencies.test_root_dir):
-            os.mkdir(TestDependencies.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def assert_json_file(self, source_dir, target_dir):
         checking_json_file = [
@@ -58,7 +58,7 @@ class TestDependencies(unittest.TestCase):
                                  f"result: not exists file {grammar_file_path} or {baseline_grammar_file_path}")
 
     def dependencies_resolved_without_annotations(self, config):
-        swagger_doc = get_swagger_data_for_doc(config['SwaggerSpecFilePath'][0], self.test_root_dir)
+        swagger_doc = get_swagger_data_for_doc(config['SwaggerSpecFilePath'][0], TEST_ROOT_DIR)
 
         if 'CustomDictionaryFilePath' in config and os.path.exists(config['CustomDictionaryFilePath']):
             with open(config['CustomDictionaryFilePath'], 'r') as f:
@@ -95,18 +95,18 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_inferred_put_producer"))
     def test_inferred_put_producer(self):
-        source_dir = os.path.join(self.test_root_dir, "put_createorupdate")
+        source_dir = os.path.join(TEST_ROOT_DIR, "put_createorupdate")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
-        target_dir = os.path.join(self.swagger_dir, "baselines", "put_createorupdate")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "put_createorupdate")
 
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': False,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "put_createorupdate.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "put_createorupdate.json")],
             'CustomDictionaryFilePath': None,
         }
         obj_config = Config.init_from_json(config)
@@ -149,7 +149,7 @@ class TestDependencies(unittest.TestCase):
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
         self.assert_json_file(source_dir=config["GrammarOutputDirectoryPath"],
-                              target_dir=os.path.join(self.swagger_dir, "baselines", "put_createorupdate"))
+                              target_dir=os.path.join(SWAGGER_DIR, "baselines", "put_createorupdate"))
         grammar_source = os.path.join(config["GrammarOutputDirectoryPath"], "grammar.py")
 
         found_diff, diff = get_line_differences(grammar_source, grammar_target)
@@ -158,7 +158,7 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_get_dependency_for_path_parameter"))
     def test_get_dependency_for_path_parameter(self):
-        source_dir = os.path.join(self.test_root_dir, "test_get_dependency_for_path_parameter")
+        source_dir = os.path.join(TEST_ROOT_DIR, "test_get_dependency_for_path_parameter")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -167,7 +167,7 @@ class TestDependencies(unittest.TestCase):
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "get_path_dependencies.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "get_path_dependencies.json")],
             'CustomDictionaryFilePath': None,
             'AllowGetProducers': True,
         }
@@ -183,10 +183,10 @@ class TestDependencies(unittest.TestCase):
     def test_get_dependency_from_openapi_v3_links(self):
         config = {
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "linksTests",
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "linksTests",
                                                  "widgets_with_annotations.yaml")],
             'AnnotationFilePath': None,
             'CustomDictionaryFilePath': None,
@@ -195,13 +195,13 @@ class TestDependencies(unittest.TestCase):
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        grammar_file_path = os.path.join(self.test_root_dir, "grammar.py")
+        grammar_file_path = os.path.join(TEST_ROOT_DIR, "grammar.py")
         with open(grammar_file_path, 'r') as f:
             grammar = f.read()
 
         # Compiling with the REST API definition
         config2 = {**config,
-                   'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "linksTests",
+                   'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "linksTests",
                                                         "widgets_with_links.yaml")]}
         obj_config = Config.init_from_json(config2)
         generate_restler_grammar(obj_config)
@@ -217,10 +217,10 @@ class TestDependencies(unittest.TestCase):
     def test_get_header_dependency_from_openapi_v3_links(self):
         config = {
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'ResolveHeaderDependencies': True,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "linksTests",
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "linksTests",
                                                  "etag_with_annotations.json")],
             'AnnotationFilePath': None,
             'CustomDictionaryFilePath': None,
@@ -229,13 +229,13 @@ class TestDependencies(unittest.TestCase):
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        grammar_file_path = os.path.join(self.test_root_dir, "grammar.py")
+        grammar_file_path = os.path.join(TEST_ROOT_DIR, "grammar.py")
         with open(grammar_file_path, 'r') as f:
             grammar = f.read()
 
         # Compiling with REST API definition
         config2 = {**config,
-                   'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "linksTests",
+                   'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "linksTests",
                                                         "etag_with_links.json")]}
         obj_config = Config.init_from_json(config2)
         generate_restler_grammar(obj_config)
@@ -248,17 +248,17 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_path_annotation_to_body_parameter"))
     def test_path_annotation_to_body_parameter(self):
-        source_dir = os.path.join(self.test_root_dir, "pathAnnotation")
+        source_dir = os.path.join(TEST_ROOT_DIR, "pathAnnotation")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "pathannotation")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "pathannotation")
 
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "annotationTests",
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "annotationTests",
                                                  "pathAnnotation.json")],
             'CustomDictionaryFilePath': None,
             'AllowGetProducers': False
@@ -278,18 +278,18 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_full_path_to_body_parameter_in_dictionary_custom_payload"))
     def test_full_path_to_body_parameter_in_dictionary_custom_payload(self):
-        source_dir = os.path.join(self.test_root_dir, "pathDictionaryPayload")
+        source_dir = os.path.join(TEST_ROOT_DIR, "pathDictionaryPayload")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "dependencyTests")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "dictionaryTests",
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                  "pathDictionaryPayload.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "dictionaryTests", "dict.json"),
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "dictionaryTests", "dict.json"),
             'AllowGetProducers': False
         }
         obj_config = Config.init_from_json(config)
@@ -304,10 +304,10 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_local_annotations_to_body_properties"))
     def test_local_annotations_to_body_properties(self):
-        source_dir = os.path.join(self.test_root_dir, "localAnnotations")
+        source_dir = os.path.join(TEST_ROOT_DIR, "localAnnotations")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "dependencyTests")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
 
         config = {
             'IncludeOptionalParameters': True,
@@ -315,7 +315,7 @@ class TestDependencies(unittest.TestCase):
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "annotationTests", "localAnnotations.json")],
+                os.path.join(SWAGGER_DIR, "annotationTests", "localAnnotations.json")],
             'CustomDictionaryFilePath': None,
             'AllowGetProducers': False
         }
@@ -331,17 +331,17 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_no_dependencies_when_same_body_in_unrelated_requests"))
     def test_no_dependencies_when_same_body_in_unrelated_requests(self):
-        source_dir = os.path.join(self.test_root_dir, "body_dependency_cycles")
+        source_dir = os.path.join(TEST_ROOT_DIR, "body_dependency_cycles")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "dependencyTests")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "body_dependency_cycles.json")],
+                os.path.join(SWAGGER_DIR, "dependencyTests", "body_dependency_cycles.json")],
             'CustomDictionaryFilePath': None,
             'AllowGetProducers': True
         }
@@ -360,17 +360,17 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_dependencies_inferred_for_lowercase_container_and_object"))
     def test_dependencies_inferred_for_lowercase_container_and_object(self):
-        source_dir = os.path.join(self.test_root_dir, "lowercase_paths")
+        source_dir = os.path.join(TEST_ROOT_DIR, "lowercase_paths")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "lowercase_paths")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "lowercase_paths")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "lowercase_paths.json")],
+                os.path.join(SWAGGER_DIR, "dependencyTests", "lowercase_paths.json")],
             'CustomDictionaryFilePath': None,
             'AllowGetProducers': False
         }
@@ -394,15 +394,15 @@ class TestDependencies(unittest.TestCase):
     def test_inconsistent_camel_case_fixed_by_restler(self):
         config = {
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "inconsistent_casing_paths.json")],
+                os.path.join(SWAGGER_DIR, "dependencyTests", "inconsistent_casing_paths.json")],
             'CustomDictionaryFilePath': None
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        dependencies_json_file_path = os.path.join(self.test_root_dir, Constants.DependenciesDebugFileName)
+        dependencies_json_file_path = os.path.join(TEST_ROOT_DIR, Constants.DependenciesDebugFileName)
         dependencies = JsonSerialization.try_deeserialize_from_file(dependencies_json_file_path)
         resolved_dependencies = []
         for items in dependencies:
@@ -417,18 +417,18 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_patch_request_body_parameter_producers_from_post"))
     def test_patch_request_body_parameter_producers_from_post(self):
-        source_dir = os.path.join(self.test_root_dir, "post_patch_dependency")
+        source_dir = os.path.join(TEST_ROOT_DIR, "post_patch_dependency")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
-        target_dir = os.path.join(self.swagger_dir, "baselines", "post_patch_dependency")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "post_patch_dependency")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "post_patch_dependency.json")],
+                os.path.join(SWAGGER_DIR, "dependencyTests", "post_patch_dependency.json")],
             'AllowGetProducers': False
         }
         obj_config = Config.init_from_json(config)
@@ -447,15 +447,15 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_dependencies_with_multiple_array_items"))
     def test_array_dependencies_with_multiple_array_items(self):
-        source_dir = os.path.join(self.test_root_dir, "array_dep_multiple_items")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_dep_multiple_items")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
         config = {
             'SwaggerSpecConfig': [{
-                'SpecFilePath': os.path.join(self.swagger_dir, "dependencyTests",
+                'SpecFilePath': os.path.join(SWAGGER_DIR, "dependencyTests",
                                              "array_dep_multiple_items.json"),
                 'Dictionary': None,
-                'DictionaryFilePath': os.path.join(self.swagger_dir, "dependencyTests",
+                'DictionaryFilePath': os.path.join(SWAGGER_DIR, "dependencyTests",
                                                    "array_dep_multiple_items_dict.json"),
                 'AnnotationFilePath': None
             }],
@@ -477,20 +477,20 @@ class TestDependencies(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_input_producers_work_with_annotations"))
     def test_input_producers_work_with_annotations(self):
-        source_dir = os.path.join(self.test_root_dir, "input_producer_spec")
+        source_dir = os.path.join(TEST_ROOT_DIR, "input_producer_spec")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(self.swagger_dir, "baselines", "input_producer_spec")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "input_producer_spec")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "input_producer_spec.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "dependencyTests",
+                os.path.join(SWAGGER_DIR, "dependencyTests", "input_producer_spec.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "dependencyTests",
                                                      "input_producer_dict.json"),
-            'AnnotationFilePath': os.path.join(self.swagger_dir, "dependencyTests",
+            'AnnotationFilePath': os.path.join(SWAGGER_DIR, "dependencyTests",
                                                "input_producer_annotations.json"),
             'AllowGetProducers': False
         }

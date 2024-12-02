@@ -1,8 +1,11 @@
 import unittest
 import os
 import shutil
-from compiler.code_generate import format_restler_primitive, generate_python_parameter, SPACE, get_requests, \
-    generate_python_from_request_element
+from compiler.code_generate import (
+    format_restler_primitive,
+    generate_python_parameter,
+    SPACE,
+    get_requests)
 from compiler.grammar import (
     Constant,
     LeafNode,
@@ -26,8 +29,8 @@ from compiler.config import Config, ConfigSetting
 
 from compiler.workflow import generate_restler_grammar, Constants
 from compiler_ut.utilities import (
-    get_line_differences,
-    get_grammar_file_content,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     compare_difference,
     DebugConfig,
     custom_skip_decorator)
@@ -36,16 +39,14 @@ module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
 class TestCodeGenerator(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(TestCodeGenerator.test_root_dir):
-            shutil.rmtree(TestCodeGenerator.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(TestCodeGenerator.test_root_dir):
-            os.mkdir(TestCodeGenerator.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def assert_json_file(self, source_dir, target_dir):
         checking_json_file = [
@@ -182,10 +183,10 @@ class TestCodeGenerator(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_tracked_parameters"))
     def test_tracked_parameters(self):
-        source_dir = os.path.join(self.test_root_dir, "example_demo1")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        swagger_dir = os.path.join(self.swagger_dir, "example_demo1")
+        swagger_dir = os.path.join(SWAGGER_DIR, "example_demo1")
 
         config = {
             "IncludeOptionalParameters": True,
@@ -202,7 +203,7 @@ class TestCodeGenerator(unittest.TestCase):
         # The grammar should not contain tracked parameters by default
         self.assertFalse("param_name=" in grammar)
 
-        source_dir = os.path.join(self.test_root_dir, "example_demo2")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo2")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 

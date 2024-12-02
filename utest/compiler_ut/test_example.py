@@ -9,6 +9,8 @@ from compiler_ut.utilities import (
     get_line_differences,
     compare_difference,
     get_grammar_file_content,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     DebugConfig,
     custom_skip_decorator)
 
@@ -16,16 +18,14 @@ module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
 class TestExampleGrammar(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(TestExampleGrammar.test_root_dir):
-            shutil.rmtree(TestExampleGrammar.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(TestExampleGrammar.test_root_dir):
-            os.mkdir(TestExampleGrammar.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def assert_json_file(self, source_dir, target_dir):
         checking_json_file = [
@@ -51,7 +51,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_no_example_in_grammar_with_dependencies"))
     def test_no_example_in_grammar_with_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "example_demo1")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -61,8 +61,8 @@ class TestExampleGrammar(unittest.TestCase):
             'ResolveBodyDependencies': True,
             'UseBodyExamples': False,
             'TrackFuzzedParameterNames': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "example_demo1", "example_demo1.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo1", "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "example_demo1", "example_demo1.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo1", "example_demo_dictionary.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -90,7 +90,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_config_file"))
     def test_example_config_file(self):
-        example_config_file_path = os.path.join(self.swagger_dir, "example_config_file.json")
+        example_config_file_path = os.path.join(SWAGGER_DIR, "example_config_file.json")
         config_data = try_deserialize_example_config_file(example_config_file_path=example_config_file_path,
                                                           exact_copy=True)
 
@@ -104,7 +104,7 @@ class TestExampleGrammar(unittest.TestCase):
     def run_array_example_test(self, config, source_dir):
         generate_restler_grammar(config)
         # Read the baseline and make sure it matches the expected one
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "exampleTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "exampleTests",
                                                   "array_example_grammar.py")
         actual_grammar_file_path = os.path.join(source_dir, "grammar.py")
 
@@ -117,7 +117,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example_in_grammar_without_dependencies_1"))
     def test_array_example_in_grammar_without_dependencies_1(self):
-        source_dir = os.path.join(self.test_root_dir, "array_example")
+        source_dir = os.path.join(SWAGGER_DIR, "array_example")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -128,8 +128,8 @@ class TestExampleGrammar(unittest.TestCase):
             'UseBodyExamples': True,
             'UseQueryExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "array_example.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "array_example.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
         }
 
         obj_config = Config.init_from_json(config)
@@ -139,7 +139,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example_in_grammar_without_dependencies_2"))
     def test_array_example_in_grammar_without_dependencies_2(self):
-        source_dir = os.path.join(self.test_root_dir, "array_example_fuzzing")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_example_fuzzing")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -150,8 +150,8 @@ class TestExampleGrammar(unittest.TestCase):
             'UseBodyExamples': True,
             'UseQueryExamples': True,
             'DataFuzzing': False,  # Testing with DataFuzzing set to False
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "array_example.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "array_example.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
         }
 
         obj_config = Config.init_from_json(config)
@@ -160,7 +160,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example_in_grammar_without_dependencies_3"))
     def test_array_example_in_grammar_without_dependencies_3(self):
-        source_dir = os.path.join(self.test_root_dir, "array_example_external")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_example_external")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -171,10 +171,10 @@ class TestExampleGrammar(unittest.TestCase):
             'UseBodyExamples': True,
             'UseQueryExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "array_example_external.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "array_example_external.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
             'ExampleConfigFiles': [{
-                'filePath': os.path.join(self.swagger_dir, "example_config_file.json"),
+                'filePath': os.path.join(SWAGGER_DIR, "example_config_file.json"),
                 'exactCopy': True
             }]
         }
@@ -184,7 +184,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example_dynamic_object"))
     def test_array_example_dynamic_object(self):
-        source_dir = os.path.join(self.test_root_dir, "array_example_dynamic_object")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_example_dynamic_object")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -194,8 +194,8 @@ class TestExampleGrammar(unittest.TestCase):
             'ResolveBodyDependencies': False,
             'UseBodyExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "array_example.json")],
-            'AnnotationFilePath': os.path.join(self.swagger_dir, "array_example_annotations.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "array_example.json")],
+            'AnnotationFilePath': os.path.join(SWAGGER_DIR, "array_example_annotations.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -213,7 +213,7 @@ class TestExampleGrammar(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_object_example_in_grammar_without_dependencies")
         or DebugConfig().get_open_api_v2())
     def test_object_example_in_grammar_without_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "object_example")
+        source_dir = os.path.join(TEST_ROOT_DIR, "object_example")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -222,8 +222,8 @@ class TestExampleGrammar(unittest.TestCase):
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': False,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "object_example.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "object_example.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -236,18 +236,17 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_allof_property_omitted_in_example"))
     def test_allof_property_omitted_in_example(self):
-        source_dir = os.path.join(self.test_root_dir, "secgroup_example")
+        source_dir = os.path.join(TEST_ROOT_DIR, "secgroup_example")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
-        target_dir = os.path.join(self.swagger_dir, "baselines", "put_createorupdate")
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': False,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "secgroup_example.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "dict_secgroup_example.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "secgroup_example.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "dict_secgroup_example.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -256,7 +255,7 @@ class TestExampleGrammar(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_empty_array_example_in_grammar_1"))
     def test_empty_array_example_in_grammar_1(self):
         swagger_spec_config = {
-            'SpecFilePath': os.path.join(self.swagger_dir, "empty_array_example.json"),
+            'SpecFilePath': os.path.join(SWAGGER_DIR, "empty_array_example.json"),
             'Dictionary': None,
             'DictionaryFilePath': None,
             'AnnotationFilePath': None,
@@ -265,7 +264,7 @@ class TestExampleGrammar(unittest.TestCase):
         config = {
             'SwaggerSpecConfig': [swagger_spec_config],
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'UseBodyExamples': True,
             'ResolveBodyDependencies': True,
             'ResolveQueryDependencies': True
@@ -278,7 +277,7 @@ class TestExampleGrammar(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_empty_array_example_in_grammar_2"))
     def test_empty_array_example_in_grammar_2(self):
         swagger_spec_config = {
-            'SpecFilePath': os.path.join(self.swagger_dir, "empty_array_example.json"),
+            'SpecFilePath': os.path.join(SWAGGER_DIR, "empty_array_example.json"),
             'Dictionary': None,
             'DictionaryFilePath': None,
             'AnnotationFilePath': None,
@@ -287,7 +286,7 @@ class TestExampleGrammar(unittest.TestCase):
         config = {
             'SwaggerSpecConfig': [swagger_spec_config],
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'ResolveBodyDependencies': False,
             'ResolveQueryDependencies': False,
             'UseBodyExamples': True
@@ -302,7 +301,7 @@ class TestExampleGrammar(unittest.TestCase):
         # Also test custom payload for empty array
         custom_dictionary = ' { "restler_custom_payload": { "item_descriptions": ["zzz"] }} '
         swagger_spec_config = {
-            'SpecFilePath': os.path.join(self.swagger_dir, "empty_array_example.json"),
+            'SpecFilePath': os.path.join(SWAGGER_DIR, "empty_array_example.json"),
             'Dictionary': custom_dictionary,
             'DictionaryFilePath': None,
             'AnnotationFilePath': None,
@@ -311,7 +310,7 @@ class TestExampleGrammar(unittest.TestCase):
         config = {
             'SwaggerSpecConfig': [swagger_spec_config],
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': self.test_root_dir,
+            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
             'ResolveBodyDependencies': True,
             "ResolveQueryDependencies": True,
             'UseBodyExamples': True,
@@ -324,7 +323,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_header_example_with_and_without_dependencies"))
     def test_header_example_with_and_without_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "headers")
+        source_dir = os.path.join(TEST_ROOT_DIR, "headers")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -332,8 +331,8 @@ class TestExampleGrammar(unittest.TestCase):
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'UseHeaderExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "headers.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "headers_dict.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "headers.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "headers_dict.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -355,7 +354,7 @@ class TestExampleGrammar(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_example_in_grammar_without_dependencies")
         or DebugConfig().get_open_api_v2())
     def test_example_in_grammar_without_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "example_demo1")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -366,8 +365,8 @@ class TestExampleGrammar(unittest.TestCase):
                 'GrammarOutputDirectoryPath': source_dir,
                 'ResolveBodyDependencies': False,
                 'UseBodyExamples': True,
-                'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, f"example_demo1{extension}")],
-                'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+                'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, f"example_demo1{extension}")],
+                'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
             }
             obj_config = Config.init_from_json(config)
             generate_restler_grammar(obj_config)
@@ -382,7 +381,7 @@ class TestExampleGrammar(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_example_in_grammar_with_dependencies")
         or DebugConfig().get_open_api_v2())
     def test_example_in_grammar_with_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "example_demo1")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -392,8 +391,8 @@ class TestExampleGrammar(unittest.TestCase):
             'ResolveBodyDependencies': True,
             'UseBodyExamples': True,
             'DiscoverExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "example_demo1.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "example_demo_dictionary.json"),
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "example_demo1.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "example_demo_dictionary.json"),
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -408,13 +407,13 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_logic_example_in_grammar_with_dependencies"))
     def test_logic_example_in_grammar_with_dependencies(self):
-        source_dir = os.path.join(self.test_root_dir, "example_demo")
+        source_dir = os.path.join(TEST_ROOT_DIR, "example_demo")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
         config = {
             'GrammarOutputDirectoryPath': source_dir,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "example_demo.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "example_demo.json")],
         }
 
         obj_config = Config.init_from_json(config)
@@ -425,13 +424,13 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_body_dependency_nested_object_can_be_inferred_via_parent"))
     def test_body_dependency_nested_object_can_be_inferred_via_parent(self):
-        source_dir = os.path.join(self.test_root_dir, "subnet_id")
+        source_dir = os.path.join(TEST_ROOT_DIR, "subnet_id")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
         config = {
             'GrammarOutputDirectoryPath': source_dir,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "dependencyTests", "subnet_id.json")]
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "dependencyTests", "subnet_id.json")]
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -449,14 +448,14 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_nested_objects_naming_sanity_test"))
     def test_nested_objects_naming_sanity_test(self):
-        source_dir = os.path.join(self.test_root_dir, "nested_objects_naming")
+        source_dir = os.path.join(TEST_ROOT_DIR, "nested_objects_naming")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
         config = {
             'GrammarOutputDirectoryPath': source_dir,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "nested_objects_naming.json")]
+                os.path.join(SWAGGER_DIR, "dependencyTests", "nested_objects_naming.json")]
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -466,18 +465,17 @@ class TestExampleGrammar(unittest.TestCase):
         self.assertIn("_publicIPAddresses__publicIpAddressName__put_id.reader()", grammar)
         self.assertIn("_virtualNetworkTaps__tapName__put_id.reader()", grammar)
 
-
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_body_payload_contains_both_producer_and_consumer"))
     def test_body_payload_contains_both_producer_and_consumer(self):
-        source_dir = os.path.join(self.test_root_dir, "frontend_port_id")
+        source_dir = os.path.join(TEST_ROOT_DIR, "frontend_port_id")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
         config = {
             'GrammarOutputDirectoryPath': source_dir,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "frontend_port_id.json")],
+                os.path.join(SWAGGER_DIR, "dependencyTests", "frontend_port_id.json")],
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
@@ -510,7 +508,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_get_dependencies_can_be_inferred_from_body_payload"))
     def test_get_dependencies_can_be_inferred_from_body_payload(self):
-        source_dir = os.path.join(self.test_root_dir, "ip_configurations_get")
+        source_dir = os.path.join(TEST_ROOT_DIR, "ip_configurations_get")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -518,7 +516,7 @@ class TestExampleGrammar(unittest.TestCase):
             'GrammarOutputDirectoryPath': source_dir,
             'DiscoverExamples': True,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dependencyTests", "ip_configurations_get.json")]
+                os.path.join(SWAGGER_DIR, "dependencyTests", "ip_configurations_get.json")]
         }
 
         obj_config = Config.init_from_json(config)
@@ -532,7 +530,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_inline_examples_used_instead_of_fuzzstring"))
     def test_inline_examples_used_instead_of_fuzzstring(self):
-        source_dir = os.path.join(self.test_root_dir, "inline_examples")
+        source_dir = os.path.join(TEST_ROOT_DIR, "inline_examples")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -541,7 +539,7 @@ class TestExampleGrammar(unittest.TestCase):
             'UseQueryExamples': None,
             'UseBodyExamples': None,
             'GrammarOutputDirectoryPath': source_dir,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "inline_examples.json")]
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "inline_examples.json")]
         }
 
         obj_config = Config.init_from_json(config)
@@ -568,7 +566,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_exact_copy_values_are_correct"))
     def test_exact_copy_values_are_correct(self):
-        source_dir = os.path.join(self.test_root_dir, "array_example")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_example")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -579,9 +577,9 @@ class TestExampleGrammar(unittest.TestCase):
             'UseBodyExamples': True,
             'UsePathExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "exactCopy", "array_example.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "exactCopy", "array_example.json")],
             'ExampleConfigFiles': [{
-                'filePath': os.path.join(self.swagger_dir, "exactCopy", "examples.json"),
+                'filePath': os.path.join(SWAGGER_DIR, "exactCopy", "examples.json"),
                 'exactCopy': False
             }]
         }
@@ -599,7 +597,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_examples_with_optional_parameters"))
     def test_examples_with_optional_parameters(self):
-        source_dir = os.path.join(self.test_root_dir, "optional_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "optional_params")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -609,9 +607,9 @@ class TestExampleGrammar(unittest.TestCase):
             'ResolveBodyDependencies': False,
             'UseQueryExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "exampleTests", "optional_params.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "exampleTests", "optional_params.json")],
             'ExampleConfigFiles': [{
-                'filePath': os.path.join(self.swagger_dir, "exampleTests", "optional_params_example.json"),
+                'filePath': os.path.join(SWAGGER_DIR, "exampleTests", "optional_params_example.json"),
                 'exactCopy': False
             }]
         }
@@ -627,7 +625,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_replace_entire_body_with_example"))
     def test_replace_entire_body_with_example(self):
-        source_dir = os.path.join(self.test_root_dir, "body_param")
+        source_dir = os.path.join(TEST_ROOT_DIR, "body_param")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -638,9 +636,9 @@ class TestExampleGrammar(unittest.TestCase):
             'UseQueryExamples': True,
             'UseBodyExamples': True,
             'DataFuzzing': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "exampleTests", "body_param.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "exampleTests", "body_param.json")],
             'ExampleConfigFiles': [{
-                'filePath': os.path.join(self.swagger_dir, "exampleTests", "body_param_example.json"),
+                'filePath': os.path.join(SWAGGER_DIR, "exampleTests", "body_param_example.json"),
                 'exactCopy': True
             }]
         }
@@ -648,7 +646,7 @@ class TestExampleGrammar(unittest.TestCase):
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "exampleTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "exampleTests",
                                                   "body_param_exactCopy_grammar.py")
 
         grammar_file = os.path.join(source_dir, "grammar.py")

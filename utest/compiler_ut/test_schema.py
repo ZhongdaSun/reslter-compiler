@@ -10,22 +10,22 @@ from compiler_ut.utilities import (
     get_grammar_file_content,
     compare_difference,
     DebugConfig,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     custom_skip_decorator)
 
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
 class SchemaTests(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(SchemaTests.test_root_dir):
-            shutil.rmtree(SchemaTests.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(SchemaTests.test_root_dir):
-            os.mkdir(SchemaTests.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def assert_json_files(self, source_dir, target_dir):
         checking_json_file = [
@@ -63,9 +63,9 @@ class SchemaTests(unittest.TestCase):
         file_name_grammar_json = f"{folder_name}_grammar.json"
         file_name_grammar_py = f"{folder_name}_grammar.py"
 
-        file_path = os.path.join(self.swagger_dir, "schemaTests", spec_file_name)
+        file_path = os.path.join(SWAGGER_DIR, "schemaTests", spec_file_name)
 
-        source_dir = os.path.join(self.test_root_dir, folder_name)
+        source_dir = os.path.join(TEST_ROOT_DIR, folder_name)
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -90,11 +90,11 @@ class SchemaTests(unittest.TestCase):
         assert os.path.exists(grammar_output_file_path)
 
         grammar_output_file_path = os.path.join(source_dir, "grammar.json")
-        baseline_grammar = os.path.join(self.swagger_dir, "baselines", "schemaTests", file_name_grammar_json)
+        baseline_grammar = os.path.join(SWAGGER_DIR, "baselines", "schemaTests", file_name_grammar_json)
 
         self.assert_json_file(grammar_output_file_path, baseline_grammar)
 
-        baseline_grammar = os.path.join(self.swagger_dir, "baselines", "schemaTests", file_name_grammar_py)
+        baseline_grammar = os.path.join(SWAGGER_DIR, "baselines", "schemaTests", file_name_grammar_py)
         found, grammar_diff = get_line_differences(grammar_output_file_path, baseline_grammar)
 
         self.assertFalse(found, f"Grammar does not match baseline. First difference: {grammar_diff}")
@@ -126,7 +126,7 @@ class SchemaTests(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_json_depth_limit"))
     def test_json_depth_limit(self):
-        source_dir = os.path.join(self.test_root_dir, "large_json_body")
+        source_dir = os.path.join(TEST_ROOT_DIR, "large_json_body")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -137,7 +137,7 @@ class SchemaTests(unittest.TestCase):
             "ResolveQueryDependencies": True,
             "UseBodyExamples": False,
             "UseQueryExamples": False,
-            "SwaggerSpecFilePath": [os.path.join(self.swagger_dir, "schemaTests", "large_json_body.json")],
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "schemaTests", "large_json_body.json")],
         }
         upper_limit = 6
         lower_limit = 1

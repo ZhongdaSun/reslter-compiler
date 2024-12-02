@@ -5,24 +5,25 @@ import shutil
 from compiler.workflow import generate_restler_grammar, Constants
 
 from compiler.config import Config
-from utilities import get_line_differences
+from utilities import (
+    get_line_differences,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR)
 
 
 class JsonGrammarTests(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(JsonGrammarTests.test_root_dir):
-            shutil.rmtree(JsonGrammarTests.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(JsonGrammarTests.test_root_dir):
-            os.mkdir(JsonGrammarTests.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def test_required_and_optional_properties_correctly_set(self):
 
-        source_dir = os.path.join(self.test_root_dir, "required_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "required_params")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -30,7 +31,7 @@ class JsonGrammarTests(unittest.TestCase):
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': False,
             'UseBodyExamples': True,
-            'SwaggerSpecFilePath': [os.path.join(self.swagger_dir, "grammarTests", "required_params.json")],
+            'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "grammarTests", "required_params.json")],
         }
         obj_config = Config.init_from_json(config)
         # 确认基线匹配用于 grammar.json 和 grammar.py
@@ -42,7 +43,7 @@ class JsonGrammarTests(unittest.TestCase):
                 expected_grammar_file_name = "required_params_grammar" \
                     if extension == ".json" or include_optional_parameters else "required_params_grammar_requiredonly"
 
-                expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "grammarTests",
+                expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "grammarTests",
                                                           f"{expected_grammar_file_name}{extension}")
                 actual_grammar_file_path = os.path.join(source_dir, f"{actual_grammar_file_name}{extension}")
                 found_diff, diff = get_line_differences(expected_grammar_file_path, actual_grammar_file_path)

@@ -9,6 +9,8 @@ from compiler.dictionary import get_dictionary
 from compiler_ut.utilities import (
     get_line_differences,
     get_grammar_file_content,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     DebugConfig,
     custom_skip_decorator)
 
@@ -16,22 +18,21 @@ module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
 class TestDictionary(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
+
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(TestDictionary.test_root_dir):
-            shutil.rmtree(TestDictionary.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(TestDictionary.test_root_dir):
-            os.mkdir(TestDictionary.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     # Baseline test for all types in the grammar supported by RESTler.
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_quoting_is_correct_in_the_grammar"))
     def test_quoting_is_correct_in_the_grammar(self):
-        source_dir = os.path.join(self.test_root_dir, "customPayloadSwagger")
+        source_dir = os.path.join(TEST_ROOT_DIR, "customPayloadSwagger")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -42,13 +43,13 @@ class TestDictionary(unittest.TestCase):
             "ResolveQueryDependencies": True,
             "UseBodyExamples": False,
             "UseQueryExamples": False,
-            "SwaggerSpecFilePath": [os.path.join(self.swagger_dir, "dictionaryTests", "customPayloadSwagger.json")],
-            "CustomDictionaryFilePath": os.path.join(self.swagger_dir, "dictionaryTests", "customPayloadDict.json")
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "dictionaryTests", "customPayloadSwagger.json")],
+            "CustomDictionaryFilePath": os.path.join(SWAGGER_DIR, "dictionaryTests", "customPayloadDict.json")
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "dictionaryTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "dictionaryTests",
                                                   "quoted_primitives_grammar.py")
         actual_grammar_file_path = os.path.join(source_dir, Constants.DefaultRestlerGrammarFileName)
         found_diff, diff = get_line_differences(expected_grammar_file_path, actual_grammar_file_path)
@@ -58,15 +59,15 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_path_and_body_parameter_set_to_same_uuid_suffix_payload"))
     def test_path_and_body_parameter_set_to_same_uuid_suffix_payload(self):
-        source_dir = os.path.join(self.test_root_dir, "multipleIdenticalUuidSuffix")
+        source_dir = os.path.join(TEST_ROOT_DIR, "multipleIdenticalUuidSuffix")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
         config = {
             "GrammarOutputDirectoryPath": source_dir,
-            "SwaggerSpecFilePath": [os.path.join(self.swagger_dir, "dictionaryTests",
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                  "multipleIdenticalUuidSuffix.json")],
-            "CustomDictionaryFilePath": os.path.join(self.swagger_dir, "dictionaryTests",
+            "CustomDictionaryFilePath": os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                      "multipleIdenticalUuidSuffixDict.json"),
             "IncludeOptionalParameters": True,
             "UseQueryExamples": False,
@@ -90,7 +91,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_custom_payload_query_and_header_is_correctly_injected_1"))
     def test_custom_payload_query_and_header_is_correctly_injected_1(self):
-        source_dir = os.path.join(self.test_root_dir, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -101,7 +102,7 @@ class TestDictionary(unittest.TestCase):
             "ResolveQueryDependencies": True,
             "UseBodyExamples": False,
             "UseQueryExamples": False,
-            "SwaggerSpecFilePath": [os.path.join(self.swagger_dir, "dictionaryTests", "no_params.json")],
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "dictionaryTests", "no_params.json")],
         }
 
         # Generate without dictionary
@@ -116,7 +117,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_custom_payload_query_and_header_is_correctly_injected_2"))
     def test_custom_payload_query_and_header_is_correctly_injected_2(self):
-        source_dir = os.path.join(self.test_root_dir, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -127,8 +128,8 @@ class TestDictionary(unittest.TestCase):
             "ResolveQueryDependencies": True,
             "UseBodyExamples": False,
             "UseQueryExamples": False,
-            "SwaggerSpecFilePath": [os.path.join(self.swagger_dir, "dictionaryTests", "no_params.json")],
-            "CustomDictionaryFilePath": os.path.join(self.swagger_dir,
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "dictionaryTests", "no_params.json")],
+            "CustomDictionaryFilePath": os.path.join(SWAGGER_DIR,
                                                      "dictionaryTests", "inject_custom_payloads_dict.json")
         }
 
@@ -177,7 +178,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_content_type_can_be_modified_via_custom_payload_header"))
     def test_content_type_can_be_modified_via_custom_payload_header(self):
-        source_dir = os.path.join(self.test_root_dir, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -189,7 +190,7 @@ class TestDictionary(unittest.TestCase):
             'UseBodyExamples': False,
             'UseQueryExamples': False,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dictionaryTests", "customPayloadContentTypeSwagger.json")],
+                os.path.join(SWAGGER_DIR, "dictionaryTests", "customPayloadContentTypeSwagger.json")],
             'CustomDictionaryFilePath': None
         }
         obj_config = Config.init_from_json(config)
@@ -204,16 +205,16 @@ class TestDictionary(unittest.TestCase):
             self.assertFalse(found_diff, msg=f"Grammar does not match baseline. First difference: {diff}")
 
         # 测试 restler_custom_payload
-        custom_dictionary_file_path = os.path.join(self.swagger_dir, "dictionaryTests",
+        custom_dictionary_file_path = os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                    "customPayloadRequestTypeDict.json")
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "dictionaryTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "dictionaryTests",
                                                   "customPayloadContentType_grammar.py")
         run_test(custom_dictionary_file_path, expected_grammar_file_path)
 
         # 测试 restler_custom_payload_header
-        custom_dictionary_file_path = os.path.join(self.swagger_dir, "dictionaryTests",
+        custom_dictionary_file_path = os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                    "customPayloadHeaderRequestTypeDict.json")
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "dictionaryTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "dictionaryTests",
                                                   "customPayloadHeaderContentType_grammar.py")
         run_test(custom_dictionary_file_path, expected_grammar_file_path)
 
@@ -221,7 +222,7 @@ class TestDictionary(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_generated_custom_value_generator_template_is_correct"))
     def test_generated_custom_value_generator_template_is_correct(self):
 
-        source_dir = os.path.join(self.test_root_dir, "customPayloadSwagger")
+        source_dir = os.path.join(TEST_ROOT_DIR, "customPayloadSwagger")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -233,15 +234,15 @@ class TestDictionary(unittest.TestCase):
             'UseBodyExamples': False,
             'UseQueryExamples': False,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dictionaryTests", "customPayloadSwagger.json")],
-            'CustomDictionaryFilePath': os.path.join(self.swagger_dir, "dictionaryTests",
+                os.path.join(SWAGGER_DIR, "dictionaryTests", "customPayloadSwagger.json")],
+            'CustomDictionaryFilePath': os.path.join(SWAGGER_DIR, "dictionaryTests",
                                                      "customPayloadDict.json")
         }
 
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        expected_grammar_file_path = os.path.join(self.swagger_dir, "baselines", "dictionaryTests",
+        expected_grammar_file_path = os.path.join(SWAGGER_DIR, "baselines", "dictionaryTests",
                                                   "customPayloadDict_ValueGeneratorTemplate.py")
 
         actual_grammar_file_path = os.path.join(source_dir, Constants.DefaultRestlerGrammarFileName)
@@ -253,11 +254,11 @@ class TestDictionary(unittest.TestCase):
         DebugConfig().get_cases_config(module_name,
                                        "test_date_format_is_preserved_after_deserialization_and_serialization"))
     def test_date_format_is_preserved_after_deserialization_and_serialization(self):
-        source_dir = os.path.join(self.test_root_dir, "customPayloadSwagger")
+        source_dir = os.path.join(TEST_ROOT_DIR, "customPayloadSwagger")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
-        dictionary_file_path = os.path.join(self.swagger_dir, "dictionaryTests", "serializationTestDict.json")
+        dictionary_file_path = os.path.join(SWAGGER_DIR, "dictionaryTests", "serializationTestDict.json")
 
         deserialized = get_dictionary(dictionary_file_path)
         custom_payload = deserialized.restler_custom_payload
@@ -279,7 +280,7 @@ class TestDictionary(unittest.TestCase):
             'UseBodyExamples': False,
             'UseQueryExamples': False,
             'SwaggerSpecFilePath': [
-                os.path.join(self.swagger_dir, "dictionaryTests", "customPayloadSwagger.json")],
+                os.path.join(SWAGGER_DIR, "dictionaryTests", "customPayloadSwagger.json")],
             'CustomDictionaryFilePath': dictionary_file_path
         }
         obj_config = Config.init_from_json(config)

@@ -260,6 +260,9 @@ def generate_restler_grammar(config: Config):
     if not os.path.exists(grammar_output_directory_path):
         os.makedirs(grammar_output_directory_path)
 
+    if ConfigSetting().ExamplesDirectory == "":
+        ConfigSetting().ExamplesDirectory = grammar_output_directory_path
+
     logger.create_experiment_dir(grammar_output_directory_path)
 
     grammar_input_file_path = ConfigSetting().GrammarInputFilePath
@@ -285,9 +288,6 @@ def main(args):
             if ConfigSetting().GrammarOutputDirectoryPath == "":
                 ConfigSetting().GrammarOutputDirectoryPath = (
                     convert_to_abs_path(os.path.dirname(__file__), Constants.DefaultGrammarOutputDirectory))
-            if ConfigSetting().ExamplesDirectory == "":
-                ConfigSetting().ExamplesDirectory = (
-                    convert_to_abs_path(os.path.dirname(__file__), Constants.DefaultGrammarOutputDirectory))
             if isinstance(args.api_spec, str):
                 ConfigSetting().SwaggerSpecFilePath = [convert_to_abs_path(os.path.dirname(__file__),
                                                                            args.api_spec)]
@@ -301,9 +301,6 @@ def main(args):
             else:
                 if ConfigSetting().GrammarOutputDirectoryPath == "":
                     ConfigSetting().GrammarOutputDirectoryPath = (
-                        convert_to_abs_path(os.path.dirname(__file__), Constants.DefaultGrammarOutputDirectory))
-                if ConfigSetting().ExamplesDirectory == "":
-                    ConfigSetting().ExamplesDirectory = (
                         convert_to_abs_path(os.path.dirname(__file__), Constants.DefaultGrammarOutputDirectory))
                 obj.convert_relative_to_abs_paths(config_file_path)
         else:

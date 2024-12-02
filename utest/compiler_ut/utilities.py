@@ -6,6 +6,8 @@ from compiler.utilities import JsonSerialization
 from deepdiff import DeepDiff
 import unittest
 
+TEST_ROOT_DIR = os.path.join(os.getcwd(), "test_output")
+SWAGGER_DIR = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 class NewSingletonError(Exception):
     pass
 

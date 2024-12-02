@@ -25,10 +25,7 @@ import sys
 import re
 import unittest
 import warnings
-from restler.utils import restler_logger as logger
 from compiler_ut.utilities import DebugConfigCases, DebugConfig
-
-logger.create_experiment_dir(os.getcwd())
 
 if not sys.warnoptions:
     warnings.simplefilter('always')

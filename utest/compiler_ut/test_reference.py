@@ -6,9 +6,9 @@ import shutil
 from compiler.workflow import generate_restler_grammar, Constants
 from compiler.config import Config, ConfigSetting, convert_to_abs_path
 from compiler_ut.utilities import (
-    get_line_differences,
     get_grammar_file_content,
-    compare_difference,
+    TEST_ROOT_DIR,
+    SWAGGER_DIR,
     DebugConfig,
     custom_skip_decorator)
 
@@ -18,28 +18,26 @@ module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 # This test suite contains coverage for tricky references in Swagger files.
 # It primarily serves as a regression suite for the framework used to parse Swagger files.
 class TestReferences(unittest.TestCase):
-    test_root_dir = os.path.join(os.getcwd(), "test_output")
-    swagger_dir = os.path.join(os.getcwd(), "compiler_ut", "swagger")
 
     @classmethod
     def setUpClass(cls):
-        if os.path.exists(TestReferences.test_root_dir):
-            shutil.rmtree(TestReferences.test_root_dir)
+        if os.path.exists(TEST_ROOT_DIR):
+            shutil.rmtree(TEST_ROOT_DIR)
 
-        if not os.path.exists(TestReferences.test_root_dir):
-            os.mkdir(TestReferences.test_root_dir)
+        if not os.path.exists(TEST_ROOT_DIR):
+            os.mkdir(TEST_ROOT_DIR)
 
     def reference_types(self, spec_file_name):
-        file_path = os.path.join(self.swagger_dir, "referencesTests", spec_file_name)
+        file_path = os.path.join(SWAGGER_DIR, "referencesTests", spec_file_name)
         logging.warning(f"file_path={file_path}")
         config = Config()
         if ConfigSetting().GrammarOutputDirectoryPath == "":
             ConfigSetting().GrammarOutputDirectoryPath = (
-                convert_to_abs_path(os.path.dirname(__file__), self.test_root_dir))
+                convert_to_abs_path(os.path.dirname(__file__), TEST_ROOT_DIR))
             ConfigSetting().SwaggerSpecFilePath = [file_path]
 
         generate_restler_grammar(config)
-        grammar_file = os.path.join(self.test_root_dir, Constants.DefaultRestlerGrammarFileName)
+        grammar_file = os.path.join(TEST_ROOT_DIR, Constants.DefaultRestlerGrammarFileName)
         grammar = get_grammar_file_content(grammar_file)
         self.assertIn('[]', grammar)
 

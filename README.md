@@ -24,14 +24,23 @@
   Even though python-compiler is tried to be the same as F#. but there is still more gaps between these two modules.
   Step 1: Make full functionality to python language based on the F# source code. and this task has been finished
   already. 
+
   Step 2: Pass all test cases are listed in CompilerTest directory. This tasks are ongoing by now. There are still 10 issues
-  to be fixed. 
+  to be fixed.
+
   Step 3: Make more accepted test based on the swagger files with different configuration information to the same output 
   based on the output from these two modules. BTW, the microsoft docker are setup and this is an expected result as reference.
   This task still don't start. will update the status later.
+
   Step 4: by now, the swagger 2.0 are parsed by the pyswagger with its source code directly. In the near future, it will
   replace by the new parser.
-  Step 5: Support the Swagger 3.0 or Open API in the future. 
+
+  Step 5: Support the Swagger 3.0 or Open API in the future.
+
+# Log Config
+  compiler_settings.json is to use configuration of log switch on/off for a separated file or functions(dependecies.py).
+  true is to open the log information otherwise is to close the log information. Checking the log under 
+  compiler/Compile/RestlerResults folder.
   
 # End
   Thanks Microsoft's restler. If you are interested in this field. you can contact me directly. If you have more requirement 
