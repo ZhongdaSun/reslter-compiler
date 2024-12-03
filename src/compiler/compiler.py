@@ -519,13 +519,15 @@ class Parameters:
                             parents=[],
                             schema_cache=schema_cache,
                             cont=id)
+                        logger.write_to_main(f"property_payload={property_payload.__dict__()}",
+                                             ConfigSetting().LogConfig.compiler)
                         if property_payload is not None:
                             if isinstance(property_payload, LeafNode):
                                 fp = property_payload.leaf_property.payload
                                 serial = Parameters.get_parameter_serialization(parameter)
                                 if isinstance(fp, Fuzzable):
                                     if parameter.is_set("enum"):
-                                        logger.write_to_main(f"fp={type(fp)}", True)
+                                        logger.write_to_main(f"fp={type(fp)}", ConfigSetting().LogConfig.compiler)
                                         primitive_type = PrimitiveTypeEnum(name=parameter.name,
                                                                            primitive_type=PrimitiveType.String,
                                                                            value=[fp.example_value],
@@ -950,6 +952,8 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
         parameters_specified_as_custom_payloads = dictionary.get_custom_payload_header_parameter_names()
     elif custom_payload_type == CustomPayloadType.Query:
         parameters_specified_as_custom_payloads = dictionary.get_custom_payload_query_parameter_names()
+        logger.write_to_main(f"parameters_specified_as_custom_payloads={parameters_specified_as_custom_payloads}",
+                             ConfigSetting().LogConfig.compiler)
     else:
         raise ValueError(f"{custom_payload_type} is not supported in this context.")
     # Filter out any parameters that are request-specific and refer to a different request
@@ -1236,7 +1240,7 @@ def generate_request_body_primitives(request_parameters: RequestParameters,
                         request_id=request_id,
                         request_parameter=p,
                         dictionary=current_dict)
-
+                    logger.write_to_main(f"result_dict={result_dict}", ConfigSetting().LogConfig.compiler)
                     current_dict = current_dict.combine_custom_payload_suffix(result_dict)
 
                     parameter_list.append(new_payload)
@@ -1285,7 +1289,7 @@ def generate_request_path_primitives(request_id: RequestId,
         path_parts = get_path_from_string(request_id.endpoint, True)
     else:
         path_parts = get_path_from_string(request_id.xMsPath.get_normalized_endpoint(), True)
-        logger.write_to_main(f"path_parts={path_parts}", True)
+        logger.write_to_main(f"path_parts={path_parts}", ConfigSetting().LogConfig.compiler)
     path = []
     for part in path_parts.path:
         logger.write_to_main("path.part_type={}, {}".format(part.value, part.part_type),
@@ -1318,11 +1322,10 @@ def generate_request_path_primitives(request_id: RequestId,
                 logger.write_to_main(f"path_parameters={path_parameters}, "
                                      f"declared_parameter={path_parameters[declared_parameter]}",
                                      ConfigSetting().LogConfig.compiler)
-                declared_parameter = path_parameters[declared_parameter]
                 new_request_parameter, _ = DependencyLookup.get_dependency_payload(dependencies,
                                                                                    None,
                                                                                    request_id,
-                                                                                   declared_parameter,
+                                                                                   path_parameters[declared_parameter],
                                                                                    dictionary)
                 logger.write_to_main(f"new_request_parameter={new_request_parameter.payload}",
                                      ConfigSetting().LogConfig.compiler)
@@ -1401,7 +1404,7 @@ def process_ordered_swagger_docs(swagger_docs: List[SwaggerDoc],
             dictionary_name = f"dict_{i}"
             for req_id, _ in result:
                 per_resource_dictionaries[req_id.endpoint].append((dictionary_name, swagger_doc.dictionary))
-                logger.write_to_main(f"{per_resource_dictionaries}", True)
+                logger.write_to_main(f"{per_resource_dictionaries}", ConfigSetting().LogConfig.compiler)
 
     # Remove duplicates
     multiple_endpoints = {key: len(val) for key, val in per_resource_dictionaries.items() if len(val) > 1}
@@ -1701,7 +1704,6 @@ def generate_request_grammar(swagger_docs: list[SwaggerDoc],
                              ConfigSetting().DataFuzzing,
                              per_resource_dictionaries,
                              ConfigSetting().ApiNamingConvention))
-
     # The dependencies above are analyzed on a per-request basis.
     # This can lead to missing dependencies (for example, an input producer writer
     # may be missing because the same parameter already refers to a reader).

@@ -117,7 +117,7 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example_in_grammar_without_dependencies_1"))
     def test_array_example_in_grammar_without_dependencies_1(self):
-        source_dir = os.path.join(SWAGGER_DIR, "array_example")
+        source_dir = os.path.join(TEST_ROOT_DIR, "array_example")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -254,6 +254,9 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_empty_array_example_in_grammar_1"))
     def test_empty_array_example_in_grammar_1(self):
+        source_dir = os.path.join(TEST_ROOT_DIR, "empty_array_example")
+        if not os.path.exists(source_dir):
+            os.mkdir(source_dir)
         swagger_spec_config = {
             'SpecFilePath': os.path.join(SWAGGER_DIR, "empty_array_example.json"),
             'Dictionary': None,
@@ -264,7 +267,7 @@ class TestExampleGrammar(unittest.TestCase):
         config = {
             'SwaggerSpecConfig': [swagger_spec_config],
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
+            'GrammarOutputDirectoryPath': source_dir,
             'UseBodyExamples': True,
             'ResolveBodyDependencies': True,
             'ResolveQueryDependencies': True
@@ -276,6 +279,10 @@ class TestExampleGrammar(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_empty_array_example_in_grammar_2"))
     def test_empty_array_example_in_grammar_2(self):
+        source_dir = os.path.join(TEST_ROOT_DIR, "empty_array_example")
+        if not os.path.exists(source_dir):
+            os.mkdir(source_dir)
+
         swagger_spec_config = {
             'SpecFilePath': os.path.join(SWAGGER_DIR, "empty_array_example.json"),
             'Dictionary': None,
@@ -286,7 +293,7 @@ class TestExampleGrammar(unittest.TestCase):
         config = {
             'SwaggerSpecConfig': [swagger_spec_config],
             'IncludeOptionalParameters': True,
-            'GrammarOutputDirectoryPath': TEST_ROOT_DIR,
+            'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': False,
             'ResolveQueryDependencies': False,
             'UseBodyExamples': True

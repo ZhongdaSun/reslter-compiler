@@ -225,7 +225,7 @@ class ProducerIndexes:
         if len(self.same_payload_producers) > 0:
             same_payload_dict = {}
             for keys, values in self.same_payload_producers.items():
-                same_payload_dict["RequestID"] = keys.__dict__()
+                same_payload_dict["RequestID"] = keys
                 by_endpoint_list = []
                 for item in values:
                     by_endpoint_list.append(item.__dict__())

@@ -114,7 +114,7 @@ def is_valid_producer(p: ResponseProducer, consumer: Consumer, allow_get_produce
                 return False
     else:
         logger.write_to_main(f"result={not producer_endpoint.startswith(consumer_endpoint)}",
-                             True)
+                             ConfigSetting().LogConfig.dependencies)
         return not producer_endpoint.startswith(consumer_endpoint)
 
 
@@ -361,7 +361,7 @@ def get_create_or_update_producer(consumer: Consumer,
         # more strict /slots/slotId returning "id".
         # Use the above heuristic when the inferred producer resource name is not present.
         inferred_resource_name_producers = match_producer(producer_parameter_name, producer_endpoint)
-        logger.write_to_main(f"possible_producers={inferred_resource_name_producers}",
+        logger.write_to_main(f"inferred_resource_name_producers={inferred_resource_name_producers}",
                              ConfigSetting().LogConfig.dependencies)
         possible_producers = []
         if not inferred_resource_name_producers:
@@ -755,7 +755,9 @@ def find_producer_with_resource_name(producers: Producers,
         logger.write_to_main(f"annotation_producer={annotation_producer}",
                              ConfigSetting().LogConfig.dependencies or
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
-
+    logger.write_to_main(f"annotation_producer={annotation_producer}",
+                         ConfigSetting().LogConfig.dependencies or
+                         ConfigSetting().LogConfig.log_find_producer_with_resource_name)
     dictionary_matches = []
     # TODO: error handling.  only one should match.
     if per_request_dictionary:
@@ -803,22 +805,27 @@ def find_producer_with_resource_name(producers: Producers,
     # Check if this consumer is a writer for an input-only producer.
     # If yes, this information must be added to the dictionary matches (if any).
     input_producer_matches = []
-    if not annotation_producer:
+    if annotation_producer is not None:
         # Find the input-only producer corresponding to this consumer
         matching_input_only_producers = producers.get_input_only_producers(consumer.consumer_id.resource_name)
+        logger.write_to_main(f"matching_input_only_producers={matching_input_only_producers} "
+                             f"resource_name={consumer.consumer_id.resource_name}",
+                             ConfigSetting().LogConfig.dependencies or
+                             ConfigSetting().LogConfig.log_find_producer_with_resource_name)
 
         input_only_producers = [p for p in matching_input_only_producers if
                                 p.request_id == consumer.consumer_id.request_id
                                 and p.resource_reference == consumer.consumer_id.resource_reference]
         if input_only_producers:
             iop = input_only_producers[0]
-
+            logger.write_to_main(f"dictionary_matches={dictionary_matches}, "
+                                 f"uuid_suffix_dictionary_matches={uuid_suffix_dictionary_matches}",
+                                 ConfigSetting().LogConfig.dependencies or
+                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name or True)
             for p in dictionary_matches + uuid_suffix_dictionary_matches:
                 # Add the dictionary payload
                 if isinstance(p, DictionaryPayload):
-                    dictionary_payload = p
-                    input_producer_matches.append(InputParameter(iop, dictionary_payload, True))
-
+                    input_producer_matches.append(InputParameter(iop, p, True))
                     break
                 else:
                     # By default, create a custom_payload_uuid_suffix, so a different ID will be
@@ -934,7 +941,12 @@ def find_producer_with_resource_name(producers: Producers,
     if (consumer.parameter_kind == ParameterKind.Path
             and annotation_producer is None
             and not global_dictionary_matches and not inferred_exact_matches):
-
+        logger.write_to_main(f"consumer_resource_name={consumer_resource_name}, "
+                             f"producer_parameter_name={producer_parameter_name} "
+                             f"path_parameter_index={path_parameter_index} "
+                             f"bracketed_consumer_resource_name={bracketed_consumer_resource_name}",
+                             ConfigSetting().LogConfig.dependencies or
+                             ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         new_dictionary, producer = get_create_or_update_producer(consumer,
                                                                  dictionary,
                                                                  producers,
@@ -942,10 +954,13 @@ def find_producer_with_resource_name(producers: Producers,
                                                                  producer_parameter_name,
                                                                  path_parameter_index,
                                                                  bracketed_consumer_resource_name)
+        logger.write_to_main(f"producer={producer}",
+                             ConfigSetting().LogConfig.dependencies or
+                             ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer is not None:
             if isinstance(producer, ResponseProducer):
                 if (producer.request_id.method == OperationMethod.Patch
-                   or producer.request_id == consumer.consumer_id.request_id):
+                        or producer.request_id == consumer.consumer_id.request_id):
                     producer = None
             else:
                 if input_producer_matches:
@@ -974,14 +989,15 @@ def find_producer_with_resource_name(producers: Producers,
                          ConfigSetting().LogConfig.log_find_producer_with_resource_name)
     if producer is None:
         producers_to_check = []
-        if annotation_producer is not None:
-            producers_to_check.append(annotation_producer)
-            logger.write_to_main(f"annotation_producer: producers_to_check={annotation_producer}",
-                                 ConfigSetting().LogConfig.dependencies or
-                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if input_producer_matches is not None and len(input_producer_matches) > 0:
             producers_to_check = producers_to_check + input_producer_matches
             logger.write_to_main(f"input_producer_matches: producers_to_check={input_producer_matches}",
+                                 ConfigSetting().LogConfig.dependencies or
+                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name)
+
+        if annotation_producer is not None:
+            producers_to_check.append(annotation_producer)
+            logger.write_to_main(f"annotation_producer: producers_to_check={annotation_producer}",
                                  ConfigSetting().LogConfig.dependencies or
                                  ConfigSetting().LogConfig.log_find_producer_with_resource_name)
 
@@ -1124,6 +1140,7 @@ class PropertyAccessPaths:
 
     @staticmethod
     def get_inner_property_access_path_parts(inner_property: InnerProperty):
+        logger.write_to_main(f"inner_property={inner_property.__dict__()}", ConfigSetting().LogConfig.dependencies)
         if not inner_property.name or inner_property.name.isspace():
             name_part = []
         else:
@@ -1343,12 +1360,13 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                          naming_convention: Optional[NamingConvention]) -> Tuple[
     Dict[Union[AccessPath, str], List[ProducerConsumerDependency]], List[
         OrderingConstraintVariable], MutationsDictionary]:
-    logger.write_to_main(f"custom_dictionary={custom_dictionary.__dict__()}\n, query_dependencies={query_dependencies}, "
-                         f"body_dependencies={body_dependencies}, header_dependencies={header_dependencies} "
-                         f"allow_get_producers={allow_get_producers}, allow_get_producers={data_fuzzing} "
-                         f"per_resource_dictionaries={per_resource_dictionaries}, "
-                         f"naming_convention={naming_convention}",
-                         ConfigSetting().LogConfig.dependencies)
+    logger.write_to_main(
+        f"custom_dictionary={custom_dictionary.__dict__()}\n, query_dependencies={query_dependencies}, "
+        f"body_dependencies={body_dependencies}, header_dependencies={header_dependencies} "
+        f"allow_get_producers={allow_get_producers}, allow_get_producers={data_fuzzing} "
+        f"per_resource_dictionaries={per_resource_dictionaries}, "
+        f"naming_convention={naming_convention}",
+        ConfigSetting().LogConfig.dependencies)
 
     def get_parameter_consumers(request_id: RequestId,
                                 parameter_kind: ParameterKind,
@@ -1407,7 +1425,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                     None)
 
     def add_dependency(d, dependencies_param):
-        consumer_key = ("/" + "/".join(d.consumer.consumer_id.access_path_parts.path)) \
+        consumer_key = "".join(d.consumer.consumer_id.access_path_parts.path) \
             if d.consumer.consumer_id.access_path else d.consumer.consumer_id.resource_name
         if consumer_key not in dependencies_param.keys():
             return consumer_key, False
@@ -1434,7 +1452,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
 
         per_resource_dict = None
         if endpoint in per_resource_dictionaries.keys():
-            per_resource_dict = per_resource_dictionaries[endpoint][0][1]  # 返回第二个元素 d
+            per_resource_dict = per_resource_dictionaries[endpoint][0][1]
             logger.write_to_main(f"{endpoint}: dictionary:{per_resource_dict.__dict__()}",
                                  ConfigSetting().LogConfig.dependencies)
 
@@ -1445,7 +1463,9 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                                          allow_get_producers=allow_get_producers,
                                          per_request_dictionary=per_resource_dict)
         if p is not None:
-            logger.write_to_main(f"producer={type(p)}", ConfigSetting().LogConfig.dependencies)
+            logger.write_to_main(f"producer={type(p)} "
+                                 f"mutations_dictionary={new_dict_info.restler_custom_payload_uuid4_suffix}",
+                                 ConfigSetting().LogConfig.dependencies)
         return new_dict_info, ProducerConsumerDependency(consumer=request_consumer, producer=p)
 
     print("Getting path consumers...")
@@ -1669,7 +1689,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                         if isinstance(producers, BodyPayloadInputProducer):
                             consumer_resource_name = producers.resource_name
                             logger.write_to_main(f"consumer_resource_name={consumer_resource_name}",
-                                                 ConfigSetting().LogConfig.dependencies)
+                                                 True)
                             prefix_name = DynamicObjectNaming.generate_id_for_custom_uuid_suffix_payload(
                                 producers.container_name, consumer_resource_name)
 
@@ -1687,16 +1707,18 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                             suffix_dep = ProducerConsumerDependency(consumer=suffix_consumer,
                                                                     producer=suffix_producer_dict_payload)
 
-                            logger.write_to_main(f"suffix_dep={suffix_dep}", ConfigSetting().LogConfig.dependencies)
+                            logger.write_to_main(f"suffix_dep={suffix_dep}", True)
 
                             if not find_dependencies(suffix_consumer, dependencies):
                                 dep = ProducerConsumerDependency(consumer=cx, producer=producers)
 
                                 key, found = add_dependency(dep, dependencies)
+                                logger.write_to_main(f"key={key}, found={found}", True)
                                 if not found:
                                     dependencies.setdefault(key, []).append(dep)
 
                                 key, found = add_dependency(suffix_dep, dependencies)
+                                logger.write_to_main(f"key={key}, found={found}", True)
                                 if not found:
                                     dependencies.setdefault(key, []).append(suffix_dep)
 
@@ -1713,18 +1735,19 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
         print(f"Done dependencies for request {request_id.endpoint}")
         generated_suffixes.append((request_id, new_uuid_suffixes))
 
-    logger.write_to_main(f"len(dependencies)={len(dependencies)}", ConfigSetting().LogConfig.dependencies)
+    logger.write_to_main(f"len(dependencies)={len(dependencies)}, "
+                         f"generated_suffixes={generated_suffixes}", ConfigSetting().LogConfig.dependencies)
 
     suffixes = {}
     for request_id, suffixes_item in generated_suffixes:
         for key in suffixes_item.keys():
             if key not in suffixes.keys():
                 suffixes[key] = suffixes_item[key]
+
     sorted_dict = {key: suffixes[key] for key in sorted(suffixes.keys())}
     new_dictionary = MutationsDictionary()
     new_dictionary.custom_payload_uuid4_suffix(sorted_dict)
     custom_dictionary.combine_custom_payload_suffix(new_dictionary)
-
     print("Assigning equality constraints...")
     for request_id, request_consumers in consumers:
         for consumer in request_consumers:
@@ -1817,10 +1840,11 @@ class DependencyLookup:
             return producers[0] if producers else None
 
         producer = None
-        if consumer_resource_access_path.length() < 2:
+        if consumer_resource_access_path.length() < 1:
             resource_access_path = consumer_resource_access_path.get_json_pointer()
         else:
-            resource_access_path = "/" + ("/".join(consumer_resource_access_path.path))
+            # resource_access_path = "/" + ("/".join(consumer_resource_access_path.path))
+            resource_access_path = "".join(consumer_resource_access_path.path)
 
         if resource_access_path is None:
             values = dependencies.get(consumer_resource_name, None)
@@ -1863,10 +1887,14 @@ class DependencyLookup:
                     primitive_type = default_payload.primitive_type
                 else:
                     primitive_type = producer.dictionary_payload.primitive_type
-
-                dynamic_object = DynamicObject(primitive_type=primitive_type,
-                                               variable_name=variable_name,
-                                               is_writer=False)
+                if producer.input_only_producer.parameter_kind == ParameterKind.Path:
+                    dynamic_object = DynamicObject(primitive_type=PrimitiveType.Object,
+                                                   variable_name=variable_name,
+                                                   is_writer=False)
+                else:
+                    dynamic_object = DynamicObject(primitive_type=primitive_type,
+                                                   variable_name=variable_name,
+                                                   is_writer=False)
 
                 if producer.dictionary_payload is None:
                     if producer.is_writer:
@@ -1886,7 +1914,8 @@ class DependencyLookup:
                         else:
                             raise Exception("Input producers are not supported for this payload type.")
                     else:
-                        return dynamic_object
+                        default_payload.dynamic_object = dynamic_object
+                        return default_payload
                 else:
                     dp = producer.dictionary_payload
                     return Custom(payload_type=dp.payload_type,

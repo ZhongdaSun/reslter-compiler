@@ -558,10 +558,12 @@ def process_property(swagger_doc: SwaggerDoc,
     else:
         if property_schema.is_set("example") or property_schema.is_set("examples"):
             property_payload_example_value = SchemaUtilities.get_examples_from_parameter(property_schema)
-            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}", True)
+            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}",
+                                 ConfigSetting().LogConfig.swagger_visitor)
             property_payload_example_value = SchemaUtilities.get_correct_example_value(property_payload_example_value,
                                                                                        property_type)
-            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}", True)
+            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}",
+                                 ConfigSetting().LogConfig.swagger_visitor)
 
     if property_type in ["string", "number", "int", "boolean", "integer", "bool", "object"]:
         fuzzable_property_payload = get_fuzzable_value_for_property(property_name,
@@ -1311,7 +1313,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                  parents=parents,
                                                  schema_cache=schema_cache,
                                                  cont=id)
-                    leaf_node.leaf_property.name = ""
+                    # leaf_node.leaf_property.name = ""
                     return leaf_node
                 else:
                     if child.is_set("items") is None:

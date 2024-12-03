@@ -256,13 +256,13 @@ class DynamicObject:
         self.variable_name = variable_name  # The variable name of the dynamic object
         self.is_writer = is_writer  # 'True' if this is an assignment, otherwise a read of the dynamic object
 
-    def __dict__(self):
+    def __dict__(self) -> dict:
         return {"DynamicObject": {"primitiveType": self.primitive_type.name,
                                   "variableName": self.variable_name,
                                   "isWriter": self.is_writer
                                   }}
 
-    def example_dict(self):
+    def example_dict(self) -> dict:
         return self.__dict__()
 
 
@@ -326,21 +326,30 @@ class FuzzablePayload:
                 else:
                     dict_value["exampleValue"] = self.example_value
 
+            if self.dynamic_object is not None:
+                dynamic_dict = self.dynamic_object.__dict__()
+                dict_value["dynamicObject"] = dynamic_dict["DynamicObject"]
+
             return {"Fuzzable": dict_value}
         else:
             if isinstance(self.default_value, PrimitiveTypeEnum):
                 dict_value = self.default_value.__dict__()
                 dict_value["exampleValue"] = self.example_value
                 return {"Fuzzable": dict_value}
+
     def path_dict(self):
         dict_value = dict()
-        if isinstance(self.primitive_type, PrimitiveType):
-            dict_value["primitiveType"] = self.primitive_type.name
-        elif isinstance(self.primitive_type, PrimitiveTypeEnum):
-            dict_value["primitiveType"] = self.primitive_type.__dict__()
-        dict_value["defaultValue"] = self.default_value
+        if self.dynamic_object is not None:
+            return self.dynamic_object.__dict__()
+        else:
 
-        return {"Fuzzable": dict_value}
+            if isinstance(self.primitive_type, PrimitiveType):
+                dict_value["primitiveType"] = self.primitive_type.name
+            elif isinstance(self.primitive_type, PrimitiveTypeEnum):
+                dict_value["primitiveType"] = self.primitive_type.__dict__()
+            dict_value["defaultValue"] = self.default_value
+
+            return {"Fuzzable": dict_value}
 
     def example_dict(self):
         dict_value = dict()
@@ -353,7 +362,9 @@ class FuzzablePayload:
                     dict_value["exampleValue"] = {"Some": self.example_value}
             else:  # if self.example_value and self.example_value != "":
                 dict_value["exampleValue"] = self.example_value
-
+            if self.dynamic_object is not None:
+                dynamic_dict = self.dynamic_object.example_dict()
+                dict_value.update(dynamic_dict)
             return {"Fuzzable": dict_value}
         else:
             if isinstance(self.default_value, PrimitiveTypeEnum):
@@ -390,10 +401,21 @@ class CustomPayload:
         dict_value["primitiveType"] = self.primitive_type.name
         dict_value["payloadValue"] = self.payload_value
         dict_value["isObject"] = self.is_object
+        if self.dynamic_object is not None:
+            dynamic_dict = self.dynamic_object.__dict__()
+            dict_value["dynamicObject"] = dynamic_dict["DynamicObject"]
         return {"Custom": dict_value}
 
     def example_dict(self):
-        return self.__dict__()
+        dict_value = dict()
+        dict_value["payloadType"] = self.payload_type.name
+        dict_value["primitiveType"] = self.primitive_type.name
+        dict_value["payloadValue"] = self.payload_value
+        dict_value["isObject"] = self.is_object
+        if self.dynamic_object is not None:
+            dynamic_dict = self.dynamic_object.example_dict()
+            dict_value["dynamicObject"] = dynamic_dict["DynamicObject"]
+        return {"Custom": dict_value}
 
 
 Fuzzable: TypeAlias = FuzzablePayload

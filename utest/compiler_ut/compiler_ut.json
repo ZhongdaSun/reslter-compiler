@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_example.py",
+  "debug_file": "test_dictionary.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
   "compiler_ut": true,
@@ -9,7 +9,7 @@
   "test_combined": {
     "test_combined_array_example_spec": 2,
     "test_null_test_swagger": 100,
-    "test_path_parameter_read_from_global_parameters": 0,
+    "test_path_parameter_read_from_global_parameters": 100,
     "test_array_example": 100,
     "test_example_demo1": 100
   },
@@ -28,7 +28,7 @@
     "test_inconsistent_camel_case_fixed_by_restler": 100,
     "test_patch_request_body_parameter_producers_from_post": 100,
     "test_array_dependencies_with_multiple_array_items": 0,
-    "test_input_producers_work_with_annotations": 100
+    "test_input_producers_work_with_annotations": 2
     },
   "test_dictionary": {
     "test_quoting_is_correct_in_the_grammar": 0,
@@ -57,8 +57,8 @@
     "test_logic_example_in_grammar_with_dependencies": 0,
     "test_body_dependency_nested_object_can_be_inferred_via_parent": 0,
     "test_nested_objects_naming_sanity_test": 0,
-    "test_body_payload_contains_both_producer_and_consumer": 100,
-    "test_get_dependencies_can_be_inferred_from_body_payload": 100,
+    "test_body_payload_contains_both_producer_and_consumer": 2,
+    "test_get_dependencies_can_be_inferred_from_body_payload": 0,
     "test_inline_examples_used_instead_of_fuzzstring": 0,
     "test_exact_copy_values_are_correct": 0,
     "test_examples_with_optional_parameters": 0,

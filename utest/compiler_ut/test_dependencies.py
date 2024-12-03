@@ -485,6 +485,7 @@ class TestDependencies(unittest.TestCase):
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
             'ResolveBodyDependencies': True,
+            'ResolveQueryDependencies': True,
             'UseBodyExamples': True,
             'SwaggerSpecFilePath': [
                 os.path.join(SWAGGER_DIR, "dependencyTests", "input_producer_spec.json")],

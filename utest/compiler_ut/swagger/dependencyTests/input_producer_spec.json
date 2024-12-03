@@ -11,8 +11,8 @@
   },
   "definitions": {
     "fileId":{
-        "type": "String",
-        "description":  "the file id"
+      "type": "String",
+      "description":  "the file id"
     },
     "Archive": {
       "properties": {
@@ -26,6 +26,29 @@
     }
   },
   "paths": {
+    "/archive/{archiveId}/{label}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "archiveId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "label",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/archive": {
       "post": {
         "parameters": [
@@ -42,6 +65,87 @@
             "schema": {
               "$ref": "#/definitions/Archive"
             }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/archive/{archiveId}": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "archiveId",
+            "required": true,
+            "type": "String"
+          },
+          {
+            "in": "query",
+            "name": "sig",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "body",
+            "name": "bodyParam",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Archive"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/file/{fileId}": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "required": true,
+            "type": "String"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "required": true,
+            "type": "String"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/fileId"
+            }
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "required": true,
+            "type": "String"
           }
         ],
         "responses": {

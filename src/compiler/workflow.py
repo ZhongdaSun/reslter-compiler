@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 import signal
 import argparse
+import logging
+
 
 if __name__ == '__main__' and 'compiler' not in sys.modules:
     autotest_dir = Path(__file__).absolute().parent
@@ -96,7 +98,7 @@ def get_swagger_data_for_doc(doc: SwaggerSpecConfigClass,
             if os.path.exists(doc.DictionaryFilePath):
                 data = JsonSerialization.try_deeserialize_from_file(doc.DictionaryFilePath)
                 data.update(DefaultPrimitiveValues)
-                logger.write_to_main(f"data={data}", True)
+                logger.write_to_main(f"data={data}", ConfigSetting().LogConfig.work_flow)
                 dictionary = get_dictionary_from_string(json.dumps(data))
             else:
                 print(f"ERROR: invalid path found in the list of dictionary files given: {doc.DictionaryFilePath}")
@@ -140,7 +142,8 @@ def generate_grammar_from_swagger(grammar_output_directory_path: str):
         if ConfigSetting().ExamplesDirectory else os.path.join(grammar_output_directory_path, "examples")
 
     if ConfigSetting().DiscoverExamples:
-        os.mkdir(examples_directory)
+        if not os.path.exists(examples_directory):
+            os.mkdir(examples_directory)
 
     user_specified_examples = []
     if ConfigSetting().ExampleConfigFilePath:

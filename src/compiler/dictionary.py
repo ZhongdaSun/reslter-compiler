@@ -59,7 +59,6 @@ def get_keys(map_list):
     logger.write_to_main(f"map_list={map_list}", ConfigSetting().LogConfig.dictionary)
     keys = []
     for custom_payload_entries in map_list:
-        logger.write_to_main(f"custom_payload_entries={custom_payload_entries}", ConfigSetting().LogConfig.dictionary)
         if custom_payload_entries:
             logger.write_to_main(f"custom_payload_entries={custom_payload_entries}", ConfigSetting().LogConfig.dictionary)
             keys.extend(custom_payload_entries.keys())
@@ -166,7 +165,6 @@ class MutationsDictionary:
         temp_value = json_str.get("restler_fuzzable_string")
         self.restler_fuzzable_string = temp_value if temp_value is not None \
             else [DefaultPrimitiveValues[PrimitiveType.String]]
-        logger.write_to_main(f"restler_fuzzable_string={self.restler_fuzzable_string}", True)
         self.restler_fuzzable_string_unquoted = json_str.get("restler_fuzzable_string_unquoted") \
             if json_str.get("restler_fuzzable_string_unquoted") else []
         self.restler_fuzzable_datetime = json_str.get("restler_fuzzable_datetime") \
