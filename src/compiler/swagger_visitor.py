@@ -942,12 +942,11 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                 for key, value in properties_schema.items():
                     readonly = SchemaUtilities.get_property_bool(value, "readOnly")
                     prop_type = SchemaUtilities.get_property_string(value, "type")
-                    if required_field:
+                    required = SchemaUtilities.get_property_bool(value, "required")
+                    if isinstance(required_field, list):
                         required = True if key in required_field else False
                         if not value.is_set("required"):
                             value.update_field("required", required)
-                    else:
-                        required = SchemaUtilities.get_property_bool(value, "required")
                     # schema includes field required, update the information into the sub-schema.
                     final_example = None
                     if schema_example is not None and isinstance(schema_example, dict):

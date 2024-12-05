@@ -4,6 +4,7 @@ from typing import Tuple, Optional, List, Dict, Union
 import os
 from compiler.config import ConfigSetting
 from compiler.utilities import JsonSerialization
+from collections import defaultdict
 
 from compiler.grammar import (
     DynamicObjectNaming,
@@ -328,7 +329,9 @@ def get_create_or_update_producer(consumer: Consumer,
                                   path_parameter_index,
                                   bracketed_consumer_resource_name: str):
     def match_producer(producer_param_name, producer_endpoint_name):
-        return producers.get_indexed_by_endpoint_producers(producer_param_name, producer_endpoint_name)
+        return producers.get_indexed_by_endpoint_producers(producer_param_name,
+                                                           producer_endpoint_name,
+                                                           [OperationMethod.Put])
 
     # Find the producer endpoint
     consumer_endpoint = consumer.consumer_id.request_id.endpoint
@@ -388,7 +391,8 @@ def get_create_or_update_producer(consumer: Consumer,
                 )
                 resource_producer = sorted_producers[0]
 
-        logger.write_to_main(f"possible_producers={possible_producers}", ConfigSetting().LogConfig.dependencies)
+        for item in possible_producers:
+            logger.write_to_main(f"item={item.__dict__()}", ConfigSetting().LogConfig.dependencies)
         return dictionary, resource_producer
 
 
@@ -599,7 +603,8 @@ def find_producer_with_resource_name(producers: Producers,
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer_endpoint:
             matching_resource_producers_by_endpoint = (producers.get_indexed_by_endpoint_producers(
-                producer_resource_name=producer_parameter_name, endpoint=producer_endpoint))
+                producer_resource_name=producer_parameter_name, endpoint=producer_endpoint,
+                operations=[OperationMethod.Put, OperationMethod.Post, OperationMethod.Get]))
             logger.write_to_main(
                 f"len(matching_resource_producers_by_endpoint)={len(matching_resource_producers_by_endpoint)}",
                 ConfigSetting().LogConfig.dependencies or
@@ -636,7 +641,9 @@ def find_producer_with_resource_name(producers: Producers,
             # TODO: an unnamed resource, such as an array element, cannot be currently assigned as a producer, because
             # its name will be the array name.
             response_producers_with_matching_resource_ids = producers.get_indexed_by_endpoint_producers(
-                annotation_producer_resource_name, ann.producer_id.endpoint)
+                annotation_producer_resource_name, ann.producer_id.endpoint, [ OperationMethod.Put,
+                                                                               OperationMethod.Post,
+                                                                               OperationMethod.Get])
             logger.write_to_main(f"response_producers_with_matching_resource_ids="
                                  f"{response_producers_with_matching_resource_ids}",
                                  ConfigSetting().LogConfig.dependencies or
@@ -955,7 +962,7 @@ def find_producer_with_resource_name(producers: Producers,
                                                                  path_parameter_index,
                                                                  bracketed_consumer_resource_name)
         logger.write_to_main(f"producer={producer}",
-                             ConfigSetting().LogConfig.dependencies or
+                                 ConfigSetting().LogConfig.dependencies or
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer is not None:
             if isinstance(producer, ResponseProducer):
@@ -971,10 +978,10 @@ def find_producer_with_resource_name(producers: Producers,
                             producer = InputParameter(producer=input_producer_matches[0].input_only_producer,
                                                       dictionary_payload=producer,
                                                       is_writer=True)
+        logger.write_to_main(f"producer={producer}",
+                             ConfigSetting().LogConfig.dependencies or
+                             ConfigSetting().LogConfig.log_find_producer_with_resource_name)
 
-    logger.write_to_main(f"producer={producer}",
-                         ConfigSetting().LogConfig.dependencies or
-                         ConfigSetting().LogConfig.log_find_producer_with_resource_name)
     if producer is None:
         # Try to find a producer based on the container property name of the consumer in the body.
         if (consumer.consumer_id.access_path is not None and annotation_producer is None and not dictionary_matches
@@ -983,10 +990,10 @@ def find_producer_with_resource_name(producers: Producers,
                     inferred_exact_matches)):
             # If there is a dictionary entry for a static value, it should override the inferred dependency
             producer = get_nested_object_producer(consumer, producers, producer_parameter_name, allow_get_producers)
+            logger.write_to_main(f"producer={producer}",
+                                 ConfigSetting().LogConfig.dependencies or
+                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name)
 
-    logger.write_to_main(f"producer={producer}",
-                         ConfigSetting().LogConfig.dependencies or
-                         ConfigSetting().LogConfig.log_find_producer_with_resource_name)
     if producer is None:
         producers_to_check = []
         if input_producer_matches is not None and len(input_producer_matches) > 0:
@@ -1663,91 +1670,100 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
         logger.write_to_main(f"begin request_id={request_id.endpoint}, "
                              f"request_consumers={len(request_consumers)}",
                              ConfigSetting().LogConfig.dependencies)
-        new_uuid_suffixes = {}
+        new_uuid_suffixes = []
         # First, look for producers in a different payload
         for cx in request_consumers:
             logger.write_to_main(f"cx = {cx}, cx={cx.__dict__()}", ConfigSetting().LogConfig.dependencies)
-            _, dependencies_result = get_dependencies_for_consumer(cx, producers)
+            new_dict, dependencies_result = get_dependencies_for_consumer(cx, producers)
+            new_uuid = list(new_dict.restler_custom_payload_uuid4_suffix.items())
+            logger.write_to_main(f"new_uuid={new_uuid}", ConfigSetting().LogConfig.dependencies)
+            new_uuid_suffixes = list(set(new_uuid_suffixes + new_uuid))
+            # new_uuid_suffixes.extend(new_dict.restler_custom_payload_uuid4_suffix.items())
+            logger.write_to_main(f"new_uuid_suffixes={new_uuid_suffixes}", ConfigSetting().LogConfig.dependencies)
 
-            if dependencies_result.producer is None:
-                continue
-            logger.write_to_main(f"dependencies={dependencies_result.__dict__()}",
-                                 ConfigSetting().LogConfig.dependencies)
-            key, found = add_dependency(dependencies_result, dependencies)
-            logger.write_to_main(f"key={key}, found={found}", ConfigSetting().LogConfig.dependencies)
-            if not found:
-                dependencies.setdefault(key, []).append(dependencies_result)
-                logger.write_to_main(f"dependencies={dependencies}", ConfigSetting().LogConfig.dependencies)
+            if dependencies_result.producer is not None:
+                logger.write_to_main(f"dependencies={dependencies_result.__dict__()}",
+                                     ConfigSetting().LogConfig.dependencies)
+                key, found = add_dependency(dependencies_result, dependencies)
+                logger.write_to_main(f"key={key}, found={found}",
+                                     ConfigSetting().LogConfig.dependencies)
+                if not found:
+                    dependencies.setdefault(key, []).append(dependencies_result)
+                    logger.write_to_main(f"dependencies={dependencies}",
+                                         ConfigSetting().LogConfig.dependencies)
 
-                print(f"Second pass dependencies for request {request_id.endpoint}")
-                # Then do a second pass for producers in the same payload.  Two passes are required because the
-                # same payload body producer's dependency needs to be known.
+        print(f"Second pass dependencies for request {request_id.endpoint}")
+        # Then do a second pass for producers in the same payload.  Two passes are required because the
+        # same payload body producer's dependency needs to be known.
+        new_uuid_suffixes_2 = []
+        for cx in request_consumers:
+            existing_dep = find_dependencies(cx, dependencies)
+            if existing_dep is None:
+                body_input_producer = get_same_body_input_producer(producers=producers, consumer=cx)
+                if body_input_producer is not None:
+                    if isinstance(producers, BodyPayloadInputProducer):
+                        consumer_resource_name = producers.resource_name
+                        logger.write_to_main(f"consumer_resource_name={consumer_resource_name}",
+                                             True)
+                        prefix_name = DynamicObjectNaming.generate_id_for_custom_uuid_suffix_payload(
+                            producers.container_name, consumer_resource_name)
 
-                if not find_dependencies(cx, dependencies):
-                    body_input_producer = get_same_body_input_producer(producers=producers, consumer=cx)
-                    if body_input_producer is not None:
-                        if isinstance(producers, BodyPayloadInputProducer):
-                            consumer_resource_name = producers.resource_name
-                            logger.write_to_main(f"consumer_resource_name={consumer_resource_name}",
-                                                 True)
-                            prefix_name = DynamicObjectNaming.generate_id_for_custom_uuid_suffix_payload(
-                                producers.container_name, consumer_resource_name)
+                        suffix_producer_dict_payload = DictionaryPayload(payload_type=CustomPayloadType.UuidSuffix,
+                                                                         primitive_type=PrimitiveType.String,
+                                                                         name=prefix_name,
+                                                                         is_object=False)
+                        api_resource = ApiResource(producers.request_id,
+                                                   producers.resource_reference,
+                                                   producers.naming_convention,
+                                                   PrimitiveType.String)
+                        suffix_consumer = Consumer(consumer_id=api_resource, parameter_kind=ParameterKind.Body,
+                                                   annotation=None)
 
-                            suffix_producer_dict_payload = DictionaryPayload(payload_type=CustomPayloadType.UuidSuffix,
-                                                                             primitive_type=PrimitiveType.String,
-                                                                             name=prefix_name,
-                                                                             is_object=False)
-                            api_resource = ApiResource(producers.request_id,
-                                                       producers.resource_reference,
-                                                       producers.naming_convention,
-                                                       PrimitiveType.String)
-                            suffix_consumer = Consumer(consumer_id=api_resource, parameter_kind=ParameterKind.Body,
-                                                       annotation=None)
+                        suffix_dep = ProducerConsumerDependency(consumer=suffix_consumer,
+                                                                producer=suffix_producer_dict_payload)
 
-                            suffix_dep = ProducerConsumerDependency(consumer=suffix_consumer,
-                                                                    producer=suffix_producer_dict_payload)
+                        logger.write_to_main(f"suffix_dep={suffix_dep}", ConfigSetting().LogConfig.dependencies)
 
-                            logger.write_to_main(f"suffix_dep={suffix_dep}", True)
+                        if not find_dependencies(suffix_consumer, dependencies):
+                            dep = ProducerConsumerDependency(consumer=cx, producer=producers)
 
-                            if not find_dependencies(suffix_consumer, dependencies):
-                                dep = ProducerConsumerDependency(consumer=cx, producer=producers)
+                            key, found = add_dependency(dep, dependencies)
+                            logger.write_to_main(f"key={key}, found={found}", ConfigSetting().LogConfig.dependencies)
+                            if not found:
+                                dependencies.setdefault(key, []).append(dep)
 
-                                key, found = add_dependency(dep, dependencies)
-                                logger.write_to_main(f"key={key}, found={found}", True)
-                                if not found:
-                                    dependencies.setdefault(key, []).append(dep)
+                            key, found = add_dependency(suffix_dep, dependencies)
+                            logger.write_to_main(f"key={key}, found={found}", ConfigSetting().LogConfig.dependencies)
+                            if not found:
+                                dependencies.setdefault(key, []).append(suffix_dep)
 
-                                key, found = add_dependency(suffix_dep, dependencies)
-                                logger.write_to_main(f"key={key}, found={found}", True)
-                                if not found:
-                                    dependencies.setdefault(key, []).append(suffix_dep)
-
-                                logger.write_to_main(f"dependencies={dependencies}",
-                                                     ConfigSetting().LogConfig.dependencies)
-                            if prefix_name not in custom_dictionary.restler_custom_payload_uuid4_suffix.keys():
-                                prefix_value = (DynamicObjectNaming.
-                                                generate_prefix_for_custom_uuid_suffix_payload(prefix_name))
-                                if prefix_name not in new_uuid_suffixes.keys():
-                                    new_uuid_suffixes[prefix_name] = prefix_value
-                                logger.write_to_main(f"prefix_name={prefix_name}, prefix_value={prefix_value}",
-                                                     ConfigSetting().LogConfig.dependencies)
-
+                            logger.write_to_main(f"dependencies={dependencies}",
+                                                 ConfigSetting().LogConfig.dependencies)
+                        if prefix_name not in custom_dictionary.restler_custom_payload_uuid4_suffix.keys():
+                            prefix_value = (DynamicObjectNaming.
+                                            generate_prefix_for_custom_uuid_suffix_payload(prefix_name))
+                            if prefix_name not in new_uuid_suffixes:
+                                new_uuid_suffixes.append((prefix_name, prefix_value))
+                            logger.write_to_main(f"prefix_name={prefix_name}, prefix_value={prefix_value}",
+                                                 ConfigSetting().LogConfig.dependencies)
         print(f"Done dependencies for request {request_id.endpoint}")
-        generated_suffixes.append((request_id, new_uuid_suffixes))
+        # Merge results and ensure no duplicates
+        combined_suffixes = new_uuid_suffixes + new_uuid_suffixes_2
+        generated_suffixes.append((request_id, combined_suffixes))
 
     logger.write_to_main(f"len(dependencies)={len(dependencies)}, "
                          f"generated_suffixes={generated_suffixes}", ConfigSetting().LogConfig.dependencies)
 
-    suffixes = {}
-    for request_id, suffixes_item in generated_suffixes:
-        for key in suffixes_item.keys():
-            if key not in suffixes.keys():
-                suffixes[key] = suffixes_item[key]
+    final_suffixes = defaultdict(set)
+    for request_id, suffixes in generated_suffixes:
+        for suffix in suffixes:
+            final_suffixes[suffix[0]].add(suffix[1])
 
-    sorted_dict = {key: suffixes[key] for key in sorted(suffixes.keys())}
-    new_dictionary = MutationsDictionary()
-    new_dictionary.custom_payload_uuid4_suffix(sorted_dict)
-    custom_dictionary.combine_custom_payload_suffix(new_dictionary)
+    # Add custom dictionary suffixes
+    custom_suffixes = custom_dictionary.restler_custom_payload_uuid4_suffix
+    for key, value in custom_suffixes.items():
+        final_suffixes[key].add(value)
+
     print("Assigning equality constraints...")
     for request_id, request_consumers in consumers:
         for consumer in request_consumers:

@@ -325,13 +325,19 @@ class Producers:
 
         return p.input_only_producers
 
-    def get_indexed_by_endpoint_producers(self, producer_resource_name, endpoint):
+    def get_indexed_by_endpoint_producers(self, producer_resource_name: str, endpoint: str, operations: list):
         p = self.try_get(producer_resource_name)
         if p is None:
             return []
 
-        return p.indexed_by_endpoint.get(endpoint, [])
-
+        endpoint_lookup = endpoint.lower()
+        index_endpoint_producers = p.indexed_by_endpoint.get(endpoint_lookup, [])
+        result = []
+        for m in operations:
+            for item in index_endpoint_producers:
+                if isinstance(item, ResponseProducer) and item.request_id.method == m:
+                    result.append(item)
+        return result
     def get_indexed_by_type_name_producers(self, producer_resource_name, type_name):
         p = self.try_get(producer_resource_name)
         if p is None:
