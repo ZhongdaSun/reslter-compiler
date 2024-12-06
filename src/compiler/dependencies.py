@@ -390,6 +390,17 @@ def get_create_or_update_producer(consumer: Consumer,
                     if p.resource_reference.get_access_path() else None
                 )
                 resource_producer = sorted_producers[0]
+                # todo issue fix test_dependencies_inferred_for_lowercase_container_and_object just because there are
+                # two producers "Get" and "Put". Try to use Put producers based on sort by method.
+                if len(possible_producers) > 1:
+                    backup_resource_producer = sorted_producers[1]
+                    from compiler.dependency_analysis_types import sort_by_method
+                    if (resource_producer.resource_reference.get_access_path() is not None and
+                        backup_resource_producer.resource_reference.get_access_path() is not None) or (
+                            len(resource_producer.resource_reference.get_access_path()) ==
+                            len(backup_resource_producer.resource_reference.get_access_path())):
+                        if sort_by_method(sorted_producers[0]) > sort_by_method(sorted_producers[1]):
+                            resource_producer = sorted_producers[1]
 
         for item in possible_producers:
             logger.write_to_main(f"item={item.__dict__()}", ConfigSetting().LogConfig.dependencies)

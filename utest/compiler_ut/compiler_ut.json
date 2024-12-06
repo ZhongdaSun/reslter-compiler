@@ -1,6 +1,6 @@
 {
-  "debug_mode": true,
-  "debug_file": "test_example.py",
+  "debug_mode": false,
+  "debug_file": "test_dependencies.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
   "compiler_ut": true,
@@ -28,7 +28,7 @@
     "test_inconsistent_camel_case_fixed_by_restler": 100,
     "test_patch_request_body_parameter_producers_from_post": 100,
     "test_array_dependencies_with_multiple_array_items": 0,
-    "test_input_producers_work_with_annotations": 2
+    "test_input_producers_work_with_annotations": 100
     },
   "test_dictionary": {
     "test_quoting_is_correct_in_the_grammar": 0,
