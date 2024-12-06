@@ -551,8 +551,6 @@ def find_producer_with_resource_name(producers: Producers,
     consumer_resource_name = consumer.consumer_id.resource_reference.get_resource_name()
     consumer_endpoint = consumer.consumer_id.request_id.endpoint
 
-    # bracketed_consumer_resource_name = consumer_resource_name
-    # if consumer.parameter_kind == ParameterKind.Path else None
     if consumer.parameter_kind == ParameterKind.Path:
         bracketed_consumer_resource_name = f"{{{consumer_resource_name}}}"
     else:
@@ -571,8 +569,7 @@ def find_producer_with_resource_name(producers: Producers,
                          ConfigSetting().LogConfig.log_find_producer_with_resource_name)
     logger.write_to_main(f"producers={producers.__dict__()}", ConfigSetting().LogConfig.dependencies or
                          ConfigSetting().LogConfig.log_find_producer_with_resource_name)
-    # path_parameter_index = consumer_endpoint.index(
-    #    bracketed_consumer_resource_name) if bracketed_consumer_resource_name else None
+
     if bracketed_consumer_resource_name:
         path_parameter_index = consumer_endpoint.find(bracketed_consumer_resource_name)
     else:
@@ -977,7 +974,7 @@ def find_producer_with_resource_name(producers: Producers,
                                                                  producer_parameter_name,
                                                                  path_parameter_index,
                                                                  bracketed_consumer_resource_name)
-        logger.write_to_main(f"producer={producer}",
+        logger.write_to_main(f"producer={producer} input_producer_matches={input_producer_matches}",
                              ConfigSetting().LogConfig.dependencies or
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer is not None:
@@ -1123,9 +1120,6 @@ def find_producer(producers: Producers,
                 # producer-consumer dependency algorithm is improved to process
                 # dependencies grouped by paths, rather than independently.
 
-                # fix cases: test_path_and_body_parameter_set_to_same_uuid_suffix_payload in test_dictionary.py.
-                # double-checked with two conditions: with dictionary or without  dictionary. finally,
-                # the DictionaryPayload is high priority than ResponseProducer
                 logger.write_to_main(f"producer={item.__dict__()}",
                                      ConfigSetting().LogConfig.dependencies or
                                      ConfigSetting().LogConfig.log_find_producer_with_resource_name)
@@ -1574,7 +1568,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
     if len(body_consumers) == 0:
         body_consumers = body_consumers_example
 
-    # Remove duplicate consumers based on their ID, resource name, and access path parts
+    # There may be duplicate consumers since different payload examples may overlap in the properties they use.
     distinct_consumers_dict = {}
     for request_id, consumers in body_consumers:
         for consumer in consumers:
@@ -1588,10 +1582,12 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                                         resource_name,
                                         access_path_parts): consumer}
     distinct_consumers = list(distinct_consumers_dict.values())
-    # Create producers for specific parameter properties
+    # Special case: also create producers for select parameter properties.
+    # These may have references from the same body that use the newly created resource
     producer_property_names = ["name"]
     for consumer in distinct_consumers:
         resource_name = consumer.consumer_id.resource_name
+        logger.write_to_main(f"resource_name={resource_name}, container_name={consumer.consumer_id.container_name}", True)
         if resource_name in producer_property_names and consumer.consumer_id.container_name:
             producer = create_body_payload_input_producer(consumer.consumer_id)
             producers.add_same_payload_producer(resource_name, producer)
@@ -1875,7 +1871,6 @@ class DependencyLookup:
         if consumer_resource_access_path.length() < 1:
             resource_access_path = consumer_resource_access_path.get_json_pointer()
         else:
-            # resource_access_path = "/" + ("/".join(consumer_resource_access_path.path))
             resource_access_path = "".join(consumer_resource_access_path.path)
 
         if resource_access_path is None:
