@@ -241,16 +241,18 @@ def create_input_only_producer_from_annotation(annotation: ProducerConsumerAnnot
         - The matching consumer object if found, otherwise None
         """
         # Step 1: Search for the producer_id in candidate_consumers
-        for req_id, consumer_list in candidate_consumers:
-            if req_id == annotation.producer_id:
-                logger.write_to_main(f"req_id={req_id.__dict__()}, producer_id={annotation.producer_id.__dict__()}",
+        for request_id, consumer_list in candidate_consumers:
+            logger.write_to_main(f"req_id={request_id.__dict__()}, "
+                                 f"producer_id={annotation.producer_id.__dict__()}\n "
+                                 f"resource_name={resource_name}",
+                                 ConfigSetting().LogConfig.dependencies)
+            # Step 2: Iterate over the consumer list
+            for item in consumer_list:
+                logger.write_to_main(f"consumer.consumer_id.resource_name={item.consumer_id.resource_name}",
                                      ConfigSetting().LogConfig.dependencies)
-                # Step 2: Iterate over the consumer list
-                for consumer in consumer_list:
-                    if consumer.consumer_id.resource_name == resource_name:
-                        return consumer
-                # If no consumer with the resource_name is found in this group, continue the loop
-                break
+                if item.consumer_id.resource_name == resource_name:
+                    return item
+            # If no consumer with the resource_name is found in this group, continue the loop
 
         # If no matching consumer is found, return None
         return None
@@ -258,17 +260,20 @@ def create_input_only_producer_from_annotation(annotation: ProducerConsumerAnnot
     logger.write_to_main(f"annotation={annotation.__dict__()}", ConfigSetting().LogConfig.dependencies)
     if annotation.producer_parameter.resource_name:
         rn = annotation.producer_parameter.resource_name
+        consumer_name = annotation.consumer_parameter.resource_name
+        logger.write_to_main(f"rn={rn}, consumer_name={consumer_name}", ConfigSetting().LogConfig.dependencies)
         if f"{{{rn}}}" in annotation.producer_id.endpoint:
             parameter_kind = ParameterKind.Path
-            consumer = find_consumer(path_consumers, rn)
+            consumer = find_consumer(path_consumers, consumer_name)
         else:
-            query_consumer = find_consumer(query_consumers, rn)
+            query_consumer = find_consumer(query_consumers, consumer_name)
+            logger.write_to_main(f"query_consumer={query_consumer}", ConfigSetting().LogConfig.dependencies)
             if query_consumer:
                 parameter_kind = ParameterKind.Query
                 consumer = query_consumer
             else:
                 parameter_kind = ParameterKind.Header
-                consumer = find_consumer(header_consumers, rn)
+                consumer = find_consumer(header_consumers, consumer_name)
 
         if not consumer:
             return None, None
@@ -390,6 +395,17 @@ def get_create_or_update_producer(consumer: Consumer,
                     if p.resource_reference.get_access_path() else None
                 )
                 resource_producer = sorted_producers[0]
+                # todo issue fix test_dependencies_inferred_for_lowercase_container_and_object just because there are
+                # two producers "Get" and "Put". Try to use Put producers based on sort by method.
+                if len(possible_producers) > 1:
+                    backup_resource_producer = sorted_producers[1]
+                    from compiler.dependency_analysis_types import sort_by_method
+                    if (resource_producer.resource_reference.get_access_path() is not None and
+                        backup_resource_producer.resource_reference.get_access_path() is not None) or (
+                            len(resource_producer.resource_reference.get_access_path()) ==
+                            len(backup_resource_producer.resource_reference.get_access_path())):
+                        if sort_by_method(sorted_producers[0]) > sort_by_method(sorted_producers[1]):
+                            resource_producer = sorted_producers[1]
 
         for item in possible_producers:
             logger.write_to_main(f"item={item.__dict__()}", ConfigSetting().LogConfig.dependencies)
@@ -641,9 +657,9 @@ def find_producer_with_resource_name(producers: Producers,
             # TODO: an unnamed resource, such as an array element, cannot be currently assigned as a producer, because
             # its name will be the array name.
             response_producers_with_matching_resource_ids = producers.get_indexed_by_endpoint_producers(
-                annotation_producer_resource_name, ann.producer_id.endpoint, [ OperationMethod.Put,
-                                                                               OperationMethod.Post,
-                                                                               OperationMethod.Get])
+                annotation_producer_resource_name, ann.producer_id.endpoint, [OperationMethod.Put,
+                                                                              OperationMethod.Post,
+                                                                              OperationMethod.Get])
             logger.write_to_main(f"response_producers_with_matching_resource_ids="
                                  f"{response_producers_with_matching_resource_ids}",
                                  ConfigSetting().LogConfig.dependencies or
@@ -828,7 +844,7 @@ def find_producer_with_resource_name(producers: Producers,
             logger.write_to_main(f"dictionary_matches={dictionary_matches}, "
                                  f"uuid_suffix_dictionary_matches={uuid_suffix_dictionary_matches}",
                                  ConfigSetting().LogConfig.dependencies or
-                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name or True)
+                                 ConfigSetting().LogConfig.log_find_producer_with_resource_name)
             for p in dictionary_matches + uuid_suffix_dictionary_matches:
                 # Add the dictionary payload
                 if isinstance(p, DictionaryPayload):
@@ -962,7 +978,7 @@ def find_producer_with_resource_name(producers: Producers,
                                                                  path_parameter_index,
                                                                  bracketed_consumer_resource_name)
         logger.write_to_main(f"producer={producer}",
-                                 ConfigSetting().LogConfig.dependencies or
+                             ConfigSetting().LogConfig.dependencies or
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer is not None:
             if isinstance(producer, ResponseProducer):
