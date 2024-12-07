@@ -27,27 +27,6 @@ class SchemaTests(unittest.TestCase):
         if not os.path.exists(TEST_ROOT_DIR):
             os.mkdir(TEST_ROOT_DIR)
 
-    def assert_json_files(self, source_dir, target_dir):
-        checking_json_file = [
-            Constants.NewDictionaryFileName,
-            Constants.DependenciesFileName,
-            Constants.DependenciesDebugFileName,
-            Constants.UnresolvedDependenciesFileName,
-            Constants.DefaultJsonGrammarFileName
-        ]
-
-        for item in checking_json_file:
-            grammar_file_path = os.path.join(source_dir, item)
-            baseline_grammar_file_path = os.path.join(target_dir, item)
-            if os.path.exists(grammar_file_path) and os.path.exists(baseline_grammar_file_path):
-                result, diff = compare_difference(grammar_file_path, baseline_grammar_file_path)
-                self.assertTrue(result, msg=f"file:{item}, diff:{diff}")
-            elif not os.path.exists(grammar_file_path) and not os.path.exists(baseline_grammar_file_path):
-                self.assertTrue(True, f"both not exists file.")
-            else:
-                self.assertFalse(True,
-                                 f"result: not exists file {grammar_file_path} or {baseline_grammar_file_path}")
-
     def assert_json_file(self, source_file_name, target_file_name):
         if os.path.exists(source_file_name) and os.path.exists(target_file_name):
             result, diff = compare_difference(source_file_name, target_file_name)

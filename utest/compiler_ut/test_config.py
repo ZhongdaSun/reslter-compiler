@@ -27,27 +27,6 @@ class TestConfig(unittest.TestCase):
         if not os.path.exists(TEST_ROOT_DIR):
             os.mkdir(TEST_ROOT_DIR)
 
-    def assert_json_file(self, source_dir, target_dir):
-        checking_json_file = [
-            Constants.NewDictionaryFileName,
-            Constants.DependenciesFileName,
-            Constants.DependenciesDebugFileName,
-            Constants.UnresolvedDependenciesFileName,
-            Constants.DefaultJsonGrammarFileName
-        ]
-
-        for item in checking_json_file:
-            grammar_file_path = os.path.join(source_dir, item)
-            baseline_grammar_file_path = os.path.join(target_dir, item)
-            if os.path.exists(grammar_file_path) and os.path.exists(baseline_grammar_file_path):
-                result, diff = compare_difference(grammar_file_path, baseline_grammar_file_path)
-                self.assertTrue(result, msg=f"file:{item}, diff:{diff}")
-            elif not os.path.exists(grammar_file_path) and not os.path.exists(baseline_grammar_file_path):
-                self.assertTrue(True, f"both not exists file.")
-            else:
-                self.assertFalse(True,
-                                 f"result: not exists file {grammar_file_path} or {baseline_grammar_file_path}")
-
     # Combines two API definitions and validates the correct engine settings for per-endpoint dictionaries.
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_swagger_config_custom_dictionary_sanity_1"))

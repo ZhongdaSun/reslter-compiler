@@ -6,14 +6,6 @@
   "compiler_ut": true,
   "restler_ut": false,
 
-  "test_combined": {
-    "test_combined_array_example_spec": 2,
-    "test_null_test_swagger": 100,
-    "test_path_parameter_read_from_global_parameters": 100,
-    "test_array_example": 100,
-    "test_example_demo1": 100
-  },
-
   "test_dependencies": {
     "test_demo_server_path_dependencies_resolved_without_annotations": 4,
     "test_inferred_put_producer": 0,

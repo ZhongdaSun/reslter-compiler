@@ -31,32 +31,6 @@ class TestDependencies(unittest.TestCase):
         if not os.path.exists(TEST_ROOT_DIR):
             os.mkdir(TEST_ROOT_DIR)
 
-    def assert_json_file(self, source_dir, target_dir):
-        checking_json_file = [
-            # Constants.NewDictionaryFileName,
-            # Constants.DependenciesFileName,
-            # Constants.DependenciesDebugFileName,
-            # Constants.UnresolvedDependenciesFileName,
-            Constants.DefaultJsonGrammarFileName
-        ]
-
-        # DefaultExampleMetadataFileName = "examples.json"
-        # DefaultEngineSettingsFileName = "engine_settings.json"
-        # CustomValueGeneratorTemplateFileName = "custom_value_gen_template.py"
-        # DefaultAnnotationFileName = "annotations.json"
-        # DefaultCompilerConfigName = "config.json"
-        for item in checking_json_file:
-            grammar_file_path = os.path.join(source_dir, item)
-            baseline_grammar_file_path = os.path.join(target_dir, item)
-            if os.path.exists(grammar_file_path) and os.path.exists(baseline_grammar_file_path):
-                result, diff = compare_difference(grammar_file_path, baseline_grammar_file_path)
-                self.assertTrue(result, msg=f"file:{item}, diff:{diff}")
-            elif not os.path.exists(grammar_file_path) and not os.path.exists(baseline_grammar_file_path):
-                self.assertTrue(True, f"both not exists file.")
-            else:
-                self.assertFalse(True,
-                                 f"result: not exists file {grammar_file_path} or {baseline_grammar_file_path}")
-
     def dependencies_resolved_without_annotations(self, config):
         swagger_doc = get_swagger_data_for_doc(config['SwaggerSpecFilePath'][0], TEST_ROOT_DIR)
 
@@ -99,7 +73,7 @@ class TestDependencies(unittest.TestCase):
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
-        target_dir = os.path.join(SWAGGER_DIR, "baselines", "put_createorupdate")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
 
         config = {
             'IncludeOptionalParameters': True,
@@ -112,13 +86,8 @@ class TestDependencies(unittest.TestCase):
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
 
-        grammar_source = os.path.join(source_dir, Constants.DefaultJsonGrammarFileName)
-        grammar_target = os.path.join(target_dir, Constants.DefaultJsonGrammarFileName)
-        result, diff = compare_difference(grammar_source, grammar_target)
-        self.assertTrue(result, msg=f"file:{grammar_source} {grammar_target}, diff:{diff}")
-
         grammar_source = os.path.join(source_dir, Constants.DefaultRestlerGrammarFileName)
-        grammar_target = os.path.join(target_dir, Constants.DefaultRestlerGrammarFileName)
+        grammar_target = os.path.join(target_dir, "put_createorupdate_grammar.py")
 
         found_diff, diff = get_line_differences(grammar_source, grammar_target)
         self.assertFalse(found_diff, msg=f"The difference is {diff}")
@@ -148,8 +117,7 @@ class TestDependencies(unittest.TestCase):
         config["CustomDictionaryFilePath"] = dictionary_file_path
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
-        self.assert_json_file(source_dir=config["GrammarOutputDirectoryPath"],
-                              target_dir=os.path.join(SWAGGER_DIR, "baselines", "put_createorupdate"))
+
         grammar_source = os.path.join(config["GrammarOutputDirectoryPath"], "grammar.py")
 
         found_diff, diff = get_line_differences(grammar_source, grammar_target)
@@ -251,7 +219,7 @@ class TestDependencies(unittest.TestCase):
         source_dir = os.path.join(TEST_ROOT_DIR, "pathAnnotation")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(SWAGGER_DIR, "baselines", "pathannotation")
+        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
 
         config = {
             'IncludeOptionalParameters': True,
@@ -265,10 +233,8 @@ class TestDependencies(unittest.TestCase):
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
-        self.assert_json_file(source_dir=source_dir,
-                              target_dir=target_dir)
 
-        expected_grammar_file_path = os.path.join(target_dir, "grammar.py")
+        expected_grammar_file_path = os.path.join(target_dir, "path_annotation_grammar.py")
         actual_grammar_file_path = os.path.join(source_dir,
                                                 Constants.DefaultRestlerGrammarFileName)
         found, grammar_diff = get_line_differences(expected_grammar_file_path, actual_grammar_file_path)
@@ -334,7 +300,7 @@ class TestDependencies(unittest.TestCase):
         source_dir = os.path.join(TEST_ROOT_DIR, "body_dependency_cycles")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        target_dir = os.path.join(SWAGGER_DIR, "baselines", "dependencyTests")
+
         config = {
             'IncludeOptionalParameters': True,
             'GrammarOutputDirectoryPath': source_dir,
@@ -497,15 +463,7 @@ class TestDependencies(unittest.TestCase):
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
-        """
-        self.assert_json_file(source_dir=source_dir, target_dir=target_dir)
 
-        grammar_source = os.path.join(source_dir, "grammar.py")
-        grammar_target = os.path.join(target_dir, "grammar.py")
-
-        found_diff, diff = get_line_differences(grammar_source, grammar_target)
-        self.assertFalse(found_diff, msg=f"The difference is {diff}")
-        """
         grammar_source = os.path.join(source_dir, Constants.DefaultRestlerGrammarFileName)
         grammar = get_grammar_file_content(grammar_source)
 

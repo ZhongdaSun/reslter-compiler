@@ -186,15 +186,14 @@ class TestCodeGenerator(unittest.TestCase):
         source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
-        swagger_dir = os.path.join(SWAGGER_DIR, "example_demo1")
 
         config = {
             "IncludeOptionalParameters": True,
             "GrammarOutputDirectoryPath": source_dir,
             "ResolveBodyDependencies": True,
             "UseBodyExamples": False,
-            "SwaggerSpecFilePath": [os.path.join(swagger_dir, "example_demo1.json")],
-            "CustomDictionaryFilePath": os.path.join(swagger_dir, "example_demo_dictionary.json")
+            "SwaggerSpecFilePath": [os.path.join(SWAGGER_DIR, "example_demo1.json")],
+            "CustomDictionaryFilePath": os.path.join(SWAGGER_DIR, "example_demo_dictionary.json")
         }
         obj_config = Config.init_from_json(config)
         generate_restler_grammar(obj_config)
