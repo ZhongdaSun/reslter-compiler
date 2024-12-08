@@ -11,11 +11,10 @@ from compiler.access_paths import (
     try_get_access_path_from_string,
     EmptyAccessPath)
 from compiler.xms_paths import get_x_ms_path
+from compiler.config import ConfigSetting
 from restler.utils import restler_logger as logger
 
-IS_CLOSED_LOG = False
 
-# 定义全局注解键，用于标识全局注解的键
 GlobalAnnotationKey = "x-restler-global-annotations"
 
 
@@ -98,7 +97,6 @@ def parse_annotation(annotation: dict):
 
     consumer_endpoint = None
 
-    # 处理消费者相关属性
     if "consumer_endpoint" in keys:
         consumer_endpoint = annotation.get("consumer_endpoint")
         xms_path = get_x_ms_path(consumer_endpoint)
@@ -163,7 +161,6 @@ def parse_annotation(annotation: dict):
                                                 method=get_operation_method_from_string(except_method),
                                                 xms_path=x_ms_path, has_example=False))
 
-    # 返回生产者-消费者注解
     return ProducerConsumerAnnotation(producer_id=producer_request_id,
                                       consumer_id=consumer_request_id,
                                       producer_parameter=producer_parameter,
@@ -202,7 +199,7 @@ def get_annotations_from_json(annotation_json: list[dict]) -> list[ProducerConsu
     try:
         annotations = []
         for ann in annotation_json:
-            logger.write_to_main(f"ann={ann}", IS_CLOSED_LOG)
+            logger.write_to_main(f"ann={ann}", ConfigSetting().LogConfig.annotations)
             parsed_ann = parse_annotation(ann)
             if parsed_ann:
                 annotations.append(parsed_ann)
@@ -235,9 +232,10 @@ def get_global_annotations_from_file(file_path):
     """
     if os.path.exists(file_path):
         global_annotations_json = JsonSerialization.try_deeserialize_from_file(file_path)
-        logger.write_to_main(f"global_annotations_json={global_annotations_json}", IS_CLOSED_LOG)
+        logger.write_to_main(f"global_annotations_json={global_annotations_json}",
+                             ConfigSetting().LogConfig.annotations)
         global_ann = global_annotations_json.get(GlobalAnnotationKey)
-        logger.write_to_main(f"global_ann={global_ann}", IS_CLOSED_LOG)
+        logger.write_to_main(f"global_ann={global_ann}", ConfigSetting().LogConfig.annotations)
         if global_ann:
             return global_ann
         else:

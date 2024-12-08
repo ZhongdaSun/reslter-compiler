@@ -190,7 +190,6 @@ class SwaggerDoc:
                             # opt.is_set("x-ms-examples") | opt.is_set("examples")
                             # remove x-ms-examples is just because x-ms-examples
                             # is automatically populated in the generated OpenAPI 2.0
-                            request_info.request_id.has_example = opt.is_set("examples")
                             request_info.method = operation_item
                             request_info.local_annotation = getattr(opt, "x-restler-annotations")
                             request_info.long_running_operation = getattr(opt, 'x-ms-long-running-operation')
@@ -281,7 +280,6 @@ class SwaggerDoc:
             return False
 
     # preprocessSwaggerDocument
-
     def get_swagger_document_stats(self, swagger_path):
         self.path = swagger_path
         with open(swagger_path, "rb") as file:

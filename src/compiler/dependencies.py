@@ -1587,7 +1587,9 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
     producer_property_names = ["name"]
     for consumer in distinct_consumers:
         resource_name = consumer.consumer_id.resource_name
-        logger.write_to_main(f"resource_name={resource_name}, container_name={consumer.consumer_id.container_name}", True)
+        logger.write_to_main(f"resource_name={resource_name}, "
+                             f"container_name={consumer.consumer_id.container_name}",
+                             ConfigSetting().LogConfig.dependencies)
         if resource_name in producer_property_names and consumer.consumer_id.container_name:
             producer = create_body_payload_input_producer(consumer.consumer_id)
             producers.add_same_payload_producer(resource_name, producer)

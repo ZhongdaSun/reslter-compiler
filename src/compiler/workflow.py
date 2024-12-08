@@ -196,7 +196,6 @@ def generate_grammar_from_swagger(grammar_output_directory_path: str):
         print("Writing new dictionary to", new_dictionary_file_path)
         # A helper function to override defaults with user-specified dictionary values
         # when the user specifies only some of the properties
-        # 合并逻辑
         current_dict.merged_dictionary(new_dict_mutation)
         JsonSerialization.serialize_to_file(new_dictionary_file_path, current_dict.__dict__())
 
@@ -216,7 +215,6 @@ def generate_grammar_from_swagger(grammar_output_directory_path: str):
     # todo
 
     if per_resource_dictionaries and len(per_resource_dictionaries) > 1:
-        # 写入每个资源字典
         for dict_name, dict_contents in per_resource_dictionaries.items():
             write_dictionary(f"{dict_contents[0][0]}.json", dict_contents[0][1])
 
@@ -313,7 +311,7 @@ def main(args):
         print("exit")
         sys.exit(1)
 
-    generate_restler_grammar(ConfigSetting())  # generateRestlerGrammar
+    generate_restler_grammar(ConfigSetting())
 
     return 0
 

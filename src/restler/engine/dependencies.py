@@ -15,6 +15,8 @@ from restler.restler_settings import Settings
 from restler.utils import restler_logger as logger
 
 IS_CLOSED_LOG = False
+
+
 class ResourceTypeQuotaExceededException(Exception):
     pass
 
@@ -42,6 +44,7 @@ object_creations = 0
 RDELIM = '_READER_DELIM'
 
 main_lock = threading.Semaphore(1)
+
 
 class DynamicVariable:
     """ Dynamic variable object. """

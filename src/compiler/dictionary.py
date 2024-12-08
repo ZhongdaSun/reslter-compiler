@@ -151,11 +151,14 @@ class MutationsDictionary:
         return_dict["restler_custom_payload"] = self.restler_custom_payload
         return_dict["restler_custom_payload_unquoted"] = self.restler_custom_payload_unquoted
         return_dict["restler_custom_payload_uuid4_suffix"] = self.restler_custom_payload_uuid4_suffix
-
-        return_dict["restler_custom_payload_header"] = self.restler_custom_payload_header
-        return_dict["restler_custom_payload_header_unquoted"] = self.restler_custom_payload_header_unquoted
-        return_dict["restler_custom_payload_query"] = self.restler_custom_payload_query
-        return_dict["shadow_values"] = self.shadow_values
+        if len(self.restler_custom_payload_header) > 0:
+            return_dict["restler_custom_payload_header"] = self.restler_custom_payload_header
+        if len(self.restler_custom_payload_header_unquoted) > 0:
+            return_dict["restler_custom_payload_header_unquoted"] = self.restler_custom_payload_header_unquoted
+        if len(self.restler_custom_payload_query) > 0:
+            return_dict["restler_custom_payload_query"] = self.restler_custom_payload_query
+        if len(self.shadow_values) > 0:
+            return_dict["shadow_values"] = self.shadow_values
 
         return return_dict
 

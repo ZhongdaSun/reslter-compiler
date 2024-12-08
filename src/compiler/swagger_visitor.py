@@ -1312,7 +1312,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                  parents=parents,
                                                  schema_cache=schema_cache,
                                                  cont=id)
-                    # leaf_node.leaf_property.name = ""
+                    leaf_node.leaf_property.name = ""
                     return leaf_node
                 else:
                     if child.is_set("items") is None:

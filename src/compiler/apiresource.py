@@ -16,15 +16,15 @@ from compiler.grammar import (
 from compiler.config import ConfigSetting
 from restler.utils import restler_logger as logger
 
-# 用于处理API规范中的资源类型，并推断其类型和依赖关系
-inflect_engine = inflect.engine()  # 创建 inflect 引擎实例
+
+inflect_engine = inflect.engine()
 
 
 class NamingConvention(Enum):
-    CamelCase = 1  # 驼峰命名
-    PascalCase = 2  # 帕斯卡命名
-    HyphenSeparator = 3  # 连字符分隔命名
-    UnderscoreSeparator = 4  # 下划线分隔命名
+    CamelCase = 1
+    PascalCase = 2
+    HyphenSeparator = 3
+    UnderscoreSeparator = 4
 
 
 # getContainerPartFromBody
@@ -225,13 +225,8 @@ class PathResource(ResourceReference):
         return None
 
 
-# 查询资源类，继承自 ResourceReference，表示查询参数资源引用
 class QueryResource(ResourceReference):
     def __init__(self, name):
-        """ 初始化查询资源引用类
-
-        @param name: 查询资源的名称
-        """
         super().__init__(name)
 
     def __dict__(self):
@@ -259,13 +254,8 @@ class QueryResource(ResourceReference):
         return None
 
 
-# 头资源类，继承自 ResourceReference，表示头部参数资源引用
 class HeaderResource(ResourceReference):
     def __init__(self, name):
-        """ 初始化头部资源引用类
-
-        @param name: 头部资源名称
-        """
         super().__init__(name)
 
     def __dict__(self):
@@ -295,7 +285,6 @@ class HeaderResource(ResourceReference):
 
 # Gets the first non path parameter of this endpoint
 # getContainerPartFromPath
-# 从路径部分获取容器名称
 def get_container_part_from_path(path_parts: List[str]) -> Optional[str]:
     """
     从路径部分推断容器名称，优先检查最后和倒数第二个部分。

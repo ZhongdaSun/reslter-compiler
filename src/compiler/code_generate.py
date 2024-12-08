@@ -43,20 +43,12 @@ SPACE = " "
 SPACE_20 = 24 * f"{SPACE}"
 BRACE = "{}"
 
-
-# todo list
-# 1. dependency data
-# 2. enum format
-# 3. example
-
-# 自定义异常类，用于表示不支持的类型
 class UnsupportedType(Exception):
 
     def __init__(self, msg):
         super().__init__(msg)
 
 
-# 自定义异常类，用于表示不支持的访问路径
 class UnsupportedAccessPath(Exception):
     def __init__(self, msg):
         super().__init__(msg)
@@ -87,11 +79,9 @@ class RequestPrimitiveTypeData:
         self.tracked_parameter_name = tracked_parameter_name
 
 
-# 动态对象写入器类型别名
 DynamicObjectWriter: TypeAlias = str
 
 
-# RESTler语法的内置请求类型枚举
 # IMPORTANT ! All primitives must be supported in restler/engine/primitives.py
 class RequestPrimitiveTypeEnum(enum.Enum):
     """
@@ -123,7 +113,6 @@ class RequestPrimitiveTypeEnum(enum.Enum):
     Delimiter = 22
 
 
-# 请求基本类型类，封装了请求的基本类型数据和动态对象
 class RequestPrimitiveType:
     primitive_data: RequestPrimitiveTypeData
     dynamic_object: Optional[DynamicObjectWriter]
@@ -264,7 +253,6 @@ class RequestPrimitiveType:
         obj.type = RequestPrimitiveTypeEnum.Restler_custom_payload
         return obj
 
-    # 定义自定义负载头部类型的类方法
     @classmethod
     def custom_payload_header(cls, value: str, dynamic_object: DynamicObjectWriter):
         primitive_type = RequestPrimitiveTypeData(default_value=value, is_quoted=False, example_value=None,

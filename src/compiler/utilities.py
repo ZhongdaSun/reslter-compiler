@@ -8,7 +8,7 @@ class JsonSerialization:
     @staticmethod
     def serialize(data):
         return json.dumps(data, ensure_ascii=False,
-                          indent=4,
+                          indent=2,
                           separators=(",", ": "),
                           sort_keys=False, )
 
@@ -21,7 +21,7 @@ class JsonSerialization:
         with open(file, 'w', encoding='utf-8') as f:
             json.dump(obj, f,
                       ensure_ascii=False,
-                      indent=4,
+                      indent=2,
                       separators=(",", ": "),
                       sort_keys=False,
                       )

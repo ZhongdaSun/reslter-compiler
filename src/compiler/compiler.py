@@ -501,6 +501,7 @@ class Parameters:
                         schema_cache)
 
                 if parameter_value_from_example:
+                    swagger_method_definition.request_id.has_example = True
                     parameter_list.append(parameter_value_from_example)
                 else:
                     if parameter.type == "array":
@@ -513,7 +514,7 @@ class Parameters:
                             swagger_doc=swagger_doc,
                             schema=parameter,
                             example_value=spec_example_value,
-                            generate_fuzzable_payloads_for_examples=False,
+                            generate_fuzzable_payloads_for_examples=True,
                             track_parameters=ConfigSetting().TrackFuzzedParameterNames,
                             is_required=True,
                             parents=[],
@@ -558,6 +559,7 @@ class Parameters:
 
     @staticmethod
     def get_parameters(swagger_doc: SwaggerDoc,
+                       swagger_method_definition: RequestInfo,
                        parameter_list: list[Parameter],
                        example_config,
                        schema_cache: SchemaCache) -> RequestParameterList:
@@ -636,11 +638,17 @@ class Parameters:
                              f"len(example_payloads)={len(example_payloads)}", ConfigSetting().LogConfig.compiler)
 
         if len(example_payloads) > 0 and len(schema_payload) > 0:
+            swagger_method_definition.request_id.has_example = True
+            swagger_method_definition.request_id.has_schema = True
             example_payloads_list = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
             result = example_payloads_list + [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         elif len(example_payloads) > 0 and len(schema_payload) == 0:
+            swagger_method_definition.request_id.has_example = True
+            swagger_method_definition.request_id.has_schema = False
             result = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
         elif len(example_payloads) == 0 and len(schema_payload) > 0:
+            swagger_method_definition.request_id.has_example = False
+            swagger_method_definition.request_id.has_schema = True
             logger.write_to_main(f"schema_payload={schema_payload}", ConfigSetting().LogConfig.compiler)
             result = [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         else:
@@ -1521,14 +1529,10 @@ def get_request_data(swagger_doc: SwaggerDoc,
                 if len(item.queryParameters) > 0:
                     print(f"{ep} query parameter.")
                     all_query_parameters = Parameters.get_parameters(swagger_doc,
+                                                                     item,
                                                                      item.queryParameters,
                                                                      example_config,
                                                                      schema_cache)
-                    for parameter_source, parameter_list in all_query_parameters:
-                        if parameter_source == ParameterPayloadSource.Examples:
-                            request_id.has_example = True
-                        elif parameter_source == ParameterPayloadSource.Schema:
-                            request_id.has_schema = True
 
                 body = []
 
@@ -1544,6 +1548,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                          ConfigSetting().LogConfig.compiler)
                     print(f"{ep} body parameter.")
                     body = Parameters.get_parameters(swagger_doc,
+                                                     item,
                                                      item.bodyParameters,
                                                      example_config,
                                                      schema_cache)
@@ -1557,26 +1562,15 @@ def get_request_data(swagger_doc: SwaggerDoc,
                         schema_cache
                     )
                     """
-                    for parameter_source, parameter_list in body:
-                        logger.write_to_main(f"parameter_item={parameter_list.__dict__()}",
-                                             ConfigSetting().LogConfig.compiler)
-                        if parameter_source == ParameterPayloadSource.Examples:
-                            request_id.has_example = True
-                        elif parameter_source == ParameterPayloadSource.Schema:
-                            request_id.has_schema = True
 
                 headers = []
                 if item.headerParameters and len(item.headerParameters) > 0:
                     print(f"{ep} header parameter.")
                     headers = Parameters.get_parameters(swagger_doc,
+                                                        item,
                                                         item.headerParameters,
                                                         example_config,
                                                         schema_cache)
-                    for parameter_source, parameter_list in headers:
-                        if parameter_source == ParameterPayloadSource.Examples:
-                            request_id.has_example = True
-                        elif parameter_source == ParameterPayloadSource.Schema:
-                            request_id.has_schema = True
 
                 request_parameters = RequestParameters(path=path_parameters,
                                                        header=headers,
@@ -1725,7 +1719,7 @@ def generate_request_grammar(swagger_docs: list[SwaggerDoc],
     # other tools that may process the grammar separately from the engine.
 
     base_path = swagger_docs[0].base_path.rstrip('/') if swagger_docs and swagger_docs[0].base_path else ""
-    host = swagger_docs[0].host if swagger_docs and swagger_docs[0].host else None
+    host = swagger_docs[0].host if swagger_docs and swagger_docs[0].host else ""
     # todo
     # Get the request primitives for each request
     grammar = GrammarDefinition()

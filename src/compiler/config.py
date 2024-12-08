@@ -7,9 +7,6 @@ import enum
 
 from restler.utils import restler_logger as logger
 
-IS_CLOSED_LOG = False
-
-
 class ConfigLog(object):
     __access_paths: bool = False
     __annotations: bool = False
@@ -438,9 +435,9 @@ class Config(object):
         example_files = []
         if 'ExampleConfigFiles' in config:
             configure = config['ExampleConfigFiles']
-            logger.write_to_main(f"configure={configure}", IS_CLOSED_LOG)
+            logger.write_to_main(f"configure={configure}", ConfigSetting().LogConfig.config)
             for item in configure:
-                logger.write_to_main(f"item={item}, type(item)={type(item)}", IS_CLOSED_LOG)
+                logger.write_to_main(f"item={item}, type(item)={type(item)}", ConfigSetting().LogConfig.config)
                 file_path = item['filePath'] if 'filePath' in item else None
                 exact_copy = item['exactCopy'] if 'exactCopy' in item else None
                 example_files.append(ExampleFileConfig(file_path, exact_copy))
@@ -502,11 +499,11 @@ class Config(object):
         swagger_docs = []
         docs_with_empty_config = []
         if self.SwaggerSpecFilePath is None and self.SwaggerSpecConfig is None:
-            logger.write_to_main("ERROR: must specify Swagger or grammar file.", IS_CLOSED_LOG)
+            logger.write_to_main("ERROR: must specify Swagger or grammar file.", ConfigSetting().LogConfig.config)
             raise ValueError("unspecified API spec file path")
         elif self.SwaggerSpecFilePath:
             for path in self.SwaggerSpecFilePath:
-                logger.write_to_main(f"{path}", IS_CLOSED_LOG)
+                logger.write_to_main(f"{path}", ConfigSetting().LogConfig.config)
                 if os.path.exists(path):
                     swagger_docs.append(path)
                 else:
@@ -532,7 +529,7 @@ class Config(object):
                     else:
                         print(f"ERROR: invalid path found in the list of Swagger configurations given: {item}")
                         raise ValueError(f"invalid API spec file path found: {item}")
-        logger.write_to_main(f"configured_swagger_docs={configured_swagger_docs}", IS_CLOSED_LOG)
+        logger.write_to_main(f"configured_swagger_docs={configured_swagger_docs}", ConfigSetting().LogConfig.config)
         return configured_swagger_docs
 
     # Define the function convert_relative_to_abs_paths
