@@ -10,10 +10,13 @@ import traceback
 from restler.engine.core.fuzzing_monitor import Monitor
 from restler.engine.core.requests import GrammarRequestCollection
 from restler.engine.errors import InvalidDictionaryException
+from restler.restler_settings import LogSettings
+
 
 class FuzzingThread(threading.Thread):
     """ Fuzzer thread class
     """
+
     def __init__(self, fuzzing_requests, checkers, fuzzing_jobs=1, garbage_collector=None):
         """ Constructor for the Fuzzer thread class
 
@@ -39,9 +42,8 @@ class FuzzingThread(threading.Thread):
     def run(self):
         """ Thread entrance - performs fuzzing
         """
-        logger.write_to_main("enter....")
         try:
-            logger.write_to_main(f"self._checkers={self._checkers}", True)
+            logger.write_to_main(f"self._checkers={self._checkers}", LogSettings().fuzzer)
             self._num_total_sequences = driver.generate_sequences(
                 self._fuzzing_requests, self._checkers, self._fuzzing_jobs,
                 self._garbage_collector
@@ -59,6 +61,7 @@ class FuzzingThread(threading.Thread):
         except Exception as err:
             self._exception = traceback.format_exc()
         logger.write_to_main("exit....")
+
     def join(self, *args):
         """ Overrides thread join function
 

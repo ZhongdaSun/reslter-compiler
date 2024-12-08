@@ -30,7 +30,10 @@ import restler.utils.formatting as formatting
 
 from restler.engine import bug_bucketing
 from restler import checkers, restler_settings
-from restler.restler_settings import Settings, RestlerSettings
+from restler.restler_settings import (
+    Settings,
+    RestlerSettings,
+    LogSetting)
 import restler.engine.dependencies as dependencies
 import restler.engine.core.preprocessing as preprocessing
 import restler.engine.core.postprocessing as postprocessing
@@ -44,8 +47,6 @@ from restler.engine.errors import NoTokenSpecifiedException
 from restler.engine.primitives import InvalidDictPrimitiveException
 from restler.engine.primitives import UnsupportedPrimitiveException
 from restler.utils import restler_logger as logger
-
-IS_CLOSED_LOG = False
 
 MANAGER_HANDLE = None
 
@@ -61,7 +62,7 @@ def import_grammar(path):
     """
 
     try:
-        logger.write_to_main(f"path={path}", IS_CLOSED_LOG)
+        logger.write_to_main(f"path={path}", LogSetting().restler)
         req_collection = import_utilities.import_attr(path, "req_collection")
 
     except Exception as error:
@@ -128,7 +129,7 @@ def get_checker_list(req_collection, fuzzing_requests, enable_list, disable_list
         try:
             import_utilities.load_module('custom_checkers', custom_checker_file_path)
             logger.write_to_main(f"Loaded custom checker from {custom_checker_file_path}",
-                                 print_to_console=IS_CLOSED_LOG)
+                                 print_to_console=LogSetting().restler)
         except Exception as err:
             traceback.print_exc()
             logger.write_to_main(f"Failed to load custom checker {custom_checker_file_path}: {err!s}",
@@ -169,7 +170,7 @@ def get_checker_list(req_collection, fuzzing_requests, enable_list, disable_list
     # Iterate through each checker and search for its friendly name
     # in each list of enabled/disabled
     for checker in available_checkers:
-        logger.write_to_main(f"checker={checker.friendly_name}", IS_CLOSED_LOG)
+        logger.write_to_main(f"checker={checker.friendly_name}", LogSetting().restler)
         if checker.friendly_name in first_list:
             checker.enabled = first_enable
         if checker.friendly_name in second_list:
@@ -237,6 +238,13 @@ def load_common_engine():
 
 
 def execute_restler(config_arg: ExecuteParam):
+    try:
+        log_file = json.load(open(os.path.join(os.path.dirname(__file__), "log_settings.json")))
+        LogSetting().init_from_json(log_file)
+    except Exception as error:
+        print(f"Error: Failed to load settings file: {error!s}")
+        sys.exit(-1)
+
     engine_settings_file = None
     local_user_args = load_common_engine()
     if bool(config_arg.settings):
@@ -374,7 +382,7 @@ def execute_restler(config_arg: ExecuteParam):
                 "A valid authorization token was expected.\n"
                 "Retry with a token refresh script in the settings file or "
                 "update the request in the replay log with a valid authorization token.",
-                print_to_console=IS_CLOSED_LOG
+                print_to_console=LogSetting().restler
             )
             sys.exit(-1)
         except Exception as error:
@@ -392,10 +400,10 @@ def execute_restler(config_arg: ExecuteParam):
 
     # Create the request collection singleton
     requests.GlobalRequestCollection(request_collection)
-    logger.write_to_main(f"req_collection={request_collection.request_id_collection}", IS_CLOSED_LOG)
+    logger.write_to_main(f"req_collection={request_collection.request_id_collection}", LogSetting().restler)
     # Override default candidate values with custom mutations
     custom_mutations_dict_paths = engine_settings.get_endpoint_custom_mutations_paths()
-    logger.write_to_main(f"custom_mutations_paths={custom_mutations_dict_paths}", IS_CLOSED_LOG)
+    logger.write_to_main(f"custom_mutations_paths={custom_mutations_dict_paths}", LogSetting().restler)
     per_endpoint_custom_mutations = {}
     if custom_mutations_dict_paths:
         for endpoint in custom_mutations_dict_paths:
@@ -427,13 +435,13 @@ def execute_restler(config_arg: ExecuteParam):
     except UnsupportedPrimitiveException as primitive:
         logger.write_to_main("Error in mutations dictionary.\n"
                              f"Unsupported primitive type defined: {primitive!s}",
-                             print_to_console=IS_CLOSED_LOG)
+                             print_to_console=LogSetting().restler)
         sys.exit(-1)
     except InvalidDictPrimitiveException as err:
         logger.write_to_main("Error in mutations dictionary.\n"
                              "Dict type primitive was specified as another type.\n"
                              f"{err!s}",
-                             print_to_console=IS_CLOSED_LOG)
+                             print_to_console=LogSetting().restler)
         sys.exit(-1)
     """
     token_auth_method = settings.token_authentication_method
@@ -501,8 +509,8 @@ def execute_restler(config_arg: ExecuteParam):
 
     # Filter and get the requests to be used for fuzzing
     fuzzing_requests = preprocessing.create_fuzzing_req_collection(config_arg.path_regex)
-    logger.write_to_main("fuzz_request.size={}".format(fuzzing_requests.size), IS_CLOSED_LOG)
-    logger.write_to_main("req_collection={}".format(request_collection), IS_CLOSED_LOG)
+    logger.write_to_main("fuzz_request.size={}".format(fuzzing_requests.size), LogSetting().restler)
+    logger.write_to_main("req_collection={}".format(request_collection), LogSetting().restler)
     # Initialize bug buckets
     bug_bucketing.BugBuckets()
 
@@ -564,7 +572,7 @@ def execute_restler(config_arg: ExecuteParam):
             if Settings().run_gc_after_every_sequence else f"every {engine_settings.garbage_collection_interval} seconds."
         print(f"{formatting.timestamp()}: Initializing: Garbage collection {gc_message}")
         logger.write_to_main(f"{formatting.timestamp()}: Initializing: Garbage collection {gc_message}",
-                             IS_CLOSED_LOG)
+                             LogSetting().restler)
         gc_thread = dependencies.GarbageCollectorThread(garbage_collector, engine_settings.garbage_collection_interval)
         gc_thread.name = 'Garbage Collector'
         gc_thread.daemon = True
@@ -584,7 +592,7 @@ def execute_restler(config_arg: ExecuteParam):
         if gc_thread and not gc_thread.is_alive():
             print(f"{formatting.timestamp()}: Garbage collector thread has terminated prematurely")
             logger.write_to_main(f"{formatting.timestamp()}: Garbage collector thread has terminated prematurely",
-                                 IS_CLOSED_LOG)
+                                 LogSetting().restler)
             # Terminate the fuzzing thread
             fuzz_monitor.terminate_fuzzing()
         num_total_sequences = fuzz_thread.join(THREAD_JOIN_WAIT_TIME_SECONDS)
@@ -634,10 +642,19 @@ def execute_restler(config_arg: ExecuteParam):
         print(fuzz_thread.exception)
         sys.exit(-1)
 
+    RestlerSettings.TEST_DeleteInstance()
     print("Done.")
 
 
 def execute_from_command_line():
+    try:
+        log_file = json.load(open(os.path.join(os.path.dirname(__file__), "log_settings.json")))
+        LogSetting().init_from_json(log_file)
+        print(LogSetting().restler_settings)
+    except Exception as error:
+        print(f"Error: Failed to load log settings file: {error!s}")
+        sys.exit(-1)
+
     # the following intercepts Ctrl+C (tested on Windows only! but should work on Linux)
     # the next line works in powershell (but not in bash on Windows!)
     signal.signal(signal.SIGINT, signal_handler)
@@ -753,9 +770,14 @@ def execute_from_command_line():
     args = parser.parse_args()
 
     settings_file = None
+    settings_file_content = None
+    engine_file_dir = None
     if bool(args.settings):
         try:
-            settings_file = json.load(open(args.settings))
+            settings_file = os.path.join(os.path.dirname(__file__), args.settings)
+            print(settings_file)
+            settings_file_content = json.load(open(settings_file))
+            engine_file_dir = os.path.dirname(__file__)
         except Exception as error:
             print(f"Error: Failed to load settings file: {error!s}")
             sys.exit(-1)
@@ -764,7 +786,7 @@ def execute_from_command_line():
     user_args = vars(args)
     # combine settings from settings file to the command-line arguments
     if settings_file:
-        user_args.update(settings_file)
+        user_args.update(settings_file_content)
         user_args['settings_file_exists'] = True
 
     if args.restler_grammar:
@@ -773,7 +795,7 @@ def execute_from_command_line():
 
     try:
         # Set the restler settings singleton
-        settings = restler_settings.RestlerSettings(user_args, os.path.dirname(settings_file))
+        settings = restler_settings.RestlerSettings(user_args, engine_file_dir)
     except restler_settings.InvalidValueError as error:
         print(f"\nArgument Error::\n\t{error!s}")
         sys.exit(-1)
@@ -800,6 +822,7 @@ def execute_from_command_line():
         sys.exit(-1)
 
     if args.custom_mutations:
+        print(args.custom_mutations)
         try:
             custom_mutations = json.load(open(args.custom_mutations, encoding='utf-8'))
         except Exception as error:
@@ -874,7 +897,7 @@ def execute_from_command_line():
                 "A valid authorization token was expected.\n"
                 "Retry with a token refresh script in the settings file or "
                 "update the request in the replay log with a valid authorization token.",
-                print_to_console=IS_CLOSED_LOG
+                print_to_console=LogSetting().restler
             )
             sys.exit(-1)
         except Exception as error:
@@ -892,10 +915,10 @@ def execute_from_command_line():
 
     # Create the request collection singleton
     requests.GlobalRequestCollection(req_collection)
-    logger.write_to_main(f"req_collection={req_collection.request_id_collection}", IS_CLOSED_LOG)
+    logger.write_to_main(f"req_collection={req_collection.request_id_collection}", LogSetting().restler)
     # Override default candidate values with custom mutations
     custom_mutations_paths = settings.get_endpoint_custom_mutations_paths()
-    logger.write_to_main(f"custom_mutations_paths={custom_mutations_paths}", IS_CLOSED_LOG)
+    logger.write_to_main(f"custom_mutations_paths={custom_mutations_paths}", LogSetting().restler)
     per_endpoint_custom_mutations = {}
     if custom_mutations_paths:
         for endpoint in custom_mutations_paths:
@@ -916,13 +939,13 @@ def execute_from_command_line():
     except UnsupportedPrimitiveException as primitive:
         logger.write_to_main("Error in mutations dictionary.\n"
                              f"Unsupported primitive type defined: {primitive!s}",
-                             print_to_console=IS_CLOSED_LOG)
+                             print_to_console=LogSetting().restler)
         sys.exit(-1)
     except InvalidDictPrimitiveException as err:
         logger.write_to_main("Error in mutations dictionary.\n"
                              "Dict type primitive was specified as another type.\n"
                              f"{err!s}",
-                             print_to_console=IS_CLOSED_LOG)
+                             print_to_console=LogSetting().restler)
         sys.exit(-1)
     """"
     token_auth_method = settings.token_authentication_method
@@ -953,7 +976,7 @@ def execute_from_command_line():
     """
     # Write the random seed to main in case the run exits in the middle and needs to be
     # restarted with the same seed
-    logger.write_to_main(f"Random seed: {Settings().random_seed}", True)
+    logger.write_to_main(f"Random seed: {Settings().random_seed}", LogSetting().restler)
 
     # Initialize the fuzzing monitor
     monitor = fuzzing_monitor.FuzzingMonitor()
@@ -990,8 +1013,8 @@ def execute_from_command_line():
 
     # Filter and get the requests to be used for fuzzing
     fuzzing_requests = preprocessing.create_fuzzing_req_collection(args.path_regex)
-    logger.write_to_main("fuzz_request.size={}".format(fuzzing_requests.size), IS_CLOSED_LOG)
-    logger.write_to_main("req_collection={}".format(req_collection), IS_CLOSED_LOG)
+    logger.write_to_main("fuzz_request.size={}".format(fuzzing_requests.size), LogSetting().restler)
+    logger.write_to_main("req_collection={}".format(req_collection), LogSetting().restler)
     # Initialize bug buckets
     bug_bucketing.BugBuckets()
 
@@ -1052,7 +1075,7 @@ def execute_from_command_line():
             if Settings().run_gc_after_every_sequence else f"every {settings.garbage_collection_interval} seconds."
         print(f"{formatting.timestamp()}: Initializing: Garbage collection {gc_message}")
         logger.write_to_main(f"{formatting.timestamp()}: Initializing: Garbage collection {gc_message}",
-                             IS_CLOSED_LOG)
+                             LogSetting().restler)
         gc_thread = dependencies.GarbageCollectorThread(garbage_collector, settings.garbage_collection_interval)
         gc_thread.name = 'Garbage Collector'
         gc_thread.daemon = True
@@ -1072,7 +1095,7 @@ def execute_from_command_line():
         if gc_thread and not gc_thread.is_alive():
             print(f"{formatting.timestamp()}: Garbage collector thread has terminated prematurely")
             logger.write_to_main(f"{formatting.timestamp()}: Garbage collector thread has terminated prematurely",
-                                 IS_CLOSED_LOG)
+                                 LogSetting().restler)
             # Terminate the fuzzing thread
             monitor.terminate_fuzzing()
         num_total_sequences = fuzz_thread.join(THREAD_JOIN_WAIT_TIME_SECONDS)
@@ -1132,10 +1155,10 @@ if __name__ == '__main__':
         grammar_folder = os.path.join(os.getcwd(), "grammar")
         params = ExecuteParam(settings=os.path.join(os.getcwd(), "restler_user_settings.json"),
                               restler_grammar=os.path.join(grammar_folder, "grammar.py"),
-                              enable_checkers=["InvalidValue"],
+                              enable_checkers=[],
                               disable_checkers=[],
                               replay_log="",
-                              custom_mutations="")
+                              custom_mutations=os.path.join(grammar_folder, "defaultDict.json"))
         execute_restler(config_arg=params)
 
     else:

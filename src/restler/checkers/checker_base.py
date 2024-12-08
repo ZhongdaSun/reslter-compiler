@@ -11,7 +11,7 @@ import restler.engine.core.sequences as sequences
 from restler.engine.transport_layer.response import *
 from restler.engine.bug_bucketing import BugBuckets
 
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 from restler.engine.core.fuzzing_monitor import Monitor
 import restler.engine.dependencies as dependencies
 
@@ -20,7 +20,6 @@ from restler.utils.logging.trace_db import SequenceTracker
 from restler.utils import restler_logger as logger
 
 threadLocal = threading.local()
-IS_CLOSED_LOG = True
 
 class CheckerBase:
     __metaclass__ = ABCMeta
@@ -243,14 +242,14 @@ class CheckerBase:
         logger.write_to_main("_execute_start_of_sequence enter", True)
         new_seq = sequences.Sequence([])
         for request in self._sequence.requests[:-1]:
-            logger.write_to_main(f"request:{request._endpoint_no_dynamic_objects}", IS_CLOSED_LOG)
+            logger.write_to_main(f"request:{request._endpoint_no_dynamic_objects}", LogSettings().checker_base)
             new_seq = new_seq + sequences.Sequence(request)
             response, _ = self._render_and_send_data(new_seq, request)
-            logger.write_to_main("_render_and_send_data", IS_CLOSED_LOG)
+            logger.write_to_main("_render_and_send_data", LogSettings().checker_base)
             new_seq = sequences.Sequence([])
             # Check to make sure a bug wasn't uncovered while executing the sequence
             if response and response.has_bug_code():
-                logger.write_to_main(f"{self.__class__.__name__}", IS_CLOSED_LOG)
+                logger.write_to_main(f"{self.__class__.__name__}", LogSettings().checker_base)
                 self._print_suspect_sequence(new_seq, response)
                 BugBuckets.Instance().update_bug_buckets(new_seq, response.status_code, origin=self.__class__.__name__)
 

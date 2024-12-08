@@ -13,7 +13,7 @@ from restler.utils.formatting import iso_timestamp
 from restler.utils.restler_logger import raw_network_logging as RAW_LOGGING
 from restler.utils import restler_logger as logger
 from restler.engine.errors import TransportLayerException
-from restler.restler_settings import ConnectionSettings
+from restler.restler_settings import ConnectionSettings, LogSettings
 from restler.engine.transport_layer.response import *
 
 # todo comment these Testsocket first.
@@ -114,9 +114,9 @@ class HttpSock(object):
                 self._connected = True
 
             self._sendRequest(message)
-            logger.write_to_main(f"message={message}", False)
+            logger.write_to_main(f"message={message}", True)
             if not Settings().use_test_socket:
-                logger.write_to_main(f"use_test_socket={Settings().use_test_socket}", False)
+                logger.write_to_main(f"use_test_socket={Settings().use_test_socket}", LogSettings().messaging)
                 http_method_name = self._get_method_from_message(message)
                 received_response = self._recvResponse(req_timeout_sec, http_method_name)
                 if not received_response and not reconnect:
@@ -127,8 +127,6 @@ class HttpSock(object):
                 response = HttpResponse(received_response)
             else:
                 response = self._sock.recv()
-            time.sleep(60)
-            logger.write_to_main(f"sleep send message 10", True)
             RAW_LOGGING(f'Received: {response.to_str!r}\n')
             if Settings().use_trace_database:
                 TraceDatabase().log_request_response(

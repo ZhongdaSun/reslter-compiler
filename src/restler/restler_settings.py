@@ -34,6 +34,327 @@ class OptionValidationError(Exception):
     pass
 
 
+def LogSettings():
+    """ Accessor for the LogSettings singleton """
+    return LogSetting.Instance()
+
+
+class LogSetting(object):
+    __instance = None
+
+    @staticmethod
+    def Instance():
+        """ Singleton's instance accessor
+
+        @return RestlerSettings instance
+        @rtype  RestlerSettings
+
+        """
+        if LogSetting.__instance is None:
+            raise UninitializedError("LogSettings not yet initialized.")
+        return LogSetting.__instance
+
+    @staticmethod
+    def TEST_DeleteInstance():
+        del LogSetting.__instance
+        LogSetting.__instance = None
+
+    __body_schema_fuzzer: bool = False
+    __checker_base: bool = False
+    __examples_checker: bool = False
+    __invalid_dynamic_object_checker: bool = False
+    __invalid_value_checker: bool = False
+    __leakage_rule_checker: bool = False
+    __namespace_rule_checker: bool = False
+    __payload_body_checker: bool = False
+    __resource_hierarchy_checker: bool = False
+    __user_after_free_checker: bool = False
+    __bug_bucketing: bool = False
+    __async_request_utilities: bool = False
+    __driver: bool = False
+    __fuzzer: bool = False
+    __fuzzing_monitor: bool = False
+    __fuzzing_requests: bool = False
+    __postprocessing: bool = False
+    __preprocessing: bool = False
+    __renderings_monitor: bool = False
+    __request_utilities: bool = False
+    __requests: bool = False
+    __retry_handler: bool = False
+    __sequences: bool = False
+    __status_code_monitor: bool = False
+    __dependencies: bool = False
+    __error: bool = False
+    __body_schema: bool = False
+    __fuzzing_config: bool = False
+    __fuzzing_utils: bool = False
+    __param_combinations: bool = False
+    __parameter_schem: bool = False
+    __request_examples: bool = False
+    __request_params: bool = False
+    __request_schema_parser: bool = False
+    __multipart_formdata: bool = False
+    __primitives: bool = False
+    __messaging: bool = False
+    __response: bool = False
+    __restler: bool = False
+    __restler_settings: bool = False
+
+    def __int__(self):
+        self.__body_schema_fuzzer: bool = False
+        self.__checker_base: bool = False
+        self.__examples_checker: bool = False
+        self.__invalid_dynamic_object_checker: bool = False
+        self.__invalid_value_checker: bool = False
+        self.__leakage_rule_checker: bool = False
+        self.__namespace_rule_checker: bool = False
+        self.__payload_body_checker: bool = False
+        self.__resource_hierarchy_checker: bool = False
+        self.__user_after_free_checker: bool = False
+        self.__bug_bucketing: bool = False
+        self.__async_request_utilities: bool = False
+        self.__driver: bool = False
+        self.__fuzzer: bool = False
+        self.__fuzzing_monitor: bool = False
+        self.__fuzzing_requests: bool = False
+        self.__postprocessing: bool = False
+        self.__preprocessing: bool = False
+        self.__renderings_monitor: bool = False
+        self.__request_utilities: bool = False
+        self.__requests: bool = False
+        self.__retry_handler: bool = False
+        self.__sequences: bool = False
+        self.__status_code_monitor: bool = False
+        self.__dependencies: bool = False
+        self.__error: bool = False
+        self.__body_schema: bool = False
+        self.__fuzzing_config: bool = False
+        self.__fuzzing_utils: bool = False
+        self.__param_combinations: bool = False
+        self.__parameter_schem: bool = False
+        self.__request_examples: bool = False
+        self.__request_params: bool = False
+        self.__request_schema_parser: bool = False
+        self.__multipart_formdata: bool = False
+        self.__primitives: bool = False
+        self.__messaging: bool = False
+        self.__response: bool = False
+        self.__restler: bool = False
+        self.__restler_settings: bool = False
+
+    def init_from_json(self, config_args):
+        self.__body_schema_fuzzer = config_args["body_schema_fuzzer"] if config_args["body_schema_fuzzer"] else False
+        self.__checker_base = config_args["checker_base"] if config_args["checker_base"] else False
+        self.__examples_checker = config_args["examples_checker"] if config_args["examples_checker"] else False
+        self.__invalid_dynamic_object_checker = config_args["invalid_dynamic_object_checker"] \
+            if config_args["invalid_dynamic_object_checker"] else False
+        self.__invalid_value_checker = config_args["invalid_value_checker"] \
+            if config_args["invalid_value_checker"] else False
+        self.__leakage_rule_checker = config_args["leakage_rule_checker"] \
+            if config_args["leakage_rule_checker"] else False
+        self.__namespace_rule_checker = config_args["namespace_rule_checker"] \
+            if config_args["namespace_rule_checker"] else False
+        self.__payload_body_checker = config_args["payload_body_checker"] \
+            if config_args["payload_body_checker"] else False
+        self.__resource_hierarchy_checker = config_args["resource_hierarchy_checker"] \
+            if config_args["resource_hierarchy_checker"] else False
+        self.__user_after_free_checker = config_args["user_after_free_checker"] \
+            if config_args["user_after_free_checker"] else False
+        self.__bug_bucketing = config_args["bug_bucketing"] if config_args["bug_bucketing"] else False
+        self.__async_request_utilities = config_args["async_request_utilities"] \
+            if config_args["async_request_utilities"] else False
+        self.__driver = config_args["driver"] if config_args["driver"] else False
+        self.__fuzzer = config_args["fuzzer"] if config_args["fuzzer"] else False
+        self.__fuzzing_monitor = config_args["fuzzing_monitor"] if config_args["fuzzing_monitor"] else False
+        self.__fuzzing_requests = config_args["fuzzing_requests"] if config_args["fuzzing_requests"] else False
+        self.__postprocessing = config_args["postprocessing"] if config_args["postprocessing"] else False
+        self.__preprocessing = config_args["preprocessing"] if config_args["preprocessing"] else False
+        self.__renderings_monitor = config_args["renderings_monitor"] if config_args["renderings_monitor"] else False
+        self.__request_utilities = config_args["request_utilities"] if config_args["request_utilities"] else False
+        self.__requests = config_args["requests"] if config_args["requests"] else False
+        self.__retry_handler = config_args["retry_handler"] if config_args["retry_handler"] else False
+        self.__sequences = config_args["sequences"] if config_args["sequences"] else False
+        self.__status_code_monitor = config_args["status_code_monitor"] if config_args["status_code_monitor"] else False
+        self.__dependencies = config_args["dependencies"] if config_args["dependencies"] else False
+        self.__error = config_args["error"] if config_args["error"] else False
+        self.__body_schema = config_args["body_schema"] if config_args["body_schema"] else False
+        self.__fuzzing_config = config_args["fuzzing_config"] if config_args["fuzzing_config"] else False
+        self.__fuzzing_utils = config_args["fuzzing_utils"] if config_args["fuzzing_utils"] else False
+        self.__param_combinations = config_args["param_combinations"] if config_args["param_combinations"] else False
+        self.__parameter_schem = config_args["parameter_schem"] if config_args["parameter_schem"] else False
+        self.__request_examples = config_args["request_examples"] if config_args["request_examples"] else False
+        self.__request_params = config_args["request_params"] if config_args["request_params"] else False
+        self.__request_schema_parser = config_args["request_schema_parser"] \
+            if config_args["request_schema_parser"] else False
+        self.__multipart_formdata = config_args["multipart_formdata"] if config_args["multipart_formdata"] else False
+        self.__primitives = config_args["primitives"] if config_args["primitives"] else False
+        self.__messaging = config_args["messaging"] if config_args["messaging"] else False
+        self.__response = config_args["response"] if config_args["response"] else False
+        self.__restler = config_args["restler"] if config_args["restler"] else False
+        self.__restler_settings = config_args["restler_settings"] if config_args["restler_settings"] else False
+        LogSetting.__instance = self
+
+    @property
+    def body_schema_fuzzer(self):
+        return self.__body_schema_fuzzer
+
+    @property
+    def checker_base(self):
+        return self.__checker_base
+
+    @property
+    def examples_checker(self):
+        return self.__examples_checker
+
+    @property
+    def invalid_dynamic_object_checker(self):
+        return self.__invalid_dynamic_object_checker
+
+    @property
+    def invalid_value_checker(self):
+        return self.__invalid_value_checker
+
+    @property
+    def leakage_rule_checker(self):
+        return self.__leakage_rule_checker
+
+    @property
+    def namespace_rule_checker(self):
+        return self.__namespace_rule_checker
+
+    @property
+    def payload_body_checker(self):
+        return self.__payload_body_checker
+
+    @property
+    def resource_hierarchy_checker(self):
+        return self.__resource_hierarchy_checker
+
+    @property
+    def user_after_free_checker(self):
+        return self.__user_after_free_checker
+
+    @property
+    def bug_bucketing(self):
+        return self.__bug_bucketing
+
+    @property
+    def async_request_utilities(self):
+        return self.__async_request_utilities
+
+    @property
+    def driver(self):
+        return self.__driver
+
+    @property
+    def fuzzer(self):
+        return self.__fuzzer
+
+    @property
+    def fuzzing_monitor(self):
+        return self.__fuzzing_monitor
+
+    @property
+    def fuzzing_requests(self):
+        return self.__fuzzing_requests
+
+    @property
+    def postprocessing(self):
+        return self.__postprocessing
+
+    @property
+    def preprocessing(self):
+        return self.__preprocessing
+
+    @property
+    def renderings_monitor(self):
+        return self.__renderings_monitor
+
+    @property
+    def request_utilities(self):
+        return self.__request_utilities
+
+    @property
+    def requests(self):
+        return self.__requests
+
+    @property
+    def retry_handler(self):
+        return self.__retry_handler
+
+    @property
+    def sequences(self):
+        return self.__sequences
+
+    @property
+    def status_code_monitor(self):
+        return self.__status_code_monitor
+
+    @property
+    def dependencies(self):
+        return self.__dependencies
+
+    @property
+    def error(self):
+        return self.__error
+
+    @property
+    def body_schema(self):
+        return self.__body_schema
+
+    @property
+    def fuzzing_config(self):
+        return self.__fuzzing_config
+
+    @property
+    def fuzzing_utils(self):
+        return self.__fuzzing_utils
+
+    @property
+    def param_combinations(self):
+        return self.__param_combinations
+
+    @property
+    def parameter_schem(self):
+        return self.__parameter_schem
+
+    @property
+    def request_examples(self):
+        return self.__request_examples
+
+    @property
+    def request_params(self):
+        return self.__request_params
+
+    @property
+    def request_schema_parser(self):
+        return self.__request_schema_parser
+
+    @property
+    def multipart_formdata(self):
+        return self.__multipart_formdata
+
+    @property
+    def primitives(self):
+        return self.__primitives
+
+    @property
+    def messaging(self):
+        return self.__messaging
+
+    @property
+    def response(self):
+        return self.__response
+
+    @property
+    def restler(self):
+        return self.__restler
+
+    @property
+    def restler_settings(self):
+        return self.__restler_settings
+
+
 class ConnectionSettings(object):
     def __init__(self, target_ip, target_port, use_ssl=True, include_user_agent=False, disable_cert_validation=False,
                  user_agent=None, include_unique_sequence_id=False):
@@ -391,8 +712,6 @@ class RestlerSettings(object):
         @rtype:  None
 
         """
-        logging.warning("Setting init________")
-
         def convert_wildcards_to_regex(str_value):
             """ Converts strings with wildcards in '?' and '*' format to regex wildcards """
             if not isinstance(str_value, str):

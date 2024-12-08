@@ -11,10 +11,8 @@ import multiprocessing
 
 from restler.utils import formatting as formatting
 from restler.utils.logging.trace_db import SequenceTracker
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 from restler.utils import restler_logger as logger
-
-IS_CLOSED_LOG = False
 
 
 class ResourceTypeQuotaExceededException(Exception):
@@ -61,7 +59,8 @@ class DynamicVariable:
         """
         self._var_type = type
         self._payload_placeholder = RDELIM + type + RDELIM
-        logger.write_to_main("type={}, paylaod_placeholder={}".format(type, self._payload_placeholder), IS_CLOSED_LOG)
+        logger.write_to_main(f"type={type}, paylaod_placeholder={self._payload_placeholder}",
+                             LogSettings().dependencies)
         if type not in tlb:
             tlb[type] = None
             return
@@ -155,7 +154,7 @@ def set_variable(type, value):
     """
     global object_creations
     object_creations += 1
-    logger.write_to_main(f"type={type}, value={value}", IS_CLOSED_LOG)
+    logger.write_to_main(f"type={type}, value={value}", LogSettings().dependencies)
     tlb[type] = value
     # thread_id = threading.current_thread().ident
     # print("Setting: {} / Value: {} ({})".format(type, value, thread_id))
@@ -208,7 +207,7 @@ def clear_saved_local_dyn_objects():
     """ Moves all of the saved objects from the saved objects cache to the regular tlb, so
     they can be deleted.
     """
-    logger.write_to_main(f"gc_paused={gc_paused}", IS_CLOSED_LOG)
+    logger.write_to_main(f"gc_paused={gc_paused}", LogSettings().dependencies)
     if gc_paused:
         raise Exception("Error: cannot clear saved dynamic objects while they are being saved.")
 
@@ -234,7 +233,7 @@ def start_saving_local_dyn_objects():
     main_lock.acquire()
     gc_paused = True
     main_lock.release()
-    logger.write_to_main(f"gc_paused={gc_paused}", IS_CLOSED_LOG)
+    logger.write_to_main(f"gc_paused={gc_paused}", LogSettings().dependencies)
 
 
 def stop_saving_local_dyn_objects(reset=False):
@@ -251,7 +250,7 @@ def stop_saving_local_dyn_objects(reset=False):
     main_lock.acquire()
     gc_paused = False
     main_lock.release()
-    logger.write_to_main(f"gc_paused={gc_paused}", IS_CLOSED_LOG)
+    logger.write_to_main(f"gc_paused={gc_paused}", LogSettings().dependencies)
     if reset:
         clear_saved_local_dyn_objects()
 

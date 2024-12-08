@@ -13,7 +13,7 @@ import threading
 import copy
 
 from restler.engine.errors import ResponseParsingException
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 from restler.restler_settings import TokenAuthMethod
 import restler.engine.primitives as primitives
 import restler.engine.dependencies as dependencies
@@ -23,8 +23,6 @@ from restler.engine.transport_layer.messaging import UTF8
 from restler.engine.transport_layer.messaging import HttpSock
 from restler.engine.core.retry_handler import RetryHandler
 from restler.utils import import_utilities
-
-IS_CLOSED_LOG = False
 
 last_refresh = 0
 NO_TOKEN_SPECIFIED = 'NO-TOKEN-SPECIFIED\r\n'
@@ -498,7 +496,8 @@ def send_request_data(rendered_data, req_timeout_sec=None, reconnect=None, http_
             _RAW_LOGGING(
                 f"Failed to receive response.  Success: {success}, status: {status_code}, Response: {response.to_str}")
             return HttpResponse()
-        logger.write_to_main(f"status={status_code}, body={response.to_str}, num_retries={num_retries}", IS_CLOSED_LOG)
+        logger.write_to_main(f"status={status_code}, body={response.to_str}, num_retries={num_retries}", 
+        LogSettings().request_utilities)
         # Check whether a custom re-try text was provided.
         response_contains_retry_text = False
         for text in RETRY_TEXT:

@@ -8,6 +8,7 @@ import restler.engine.core.requests
 
 import restler.engine.primitives as primitives
 
+
 class FuzzingRequestCollection(object):
     def __init__(self):
         # Reference to Request objects that will be fuzzed

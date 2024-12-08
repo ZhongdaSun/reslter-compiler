@@ -18,9 +18,6 @@ from restler.engine.core.request_utilities import str_to_hex_def
 from restler.restler_settings import Settings
 from restler.engine.core.fuzzing_monitor import Monitor
 
-IS_CLOSED_LOG = False
-
-
 class CreateOnceFailure(Exception):
     def __init__(self, destructors, msg):
         self.destructors = destructors
@@ -58,9 +55,10 @@ def create_fuzzing_req_collection(path_regex):
     included_requests = set()
     included_all_reqs = True
     for request in GrammarRequestCollection():
-        logger.write_to_main("request={}, method={}".format(request.endpoint_no_dynamic_objects, request.method), IS_CLOSED_LOG)
+        logger.write_to_main(f"request={request.endpoint_no_dynamic_objects}, method={request.method}",
+                             LogSettings().preprocessing)
         include_req = Settings().include_request(request.endpoint_no_dynamic_objects, request.method)
-        logger.write_to_main("include_req={}".format(include_req), IS_CLOSED_LOG)
+        logger.write_to_main("include_req={}".format(include_req), LogSettings().preprocessing)
         if include_req and path_regex:
             include_req = re.findall(path_regex, request.endpoint_no_dynamic_objects)
         if include_req:
@@ -159,7 +157,7 @@ def parse_grammar_schema(schema_json, req_collection=None):
     @rtype : Bool
 
     """
-    logger.write_to_main("Enter *********************** ", IS_CLOSED_LOG)
+    logger.write_to_main("Enter *********************** ", LogSettings().preprocessing)
     try:
         # Process request schema by looping through each request in grammar.json
         for request_schema_json in schema_json['Requests']:
@@ -193,12 +191,12 @@ def parse_grammar_schema(schema_json, req_collection=None):
                 # This should never happen for valid payloads.
                 headers_schema = None
             logger.write_to_main(f"examples:{request_examples}, body_schema={body_schema}, "
-                                 f"headers_schema={headers_schema}, query_schema={query_schema}", IS_CLOSED_LOG)
+                                 f"headers_schema={headers_schema}, query_schema={query_schema}", LogSettings().preprocessing)
             if request_examples or body_schema or \
                     (headers_schema is not None) or (query_schema is not None):
                 _set_method_endpoint_schemas(request_examples, body_schema, query_schema, headers_schema, method,
                                              endpoint, req_collection=req_collection)
-        logger.write_to_main("Exit *********************** ", IS_CLOSED_LOG)
+        logger.write_to_main("Exit *********************** ", LogSettings().preprocessing)
         return True
     except ValueError as err:
         logger.write_to_main(f"Failed to parse grammar file for examples: {err!s}", print_to_console=True)
@@ -224,7 +222,7 @@ def apply_create_once_resources(fuzzing_requests):
             fuzzing_requests.exclude_postprocessing_request(req_i)
 
     create_once_endpoints = Settings().create_once_endpoints
-    logger.write_to_main("create_once_endpoints={}".format(create_once_endpoints), IS_CLOSED_LOG)
+    logger.write_to_main("create_once_endpoints={}".format(create_once_endpoints), LogSettings().preprocessing)
     if not create_once_endpoints:
         return
 
@@ -235,7 +233,7 @@ def apply_create_once_resources(fuzzing_requests):
     exclude_reqs = set()
     request_count = 0
 
-    logger.write_to_main("Rendering for create-once resources:\n", print_to_console=IS_CLOSED_LOG)
+    logger.write_to_main("Rendering for create-once resources:\n", print_to_console=LogSettings().preprocessing)
     # Iterate through each 'create_once' endpoint
     for endpoint in create_once_endpoints:
         # Verify that the endpoint exists in the request collection
@@ -248,11 +246,11 @@ def apply_create_once_resources(fuzzing_requests):
                 if req not in fuzzing_requests:
                     logger.write_to_main(
                         "Warning: Create-once endpoint is not a request in the fuzzing list\n",
-                        IS_CLOSED_LOG)
+                        LogSettings().preprocessing)
                     break
                 logger.write_to_main("resource_gen_req={}，req.is_resource_generator={}".format(resource_gen_req,
                                                                                                req.is_resource_generator()),
-                                     IS_CLOSED_LOG)
+                                     LogSettings().preprocessing)
                 if not resource_gen_req and req.is_resource_generator():
                     resource_gen_req = req
                     # Compute the sequence necessary to create the create_once resource
@@ -261,11 +259,11 @@ def apply_create_once_resources(fuzzing_requests):
 
                     logger.write_to_main(
                         f"{formatting.timestamp()}: Endpoint - {resource_gen_req.endpoint_no_dynamic_objects}",
-                        IS_CLOSED_LOG)
+                        LogSettings().preprocessing)
                     logger.write_to_main(
                         f"{formatting.timestamp()}: Hex Def - {resource_gen_req.method_endpoint_hex_definition}",
-                        IS_CLOSED_LOG)
-                    logger.write_to_main(f"request_list:{req_list}", IS_CLOSED_LOG)
+                        LogSettings().preprocessing)
+                    logger.write_to_main(f"request_list:{req_list}", LogSettings().preprocessing)
                     create_once_seq = sequences.Sequence(req_list)
                     renderings = create_once_seq.render(GrammarRequestCollection().candidate_values_pool,
                                                         None,
@@ -318,7 +316,7 @@ def apply_create_once_resources(fuzzing_requests):
                     logger.write_to_main(f"set_id_values_for_create_once_dynamic_objects....................."
                                          "req_i={req_i.consumes}, "
                                          "resource_gen_req={resource_gen_req.produces}",
-                                         IS_CLOSED_LOG)
+                                         LogSettings().preprocessing)
                     exclude_reqs.add(req_i)
         else:
             exclude_requests(exclude_reqs, destructors)

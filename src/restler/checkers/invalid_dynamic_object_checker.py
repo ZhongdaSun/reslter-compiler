@@ -12,9 +12,7 @@ from restler.engine.bug_bucketing import BugBuckets
 import restler.engine.dependencies as dependencies
 import restler.engine.core.sequences as sequences
 from restler.utils.restler_logger import raw_network_logging as RAW_LOGGING
-
-IS_CLOSED_LOG = True
-
+from restler.restler_settings import LogSettings
 
 class InvalidDynamicObjectChecker(CheckerBase):
     """ Checker for invalid dynamic object violations. """
@@ -42,18 +40,20 @@ class InvalidDynamicObjectChecker(CheckerBase):
         if not rendered_sequence.valid:
             logger.write_to_main("return", True)
             return
-        logger.write_to_main(f"rendered_sequence={rendered_sequence}", IS_CLOSED_LOG)
+        logger.write_to_main(f"rendered_sequence={rendered_sequence}",
+                             LogSettings().invalid_dynamic_object_checker)
         self._sequence = rendered_sequence.sequence
         last_request = self._sequence.last_request
 
         # If the last request is not a consumer then this checker is not applicable
         if not last_request.consumes:
             logger.write_to_main("return", True)
-            logger.write_to_main(f"last_request.consumes={last_request.consumes}", IS_CLOSED_LOG)
+            logger.write_to_main(f"last_request.consumes={last_request.consumes}",
+                                 LogSettings().invalid_dynamic_object_checker)
             return
 
         generation = self._sequence.length
-        logger.write_to_main(f"generation={generation}", IS_CLOSED_LOG)
+        logger.write_to_main(f"generation={generation}", LogSettings().invalid_dynamic_object_checker)
         if InvalidDynamicObjectChecker.generation_executed_requests.get(generation) is None:
             # This is the first time this checker has seen this generation, create empty set of requests
             InvalidDynamicObjectChecker.generation_executed_requests[generation] = set()

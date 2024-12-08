@@ -4,8 +4,8 @@
 import restler.utils.restler_logger as logger
 import collections
 from restler.engine.fuzzing_parameters.request_params import *
+from restler.restler_settings import LogSettings
 
-IS_CLOSED_LOG = False
 def des_header_param(header_param_payload):
     """ Deserialize a header parameter payload
 
@@ -39,7 +39,7 @@ def des_query_param(query_param_payload):
     for (key, payload) in queries:
         param = des_param_payload(payload, body_param=False)
         if param:
-            logger.write_to_main(f"query.key={key}, query.param={param}", IS_CLOSED_LOG)
+            logger.write_to_main(f"query.key={key}, query.param={param}", LogSettings().request_schema_parser)
             yield QueryParam(key, param)
         else:
             return None
@@ -85,7 +85,7 @@ def des_request_param_payload(request_param_payload_json):
 
             key = param_payload_pair['name']
             payload = param_payload_pair['payload']
-            logger.write_to_main(f"key={key} payload={payload}", IS_CLOSED_LOG)
+            logger.write_to_main(f"key={key} payload={payload}", LogSettings().request_schema_parser)
             payloads.append(KeyPayload(key, payload))
 
         return payloads

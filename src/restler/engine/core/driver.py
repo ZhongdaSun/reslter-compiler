@@ -11,7 +11,7 @@ import multiprocessing
 from multiprocessing.dummy import Pool as ThreadPool
 from random import Random
 
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 import restler.utils.restler_logger as logger
 from restler.utils.logging.trace_db import SequenceTracker, get_sequences_from_db
 import restler.utils.saver as saver
@@ -29,8 +29,6 @@ from restler.engine.core.fuzzing_monitor import Monitor
 from restler.engine.errors import TimeOutException
 from restler.engine.errors import ExhaustSeqCollectionException
 from restler.utils.restler_logger import raw_network_logging as RAW_LOGGING
-
-IS_CLOSED_LOG = True
 
 
 def validate_dependencies(consumer_req, producer_seq):
@@ -144,17 +142,17 @@ def apply_checkers(checkers, renderings, global_lock):
     for checker in checkers:
         if checker.enabled:
             logger.write_to_main(
-            f"checker enable:{checker.__class__.__name__}, {checker.enabled}", IS_CLOSED_LOG)
+            f"checker enable:{checker.__class__.__name__}, {checker.enabled}", LogSettings().driver)
         try:
             if checker.enabled:
                 RAW_LOGGING(f"Checker: {checker.__class__.__name__} kicks in\n")
-                logger.write_to_main(f"Checker: {checker.__class__.__name__} kicks in\n", IS_CLOSED_LOG)
+                logger.write_to_main(f"Checker: {checker.__class__.__name__} kicks in\n", LogSettings().driver)
                 # Clear the sequence trace since each checker will have its own sequence trace
                 SequenceTracker.clear_sequence_trace()
                 SequenceTracker.set_origin(checker.__class__.__name__)
                 checker.apply(renderings, global_lock)
                 RAW_LOGGING(f"Checker: {checker.__class__.__name__} kicks out\n")
-                logger.write_to_main(f"Checker: {checker.__class__.__name__} kicks out\n", IS_CLOSED_LOG)
+                logger.write_to_main(f"Checker: {checker.__class__.__name__} kicks out\n", LogSettings().driver)
         except Exception as error:
             print(f"Exception {error!s} applying checker {checker}")
             raise
@@ -371,7 +369,7 @@ def render_with_cache(seq_collection, fuzzing_pool, checkers, generation, global
             f"{formatting.timestamp()}: Endpoint - {current_seq.last_request.endpoint_no_dynamic_objects}\n"
             f"{formatting.timestamp()}: Hex Def - {current_seq.last_request.method_endpoint_hex_definition}\n"
             f"{formatting.timestamp()}: Sequence length that satisfies dependencies: {current_seq.length}",
-            IS_CLOSED_LOG
+            LogSettings().driver
         )
 
     # Algorithm:
@@ -408,15 +406,15 @@ def render_with_cache(seq_collection, fuzzing_pool, checkers, generation, global
                 logger.write_to_main(f"Found a matching prefix of length {prefix_len} "
                                      f"for request {current_seq.last_request.stats.request_order} "
                                      f"with previous request {first_found.last_request.stats.request_order}",
-                                     IS_CLOSED_LOG)
+                                     LogSettings().driver)
                 if valid:
                     logger.write_to_main(
                         f"\tand re-using that VALID prefix ({len(renderings_found[True])} rendering combinations)\n",
-                        IS_CLOSED_LOG)
+                        LogSettings().driver)
                 elif (valid == False):
                     logger.write_to_main(
                         f"\tbut that prefix was INVALID (root = {first_found.last_request.stats.request_order})\n",
-                        IS_CLOSED_LOG)
+                        LogSettings().driver)
                     # Don't log the rendered hash because this request is not going to be rendered.
                     # Set the matching prefix to the last rendered prefix
                     current_seq.last_request.stats.valid = 0
@@ -468,7 +466,7 @@ def render_with_cache(seq_collection, fuzzing_pool, checkers, generation, global
             # Render all of the prefixes not yet rendered.  This is required to have a fully rendered sequence.
             for prefix_len in range(rendered_prefix_length + 1, sequence_to_render.length + 1):
                 prefix_seq_to_render = sequences.Sequence(sequence_to_render.requests[:prefix_len])
-                logger.write_to_main("before render one", IS_CLOSED_LOG)
+                logger.write_to_main("before render one", LogSettings().driver)
                 valid_renderings = render_one(prefix_seq_to_render, sequences_count, checkers, generation, global_lock,
                                               garbage_collector)
                 sequences_count = sequences_count + 1
@@ -519,11 +517,11 @@ def report_dependency_cycle(request, req_list):
     )
 
     for req in req_list:
-        logger.write_to_main(f"\n\tRequest: {req.method} {req.endpoint}", IS_CLOSED_LOG)
+        logger.write_to_main(f"\n\tRequest: {req.method} {req.endpoint}", LogSettings().driver)
         for consumer_var_name in req.consumes:
-            logger.write_to_main(f"\t\tConsumes {consumer_var_name}", IS_CLOSED_LOG)
+            logger.write_to_main(f"\t\tConsumes {consumer_var_name}", LogSettings().driver)
         for producer_var_name in req.produces:
-            logger.write_to_main(f"\t\tProduces {producer_var_name}", IS_CLOSED_LOG)
+            logger.write_to_main(f"\t\tProduces {producer_var_name}", LogSettings().driver)
 
 
 # Return properly-sorted req_list if OK, [] if error
@@ -531,7 +529,7 @@ def report_dependency_cycle(request, req_list):
 # Note: this function is recursive, but clean and recursion-depth is small
 # cost is linear in the size of the returned req_list (worst-case O((n^2)/2) because of edges)
 def add_producers(req, req_collection, req_list, dfs_stack):
-    logger.write_to_main("dfs_stack={}".format(dfs_stack), IS_CLOSED_LOG)
+    logger.write_to_main("dfs_stack={}".format(dfs_stack), LogSettings().driver)
     # cycle detection
     # Note: the next line is linear in dfs_stack but dfs_stack is usually very small (<10)
     # Note: dfs_stack is used as, and could be replaced by, a set here
@@ -623,7 +621,7 @@ def find_request_id(definition_block_data, fuzzing_requests, candidate_values_po
         blocks = definition_block_data['request_blocks']
         # Get the path and method from the blocks
         tmp_request = requests.Request(definition=blocks, requestId="temp_request")
-        logger.write_to_main("before render_iter", IS_CLOSED_LOG)
+        logger.write_to_main("before render_iter", LogSettings().driver)
         request_text, _, _, _, _ = next(tmp_request.render_iter(candidate_values_pool))
 
     path_only, method = extract_http_path_and_method(request_text)
@@ -678,7 +676,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
     @rtype : None
 
     """
-    logger.write_to_main(f"generate_sequences++++++++++++++++++++++++{fuzzing_requests.size}", IS_CLOSED_LOG)
+    logger.write_to_main(f"generate_sequences++++++++++++++++++++++++{fuzzing_requests.size}", LogSettings().driver)
     if not fuzzing_requests.size:
         return
 
@@ -724,7 +722,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
 
         # Initialize fuzzing schedule
         fuzzing_schedule = {}
-        logger.write_to_main(f"Setting fuzzing schemes: {fuzzing_mode}", IS_CLOSED_LOG)
+        logger.write_to_main(f"Setting fuzzing schemes: {fuzzing_mode}", LogSettings().driver)
         for length in range(min_len, max_len):
             fuzzing_schedule[length] = fuzzing_mode
             # print(" - {}: {}".format(length + 1, fuzzing_schedule[length]))
@@ -756,7 +754,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
             for seq in request_block_sequences:
                 req_list = []
                 for definition_block_data in seq:
-                    logger.write_to_main("before find_request_id", IS_CLOSED_LOG)
+                    logger.write_to_main("before find_request_id", LogSettings().driver)
                     request_in_collection = find_request_id(definition_block_data,
                                                             fuzzing_requests,
                                                             GrammarRequestCollection().candidate_values_pool)
@@ -784,7 +782,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
                 req_list[-1]._current_combination_id = 0
 
                 specific_target_sequences.append(sequences.Sequence(req_list))
-        logger.write_to_main("specific_target_sequences", IS_CLOSED_LOG)
+        logger.write_to_main("specific_target_sequences", LogSettings().driver)
         if specific_target_sequences is not None:
             max_seq_len = max(max_len, fuzzing_requests.size)
 
@@ -813,7 +811,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
         generation = 0
         all_extended_requests = []
         seq_rendering_cache = sequences.RenderedSequenceCache()
-        logger.write_to_main("sequences.RenderedSequenceCache()", IS_CLOSED_LOG)
+        logger.write_to_main("sequences.RenderedSequenceCache()", LogSettings().driver)
         for length in range(min_len, max_len):
             # we can set this without locking, since noone else writes (main
             # driver is single-threaded) and every potential worker will just
@@ -839,12 +837,12 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
                                                            fuzzing_requests,
                                                            global_lock, random_gen)
 
-            logger.write_to_main(f"{formatting.timestamp()}: Generation: {generation} ", IS_CLOSED_LOG)
+            logger.write_to_main(f"{formatting.timestamp()}: Generation: {generation} ", LogSettings().driver)
             logger.write_to_main(
                 f"{formatting.timestamp()}: Generation: {generation} / "
                 f"Sequences Collection Size: {len(seq_collection)} "
                 f"\n(After {fuzzing_schedule[length]} Extend)\n"
-                , IS_CLOSED_LOG)
+                , LogSettings().driver)
 
             # render templates
             try:
@@ -854,7 +852,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
                         seq_constraints_by_generation[generation]:
                     # This assignment of seq_collection is performed only for logging purposes.
                     # It will get reset on the next loop iteration.
-                    logger.write_to_main("render_with_cache", IS_CLOSED_LOG)
+                    logger.write_to_main("render_with_cache", LogSettings().driver)
                     seq_collection = render_with_cache(seq_collection, fuzzing_pool, checkers,
                                                        generation, global_lock, seq_rendering_cache,
                                                        garbage_collector)
@@ -862,7 +860,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
                 else:
                     seq_collection = render(seq_collection, fuzzing_pool, checkers, generation, global_lock,
                                             garbage_collector)
-                    logger.write_to_main("seq_collection", IS_CLOSED_LOG)
+                    logger.write_to_main("seq_collection", LogSettings().driver)
 
             except TimeOutException:
                 logger.write_to_main("Timed out...")
@@ -882,7 +880,7 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
             logger.write_to_main(
                 f"{formatting.timestamp()}: Generation: {generation} / "
                 f"Sequences Collection Size: {len(seq_collection)} "
-                f"\n(After {fuzzing_schedule[length]} Render)\n", IS_CLOSED_LOG
+                f"\n(After {fuzzing_schedule[length]} Render)\n", LogSettings().driver
             )
 
             # saving latest state
@@ -926,8 +924,8 @@ def generate_sequences(fuzzing_requests, checkers, fuzzing_jobs=1, garbage_colle
         fuzzing_pool.join()
 
     SequenceTracker.clear_origin()
-    logger.write_to_main("exit num_total_sequences={}".format(num_total_sequences), IS_CLOSED_LOG)
-    logger.write_to_main("generate_sequences++++++++++++++++++++++++{}", IS_CLOSED_LOG)
+    logger.write_to_main("exit num_total_sequences={}".format(num_total_sequences), LogSettings().driver)
+    logger.write_to_main("generate_sequences++++++++++++++++++++++++{}", LogSettings().driver)
     return num_total_sequences
 
 
@@ -955,7 +953,7 @@ def replay_sequence_from_log(replay_log_filename, token_refresh_cmd):
 
     log_file = open(replay_log_filename, "r")
     file_lines = log_file.readlines()
-    logger.write_to_main("replay_log_filename={}".format(replay_log_filename), IS_CLOSED_LOG)
+    logger.write_to_main("replay_log_filename={}".format(replay_log_filename), LogSettings().driver)
     send_data = []
     for line in file_lines:
         line = line.strip()

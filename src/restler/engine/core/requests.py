@@ -6,7 +6,7 @@ from __future__ import print_function
 import itertools
 import functools, operator
 
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 from random import Random
 
 import restler.engine.core.request_utilities as request_utilities
@@ -26,8 +26,6 @@ import restler.engine.mime.multipart_formdata as multipart_formdata
 from enum import Enum
 from restler.engine.transport_layer import messaging
 from urllib.parse import quote_plus as url_quote_plus
-
-IS_CLOSED_LOG = False
 
 
 class EmptyRequestException(Exception):
@@ -97,9 +95,7 @@ class RenderedRequestStats(object):
             if len(split_body) > 0 and split_body[1]:
                 self.request_body = split_body[1]
         except:
-            logger.write_to_main(
-                f"Error setting request stats for text: {request_text}", IS_CLOSED_LOG
-            )
+            logger.write_to_main(f"Error setting request stats for text: {request_text}", LogSettings().requests)
             pass
 
     def set_response_stats(self, final_request_response, final_response_datetime):
@@ -290,7 +286,7 @@ class Request(object):
         @rtype : None
 
         """
-        logger.write_to_main("definition={}, requestId={}".format(definition, requestId), IS_CLOSED_LOG)
+        logger.write_to_main("definition={}, requestId={}".format(definition, requestId), LogSettings().requests)
         self._current_combination_id = 0
         self._total_feasible_combinations = 0
         self._hex_definition = 0
@@ -684,10 +680,10 @@ class Request(object):
 
         """
         logger.write_to_main(f"dynamic_object_values={dynamic_object_values}, "
-                             f"rendered_sequence={rendered_sequence}", IS_CLOSED_LOG)
+                             f"rendered_sequence={rendered_sequence}", LogSettings().requests)
         for i, line in enumerate(self.definition):
             var_name = self._get_var_name_from_definition_line(line)
-            logger.write_to_main(f"line={line}, var_name={var_name}", IS_CLOSED_LOG)
+            logger.write_to_main(f"line={line}, var_name={var_name}", LogSettings().requests)
             if var_name and var_name in dynamic_object_values:
                 self._definition[i] = \
                     primitives.restler_static_string(dynamic_object_values[var_name])
@@ -815,7 +811,7 @@ class Request(object):
 
         tested_param_combinations = False
         header_param_combinations = Settings().header_param_combinations
-        logger.write_to_main(f"header_param_combinations={header_param_combinations}", IS_CLOSED_LOG)
+        logger.write_to_main(f"header_param_combinations={header_param_combinations}", LogSettings().requests)
         if header_param_combinations is not None:
             for hpc in self.get_header_param_combinations(header_param_combinations):
                 tested_param_combinations = True
@@ -1015,7 +1011,7 @@ class Request(object):
                 try:
                     current_fuzzable_value = candidate_values_pool. \
                         get_candidate_values(primitive_type, request_id=self._request_id, tag=field_name, quoted=quoted)
-
+                    logger.write_to_main(f"current_fuzzable_value={current_fuzzable_value}", True)
                     # Replace the custom payload type with the specified value, but keep all others the same
                     # Assert if the request block does not match the expected definition
                     if len(request_block) != 6:
@@ -1148,7 +1144,7 @@ class Request(object):
             schema_combinations = itertools.islice(self.get_schema_combinations(
                 use_grammar_py_schema=Settings().allow_grammar_py_user_update),
                 Settings().max_schema_combinations)
-            logger.write_to_main(f"get_schema_combinations={schema_combinations}", IS_CLOSED_LOG)
+            logger.write_to_main(f"get_schema_combinations={schema_combinations}", LogSettings().requests)
 
         remaining_combinations_count = Settings().max_combinations - skip
 
@@ -1159,9 +1155,9 @@ class Request(object):
             fuzzable_request_blocks = []
             for idx, request_block in enumerate(req.definition):
                 if primitives.CandidateValuesPool.is_custom_fuzzable(request_block[0]):
-                    logger.write_to_main(f"request_block={request_block}", IS_CLOSED_LOG)
+                    logger.write_to_main(f"request_block={request_block}", LogSettings().requests)
                     fuzzable_request_blocks.append(idx)
-            logger.write_to_main(f"fuzzable_request_blocks={fuzzable_request_blocks}", IS_CLOSED_LOG)
+            logger.write_to_main(f"fuzzable_request_blocks={fuzzable_request_blocks}", LogSettings().requests)
             # If request had post_send metadata, register parsers etc.
             if bool(self.metadata) and 'post_send' in self.metadata \
                     and 'parser' in self.metadata['post_send']:
@@ -1170,11 +1166,12 @@ class Request(object):
             fuzzable, writer_variables, tracked_parameters = self.init_fuzzable_values(req.definition,
                                                                                        candidate_values_pool,
                                                                                        preprocessing)
-            logger.write_to_main(f"fuzzable={fuzzable},"
-                                 f"writer_variables={writer_variables},"
-                                 f"tracked_parameters={tracked_parameters}", IS_CLOSED_LOG)
             # lazy generation of pool for candidate values
             combinations_pool = itertools.product(*fuzzable)
+            logger.write_to_main(f"fuzzable={fuzzable},\n"
+                                 f"writer_variables={writer_variables},\n"
+                                 f"tracked_parameters={tracked_parameters}\n, combinations_pool={combinations_pool}",
+                                 LogSettings().requests)
 
             # Because of the way 'render_iter' is implemented, dynamic value generators must
             # be cached and re-used.
@@ -1218,7 +1215,7 @@ class Request(object):
             for ind, values in enumerate(combinations_pool):
                 if remaining_combinations_count == 0:
                     break
-
+                logger.write_to_main(f"values={values}", True)
                 values = list(values)
 
                 # Use saved value generators.
@@ -1270,7 +1267,7 @@ class Request(object):
                     cached_values[idx] = values[idx]
                 if cached_values:
                     self._rendered_values_cache.add_fuzzable_values(next_combination, cached_values)
-                logger.write_to_main(f"values={values}", IS_CLOSED_LOG)
+                logger.write_to_main(f"values={values}", LogSettings().requests)
                 # Encode the path and query parameters, except custom payloads which are expected
                 # to be used exactly as-is
                 url_encode_start, url_encode_end = req.get_path_and_query_start_end()
@@ -1283,7 +1280,7 @@ class Request(object):
                                                           primitives.CUSTOM_PAYLOAD_QUERY,
                                                           primitives.CUSTOM_PAYLOAD_UUID4_SUFFIX]:
                         values[url_idx] = url_quote_plus(values[url_idx], safe="/")
-                    logger.write_to_main(f"values[url_idx]={values[url_idx]}", IS_CLOSED_LOG)
+                    logger.write_to_main(f"values[url_idx]={values[url_idx]}", LogSettings().requests)
 
                 if value_list:
                     rendered_data = values
@@ -1306,7 +1303,7 @@ class Request(object):
                         raise
                 # Save the schema for this combination.
                 self._last_rendered_schema_request = (req, is_example)
-                logger.write_to_main(f"rendered_data={rendered_data}", IS_CLOSED_LOG)
+                logger.write_to_main(f"rendered_data={rendered_data}", LogSettings().requests)
                 yield rendered_data, parser, tracked_parameter_values, dynamic_object_variables_to_update, replay_blocks
 
                 next_combination = next_combination + 1
@@ -1331,7 +1328,7 @@ class Request(object):
         prev_rendered_values = None
         if use_last_cached_rendering and self._rendered_values_cache.contains(rendered_combination):
             prev_rendered_values = self._rendered_values_cache.get_fuzzable_values(rendered_combination)
-        logger.write_to_main("render_iter", IS_CLOSED_LOG)
+        logger.write_to_main("render_iter", LogSettings().requests)
         return next(self.render_iter(candidate_values_pool,
                                      skip=self._current_combination_id - 1,
                                      preprocessing=preprocessing,
@@ -1354,7 +1351,7 @@ class Request(object):
 
         # Otherwise, do calculation
         counter = 0
-        logger.write_to_main(f"candidate_values_pool={candidate_values_pool}", IS_CLOSED_LOG)
+        logger.write_to_main(f"candidate_values_pool={candidate_values_pool}", LogSettings().requests)
         for combination in self.render_iter(candidate_values_pool):
             counter += 1
         # Reset the state of the rendering cache

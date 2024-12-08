@@ -8,8 +8,7 @@ from restler.engine.transport_layer.response import CONNECTION_CLOSED_CODE
 from restler.engine.transport_layer.response import TIMEOUT_CODE
 from restler.engine.core.request_utilities import str_to_hex_def
 from restler.engine.core.requests import GrammarRequestCollection
-
-IS_CLOSED_LOG = False
+from restler.restler_settings import LogSettings
 
 class NewSingletonError(Exception):
     pass
@@ -215,7 +214,7 @@ class BugBuckets(object):
             https://arxiv.org/pdf/1806.09739.pdf (section: 4.5)
 
         """
-        logger.write_to_main("update_bug_buckets", IS_CLOSED_LOG)
+        logger.write_to_main("update_bug_buckets", LogSettings().bug_bucketing)
         if lock is not None:
             lock.acquire()
 

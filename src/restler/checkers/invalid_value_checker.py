@@ -19,11 +19,8 @@ from restler.engine.errors import TimeOutException
 from restler.engine.errors import InvalidDictionaryException
 from restler.engine.core.requests import FailureInformation
 import restler.engine.dependencies as dependencies
-
+from restler.restler_settings import LogSettings
 from restler.utils import restler_logger as logger
-
-IS_CLOSED_LOG = True
-
 
 def get_test_values(max_values: int, req: Request, static_dict=None,
                     value_gen_file_path=None,
@@ -160,10 +157,11 @@ class InvalidValueChecker(CheckerBase):
     def init_mutations(self):
         current_file_dir = os.path.dirname(os.path.abspath(__file__))
         default_value_generators_file_path = os.path.join(current_file_dir, "invalid_value_checker_value_gen.py")
-
+        logger.write_to_main(f"00000{Settings().engine_file_folder}", True)
         invalid_mutations_file_path = os.path.join(Settings().engine_file_folder,
                                                    Settings().get_checker_arg(self._friendly_name, 'custom_dictionary'))
-        logger.write_to_main(f"invalid_mutations_file_path={invalid_mutations_file_path}", IS_CLOSED_LOG)
+        logger.write_to_main(f"invalid_mutations_file_path={invalid_mutations_file_path}",
+                             LogSettings().invalid_value_checker)
         try:
             if invalid_mutations_file_path is None:
                 self._custom_invalid_mutations = {}
@@ -210,12 +208,13 @@ class InvalidValueChecker(CheckerBase):
 
         if not self._custom_invalid_mutations:
             self.init_mutations()
-        logger.write_to_main(f"rendered_sequence={type(rendered_sequence)}", IS_CLOSED_LOG)
+        logger.write_to_main(f"rendered_sequence={type(rendered_sequence)}", LogSettings().invalid_value_checker)
         self._sequence = rendered_sequence.sequence
         last_request = self._sequence.last_request
         generation = self._sequence.length
         (last_rendered_schema_request, _) = self._sequence.last_request._last_rendered_schema_request
-        logger.write_to_main(f"last_request={type(last_request)}, generation={type(generation)}", IS_CLOSED_LOG)
+        logger.write_to_main(f"last_request={type(last_request)}, generation={type(generation)}",
+                             LogSettings().invalid_value_checker)
         self._checker_log.checker_print(f"Testing request: {last_request.endpoint} {last_request.method}")
 
         # Note: this hash should be the last rendered schema hex definition,
@@ -231,7 +230,7 @@ class InvalidValueChecker(CheckerBase):
         # Add the last request to the generation_executed_requests dictionary for this generation
         InvalidValueChecker.generation_executed_requests[generation].add(request_hash)
 
-        logger.write_to_main(f"request_hash={request_hash}", IS_CLOSED_LOG)
+        logger.write_to_main(f"request_hash={request_hash}", LogSettings().invalid_value_checker)
 
         # Get a list of all the fuzzable parameters in this request.
         # The following list will contain a boolean value indicating whether the
@@ -258,7 +257,7 @@ class InvalidValueChecker(CheckerBase):
         checked_seq.set_sent_requests_for_replay(new_seq.sent_request_data_list)
         # Create a placeholder sent data, so it can be replaced below when bugs are detected for replays
         checked_seq.append_data_to_sent_list("-", "GET /", None, HttpResponse(), max_async_wait_time=req_async_wait)
-        logger.write_to_main("before render_iter", IS_CLOSED_LOG)
+        logger.write_to_main("before render_iter", LogSettings().invalid_value_checker)
         # Render the current request combination, but get the list of primitive
         # values before they are concatenated.
         rendered_values, parser, tracked_parameters, updated_writer_variables, replay_blocks = \

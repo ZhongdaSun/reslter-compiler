@@ -6,14 +6,14 @@
       "payload_kind": "all"
     },
     "max_examples": 1,
-    "max_schema_combinations": 2
+    "max_schema_combinations": 1
   },
   "max_request_execution_time": 90,
   "save_results_in_fixed_dirname": false,
   "global_producer_timing_delay": 5,
   "dyn_objects_cache_size": 200,
   "fuzzing_jobs": 1,
-  "fuzzing_mode": "bfs",
+  "fuzzing_mode": "directed-smoke-test",
   "garbage_collection_interval": 300,
   "reconnect_on_every_request": false,
   "ignore_dependencies": true,
@@ -45,6 +45,7 @@
   "token_refresh_interval": 60,
   "wait_for_async_resource_creation": false,
   "custom_mutations": "defaultDict.json",
+  "custom_value_generators": "custom_value_generators.py",
   "per_resource_settings": {
   },
   "sequence_exploration_settings": {
@@ -100,7 +101,6 @@
     }
   },
   "custom_non_bug_codes": [
-    "404",
-    "500"
+    "20x"
   ]
 }

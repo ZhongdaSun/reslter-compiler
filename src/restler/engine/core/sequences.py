@@ -15,7 +15,7 @@ import restler.engine.core.status_codes_monitor as status_codes_monitor
 
 from restler.engine.core.fuzzing_monitor import Monitor
 from restler.engine.core.requests import FailureInformation
-from restler.restler_settings import Settings
+from restler.restler_settings import Settings, LogSettings
 from restler.engine.bug_bucketing import BugBuckets
 from restler.engine.core.request_utilities import str_to_hex_def
 import restler.utils.restler_logger as logger
@@ -28,8 +28,6 @@ from restler.utils.restler_logger import custom_network_logging as CUSTOM_LOGGIN
 from restler.utils.logging.trace_db import SequenceTracker
 
 AUTHORIZATION_TOKEN_PLACEHOLDER = 'AUTHORIZATION TOKEN'
-
-IS_CLOSED_LOG = False
 
 
 class SentRequestData(object):
@@ -131,7 +129,7 @@ class Sequence(object):
         @rtype : None
 
         """
-        logger.write_to_main("new request add+++++++", IS_CLOSED_LOG)
+        logger.write_to_main("new request add+++++++", LogSettings().sequences)
         new_seq = Sequence(self.requests + other.requests)
         new_seq.seq_i = self.seq_i
         new_seq._sent_request_data_list = self._sent_request_data_list + other._sent_request_data_list
@@ -383,7 +381,7 @@ class Sequence(object):
         SequenceTracker.initialize_request_trace(combination_id=self.combination_id,
                                                  request_id=request.hex_definition,
                                                  replay_blocks=replay_blocks)
-        logger.write_to_main(f"rendered_data={rendered_data}", True)
+        logger.write_to_main(f"rendered_data={rendered_data}", LogSettings().sequences)
         response = request_utilities.send_request_data(rendered_data, reconnect=True)
         if response.has_valid_code():
             for name, v in updated_writer_variables.items():
@@ -448,7 +446,7 @@ class Sequence(object):
         @rtype : RenderedSequence
         """
         # Try rendering  all primitive type value combinations for last request
-        logger.write_to_main("candidate_values_pool={}".format(candidate_values_pool), IS_CLOSED_LOG)
+        logger.write_to_main("candidate_values_pool={}".format(candidate_values_pool), LogSettings().sequences)
 
         def render_prefix():
             """
@@ -504,7 +502,7 @@ class Sequence(object):
                                                                                      False))
 
                 if not prev_response.status_code:
-                    logger.write_to_main(f"Error: Failed to get status code during valid sequence re-rendering.\n", IS_CLOSED_LOG)
+                    logger.write_to_main(f"Error: Failed to get status code during valid sequence re-rendering.\n", LogSettings().sequences)
                     sequence_failed = True
                     break
 
@@ -517,13 +515,13 @@ class Sequence(object):
                     break
 
                 if parser_threw_exception:
-                    logger.write_to_main("Error: Parser exception occurred during valid sequence re-rendering.\n", IS_CLOSED_LOG)
+                    logger.write_to_main("Error: Parser exception occurred during valid sequence re-rendering.\n", LogSettings().sequences)
                     sequence_failed = True
                     break
 
                 if resource_error:
                     logger.write_to_main(
-                        "Error: The resource was left in a Failed state after creation during valid sequence re-rendering.\n", IS_CLOSED_LOG)
+                        "Error: The resource was left in a Failed state after creation during valid sequence re-rendering.\n", LogSettings().sequences)
                     sequence_failed = True
                     break
 
@@ -532,7 +530,7 @@ class Sequence(object):
                                      and prev_response.has_valid_code()
 
                 if not rendering_is_valid:
-                    logger.write_to_main("Error: Invalid rendering occurred during valid sequence re-rendering.\n", IS_CLOSED_LOG)
+                    logger.write_to_main("Error: Invalid rendering occurred during valid sequence re-rendering.\n", LogSettings().sequences)
                     sequence_failed = True
                     break
 
@@ -584,7 +582,7 @@ class Sequence(object):
 
         response_datetime_str = None
         timestamp_micro = None
-        logger.write_to_main("before render_iter", IS_CLOSED_LOG)
+        logger.write_to_main("before render_iter", LogSettings().sequences)
         for rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks in \
                 request.render_iter(candidate_values_pool,
                                     skip=request._current_combination_id,
@@ -623,10 +621,10 @@ class Sequence(object):
             # for every request until the last
             try:
                 self.executed_requests_count = 0
-                logger.write_to_main(f"executed_requests_count={self.executed_requests_count}", IS_CLOSED_LOG)
+                logger.write_to_main(f"executed_requests_count={self.executed_requests_count}", LogSettings().sequences)
                 prev_response, response_datetime_str = render_prefix()
             finally:
-                logger.write_to_main("before stop...", IS_CLOSED_LOG)
+                logger.write_to_main("before stop...", LogSettings().sequences)
                 dependencies.stop_saving_local_dyn_objects()
 
             if self.rendered_prefix_status == RenderedPrefixStatus.INVALID:
@@ -643,7 +641,7 @@ class Sequence(object):
             # Step B: Dynamic template rendering
             # substitute reference placeholders with resolved values
             # for the last request
-            logger.write_to_main("render.......", IS_CLOSED_LOG)
+            logger.write_to_main("render.......", LogSettings().sequences)
             response, resource_error, parser_exception_occurred, timing_delay, response_datetime_str, timestamp_micro = \
                 self.send_rendered_request(request, rendered_data, parser, tracked_parameters,
                                            updated_writer_variables, replay_blocks, lock)
@@ -817,7 +815,7 @@ class Sequence(object):
         @rtype : Str
 
         """
-        logger.write_to_main("replay_sequence", IS_CLOSED_LOG)
+        logger.write_to_main("replay_sequence", LogSettings().sequences)
 
         def send_and_parse(replay_sequence, request_data, request_in_collection):
             # If there are replay blocks, then use them.  Otherwise, use the sent request data list.

@@ -10,7 +10,6 @@ from restler.engine.fuzzing_parameters.request_schema_parser import *
 import restler.engine.primitives as primitives
 import restler.utils.restler_logger as logger
 
-IS_CLOSED_LOG = False
 class NoHeaderSchemaFound(Exception):
     pass
 
@@ -113,7 +112,7 @@ class QueryList(KeyValueParamList):
                 raise
             except Exception as err:
                 msg = f'Fail deserializing request schema query parameters: {err!s}'
-                logger.write_to_main(msg, print_to_console=IS_CLOSED_LOG)
+                logger.write_to_main(msg, print_to_console=LogSettings().parameter_schem)
                 raise err
 
     def _set_query_schema(self, query_parameters):
@@ -147,7 +146,7 @@ class QueryList(KeyValueParamList):
             if idx < len(self.param_list) - 1:
                 # Add the query separator
                 query_blocks.append(primitives.restler_static_string('&'))
-        logger.write_to_main(f"query_blocks={query_blocks}", IS_CLOSED_LOG)
+        logger.write_to_main(f"query_blocks={query_blocks}", LogSettings().parameter_schem)
         return query_blocks
 
     def get_original_blocks(self, config) -> list:
@@ -162,12 +161,12 @@ class QueryList(KeyValueParamList):
 
         for idx, query in enumerate(self.param_list):
             logger.write_to_main(f"type(self_param_list)={type(self.param_list)}, "
-                                 f"self.param_list={self.param_list}", IS_CLOSED_LOG)
+                                 f"self.param_list={self.param_list}", LogSettings().parameter_schem)
             query_blocks += query.get_original_blocks(config)
             if len(query_blocks) > 0 and idx < len(self.param_list) - 1:
                 # Add the query separator
                 query_blocks.append(primitives.restler_static_string('&'))
-        logger.write_to_main(f"query_blocks={query_blocks}", IS_CLOSED_LOG)
+        logger.write_to_main(f"query_blocks={query_blocks}", LogSettings().parameter_schem)
         return query_blocks
 
 
@@ -215,7 +214,7 @@ class HeaderList(KeyValueParamList):
                 header_param_list = des_header_param(header_parameter[1])
                 if header_param_list:
                     for header_param in header_param_list:
-                        logger.write_to_main(f"header_param={header_param}", IS_CLOSED_LOG)
+                        logger.write_to_main(f"header_param={header_param}", LogSettings().parameter_schem)
                         self.append(header_param)
 
     def get_blocks(self) -> list:
@@ -227,12 +226,12 @@ class HeaderList(KeyValueParamList):
         """
         header_blocks = []
         for idx, header in enumerate(self.param_list):
-            logger.write_to_main(f"header={header}", IS_CLOSED_LOG)
+            logger.write_to_main(f"header={header}", LogSettings().parameter_schem)
             header_blocks += header.get_blocks()
             if len(header_blocks) > 0 and idx < len(self.param_list):
                 # Must add header separator \r\n after every header
                 header_blocks.append(primitives.restler_static_string('\r\n'))
-        logger.write_to_main(f"header_blocks={header_blocks}", IS_CLOSED_LOG)
+        logger.write_to_main(f"header_blocks={header_blocks}", LogSettings().parameter_schem)
         return header_blocks
 
     def get_original_blocks(self, config) -> list:
@@ -245,10 +244,10 @@ class HeaderList(KeyValueParamList):
         """
         header_blocks = []
         for idx, header in enumerate(self.param_list):
-            logger.write_to_main(f"header={header}", IS_CLOSED_LOG)
+            logger.write_to_main(f"header={header}", LogSettings().parameter_schem)
             header_blocks += header.get_original_blocks(config)
             if len(header_blocks) > 0 and idx < len(self.param_list):
                 # Must add header separator \r\n after every header
                 header_blocks.append(primitives.restler_static_string('\r\n'))
-        logger.write_to_main(f"header_blocks={header_blocks}", IS_CLOSED_LOG)
+        logger.write_to_main(f"header_blocks={header_blocks}", LogSettings().parameter_schem)
         return header_blocks
