@@ -9,19 +9,19 @@ from atest.utilities import (
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
-class TestExampleConfigTestPut(unittest.TestCase):
+class TestInputProducerSpec(unittest.TestCase):
 
-    def setUpClass(self):
+    def setUp(self):
         DebugConfig().swagger_only = False
 
-    def tearDownClass(self):
+    def tearDown(self):
         pass
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_array_example_external"))
-    def test_array_example_external(self):
+        DebugConfig().get_cases_config(module_name, "test_input_producer_spec"))
+    def test_input_producer_spec(self):
         result, msg = compile_spec(module_name,
-                                   'array_example_external', [], "")
+                                   'input_producer_spec', [], "")
         self.assertTrue(result, msg=msg)
 
 

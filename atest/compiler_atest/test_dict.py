@@ -12,12 +12,12 @@ from atest.utilities import (
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
-class TestMDict(unittest.TestCase):
+class TestDict(unittest.TestCase):
 
-    def setUpClass(self):
+    def setUp(self):
         DebugConfig().swagger_only = False
 
-    def tearDownClass(self):
+    def tearDown(self):
         pass
 
     @custom_skip_decorator(

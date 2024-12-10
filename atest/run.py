@@ -120,7 +120,7 @@ if __name__ == "__main__":
     DebugConfigCases()
     if DebugConfig().get_debug_mode():
         file_name = DebugConfig().get_debug_file()
-        tests = get_tests_file_name(file_name, args.directory)
+        tests = get_tests_file_name(file_name, DebugConfig().get_debug_module())
     else:
         if DebugConfig().get_debug_module() == "compiler_atest":
             path_name = os.path.join(os.getcwd(), "compiler_atest")
