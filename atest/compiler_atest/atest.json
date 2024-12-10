@@ -9,12 +9,10 @@
     "test_post_patch_dependency": 5,
     "test_body_dependency_cycles": 100,
     "test_circular_path": 100,
-    "test_global_path_parameters": 100,
     "test_inline_examples": 0,
     "test_multiple_circular_paths": 0,
     "test_nested_objects_naming": 0,
     "test_path_annotation": 0,
-    "test_no_params": 100,
     "test_put_createorupdate": 100,
     "test_subnet_id": 100,
     "test_large_json_body": 100,
@@ -43,7 +41,9 @@
     "test_path_dictionary_payload": 100,
     "test_input_producer_spec": 2,
     "test_frontend_port_id": 4,
-    "test_ip_configurations_get": 4
+    "test_ip_configurations_get": 4,
+    "test_no_params": 2,
+    "test_global_path_parameters": 2
   },
 
   "test_dict": {
@@ -89,11 +89,12 @@
   },
 
   "test_example": {
-    "test_array_example": 2,
     "test_array_example_dynamic_object": 2,
     "test_exact_copy_values_are_correct": 2,
+    "test_array_example": 2,
     "test_body_param": 2,
     "test_exampleConfigTestPut": 2,
     "test_optional_params": 2
+
   }
 }
