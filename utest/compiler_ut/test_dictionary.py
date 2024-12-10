@@ -91,7 +91,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_custom_payload_query_and_header_is_correctly_injected_1"))
     def test_custom_payload_query_and_header_is_correctly_injected_1(self):
-        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "custom_payload_query_and_header_is_correctly_injected_1")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -117,7 +117,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_custom_payload_query_and_header_is_correctly_injected_2"))
     def test_custom_payload_query_and_header_is_correctly_injected_2(self):
-        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "custom_payload_query_and_header_is_correctly_injected_2")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 
@@ -178,7 +178,7 @@ class TestDictionary(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_content_type_can_be_modified_via_custom_payload_header"))
     def test_content_type_can_be_modified_via_custom_payload_header(self):
-        source_dir = os.path.join(TEST_ROOT_DIR, "no_params")
+        source_dir = os.path.join(TEST_ROOT_DIR, "customPayloadContentTypeSwagger")
         if not os.path.exists(source_dir):
             os.mkdir(source_dir)
 

@@ -1,0 +1,33 @@
+{
+  "SwaggerSpecConfig": [
+    {
+      "SpecFilePath": "swagger1.json",
+      "DictionaryFilePath": "dict1.json"
+    },
+    {
+      "SpecFilePath": "swagger2.json",
+      "DictionaryFilePath": "dict2.json"
+    },
+    {
+      "SpecFilePath": "swagger3.json"
+    }
+  ],
+  "CustomDictionaryFilePath": "maindict.json",
+  "EngineSettingsFilePath": "restlerEngineSettings.json",
+  "IncludeOptionalParameters": true,
+  "UseHeaderExamples": true,
+  "UsePathExamples": false,
+  "UseQueryExamples": true,
+  "UseBodyExamples": true,
+  "UseAllExamplePayloads": false,
+  "DiscoverExamples": false,
+  "ExamplesDirectory": "",
+  "DataFuzzing": true,
+  "ReadOnlyFuzz": false,
+  "ResolveQueryDependencies": true,
+  "ResolveBodyDependencies": true,
+  "ResolveHeaderDependencies": false,
+  "UseRefreshableToken": true,
+  "AllowGetProducers": false,
+  "TrackFuzzedParameterNames": false
+}

@@ -1,0 +1,6 @@
+{
+  "restler_custom_payload": {
+    "item_descriptions":["[zzz, yyy]"],
+    "callback_parameters": ["{\"data1\": 5}"]
+  }
+}

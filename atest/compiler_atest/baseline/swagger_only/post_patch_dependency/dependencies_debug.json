@@ -1,0 +1,213 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/system-environments/{system-environment-id}",
+          "method": "Patch"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "system-environment-id",
+            "pathToParameter": [
+              "system-environments"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "system-environments",
+        "PathContainerName": "system-environments",
+        "CandidateTypeNames": [
+          "system__environment"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "system-environment-id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/system-environments",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "system-environments",
+          "PathContainerName": "system-environments",
+          "CandidateTypeNames": [
+            "system__environment"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/system-environments/{system-environment-id}",
+          "method": "Patch"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "image_url",
+            "fullPath": {
+              "path": [
+                "image_url"
+              ]
+            }
+          }
+        },
+        "ContainerName": "system-environments",
+        "PathContainerName": "system-environments",
+        "CandidateTypeNames": [
+          "system__environment"
+        ],
+        "AccessPath": "image_url",
+        "AccessPathParts": {
+          "path": [
+            "image_url"
+          ]
+        },
+        "ResourceName": "image_url",
+        "ProducerParameterName": "url",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/system-environments",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "url",
+              "fullPath": {
+                "path": [
+                  "url"
+                ]
+              }
+            }
+          },
+          "ContainerName": "system-environments",
+          "PathContainerName": "system-environments",
+          "CandidateTypeNames": [
+            "system__environment"
+          ],
+          "AccessPath": "url",
+          "AccessPathParts": {
+            "path": [
+              "url"
+            ]
+          },
+          "ResourceName": "url",
+          "ProducerParameterName": "url",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/system-environments/{system-environment-id}",
+          "method": "Patch"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "system-environments",
+        "PathContainerName": "system-environments",
+        "CandidateTypeNames": [
+          "system__environment"
+        ],
+        "AccessPath": "name",
+        "AccessPathParts": {
+          "path": [
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/system-environments",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "system-environments",
+          "PathContainerName": "system-environments",
+          "CandidateTypeNames": [
+            "system__environment"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  }
+]

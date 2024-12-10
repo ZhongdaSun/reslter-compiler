@@ -1,0 +1,68 @@
+{
+  "/customer": {
+    "POST": {
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/related"
+        }
+      ]
+    }
+  },
+  "/customer/{customerName}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/customer",
+          "producer_method": "POST",
+          "producer_resource_name": "properties/name",
+          "consumer_param": "customerName"
+        }
+      ]
+    },
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "/customer",
+          "producer_method": "POST",
+          "producer_resource_name": "properties/name",
+          "consumer_param": "customerName"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/related"
+        }
+      ]
+    }
+  }
+}

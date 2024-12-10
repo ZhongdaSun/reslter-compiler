@@ -1,0 +1,8 @@
+{
+  "per_resource_settings": {
+    "/stores/{storeId}": {
+      "producer_timing_delay": 0
+    }
+  },
+  "max_combinations": 20
+}

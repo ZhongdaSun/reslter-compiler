@@ -1,0 +1,28 @@
+{
+  "/system-environments/{system-environment-id}": {
+    "PATCH": {
+      "Path": [
+        {
+          "producer_endpoint": "/system-environments",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "system-environment-id"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "/system-environments",
+          "producer_method": "POST",
+          "producer_resource_name": "url",
+          "consumer_param": "image_url"
+        },
+        {
+          "producer_endpoint": "/system-environments",
+          "producer_method": "POST",
+          "producer_resource_name": "name",
+          "consumer_param": "name"
+        }
+      ]
+    }
+  }
+}

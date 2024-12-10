@@ -1,0 +1,518 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataITEMName}/dataPoints/{dataPOIntName}/metadata/{id}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "id",
+            "pathToParameter": [
+              "api",
+              "dataItem",
+              "{dataITEMName}",
+              "dataPoints",
+              "{dataPOIntName}",
+              "metadata"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "metadata",
+        "PathContainerName": "metadata",
+        "CandidateTypeNames": [
+          "metadatum"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataIteMName}/dataPoints/{dataPointName}/metadata",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "metadata",
+          "PathContainerName": "metadata",
+          "CandidateTypeNames": [
+            "metadatum"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataITEMName}/dataPoints/{dataPOIntName}/metadata/{id}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataITEMName",
+            "pathToParameter": [
+              "api",
+              "dataItem"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataItem",
+        "PathContainerName": "metadata",
+        "CandidateTypeNames": [
+          "data__item"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataITEMName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataItemName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "dataItem",
+          "PathContainerName": "dataItem",
+          "CandidateTypeNames": [
+            "data__item"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataITEMName}/dataPoints/{dataPOIntName}/metadata/{id}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataPOIntName",
+            "pathToParameter": [
+              "api",
+              "dataItem",
+              "{dataITEMName}",
+              "dataPoints"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataPoints",
+        "PathContainerName": "metadata",
+        "CandidateTypeNames": [
+          "data__point"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataPOIntName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "dataPoints",
+          "PathContainerName": "dataPoints",
+          "CandidateTypeNames": [
+            "data__point"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataITeMName",
+            "pathToParameter": [
+              "api",
+              "dataItem"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataItem",
+        "PathContainerName": "dataPoints",
+        "CandidateTypeNames": [
+          "data__item"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataITeMName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataItemName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "dataItem",
+          "PathContainerName": "dataItem",
+          "CandidateTypeNames": [
+            "data__item"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataPOInTName",
+            "pathToParameter": [
+              "api",
+              "dataItem",
+              "{dataITeMName}",
+              "dataPoints"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataPoints",
+        "PathContainerName": "dataPoints",
+        "CandidateTypeNames": [
+          "data__point"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataPOInTName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "dataPOInTName",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataIteMName}/dataPoints/{dataPointName}/metadata",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataIteMName",
+            "pathToParameter": [
+              "api",
+              "dataItem"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataItem",
+        "PathContainerName": "metadata",
+        "CandidateTypeNames": [
+          "data__item"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataIteMName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataItemName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "dataItem",
+          "PathContainerName": "dataItem",
+          "CandidateTypeNames": [
+            "data__item"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataIteMName}/dataPoints/{dataPointName}/metadata",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataPointName",
+            "pathToParameter": [
+              "api",
+              "dataItem",
+              "{dataIteMName}",
+              "dataPoints"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataPoints",
+        "PathContainerName": "metadata",
+        "CandidateTypeNames": [
+          "data__point"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataPointName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/dataItem/{dataITeMName}/dataPoints/{dataPOInTName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "dataPoints",
+          "PathContainerName": "dataPoints",
+          "CandidateTypeNames": [
+            "data__point"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/dataItem/{dataItemName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "dataItemName",
+            "pathToParameter": [
+              "api",
+              "dataItem"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "dataItem",
+        "PathContainerName": "dataItem",
+        "CandidateTypeNames": [
+          "data__item"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "dataItemName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "dataItemName",
+        "isObject": false
+      }
+    }
+  }
+]

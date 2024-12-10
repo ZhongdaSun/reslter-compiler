@@ -1,0 +1,196 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/servers/{serverId}/restart",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "servers"
+          ]
+        },
+        {
+          "Fuzzable": {
+            "primitiveType": "Int",
+            "defaultValue": "1"
+          }
+        },
+        {
+          "Constant": [
+            "String",
+            "restart"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "computerName",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring"
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "rating",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "rating",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "description",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring"
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "computerDimensions",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Array",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "LeafNode": {
+                          "name": "",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "String",
+                              "defaultValue": "fuzzstring"
+                            }
+                          },
+                          "isRequired": true,
+                          "isReadOnly": false
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "serialization": {
+                  "style": "Simple",
+                  "explode": false
+                }
+              },
+              {
+                "name": "extra1",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "extra1",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "extra2",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "extra2",
+                        "isObject": false
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}

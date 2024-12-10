@@ -1,0 +1,5 @@
+{
+  "debug_mode": true,
+  "debug_module": "compiler_atest",
+  "validate_grammar": true
+}

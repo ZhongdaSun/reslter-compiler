@@ -1,0 +1,31 @@
+{
+  "SwaggerSpecFilePath": [
+    "exampleConfigTestPut.json"
+  ],
+  "ExampleConfigFiles": [
+    {
+      "filePath": "exampleConfigTestConfig1.json",
+      "exactCopy": false
+    },
+    {
+      "filePath": "exampleConfigTestConfig2.json",
+      "exactCopy": true
+    }
+  ],
+  "IncludeOptionalParameters": true,
+  "UseHeaderExamples": true,
+  "UsePathExamples": false,
+  "UseQueryExamples": true,
+  "UseBodyExamples": true,
+  "UseAllExamplePayloads": false,
+  "DiscoverExamples": false,
+  "ExamplesDirectory": "",
+  "DataFuzzing": true,
+  "ReadOnlyFuzz": false,
+  "ResolveQueryDependencies": true,
+  "ResolveBodyDependencies": true,
+  "ResolveHeaderDependencies": false,
+  "UseRefreshableToken": true,
+  "AllowGetProducers": false,
+  "TrackFuzzedParameterNames": false
+}

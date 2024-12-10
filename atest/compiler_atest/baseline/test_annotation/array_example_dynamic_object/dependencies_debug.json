@@ -1,0 +1,424 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "arrayQueryParameter2"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "arrayQueryParameter2",
+        "ProducerParameterName": "parameter2",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "arrayQueryParameter3"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "arrayQueryParameter3",
+        "ProducerParameterName": "parameter3",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "expiration"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "expiration",
+        "ProducerParameterName": "expiration",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "arrayQueryParameter"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "arrayQueryParameter",
+        "ProducerParameterName": "parameter",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "QueryResource": "apiVersion"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "apiVersion",
+        "ProducerParameterName": "version",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "storeId",
+            "pathToParameter": [
+              "stores"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "stores",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "store"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "storeId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order/{orderId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "orderId",
+            "pathToParameter": [
+              "stores",
+              "{storeId}",
+              "order"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "orderId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/stores/{storeId}/order",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "order",
+          "PathContainerName": "order",
+          "CandidateTypeNames": [
+            "order"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order/{orderId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "storeId",
+            "pathToParameter": [
+              "stores"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "stores",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "store"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "storeId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order/{orderId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "QueryResource": "arrayQueryParameter99"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "arrayQueryParameter99",
+        "ProducerParameterName": "parameter99",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourceName": "order_items"
+        },
+        "consumerParameter": {
+          "ResourceName": "arrayQueryParameter99"
+        }
+      }
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/stores/{storeId}/order",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "order_items",
+              "fullPath": {
+                "path": [
+                  "order_items"
+                ]
+              }
+            }
+          },
+          "ContainerName": "order",
+          "PathContainerName": "order",
+          "CandidateTypeNames": [
+            "order"
+          ],
+          "AccessPath": "order_items",
+          "AccessPathParts": {
+            "path": [
+              "order_items"
+            ]
+          },
+          "ResourceName": "order_items",
+          "ProducerParameterName": "items",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/stores/{storeId}/order/{orderId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "QueryResource": "stringQueryParameter77"
+        },
+        "ContainerName": "order",
+        "PathContainerName": "order",
+        "CandidateTypeNames": [
+          "order"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "stringQueryParameter77",
+        "ProducerParameterName": "parameter77",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Query",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/stores/{storeId}/order",
+          "method": "Post"
+        },
+        "producerParameter": {
+          "ResourcePath": {
+            "path": [
+              "order_items",
+              "[0]"
+            ]
+          }
+        },
+        "consumerParameter": {
+          "ResourceName": "stringQueryParameter77"
+        }
+      }
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/stores/{storeId}/order",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "order_items",
+              "fullPath": {
+                "path": [
+                  "order_items",
+                  "[0]"
+                ]
+              }
+            }
+          },
+          "ContainerName": "order",
+          "PathContainerName": "order",
+          "CandidateTypeNames": [
+            "order"
+          ],
+          "AccessPath": "order_items/[0]",
+          "AccessPathParts": {
+            "path": [
+              "order_items",
+              "[0]"
+            ]
+          },
+          "ResourceName": "order_items",
+          "ProducerParameterName": "items",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "/sites/{name}/slots/{slot}": {
+    "DELETE": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "/sites/{name}/slots/{slot}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "slot"
+        }
+      ]
+    },
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "/sites/{name}/slots/{slot}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "slot"
+        }
+      ]
+    },
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__slot",
+          "consumer_param": "slot"
+        }
+      ]
+    }
+  }
+}
