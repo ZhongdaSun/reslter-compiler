@@ -193,6 +193,11 @@ class SwaggerDoc:
                             request_info.method = operation_item
                             request_info.local_annotation = getattr(opt, "x-restler-annotations")
                             request_info.long_running_operation = getattr(opt, 'x-ms-long-running-operation')
+                            path_param = {}
+                            query_param = {}
+                            header_param = {}
+                            body_param = {}
+                            # issue fix for atest/swagger_only/simple_swagger_all_param_data_types.json
                             for p in opt.parameters:
                                 if getattr(p, "$ref") is not None:
                                     local_definition = getattr(p, "$ref")
@@ -201,65 +206,51 @@ class SwaggerDoc:
                                     if p is None:
                                         raise Exception(f"error in {local_definition}")
                                 i = getattr(p, 'in')
+                                name = getattr(p, 'name')
                                 logger.write_to_main(
                                     f"endpoint={endpoint}, method={http_method_item}, "
                                     f"p={p.name}, p.in={i}, p.type={p.type}, p.schema={p.schema}",
                                     ConfigSetting().LogConfig.swagger)
                                 if i == 'path':
-                                    request_info.path_param = p
+                                    if name not in path_param.keys():
+                                        request_info.path_param = p
+                                        path_param[name] = p
                                 elif i == "header":
-                                    request_info.headerParameters.append(p)
+                                    if name not in header_param.keys():
+                                        request_info.headerParameters.append(p)
+                                        header_param[name] = p
                                 elif i == "query":
-                                    request_info.queryParameters.append(p)
+                                    if name not in query_param.keys():
+                                        request_info.queryParameters.append(p)
+                                        query_param[name] = p
                                 elif i == 'body':
-                                    p.update_field("required", True)
-                                    request_info.bodyParameters.append(p)
+                                    if name not in body_param.keys():
+                                        p.update_field("required", True)
+                                        request_info.bodyParameters.append(p)
+                                        body_param[name] = p
+                            """
                             if spec_parameters is not None:
                                 for key, value in spec_parameters.items():
                                     i = getattr(value, 'in')
-                                    param_name = getattr(value, 'name')
+                                    name = getattr(value, 'name')
                                     if i == 'path':
-                                        found = False
-                                        for item in request_info.path:
-                                            if param_name == getattr(item, 'name'):
-                                                found = True
-                                                break
-                                        if not found:
-                                            path_parts = get_path_from_string(endpoint, False)
-                                            for part in path_parts.path:
-                                                if part.part_type == PathPartType.Parameter and param_name == part.value:
-                                                    request_info.path_param = value
-                                                    logger.write_to_main(f"endpoint={endpoint}, "
-                                                                         f"method={http_method_item}, "
-                                                                         f"p={value.name}, "
-                                                                         f"p.in={i}, "
-                                                                         f"p.type={value.type}, "
-                                                                         f"p.schema={value.schema}",
-                                                                         ConfigSetting().LogConfig.swagger)
+                                        if name not in path_param.keys():
+                                            request_info.path_param = value
+                                            path_param[name] = value
                                     elif i == "header":
-                                        found = False
-                                        for item in request_info.headerParameters:
-                                            if param_name == getattr(item, 'name'):
-                                                found = True
-                                                break
-                                        if not found:
+                                        if name not in header_param.keys():
                                             request_info.headerParameters.append(value)
+                                            header_param[name] = value
                                     elif i == "query":
-                                        found = False
-                                        for item in request_info.queryParameters:
-                                            if param_name == getattr(item, 'name'):
-                                                found = True
-                                                break
-                                        if not found:
+                                        if name not in query_param.keys():
                                             request_info.queryParameters.append(value)
+                                            query_param[name] = value
                                     elif i == 'body':
-                                        found = False
-                                        for item in request_info.queryParameters:
-                                            if param_name == getattr(item, 'name'):
-                                                found = True
-                                                break
-                                        if not found:
+                                        if name not in body_param.keys():
+                                            value.update_field("required", True)
                                             request_info.bodyParameters.append(value)
+                                            body_param[name] = value
+                            """
                             self.path_info.append(request_info)
 
     @property

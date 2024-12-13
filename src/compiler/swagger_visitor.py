@@ -251,7 +251,14 @@ class SchemaUtilities:
     def get_property_string(schema: Union[Schema, Parameter, Response], name: str) -> str:
         if name in ["type", "name", "format", "in", "style"]:
             if schema.is_set(name):
-                return getattr(schema, schema.get_private_name(name))
+                result = getattr(schema, schema.get_private_name(name))
+                if isinstance(result, str):
+                    return result
+                # issue fix for atest/swagger_only/simple_swagger_all_param_data_types.json type: ["string"]
+                elif isinstance(result, list):
+                    return result[0]
+                else:
+                    raise Exception(f"{name} is {result}. Its type is not string")
             else:
                 return ""
         else:
@@ -480,10 +487,19 @@ def get_fuzzable_value_for_property(property_name: str,
 
 
 # tryGetEnumeration
+# issue fix for atest/swagger_only/simple_swagger_all_param_data_types.json
+# "enum": [
+#             1024,
+#             512
+#           ]
+# output should be ["1024", "512"]
 def try_get_enumeration(property_schema):
     enumeration = getattr(property_schema, property_schema.get_private_name("enum")) \
         if property_schema.is_set("enum") else None
-    return list(enumeration) if enumeration else None
+    if enumeration:
+        return [SchemaUtilities.format_example_value(item) for item in list(enumeration)]
+    else:
+        return None
 
 
 # tryGetDefault

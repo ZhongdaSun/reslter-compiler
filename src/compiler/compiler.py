@@ -1719,7 +1719,10 @@ def generate_request_grammar(swagger_docs: list[SwaggerDoc],
     # other tools that may process the grammar separately from the engine.
 
     base_path = swagger_docs[0].base_path.rstrip('/') if swagger_docs and swagger_docs[0].base_path else ""
-    host = swagger_docs[0].host if swagger_docs and swagger_docs[0].host else ""
+    # issue fix for atest/swagger_only/simple_swagger_all_param_data_types.json
+    # output :
+    # host: null
+    host = swagger_docs[0].host if swagger_docs and swagger_docs[0].host else None
     # todo
     # Get the request primitives for each request
     grammar = GrammarDefinition()
