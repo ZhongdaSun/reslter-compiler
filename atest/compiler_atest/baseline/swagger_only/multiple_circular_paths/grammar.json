@@ -70,7 +70,7 @@
         ],
         [
           "Host",
-          ""
+          null
         ]
       ],
       "httpVersion": "1.1",
@@ -148,7 +148,7 @@
         ],
         [
           "Host",
-          ""
+          null
         ]
       ],
       "httpVersion": "1.1",
