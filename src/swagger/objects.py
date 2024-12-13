@@ -77,6 +77,7 @@ class Schema(six.with_metaclass(FieldMeta, BaseSchema)):
         'description': None,
         'discriminator': None,
         'readOnly': None,
+        'readonly': None,
         'xml': None,
         'externalDocs': None,
     }

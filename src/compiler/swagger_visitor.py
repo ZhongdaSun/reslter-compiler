@@ -242,7 +242,7 @@ class SchemaUtilities:
 
     @staticmethod
     def get_property_bool(schema: Union[Schema, Parameter, Response], name: str) -> bool:
-        if name in ["readOnly", "required", "explode"]:
+        if name in ["readonly", "required", "explode", "readOnly"]:
             return bool(getattr(schema, schema.get_private_name(name))) if schema.is_set(name) else False
         else:
             raise Exception(f"property name: {name} is wrong!")
@@ -567,6 +567,11 @@ def process_property(swagger_doc: SwaggerDoc,
     # in the Swagger specification.
     property_type = SchemaUtilities.get_property_string(property_schema, "type").lower()
     property_required = SchemaUtilities.get_property_bool(property_schema, "required")
+    is_readonly = False
+    if property_schema.is_set("readonly"):
+        is_readonly = SchemaUtilities.get_property_bool(property_schema,"readonly")
+    elif property_schema.is_set("readOnly"):
+        is_readonly = SchemaUtilities.get_property_bool(property_schema, "readOnly")
     if len(ConfigSetting().ExampleConfigFiles) > 0 or ConfigSetting().ExampleConfigFilePath is not None:
         if (property_payload_example_value is None and
                 property_schema.is_set("example") or property_schema.is_set("examples")):
@@ -608,8 +613,7 @@ def process_property(swagger_doc: SwaggerDoc,
         return LeafNode(leaf_property=LeafProperty(name=property_name,
                                                    payload=fuzzable_property_payload,
                                                    is_required=property_required,
-                                                   is_readonly=SchemaUtilities.get_property_bool(property_schema,
-                                                                                                 "readOnly")))
+                                                   is_readonly=is_readonly))
     elif property_type is None:
         logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
                              f"property_payload_example_value={property_payload_example_value} "
@@ -632,7 +636,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                            payload=None,
                                            property_type=NestedType.Property,
                                            is_required=property_required,
-                                           is_readonly=SchemaUtilities.get_property_bool(property_schema, "readOnly"))
+                                           is_readonly=is_readonly)
             return InternalNode(inner_property=inner_property, leaf_properties=[obj_tree])
     elif property_type == "array":
         logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
@@ -643,7 +647,6 @@ def process_property(swagger_doc: SwaggerDoc,
             raise Exception("Invalid array schema: found array property without a declared element")
         array_item = getattr(property_schema, property_schema.get_private_name("items"))
         array_type = SchemaUtilities.get_property_string(array_item, "type").lower()
-        is_readonly = SchemaUtilities.get_property_bool(property_schema, "readOnly")
         inner_array_property = InnerProperty(name=property_name,
                                              payload=None,
                                              property_type=NestedType.Array,
@@ -762,7 +765,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                            payload=None,
                                            property_type=NestedType.Object,
                                            is_required=property_required,
-                                           is_readonly=SchemaUtilities.get_property_bool(property_schema, "readOnly"))
+                                           is_readonly=is_readonly)
             return InternalNode(inner_property, obj_tree.leaf_properties)
 
     else:
@@ -782,7 +785,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                         ) -> Union[LeafNode, InternalNode]:
     print("Generate Grammar Element For Schema...")
     logger.write_to_main(f"Generate Grammar Element For Schema: {schema}", ConfigSetting().LogConfig.swagger_visitor)
-    is_readonly = SchemaUtilities.get_property_bool(schema, "readOnly")
+    is_readonly = SchemaUtilities.get_property_bool(schema, "readonly")
 
     def get_actual_schema(s):
         if isinstance(s, Schema):
@@ -956,7 +959,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     required_field = getattr(final_schema, final_schema.get_private_name("required"))
 
                 for key, value in properties_schema.items():
-                    readonly = SchemaUtilities.get_property_bool(value, "readOnly")
+                    readonly = SchemaUtilities.get_property_bool(value, "readonly")
                     prop_type = SchemaUtilities.get_property_string(value, "type")
                     required = SchemaUtilities.get_property_bool(value, "required")
                     if isinstance(required_field, list):
@@ -1193,7 +1196,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         logger.write_to_main(f"found_cycle={found_cycle}, len(parents)={len(parents)}, "
                              f"json_property_max_depth={ConfigSetting().JsonPropertyMaxDepth}",
                              ConfigSetting().LogConfig.swagger_visitor)
-        parameter_name=SchemaUtilities.get_property_string(schema, "name")
+        parameter_name = SchemaUtilities.get_property_string(schema, "name")
         if found_cycle and example_value is not None:
             raise UnsupportedRecursiveExample(f"{example_value}")
         if schema.is_set("type"):
@@ -1215,14 +1218,14 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                 try_get_enumeration(p_item),
                                 SchemaUtilities.try_get_schema_example_as_jtoken(p_item))
                 leaf_properties = [LeafProperty("",
-                                                    payload,
-                                                    is_required=is_required,
-                                                    is_readonly=is_readonly)] if payload else []
+                                                payload,
+                                                is_required=is_required,
+                                                is_readonly=is_readonly)] if payload else []
                 inner_property = InnerProperty(name="",
-                                                   payload=None,
-                                                   property_type=NestedType.Array,
-                                                   is_required=is_required,
-                                                   is_readonly=is_readonly)
+                                               payload=None,
+                                               property_type=NestedType.Array,
+                                               is_required=is_required,
+                                               is_readonly=is_readonly)
                 return InternalNode(inner_property=inner_property, leaf_properties=leaf_properties)
             else:
                 payload = get_fuzzable_value_for_property(
