@@ -86,11 +86,23 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'ip_configurations_get', [], "ip_configurations_get.json")
         self.assertTrue(result, msg=msg)
 
+
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_multiple_circular_paths"))
-    def test_multiple_circular_paths(self):
+        DebugConfig().get_cases_config(module_name, "test_global_path_parameters"))
+    def test_global_path_parameters(self):
         result, msg = compile_spec('swagger_only',
-                                   'multiple_circular_paths', [], "multiple_circular_paths.json")
+                                   'global_path_parameters',
+                                   [],
+                                   "global_path_parameters.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_global_path_parameters_dict_engine"))
+    def test_global_path_parameters_dict_engine(self):
+        result, msg = compile_spec('swagger_only',
+                                   'global_path_parameters',
+                                   [Engine_Settings, Dict_Json],
+                                   "global_path_parameters.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -245,7 +257,7 @@ class TestSwaggerOnly(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_global_path_parameters"))
+        DebugConfig().get_cases_config(module_name, "test_required_params_include_optional_parameters"))
     def test_required_params_include_optional_parameters(self):
         temp = business_config["IncludeOptionalParameters"]
         business_config["IncludeOptionalParameters"] = True
@@ -256,7 +268,7 @@ class TestSwaggerOnly(unittest.TestCase):
         business_config["IncludeOptionalParameters"] = temp
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_global_path_parameters"))
+        DebugConfig().get_cases_config(module_name, "test_required_params_not_include_optional_parameters"))
     def test_required_params_not_include_optional_parameters(self):
         temp = business_config["IncludeOptionalParameters"]
         business_config["IncludeOptionalParameters"] = False
@@ -265,6 +277,13 @@ class TestSwaggerOnly(unittest.TestCase):
                                    "required_params.json")
         self.assertTrue(result, msg=msg)
         business_config["IncludeOptionalParameters"] = temp
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_multiple_circular_paths"))
+    def test_multiple_circular_paths(self):
+        result, msg = compile_spec('swagger_only',
+                                   'multiple_circular_paths', [], "multiple_circular_paths.json")
+        self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_demo"))

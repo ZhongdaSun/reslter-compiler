@@ -82,6 +82,11 @@ class EngineSettings:
 
     def __dict__(self):
         dict_value = {
+                "max_combinations": str(self.settings.get(Constants.MaxParameterCombinationsKey)),
+                "per_resource_settings": self.settings[Constants.PerResourceSettingsKey]
+            }
+        """
+        dict_value = {
             "client_certificate_path": None,
             "max_combinations": str(self.settings.get(Constants.MaxParameterCombinationsKey)),
             "test_combinations_settings": {
@@ -186,8 +191,8 @@ class EngineSettings:
                 "500"
             ]
         }
+        """
         return dict_value
-
 
 # 获取引擎设置
 def get_engine_settings(engine_settings_file_path):
