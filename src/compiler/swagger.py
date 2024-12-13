@@ -228,29 +228,27 @@ class SwaggerDoc:
                                         p.update_field("required", True)
                                         request_info.bodyParameters.append(p)
                                         body_param[name] = p
-                            """
-                            if spec_parameters is not None:
-                                for key, value in spec_parameters.items():
-                                    i = getattr(value, 'in')
-                                    name = getattr(value, 'name')
-                                    if i == 'path':
-                                        if name not in path_param.keys():
-                                            request_info.path_param = value
-                                            path_param[name] = value
-                                    elif i == "header":
-                                        if name not in header_param.keys():
-                                            request_info.headerParameters.append(value)
-                                            header_param[name] = value
-                                    elif i == "query":
-                                        if name not in query_param.keys():
-                                            request_info.queryParameters.append(value)
-                                            query_param[name] = value
-                                    elif i == 'body':
-                                        if name not in body_param.keys():
-                                            value.update_field("required", True)
-                                            request_info.bodyParameters.append(value)
-                                            body_param[name] = value
-                            """
+                            from compiler.dependency_analysis_types import get_path_from_string, PathPartType, PathPart
+                            path_words = get_path_from_string(endpoint, False)
+                            for item in path_words.path:
+                                if item.part_type == PathPartType.Parameter and item.value not in path_param.keys():
+                                    if spec_parameters is not None:
+                                        for key, value in spec_parameters.items():
+                                            i = getattr(value, 'in')
+                                            name = getattr(value, 'name')
+                                            if i == 'path' and name == item.value:
+                                                path_param[name] = value
+                                                request_info.path_param = value
+                                            elif i == "header":
+                                                if name not in header_param.keys():
+                                                    header_param[name] = value
+                                            elif i == "query":
+                                                if name not in query_param.keys():
+                                                    query_param[name] = value
+                                            elif i == 'body':
+                                                if name not in body_param.keys():
+                                                    value.update_field("required", True)
+                                                    body_param[name] = value
                             self.path_info.append(request_info)
 
     @property
