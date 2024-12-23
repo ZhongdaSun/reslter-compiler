@@ -10,6 +10,7 @@ from compiler.dependency_analysis_types import (
     PathPartType)
 from compiler.grammar import (
     OperationMethod,
+    get_operation_method_from_string,
     RequestId)
 from swagger.parser import SwaggerContext
 from swagger.objects import (
@@ -163,26 +164,23 @@ class SwaggerDoc:
     def switch(self, paths, spec_parameters):
         logger.write_to_main(f"type(paths)={type(paths)}", ConfigSetting().LogConfig.swagger)
         for endpoint, obj in paths.items():
+            logger.write_to_main(f"endpoint={endpoint}, type(obj)={type(obj)}", ConfigSetting().LogConfig.swagger)
             if isinstance(obj, PathItem):
-                logger.write_to_main(f"key={endpoint}, type(obj)={type(obj)}", ConfigSetting().LogConfig.swagger)
-                for operation_item in OperationMethod:
+                endpoint_json = self.specification["paths"][endpoint]
+                for operation_item in endpoint_json.keys():
                     http_method_item = operation_item.lower()
+                    logger.write_to_main(f"http_method_item={http_method_item}",
+                                         ConfigSetting().LogConfig.swagger)
                     if hasattr(obj, http_method_item):
                         opt = getattr(obj, http_method_item)
                         if opt is not None:
                             logger.write_to_main(f"opt={opt}, type(opt)={type(opt)}", ConfigSetting().LogConfig.swagger)
-                            request_info = RequestInfo(endpoint=endpoint, method=http_method_item)
+                            request_info = RequestInfo(endpoint=endpoint,
+                                                       method=get_operation_method_from_string(http_method_item))
                             logger.write_to_main(f"endpoint={endpoint}", ConfigSetting().LogConfig.swagger)
-
-                            if endpoint in self.specification["paths"]:
-                                logger.write_to_main(f"endpoint={endpoint}", ConfigSetting().LogConfig.swagger)
-                                endpoint_json = self.specification["paths"][endpoint]
-                                if http_method_item in endpoint_json:
-                                    logger.write_to_main(f"http_method_item={http_method_item}",
-                                                         ConfigSetting().LogConfig.swagger)
-                                    request_info.ExtensionData = endpoint_json[http_method_item]
-                                    logger.write_to_main(f"request_info.ExtensionData={request_info.ExtensionData}",
-                                                         ConfigSetting().LogConfig.swagger)
+                            request_info.ExtensionData = endpoint_json[http_method_item]
+                            logger.write_to_main(f"request_info.ExtensionData={request_info.ExtensionData}",
+                                                 ConfigSetting().LogConfig.swagger)
 
                             request_info.Responses = getattr(opt, "responses")
                             logger.write_to_main(f"responses={request_info.Responses}",
@@ -190,7 +188,7 @@ class SwaggerDoc:
                             # opt.is_set("x-ms-examples") | opt.is_set("examples")
                             # remove x-ms-examples is just because x-ms-examples
                             # is automatically populated in the generated OpenAPI 2.0
-                            request_info.method = operation_item
+                            request_info.method = get_operation_method_from_string(operation_item)
                             request_info.local_annotation = getattr(opt, "x-restler-annotations")
                             request_info.long_running_operation = getattr(opt, 'x-ms-long-running-operation')
                             path_param = {}

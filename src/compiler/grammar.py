@@ -350,7 +350,8 @@ class FuzzablePayload:
             elif isinstance(self.primitive_type, PrimitiveTypeEnum):
                 dict_value["primitiveType"] = self.primitive_type.__dict__()
             dict_value["defaultValue"] = self.default_value
-            dict_value["exampleValue"] = self.example_value
+            if self.example_value is not None:
+                dict_value["exampleValue"] = self.example_value
             return {"Fuzzable": dict_value}
 
     def example_dict(self):

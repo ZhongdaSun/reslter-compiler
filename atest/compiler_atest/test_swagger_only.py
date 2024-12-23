@@ -343,7 +343,7 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_input_producer_spec"))
     def test_input_producer_spec(self):
         result, msg = compile_spec('swagger_only',
-                                   'input_producer_spec', [],
+                                   'input_producer_spec', [Dict_Json],
                                    "input_producer_spec.json")
         self.assertTrue(result, msg=msg)
 
