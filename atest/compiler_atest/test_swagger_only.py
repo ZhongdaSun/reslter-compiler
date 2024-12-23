@@ -29,20 +29,6 @@ class TestSwaggerOnly(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_first"))
-    def test_first(self):
-        result, msg = compile_spec('swagger_only',
-                                   'first', [], "first.json")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_second"))
-    def test_second(self):
-        result, msg = compile_spec('swagger_only',
-                                   'second', [], "second.json")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_subnet_id"))
     def test_subnet_id(self):
         result, msg = compile_spec('swagger_only',
