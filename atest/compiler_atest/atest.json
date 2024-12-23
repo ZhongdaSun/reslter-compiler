@@ -34,7 +34,7 @@
     "test_uuidsuffix_test": 0,
     "test_path_dictionary_payload": 0,
     "test_input_producer_spec": 100,
-    "test_no_params": 100,
+    "test_no_params": 0,
     "test_read_only": 0,
     "test_global_path_parameters": 0,
     "test_simple_swagger_all_param_data_types": 0,
