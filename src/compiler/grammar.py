@@ -447,7 +447,6 @@ class RequestId:
         self.method = method
 
         self.has_example = has_example
-        self.has_schema = False
         self.hex_hash = str_to_hex_def(get_operation_method_from_string(method) + self.endpoint)
 
     def __dict__(self):
@@ -1052,7 +1051,7 @@ class Request:
         if self.id.has_example:
             example_schema = {"ParameterList": example_dict_list}
             return_value.append(("Examples", example_schema))
-            if self.id.has_schema:
+            if ConfigSetting().DataFuzzing:
                 param_schema = {"ParameterList": schema_dict_list}
                 return_value.append(("Schema", param_schema))
         else:
@@ -1086,7 +1085,7 @@ class Request:
             param_examples = dict()
             param_examples["ParameterList"] = examples_dict_list
             return_value.append(("Examples", param_examples))
-            if self.id.has_schema:
+            if ConfigSetting().DataFuzzing:
                 param_schema = {"ParameterList": schema_dict_list}
                 return_value.append(("Schema", param_schema))
         else:

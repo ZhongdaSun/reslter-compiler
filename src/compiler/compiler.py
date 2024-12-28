@@ -639,16 +639,13 @@ class Parameters:
 
         if len(example_payloads) > 0 and len(schema_payload) > 0:
             swagger_method_definition.request_id.has_example = True
-            swagger_method_definition.request_id.has_schema = True
             example_payloads_list = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
             result = example_payloads_list + [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         elif len(example_payloads) > 0 and len(schema_payload) == 0:
             swagger_method_definition.request_id.has_example = True
-            swagger_method_definition.request_id.has_schema = False
             result = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
         elif len(example_payloads) == 0 and len(schema_payload) > 0:
             swagger_method_definition.request_id.has_example = False
-            swagger_method_definition.request_id.has_schema = True
             logger.write_to_main(f"schema_payload={schema_payload}", ConfigSetting().LogConfig.compiler)
             result = [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         else:

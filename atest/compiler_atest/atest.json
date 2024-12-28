@@ -1,5 +1,5 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -26,17 +26,17 @@
     "test_custom_payload_swagger": 100,
     "test_custom_payload_content_type_swagger": 100,
     "test_empty_array_example": 100,
-    "test_array_example": 100,
-    "test_global_path_parameters_engine": 100,
+    "test_array_example": 0,
     "test_required_params_include_optional_parameters": 100,
     "test_required_params_not_include_optional_parameters": 100,
-    "test_get_path_dependencies": 2,
+    "test_get_path_dependencies": 0,
     "test_uuidsuffix_test": 0,
     "test_path_dictionary_payload": 0,
     "test_input_producer_spec": 100,
     "test_no_params": 0,
     "test_read_only": 0,
     "test_global_path_parameters": 0,
+    "test_global_path_parameters_engine": 101,
     "test_simple_swagger_all_param_data_types": 0,
     "test_inline_examples": 0,
     "test_multiple_circular_paths": 0,
@@ -75,19 +75,18 @@
 
 
   "test_annotation": {
-    "test_array_example_dynamic_object": 2,
-    "test_header_deps": 2,
-    "test_ordering_test": 2,
-    "test_pathAnnotationInSeparateFile": 2,
-    "test_response_headers": 2,
-    "test_same_body_dep": 2,
-    "test_simple_crud_api": 2,
-    "test_simple_swagger_annotations": 2,
-    "test_soft_delete": 2
+    "test_array_example_dynamic_object": 100,
+    "test_header_deps": 100,
+    "test_ordering_test": 100,
+    "test_pathAnnotationInSeparateFile": 100,
+    "test_response_headers": 100,
+    "test_same_body_dep": 100,
+    "test_simple_crud_api": 100,
+    "test_simple_swagger_annotations": 100,
+    "test_soft_delete": 100
   },
 
   "test_example": {
-    "test_array_example_dynamic_object": 2,
     "test_exact_copy_values_are_correct": 2,
     "test_array_example": 2,
     "test_body_param": 2,

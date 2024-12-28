@@ -217,10 +217,13 @@ class TestSwaggerOnly(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example"))
     def test_array_example(self):
+        temp = business_config["DataFuzzing"]
+        business_config["DataFuzzing"] = True
         result, msg = compile_spec('swagger_only',
                                    'array_example', [],
                                    "array_example.json")
         self.assertTrue(result, msg=msg)
+        business_config["DataFuzzing"] = temp
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_empty_array_example"))

@@ -9,7 +9,7 @@ from atest.utilities import (
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
 
 
-class TestArrayExample(unittest.TestCase):
+class TestExample(unittest.TestCase):
 
     def setUp(self):
         DebugConfig().swagger_only = False

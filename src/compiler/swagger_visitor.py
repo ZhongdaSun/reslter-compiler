@@ -378,13 +378,19 @@ class GenerateGrammarElements:
                 return raw_value
         elif primitive_type in ["number", "int", "boolean", "integer", "bool", "object"]:
             if isinstance(raw_value, str):
-                if primitive_type in ["int", "integer"]:
-                    try:
-                        return int(''.join(re.findall(r'\d+', raw_value)))
-                    except ValueError:
-                        return raw_value
+                def is_in_correct_format(value):
+                    # Check if the string starts and ends with escaped double quotes
+                    return value.startswith('\"') and value.endswith('\"')
+                if is_in_correct_format(raw_value):
+                    return raw_value
                 else:
-                    return eval(raw_value)
+                    if primitive_type in ["int", "integer"]:
+                        try:
+                            return int(''.join(re.findall(r'\d+', raw_value)))
+                        except ValueError:
+                            return raw_value
+                    else:
+                        return eval(raw_value)
             else:
                 return raw_value
         elif primitive_type in ["string"]:

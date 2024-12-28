@@ -92,16 +92,13 @@ class DebugConfigCases:
             self._config_data = json.load(data_handler)
             data_handler.close()
         self.__swagger_only = False
-        debug_mode = self._config_data["debug_mode"]
-        if debug_mode:
-            debug_module = self._config_data["debug_module"]
-            if debug_module is not None:
-                debug_module_file = os.path.join(os.path.dirname(__file__), debug_module, "atest.json")
-                with open(debug_module_file) as data_handler:
-                    config_debug_module = json.load(data_handler)
-                    self._config_data.update(config_debug_module)
-                data_handler.close()
-        print(self._config_data)
+        debug_module = self._config_data["debug_module"]
+        if debug_module is not None:
+            debug_module_file = os.path.join(os.path.dirname(__file__), debug_module, "atest.json")
+            with open(debug_module_file) as data_handler:
+                config_debug_module = json.load(data_handler)
+                self._config_data.update(config_debug_module)
+            data_handler.close()
         DebugConfigCases.__instance = self
 
     def get_cases_config(self, test_module, test_func):
