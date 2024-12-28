@@ -97,10 +97,17 @@ class TestSwaggerOnly(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_put_createorupdate"))
     def test_put_createorupdate(self):
-        result, msg = compile_spec('',
-                                   'put_cswagger_onlyreateorupdate', [Dict_Json, Engine_Settings],
+        result, msg = compile_spec('swagger_only',
+                                   'put_createorupdate', [Dict_Json],
                                    "put_createorupdate.json")
         self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_put_createorupdate_engine"))
+    def test_put_createorupdate_engine(self):
+        result, msg = compile_spec('swagger_only',
+                                   'put_createorupdate', [Engine_Settings],
+                                   "put_createorupdate.json")
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_large_json_body"))

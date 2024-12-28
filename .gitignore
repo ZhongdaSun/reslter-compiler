@@ -8,6 +8,8 @@ __pycache__/
 ./src/autotest/report/**/
 ./src/autotest/log/
 ./src/autotest/log/**/
+./atest/compiler_atest/grammar/**/
+./utest/test_output/**/
 .idea
 dist
 *.html
