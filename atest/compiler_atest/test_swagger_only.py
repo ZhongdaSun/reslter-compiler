@@ -54,7 +54,8 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_frontend_port_id"))
     def test_frontend_port_id(self):
         result, msg = compile_spec('swagger_only',
-                                   'frontend_port_id', [], "frontend_port_id.json")
+                                   'frontend_port_id', [],
+                                   "frontend_port_id.json")
         self.assertTrue(result, msg=msg)
 
     # block by test_inconsistent_camel_case_fixed_by_restler
@@ -294,6 +295,15 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'example_demo', [],
                                    "example_demo.json")
         self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_array_dep_multiple_items"))
+    def test_array_dep_multiple_items(self):
+        result, msg = compile_spec('swagger_only',
+                                   'array_dep_multiple_items', [],
+                                   "array_dep_multiple_items.json")
+        self.assertTrue(result, msg=msg)
+
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_get_path_dependencies"))

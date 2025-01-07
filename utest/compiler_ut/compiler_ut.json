@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_dependencies.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
@@ -15,7 +15,7 @@
     "test_get_header_dependency_from_openapi_v3_links": 4,
     "test_full_path_to_body_parameter_in_dictionary_custom_payload": 0,
     "test_local_annotations_to_body_properties": 0,
-    "test_no_dependencies_when_same_body_in_unrelated_requests": 0,
+    "test_no_dependencies_when_same_body_in_unrelated_requests": 2,
     "test_dependencies_inferred_for_lowercase_container_and_object": 0,
     "test_inconsistent_camel_case_fixed_by_restler": 100,
     "test_patch_request_body_parameter_producers_from_post": 100,

@@ -83,14 +83,44 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
-    "notAfter":"""),
-    primitives.restler_fuzzable_datetime("2019-06-26T20:20:39+00:00", quoted=True),
+    "storeId":"""),
+    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string(""",
-    "keyType":
-        """),
+    "rush":"""),
+    primitives.restler_fuzzable_bool("true"),
+    primitives.restler_static_string(""",
+    "metadata_properties":"""),
+    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_static_string(""",
+    "callback_parameters":
+        {
+            "notAfter":"""),
+    primitives.restler_fuzzable_date("2019-06-26", quoted=True),
+    primitives.restler_static_string(""",
+            "keyType":
+                """),
     primitives.restler_fuzzable_group("", ['NotSpecified','Primary','Secondary']  ,quoted=True),
     primitives.restler_static_string("""
-    }"""),
+        }
+    ,
+    "bagType":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+    "item_descriptions":
+    [
+        """),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
+    ],
+    "useDoubleBags":"""),
+    primitives.restler_fuzzable_bool("true"),
+    primitives.restler_static_string(""",
+    "bannedBrands":
+    [
+        """),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
+    ]}"""),
     primitives.restler_static_string("\r\n"),
     
     {

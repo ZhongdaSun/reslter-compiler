@@ -381,6 +381,7 @@ class GenerateGrammarElements:
                 def is_in_correct_format(value):
                     # Check if the string starts and ends with escaped double quotes
                     return value.startswith('\"') and value.endswith('\"')
+
                 if is_in_correct_format(raw_value):
                     return raw_value
                 else:
@@ -575,7 +576,7 @@ def process_property(swagger_doc: SwaggerDoc,
     property_required = SchemaUtilities.get_property_bool(property_schema, "required")
     is_readonly = False
     if property_schema.is_set("readonly"):
-        is_readonly = SchemaUtilities.get_property_bool(property_schema,"readonly")
+        is_readonly = SchemaUtilities.get_property_bool(property_schema, "readonly")
     elif property_schema.is_set("readOnly"):
         is_readonly = SchemaUtilities.get_property_bool(property_schema, "readOnly")
     if len(ConfigSetting().ExampleConfigFiles) > 0 or ConfigSetting().ExampleConfigFilePath is not None:
@@ -823,49 +824,15 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     return s
 
     def generate_grammar_element(final_schema: Schema, example_value_info: Optional, parents: list):
-        array_properties = []
-        child_type = SchemaUtilities.get_property_string(final_schema, "type")
-        logger.write_to_main(f"child_type={child_type}, ", ConfigSetting().LogConfig.swagger_visitor)
+        removed_external_object = False
         schema_example = None
         if example_value_info is not None:
             schema_example = example_value_info
         elif final_schema.is_set("example") or final_schema.is_set("examples"):
             schema_example = SchemaUtilities.get_examples_from_parameter(final_schema)
-        additional_property_parameters = []
         all_of_parameter_schemas = []
-        multiple_of_parameter_schema = []
         properties_of_parameter_schema = []
         reference_of_parameter_schema = []
-        declared_property_parameters = []
-
-        if final_schema.is_set("additionalProperties"):
-            additional_property = getattr(final_schema, final_schema.get_private_name("additionalProperties"))
-            logger.write_to_main(f"additional_property={additional_property}",
-                                 ConfigSetting().LogConfig.swagger_visitor)
-            if additional_property is not None:
-                additional_properties_schema = get_actual_schema(additional_property)
-                for name, value in additional_properties_schema.properties.items():
-                    logger.write_to_main(f"name={name}, value={value}", ConfigSetting().LogConfig.swagger_visitor)
-                    ex_value, include_property = GenerateGrammarElements.extract_property_from_object(name,
-                                                                                                      "string",
-                                                                                                      schema_example,
-                                                                                                      parents)
-                    if include_property:
-                        element = process_property(swagger_doc=swagger_doc,
-                                                   property_name=name,
-                                                   property_schema=value,
-                                                   property_payload_example_value=ex_value,
-                                                   generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                                   track_parameters=track_parameters,
-                                                   parents=parents,
-                                                   schema_cache=schema_cache,
-                                                   cont=id)
-                        additional_property_parameters.append(element)
-                        logger.write_to_main(f"name={name}, element={element}",
-                                             ConfigSetting().LogConfig.swagger_visitor)
-                logger.write_to_main(f"len(additional_property_parameters)={len(additional_property_parameters)} "
-                                     f" additional_property_parameters={additional_property_parameters}",
-                                     ConfigSetting().LogConfig.swagger_visitor)
 
         if final_schema.is_set("allOf"):
             all_of_param = getattr(final_schema, final_schema.get_private_name("allOf"))
@@ -889,25 +856,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                 logger.write_to_main(f"len(all_of_parameter_schemas)={len(all_of_parameter_schemas)} "
                                      f" all_of_parameter_schemas={all_of_parameter_schemas}",
                                      ConfigSetting().LogConfig.swagger_visitor)
-
-        if final_schema.is_set("multipleOf"):
-            multi_of_param = getattr(final_schema, final_schema.get_private_name("multipleOf"))
-            logger.write_to_main(f"multi_of_param={multi_of_param}", True)
-            for ao in multi_of_param:
-                element = generate_grammar_element_for_schema(swagger_doc,
-                                                              ao,
-                                                              schema_example,
-                                                              generate_fuzzable_payloads_for_examples,
-                                                              track_parameters,
-                                                              True,
-                                                              parents,
-                                                              schema_cache,
-                                                              cont)
-                multiple_of_parameter_schema.append(element)
-                logger.write_to_main(f"ao={ao}, element ={element}", ConfigSetting().LogConfig.swagger_visitor)
-            logger.write_to_main(f"len(any_of_parameter_schema)={len(multiple_of_parameter_schema)} "
-                                 f" all_of_parameter_schemas={all_of_parameter_schemas}",
-                                 ConfigSetting().LogConfig.swagger_visitor)
 
         if final_schema.is_set("$ref"):
             reference = SchemaUtilities.get_property_schema(final_schema, "$ref")
@@ -936,8 +884,9 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                         elif isinstance(element, LeafNode):
                             reference_of_parameter_schema.append(element)
                     else:
+                        removed_external_object = True
                         element = process_property(swagger_doc=swagger_doc,
-                                                   property_name=key,
+                                                   property_name="",
                                                    property_schema=value,
                                                    property_payload_example_value=schema_example,
                                                    generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
@@ -945,14 +894,12 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                    parents=parents,
                                                    schema_cache=schema_cache,
                                                    cont=id)
-                        internal_node = InternalNode(InnerProperty(name=key, payload=None,
-                                                                   property_type=NestedType.Property,
-                                                                   is_required=is_required,
-                                                                   is_readonly=is_readonly),
-                                                     [element])
-                        reference_of_parameter_schema.append(internal_node)
+                        reference_of_parameter_schema.append(element)
                     logger.write_to_main(f"key={key}, reference={reference} "
                                          f"element={element}", ConfigSetting().LogConfig.swagger_visitor)
+                logger.write_to_main(f"len(reference_of_parameter_schema)={len(reference_of_parameter_schema)} "
+                                     f" reference_of_parameter_schema={reference_of_parameter_schema}",
+                                     ConfigSetting().LogConfig.swagger_visitor)
             print(f"{reference} end")
 
         if final_schema.is_set("properties"):
@@ -1003,24 +950,21 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                           is_required=required,
                                                           is_readonly=readonly)
                         if isinstance(node, InternalNode):
-                            found_ref_in_parents = False
-                            if not found_ref_in_parents and value.is_set("$ref"):
-                                reference_field = SchemaUtilities.get_property_schema(value, "$ref")
-                                for item in parents:
-                                    item_ref = SchemaUtilities.get_property_schema(item, "$ref")
-                                    if reference_field == item_ref:
-                                        found_ref_in_parents = True
-                                        break
-                            if found_ref_in_parents:
-                                element = InternalNode(inner_property=internal_property,
-                                                       leaf_properties=node.leaf_properties)
-                            else:
-                                element = InternalNode(inner_property=internal_property,
-                                                       leaf_properties=[node])
-                            properties_of_parameter_schema.append(element)
-                            logger.write_to_main(f"key={key}, properties_schema[key]={properties_schema[key]} "
-                                                 f"element={element.__dict__()}",
-                                                 ConfigSetting().LogConfig.swagger_visitor)
+                            if value.is_set("$ref"):
+                                reference_name = SchemaUtilities.get_property_schema(value, "$ref")
+                                ref_def = get_definition_ref(reference_name)
+                                if ref_def.ref_type == RefResolution.LocalDefinitionRef:
+                                    ref_def_value = get_definition_reference(ref_location=ref_def.file_name,
+                                                                         spec=swagger_doc.definitions)
+                                    for def_values in ref_def_value.values():
+                                        properties_schema = SchemaUtilities.get_property_dict(def_values, "properties")
+                                        if len(properties_schema) > 0:
+                                            element = InternalNode(inner_property=internal_property,
+                                                                   leaf_properties=[node])
+                                        else:
+                                            element = InternalNode(inner_property=internal_property,
+                                                                   leaf_properties=node.leaf_properties)
+                                        properties_of_parameter_schema.append(element)
                         elif isinstance(node, LeafNode):
                             element = InternalNode(inner_property=internal_property, leaf_properties=[node])
                             properties_of_parameter_schema.append(element)
@@ -1039,114 +983,10 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                    cont=id)
 
                         properties_of_parameter_schema.append(element)
-                        logger.write_to_main(f"key={key}, properties_schema[key]={properties_schema[key]} "
-                                             f"element={element}", ConfigSetting().LogConfig.swagger_visitor)
                     print(f"properties:{key} end")
             logger.write_to_main(f"len(properties_of_parameter_schema)={len(properties_of_parameter_schema)} "
                                  f" properties_of_parameter_schema={properties_of_parameter_schema}",
                                  ConfigSetting().LogConfig.swagger_visitor)
-
-        if final_schema.is_set("type"):
-            name = SchemaUtilities.get_property_string(final_schema, "name")
-            print(f"type:{name} start")
-
-            if child_type == "array":
-                declared_property_parameters = []
-                if final_schema.is_set("items") is None:
-                    raise Exception("Invalid array schema: found array property without a declared element")
-                # todo change
-                array_item = getattr(final_schema, final_schema.get_private_name("items"))
-                if array_item is None:
-                    raise Exception("change to SchemaUtilities")
-
-                logger.write_to_main(f"array_item={array_item} ", ConfigSetting().LogConfig.swagger_visitor)
-
-                array_payload_example_value, include_property = (
-                    GenerateGrammarElements.extract_property_from_array(schema_example))
-                payload_array_examples = ExampleHelpers.get_array_examples(array_payload_example_value)
-                if payload_array_examples is None:
-                    schema_array_examples = ExampleHelpers.try_get_array_schema_example(final_schema)
-                    if schema_array_examples is None:
-                        logger.write_to_main(f"array_item={array_item}", ConfigSetting().LogConfig.swagger_visitor)
-                        if include_property:
-                            element = process_property(
-                                swagger_doc=swagger_doc,
-                                property_name=name,
-                                property_schema=final_schema,
-                                property_payload_example_value=array_payload_example_value,
-                                generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                track_parameters=track_parameters,
-                                parents=[array_item] + parents,
-                                schema_cache=schema_cache,
-                                cont=id)
-                            array_properties.append(element)
-                            logger.write_to_main(f"array_item={array_item}, element={element}",
-                                                 ConfigSetting().LogConfig.swagger_visitor)
-                    else:
-                        for schema_example_value, generate_fuzzable_payload in schema_array_examples:
-                            logger.write_to_main(f"schema_example_value={schema_example_value}, "
-                                                 f"generate_fuzzable_payload={generate_fuzzable_payload}",
-                                                 ConfigSetting().LogConfig.swagger_visitor)
-                            array_payload_example_value, include_property = (
-                                GenerateGrammarElements.extract_property_from_array(schema_example))
-                            if include_property:
-                                element = process_property(
-                                    swagger_doc=swagger_doc,
-                                    property_name="name",
-                                    property_schema=array_item,
-                                    property_payload_example_value=array_payload_example_value,
-                                    generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                    track_parameters=track_parameters,
-                                    parents=[array_item] + parents,
-                                    schema_cache=schema_cache,
-                                    cont=id)
-                                array_properties.append(element)
-                                logger.write_to_main(f"schema_example_value={schema_example_value}, "
-                                                     f"element={element}", ConfigSetting().LogConfig.swagger_visitor)
-
-                        logger.write_to_main(f"array_properties={len(array_properties)} "
-                                             f"array_properties={array_properties}",
-                                             ConfigSetting().LogConfig.swagger_visitor)
-                else:
-                    for example in payload_array_examples:
-                        logger.write_to_main(f"example={example}", ConfigSetting().LogConfig.swagger_visitor)
-                        array_payload_example_value, include_property = (
-                            GenerateGrammarElements.extract_property_from_array(schema_example))
-                        if include_property:
-                            element = process_property(
-                                swagger_doc=swagger_doc,
-                                property_name="name",
-                                property_schema=array_item,
-                                property_payload_example_value=array_payload_example_value,
-                                generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                track_parameters=track_parameters,
-                                parents=[array_item] + parents,
-                                schema_cache=schema_cache,
-                                cont=id)
-                            array_properties.append(element)
-                            logger.write_to_main(f"example={example}, element={element}",
-                                                 ConfigSetting().LogConfig.swagger_visitor)
-                    logger.write_to_main(f"array_properties={len(array_properties)} "
-                                         f"array_properties={array_properties}",
-                                         ConfigSetting().LogConfig.swagger_visitor)
-            else:
-                element = process_property(swagger_doc=swagger_doc,
-                                           property_name=name,
-                                           property_schema=final_schema,
-                                           property_payload_example_value=schema_example,
-                                           generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                           track_parameters=track_parameters,
-                                           parents=[final_schema] + parents,
-                                           schema_cache=schema_cache,
-                                           cont=id)
-                declared_property_parameters.append(element)
-            print(f"type:{name} end")
-
-        logger.write_to_main(f"declared_property_parameters={len(declared_property_parameters)}， "
-                             f"array_properties={len(array_properties)}， "
-                             f"properties_of_parameter_schema={len(properties_of_parameter_schema)}, "
-                             f"reference_of_parameter_schema={len(reference_of_parameter_schema)}",
-                             ConfigSetting().LogConfig.swagger_visitor)
 
         # fix issue: test_schema, large_json_body.json for allof
         grammar_element = None
@@ -1157,21 +997,12 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
             final_parameter_schema = final_parameter_schema + reference_of_parameter_schema
         if len(all_of_parameter_schemas) > 0:
             final_parameter_schema = final_parameter_schema + all_of_parameter_schemas
-        if len(multiple_of_parameter_schema) > 0:
-            final_parameter_schema = final_parameter_schema + multiple_of_parameter_schema
-        if len(array_properties) == 1:
-            grammar_element = array_properties[0]
-        elif len(final_parameter_schema) > 0:
+
+        if len(final_parameter_schema) > 0:
             grammar_element = InternalNode(InnerProperty(name="", payload=None,
                                                          property_type=NestedType.Object,
                                                          is_required=is_required, is_readonly=is_readonly),
                                            final_parameter_schema)
-
-        elif len(declared_property_parameters) > 0:
-            grammar_element = InternalNode(InnerProperty(name="", payload=None,
-                                                         property_type=NestedType.Object,
-                                                         is_required=is_required, is_readonly=is_readonly),
-                                           declared_property_parameters)
 
         schema_cache.add(final_schema, parents, grammar_element, schema_example)
 
@@ -1261,72 +1092,29 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         elif isinstance(schema, Parameter) or isinstance(schema, Response):
             child = get_actual_schema(schema)
             logger.write_to_main(f"child={child}， type(child)={type(child)}", ConfigSetting().LogConfig.swagger_visitor)
+            p_properties = None
             # body local definition
             if isinstance(child, Schema):
+                p_properties = getattr(child, "properties")
                 if not child.is_set("required"):
                     child_required = SchemaUtilities.get_property_bool(schema, "required")
                     child.update_field("required", child_required)
-                if child.is_set("type"):
-                    p_type = SchemaUtilities.get_property_string(child, "type")
-                    p_parameter_name = SchemaUtilities.get_property_string(schema, "name")
-                    p_properties = getattr(child, "properties")
-                    if len(p_properties) > 0:
-                        grammar = generate_grammar_element(child, example_value, parents)
-                        inner_property = InnerProperty(name="",
-                                                       payload=None,
-                                                       property_type=NestedType.Object,
-                                                       is_required=is_required,
-                                                       is_readonly=is_readonly)
-                        internal_node = InternalNode(inner_property=inner_property,
-                                                     leaf_properties=grammar.leaf_properties)
-                        logger.write_to_main(f"inner_property={internal_node.__dict__()}",
-                                             ConfigSetting().LogConfig.swagger_visitor)
-                        return internal_node
-                    if p_type != "array":
-                        leaf_node = process_property(swagger_doc=swagger_doc,
-                                                     property_name=p_parameter_name,
-                                                     property_schema=child,
-                                                     property_payload_example_value=example_value,
-                                                     generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                                     track_parameters=track_parameters,
-                                                     parents=parents,
-                                                     schema_cache=schema_cache,
-                                                     cont=id)
-                        leaf_node.leaf_property.name = ""
-                        return leaf_node
-                    else:
-                        if child.is_set("items") is None:
-                            raise Exception("Invalid array schema: found array property without a declared element")
-                        return process_property(swagger_doc=swagger_doc,
-                                                property_name="",
-                                                property_schema=child,
-                                                property_payload_example_value=example_value,
-                                                generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
-                                                track_parameters=track_parameters,
-                                                parents=parents,
-                                                schema_cache=schema_cache,
-                                                cont=id)
-
-
-                else:
-                    if not child.is_set("required"):
-                        child_required = SchemaUtilities.get_property_bool(schema, "required")
-                        child.update_field("required", child_required)
-                    grammar = generate_grammar_element(child, example_value, parents)
-                    inner_property = InnerProperty(name="",
-                                                   payload=None,
-                                                   property_type=NestedType.Object,
-                                                   is_required=is_required,
-                                                   is_readonly=is_readonly)
-                    internal_node = InternalNode(inner_property=inner_property, leaf_properties=grammar.leaf_properties)
-                    logger.write_to_main(f"inner_property={internal_node.__dict__()}",
-                                         ConfigSetting().LogConfig.swagger_visitor)
-                    return internal_node
-            elif isinstance(child, Parameter) or isinstance(child, Response):
+            if child.is_set("type"):
                 p_type = SchemaUtilities.get_property_string(child, "type")
-                p_parameter_name = SchemaUtilities.get_property_string(child, "name")
+                p_parameter_name = SchemaUtilities.get_property_string(schema, "name")
                 example_value = SchemaUtilities.get_correct_example_value(example_value, p_type)
                 logger.write_to_main(f"example_value={example_value}", ConfigSetting().LogConfig.swagger_visitor)
+                if p_properties is not None and len(p_properties) > 0:
+                    return generate_grammar_element_for_schema(swagger_doc=swagger_doc,
+                                                               schema=child,
+                                                               example_value=example_value,
+                                                               generate_fuzzable_payloads_for_examples=
+                                                               generate_fuzzable_payloads_for_examples,
+                                                               track_parameters=track_parameters,
+                                                               is_required=is_required,
+                                                               parents=parents,
+                                                               schema_cache=schema_cache,
+                                                               cont=None)
                 if p_type != "array":
                     leaf_node = process_property(swagger_doc=swagger_doc,
                                                  property_name=p_parameter_name,
@@ -1351,3 +1139,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                             parents=parents,
                                             schema_cache=schema_cache,
                                             cont=id)
+
+            else:
+                return generate_grammar_element(child, example_value, parents)

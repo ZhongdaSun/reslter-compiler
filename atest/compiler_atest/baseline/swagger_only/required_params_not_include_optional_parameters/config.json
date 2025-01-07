@@ -1,9 +1,7 @@
 {
   "SwaggerSpecFilePath": [
-    "/opt/AutoTest/example_demo.json"
+    "/opt/AutoTest/case/swagger_only/required_params.json"
   ],
-  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
-  "CustomDictionaryFilePath": "/RESTler/restler/Compile/defaultDict.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,
