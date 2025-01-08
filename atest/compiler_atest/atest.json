@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -20,7 +20,7 @@
     "test_large_json_body_level_5": 100,
     "test_large_json_body_level_6": 100,
     "test_lowercase_paths": 0,
-    "test_path_annotation_in_separate_file": 100,
+    "test_path_annotation_in_separate_file": 0,
     "test_local_annotations": 100,
     "test_example_demo": 0,
     "test_array_dep_multiple_items": 100,

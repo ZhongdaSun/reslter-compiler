@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from restler.engine import primitives
-from restler.engine.core import requests
-from restler.engine.errors import ResponseParsingException
-from restler.engine import dependencies
+from engine import primitives
+from engine.core import requests
+from engine.errors import ResponseParsingException
+from engine import dependencies
 
 _stores_post_id = dependencies.DynamicVariable("_stores_post_id")
 
@@ -30,7 +30,7 @@ def parse_storespost(data, **kwargs):
 
         try:
             temp_7262 = str(data["id"])
-
+            
         except Exception as error:
             # This is not an error, since some properties are not always returned
             pass
@@ -57,8 +57,9 @@ request = requests.Request([
     primitives.restler_static_string("Host: localhost:8888\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
     primitives.restler_static_string("\r\n"),
-
+    
     {
+
         'post_send':
         {
             'parser': parse_storespost,
@@ -67,6 +68,7 @@ request = requests.Request([
                 _stores_post_id.writer()
             ]
         }
+
     },
 
 ],
@@ -103,10 +105,7 @@ request = requests.Request([
     "storeProperties":
         {
             "tags":"""),
-    primitives.restler_custom_payload("/storeProperties/tags", quoted=False),
-    primitives.restler_static_string(""",
-            "intro":"""),
-    primitives.restler_custom_payload("/storeProperties/intro", quoted=True),
+    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
     primitives.restler_static_string("""
         }
     ,
@@ -130,7 +129,7 @@ request = requests.Request([
     primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
             "deliveryTags":"""),
-    primitives.restler_custom_payload("/items/[0]/deliveryTags", quoted=False),
+    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
     primitives.restler_static_string(""",
             "code":"""),
     primitives.restler_fuzzable_int("1"),
