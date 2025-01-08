@@ -201,6 +201,13 @@ class TestSwaggerOnly(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_object_example"))
+    def test_object_example(self):
+        result, msg = compile_spec('swagger_only',
+                                   'object_example', [], "object_example.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_no_params"))
     def test_no_params(self):
         result, msg = compile_spec('swagger_only',

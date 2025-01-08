@@ -27,6 +27,7 @@
     "test_custom_payload_swagger": 100,
     "test_custom_payload_content_type_swagger": 100,
     "test_empty_array_example": 0,
+    "test_object_example": 0,
     "test_array_example": 0,
     "test_required_params_include_optional_parameters": 100,
     "test_required_params_not_include_optional_parameters": 100,
