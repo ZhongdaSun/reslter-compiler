@@ -190,7 +190,7 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_local_annotations"))
     def test_local_annotations(self):
         result, msg = compile_spec('swagger_only',
-                                   'local_annotations', [], "localAnnotation.json")
+                                   'local_annotations', [], "localAnnotations.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
