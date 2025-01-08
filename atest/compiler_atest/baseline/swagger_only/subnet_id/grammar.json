@@ -93,12 +93,6 @@
       ],
       "queryParameters": [
         [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
-        [
           "Schema",
           {
             "ParameterList": []
@@ -106,110 +100,6 @@
         ]
       ],
       "bodyParameters": [
-        [
-          "Examples",
-          {
-            "ParameterList": [
-              {
-                "name": "subnetParameters",
-                "payload": {
-                  "InternalNode": [
-                    {
-                      "name": "",
-                      "propertyType": "Object",
-                      "isRequired": true,
-                      "isReadOnly": false
-                    },
-                    [
-                      {
-                        "InternalNode": [
-                          {
-                            "name": "properties",
-                            "propertyType": "Property",
-                            "isRequired": false,
-                            "isReadOnly": false
-                          },
-                          [
-                            {
-                              "InternalNode": [
-                                {
-                                  "name": "",
-                                  "propertyType": "Object",
-                                  "isRequired": false,
-                                  "isReadOnly": false
-                                },
-                                [
-                                  {
-                                    "LeafNode": {
-                                      "name": "addressPrefix",
-                                      "payload": {
-                                        "Fuzzable": {
-                                          "primitiveType": "String",
-                                          "defaultValue": "fuzzstring",
-                                          "exampleValue": "10.0.0.0/16"
-                                        }
-                                      },
-                                      "isRequired": false,
-                                      "isReadOnly": false
-                                    }
-                                  },
-                                  {
-                                    "LeafNode": {
-                                      "name": "nullProperty",
-                                      "payload": {
-                                        "Fuzzable": {
-                                          "primitiveType": "String",
-                                          "defaultValue": "fuzzstring",
-                                          "exampleValue": {
-                                            "Some": null
-                                          }
-                                        }
-                                      },
-                                      "isRequired": false,
-                                      "isReadOnly": false
-                                    }
-                                  },
-                                  {
-                                    "LeafNode": {
-                                      "name": "intProperty",
-                                      "payload": {
-                                        "Fuzzable": {
-                                          "primitiveType": "Int",
-                                          "defaultValue": "1",
-                                          "exampleValue": "123"
-                                        }
-                                      },
-                                      "isRequired": false,
-                                      "isReadOnly": false
-                                    }
-                                  },
-                                  {
-                                    "LeafNode": {
-                                      "name": "emptyProperty",
-                                      "payload": {
-                                        "Fuzzable": {
-                                          "primitiveType": "String",
-                                          "defaultValue": "fuzzstring",
-                                          "exampleValue": ""
-                                        }
-                                      },
-                                      "isRequired": false,
-                                      "isReadOnly": false
-                                    }
-                                  }
-                                ]
-                              ]
-                            }
-                          ]
-                        ]
-                      }
-                    ]
-                  ]
-                }
-              }
-            ]
-          }
-        ],
         [
           "Schema",
           {
@@ -337,12 +227,6 @@
       ],
       "headerParameters": [
         [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
-        [
           "Schema",
           {
             "ParameterList": []
@@ -449,12 +333,6 @@
       ],
       "queryParameters": [
         [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
-        [
           "Schema",
           {
             "ParameterList": []
@@ -462,240 +340,6 @@
         ]
       ],
       "bodyParameters": [
-        [
-          "Examples",
-          {
-            "ParameterList": [
-              {
-                "name": "parameters",
-                "payload": {
-                  "InternalNode": [
-                    {
-                      "name": "",
-                      "propertyType": "Object",
-                      "isRequired": true,
-                      "isReadOnly": false
-                    },
-                    [
-                      {
-                        "InternalNode": [
-                          {
-                            "name": "properties",
-                            "propertyType": "Property",
-                            "isRequired": false,
-                            "isReadOnly": false
-                          },
-                          [
-                            {
-                              "InternalNode": [
-                                {
-                                  "name": "",
-                                  "propertyType": "Object",
-                                  "isRequired": false,
-                                  "isReadOnly": false
-                                },
-                                [
-                                  {
-                                    "InternalNode": [
-                                      {
-                                        "name": "gatewayIPConfigurations",
-                                        "propertyType": "Array",
-                                        "isRequired": false,
-                                        "isReadOnly": false
-                                      },
-                                      [
-                                        {
-                                          "InternalNode": [
-                                            {
-                                              "name": "",
-                                              "propertyType": "Object",
-                                              "isRequired": false,
-                                              "isReadOnly": false
-                                            },
-                                            [
-                                              {
-                                                "InternalNode": [
-                                                  {
-                                                    "name": "properties",
-                                                    "propertyType": "Property",
-                                                    "isRequired": false,
-                                                    "isReadOnly": false
-                                                  },
-                                                  [
-                                                    {
-                                                      "InternalNode": [
-                                                        {
-                                                          "name": "",
-                                                          "propertyType": "Object",
-                                                          "isRequired": false,
-                                                          "isReadOnly": false
-                                                        },
-                                                        [
-                                                          {
-                                                            "InternalNode": [
-                                                              {
-                                                                "name": "subnet",
-                                                                "propertyType": "Property",
-                                                                "isRequired": false,
-                                                                "isReadOnly": false
-                                                              },
-                                                              [
-                                                                {
-                                                                  "InternalNode": [
-                                                                    {
-                                                                      "name": "",
-                                                                      "propertyType": "Object",
-                                                                      "isRequired": false,
-                                                                      "isReadOnly": false
-                                                                    },
-                                                                    [
-                                                                      {
-                                                                        "LeafNode": {
-                                                                          "name": "id",
-                                                                          "payload": {
-                                                                            "DynamicObject": {
-                                                                              "primitiveType": "String",
-                                                                              "variableName": "_subnets__subnetName__put_id",
-                                                                              "isWriter": false
-                                                                            }
-                                                                          },
-                                                                          "isRequired": false,
-                                                                          "isReadOnly": false
-                                                                        }
-                                                                      }
-                                                                    ]
-                                                                  ]
-                                                                }
-                                                              ]
-                                                            ]
-                                                          }
-                                                        ]
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
-                                              },
-                                              {
-                                                "LeafNode": {
-                                                  "name": "name",
-                                                  "payload": {
-                                                    "Fuzzable": {
-                                                      "primitiveType": "String",
-                                                      "defaultValue": "fuzzstring",
-                                                      "exampleValue": "appgwipc"
-                                                    }
-                                                  },
-                                                  "isRequired": false,
-                                                  "isReadOnly": false
-                                                }
-                                              }
-                                            ]
-                                          ]
-                                        },
-                                        {
-                                          "InternalNode": [
-                                            {
-                                              "name": "",
-                                              "propertyType": "Object",
-                                              "isRequired": false,
-                                              "isReadOnly": false
-                                            },
-                                            [
-                                              {
-                                                "InternalNode": [
-                                                  {
-                                                    "name": "properties",
-                                                    "propertyType": "Property",
-                                                    "isRequired": false,
-                                                    "isReadOnly": false
-                                                  },
-                                                  [
-                                                    {
-                                                      "InternalNode": [
-                                                        {
-                                                          "name": "",
-                                                          "propertyType": "Object",
-                                                          "isRequired": false,
-                                                          "isReadOnly": false
-                                                        },
-                                                        [
-                                                          {
-                                                            "InternalNode": [
-                                                              {
-                                                                "name": "subnet",
-                                                                "propertyType": "Property",
-                                                                "isRequired": false,
-                                                                "isReadOnly": false
-                                                              },
-                                                              [
-                                                                {
-                                                                  "InternalNode": [
-                                                                    {
-                                                                      "name": "",
-                                                                      "propertyType": "Object",
-                                                                      "isRequired": false,
-                                                                      "isReadOnly": false
-                                                                    },
-                                                                    [
-                                                                      {
-                                                                        "LeafNode": {
-                                                                          "name": "id",
-                                                                          "payload": {
-                                                                            "DynamicObject": {
-                                                                              "primitiveType": "String",
-                                                                              "variableName": "_subnets__subnetName__put_id",
-                                                                              "isWriter": false
-                                                                            }
-                                                                          },
-                                                                          "isRequired": false,
-                                                                          "isReadOnly": false
-                                                                        }
-                                                                      }
-                                                                    ]
-                                                                  ]
-                                                                }
-                                                              ]
-                                                            ]
-                                                          }
-                                                        ]
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
-                                              },
-                                              {
-                                                "LeafNode": {
-                                                  "name": "name",
-                                                  "payload": {
-                                                    "Fuzzable": {
-                                                      "primitiveType": "String",
-                                                      "defaultValue": "fuzzstring",
-                                                      "exampleValue": "appgwipc2"
-                                                    }
-                                                  },
-                                                  "isRequired": false,
-                                                  "isReadOnly": false
-                                                }
-                                              }
-                                            ]
-                                          ]
-                                        }
-                                      ]
-                                    ]
-                                  }
-                                ]
-                              ]
-                            }
-                          ]
-                        ]
-                      }
-                    ]
-                  ]
-                }
-              }
-            ]
-          }
-        ],
         [
           "Schema",
           {
@@ -883,12 +527,6 @@
       ],
       "headerParameters": [
         [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
-        [
           "Schema",
           {
             "ParameterList": []
@@ -959,12 +597,6 @@
       ],
       "queryParameters": [
         [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
-        [
           "Schema",
           {
             "ParameterList": []
@@ -972,104 +604,6 @@
         ]
       ],
       "bodyParameters": [
-        [
-          "Examples",
-          {
-            "ParameterList": [
-              {
-                "name": "parameters",
-                "payload": {
-                  "InternalNode": [
-                    {
-                      "name": "",
-                      "propertyType": "Object",
-                      "isRequired": true,
-                      "isReadOnly": false
-                    },
-                    [
-                      {
-                        "InternalNode": [
-                          {
-                            "name": "subnets",
-                            "propertyType": "Array",
-                            "isRequired": false,
-                            "isReadOnly": false
-                          },
-                          [
-                            {
-                              "InternalNode": [
-                                {
-                                  "name": "",
-                                  "propertyType": "Object",
-                                  "isRequired": false,
-                                  "isReadOnly": false
-                                },
-                                [
-                                  {
-                                    "InternalNode": [
-                                      {
-                                        "name": "properties",
-                                        "propertyType": "Property",
-                                        "isRequired": false,
-                                        "isReadOnly": false
-                                      },
-                                      [
-                                        {
-                                          "InternalNode": [
-                                            {
-                                              "name": "",
-                                              "propertyType": "Object",
-                                              "isRequired": false,
-                                              "isReadOnly": false
-                                            },
-                                            [
-                                              {
-                                                "LeafNode": {
-                                                  "name": "addressPrefix",
-                                                  "payload": {
-                                                    "Fuzzable": {
-                                                      "primitiveType": "String",
-                                                      "defaultValue": "fuzzstring",
-                                                      "exampleValue": "10.0.0.0/24"
-                                                    }
-                                                  },
-                                                  "isRequired": false,
-                                                  "isReadOnly": false
-                                                }
-                                              }
-                                            ]
-                                          ]
-                                        }
-                                      ]
-                                    ]
-                                  },
-                                  {
-                                    "LeafNode": {
-                                      "name": "name",
-                                      "payload": {
-                                        "DynamicObject": {
-                                          "primitiveType": "String",
-                                          "variableName": "_subnets__subnetName__put_name",
-                                          "isWriter": false
-                                        }
-                                      },
-                                      "isRequired": false,
-                                      "isReadOnly": false
-                                    }
-                                  }
-                                ]
-                              ]
-                            }
-                          ]
-                        ]
-                      }
-                    ]
-                  ]
-                }
-              }
-            ]
-          }
-        ],
         [
           "Schema",
           {
@@ -1222,12 +756,6 @@
         ]
       ],
       "headerParameters": [
-        [
-          "Examples",
-          {
-            "ParameterList": []
-          }
-        ],
         [
           "Schema",
           {

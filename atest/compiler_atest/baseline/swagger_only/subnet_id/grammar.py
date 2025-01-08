@@ -1,7 +1,6 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-import json
 from restler.engine import primitives
 from restler.engine.core import requests
 from restler.engine.errors import ResponseParsingException
@@ -100,19 +99,25 @@ request = requests.Request([
     "properties":
         {
             "addressPrefix":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["10.0.0.0/16"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
             "nullProperty":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=[None]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
             "intProperty":"""),
-    primitives.restler_fuzzable_int("1", examples=["123"]),
+    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string(""",
             "emptyProperty":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=[""]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string("""
         }
-    }"""),
+    ,
+    "name":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+    "id":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("}"),
     primitives.restler_static_string("\r\n"),
     
     {
@@ -165,25 +170,20 @@ request = requests.Request([
     primitives.restler_static_string(_subnets__subnetName__put_id.reader(), quoted=True),
     primitives.restler_static_string("""
                                 }
+                            ,
+                            "provisioningState":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
                         }
                     ,
                     "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["appgwipc"]),
-    primitives.restler_static_string("""
-                },
-                {
-                    "properties":
-                        {
-                            "subnet":
-                                {
-                                    "id":"""),
-    primitives.restler_static_string(_subnets__subnetName__put_id.reader(), quoted=True),
-    primitives.restler_static_string("""
-                                }
-                        }
-                    ,
-                    "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["appgwipc2"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+                    "etag":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+                    "type":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string("""
                 }
             ]
@@ -220,12 +220,24 @@ request = requests.Request([
             "properties":
                 {
                     "addressPrefix":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["10.0.0.0/24"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+                    "nullProperty":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+                    "intProperty":"""),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string(""",
+                    "emptyProperty":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string("""
                 }
             ,
             "name":"""),
     primitives.restler_static_string(_subnets__subnetName__put_name.reader(), quoted=True),
+    primitives.restler_static_string(""",
+            "id":"""),
+    primitives.restler_static_string(_subnets__subnetName__put_id.reader(), quoted=True),
     primitives.restler_static_string("""
         }
     ]}"""),

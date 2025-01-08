@@ -248,6 +248,11 @@ class SchemaUtilities:
             raise Exception(f"property name: {name} is wrong!")
 
     @staticmethod
+    def get_property_read_only(schema: Union[Schema, Parameter, Response]) -> bool:
+        return (SchemaUtilities.get_property_bool(schema, "readonly") or
+                SchemaUtilities.get_property_bool(schema, "readOnly"))
+
+    @staticmethod
     def get_property_string(schema: Union[Schema, Parameter, Response], name: str) -> str:
         if name in ["type", "name", "format", "in", "style"]:
             if schema.is_set(name):
@@ -517,14 +522,14 @@ def try_get_default(property: Schema):
 
 
 # addTrackedParameterName
-def add_tracked_parameter_name(tree: Tree, param_name: str):
+def add_tracked_parameter_name(tree: Tree, param_name: str, is_readonly: bool):
     if not ConfigSetting().TrackFuzzedParameterNames:
         return tree
 
     if isinstance(tree, LeafNode):
         leaf_property = tree.leaf_property
         payload = leaf_property.payload
-
+        leaf_property.is_readonly = is_readonly
         if isinstance(payload, Fuzzable):
             # 更新 parameter_name
             payload.parameter_name = param_name
@@ -574,11 +579,7 @@ def process_property(swagger_doc: SwaggerDoc,
     # in the Swagger specification.
     property_type = SchemaUtilities.get_property_string(property_schema, "type").lower()
     property_required = SchemaUtilities.get_property_bool(property_schema, "required")
-    is_readonly = False
-    if property_schema.is_set("readonly"):
-        is_readonly = SchemaUtilities.get_property_bool(property_schema, "readonly")
-    elif property_schema.is_set("readOnly"):
-        is_readonly = SchemaUtilities.get_property_bool(property_schema, "readOnly")
+    is_readonly = SchemaUtilities.get_property_read_only(property_schema)
     if len(ConfigSetting().ExampleConfigFiles) > 0 or ConfigSetting().ExampleConfigFilePath is not None:
         if (property_payload_example_value is None and
                 property_schema.is_set("example") or property_schema.is_set("examples")):
@@ -643,7 +644,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                            payload=None,
                                            property_type=NestedType.Property,
                                            is_required=property_required,
-                                           is_readonly=is_readonly)
+                                           is_readonly=False)
             return InternalNode(inner_property=inner_property, leaf_properties=[obj_tree])
     elif property_type == "array":
         logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
@@ -673,7 +674,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                                                           cont)
                 logger.write_to_main(f"array_with_elements={array_with_elements.__dict__()}",
                                      ConfigSetting().LogConfig.swagger_visitor)
-                tree = add_tracked_parameter_name(array_with_elements, property_name)
+                tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
                 return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
 
             else:
@@ -690,8 +691,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                                                                  schema_cache,
                                                                                  cont)
                         if isinstance(array_with_element, InternalNode):
-                            # array_with_elements.leaf_property.is_required = property_required
-                            tree = add_tracked_parameter_name(array_with_element, property_name)
+                            tree = add_tracked_parameter_name(array_with_element, property_name, is_readonly)
                             array_with_elements.append(tree)
                     return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
         else:
@@ -707,7 +707,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                                                               schema_cache,
                                                                               cont)
                     if isinstance(array_with_elements, InternalNode):
-                        tree = add_tracked_parameter_name(array_with_elements, property_name)
+                        tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
                         return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
                     else:
                         raise ValueError("An array should be an internal node.")
@@ -723,7 +723,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                                            cont)
                     if isinstance(array_with_elements, LeafNode):
                         array_with_elements.leaf_property.is_required = property_required
-                        tree = add_tracked_parameter_name(array_with_elements, property_name)
+                        tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
                         return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
                     else:
                         raise ValueError("An array should be an internal node.")
@@ -745,7 +745,7 @@ def process_property(swagger_doc: SwaggerDoc,
                                                     cont)
                         if isinstance(elements, LeafNode):
                             elements.leaf_property.is_required = property_required
-                            tree = add_tracked_parameter_name(elements, property_name)
+                            tree = add_tracked_parameter_name(elements, property_name, is_readonly)
                             array_with_elements.append(tree)
                     return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
                 else:
@@ -792,7 +792,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                         ) -> Union[LeafNode, InternalNode]:
     print("Generate Grammar Element For Schema...")
     logger.write_to_main(f"Generate Grammar Element For Schema: {schema}", ConfigSetting().LogConfig.swagger_visitor)
-    is_readonly = SchemaUtilities.get_property_bool(schema, "readonly")
+    is_readonly = SchemaUtilities.get_property_read_only(schema)
 
     def get_actual_schema(s):
         if isinstance(s, Schema):
@@ -824,7 +824,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     return s
 
     def generate_grammar_element(final_schema: Schema, example_value_info: Optional, parents: list):
-        removed_external_object = False
         schema_example = None
         if example_value_info is not None:
             schema_example = example_value_info
@@ -884,7 +883,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                         elif isinstance(element, LeafNode):
                             reference_of_parameter_schema.append(element)
                     else:
-                        removed_external_object = True
                         element = process_property(swagger_doc=swagger_doc,
                                                    property_name="",
                                                    property_schema=value,
@@ -912,7 +910,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     required_field = getattr(final_schema, final_schema.get_private_name("required"))
 
                 for key, value in properties_schema.items():
-                    readonly = SchemaUtilities.get_property_bool(value, "readonly")
+                    readonly = SchemaUtilities.get_property_read_only(value)
                     prop_type = SchemaUtilities.get_property_string(value, "type")
                     required = SchemaUtilities.get_property_bool(value, "required")
                     if isinstance(required_field, list):
@@ -948,7 +946,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                           payload=None,
                                                           property_type=NestedType.Property,
                                                           is_required=required,
-                                                          is_readonly=readonly)
+                                                          is_readonly=False)
                         if isinstance(node, InternalNode):
                             if value.is_set("$ref"):
                                 reference_name = SchemaUtilities.get_property_schema(value, "$ref")
@@ -1001,7 +999,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         if len(final_parameter_schema) > 0:
             grammar_element = InternalNode(InnerProperty(name="", payload=None,
                                                          property_type=NestedType.Object,
-                                                         is_required=is_required, is_readonly=is_readonly),
+                                                         is_required=is_required, is_readonly=False),
                                            final_parameter_schema)
 
         schema_cache.add(final_schema, parents, grammar_element, schema_example)

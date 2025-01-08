@@ -1,0 +1,380 @@
+{
+  "/applicationGateways/{applicationGatewayName}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__applicationGatewayName",
+          "consumer_param": "applicationGatewayName"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/etag"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/properties/provisioningState"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/properties/subnet"
+        },
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/properties/subnet/id"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/gatewayIPConfigurations/[0]/type"
+        }
+      ]
+    }
+  },
+  "/networkInterfaces/{networkInterfaceName}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__networkInterfaceName",
+          "consumer_param": "networkInterfaceName"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "etag"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "id"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "location"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/enableAcceleratedNetworking"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/enableIPForwarding"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/hostedWorkloads/[0]"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/etag"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/id"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/primary"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/privateIPAddress"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/privateIPAddressVersion"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/privateIPAllocationMethod"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/provisioningState"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/subnet"
+        },
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/subnet/id"
+        },
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/subnet/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/subnet/properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/ipConfigurations/[0]/properties/subnet/properties/addressPrefix"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/macAddress"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/primary"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/provisioningState"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/resourceGuid"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/virtualMachine"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/virtualMachine/id"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "tags"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "type"
+        }
+      ]
+    }
+  },
+  "/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "properties/ipConfigurations/[0]/name",
+          "consumer_param": "ipConfigurationName"
+        },
+        {
+          "producer_endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "networkInterfaceName"
+        }
+      ]
+    }
+  },
+  "/subnets/{subnetName}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "subnetName"
+        }
+      ]
+    },
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__subnetName",
+          "consumer_param": "subnetName"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "id"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "properties/addressPrefix"
+        }
+      ]
+    }
+  },
+  "/virtualNetworks/{virtualNetworkName}": {
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "restler_custom_payload_uuid_suffix__virtualNetworkName",
+          "consumer_param": "virtualNetworkName"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "subnets/[0]"
+        },
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "subnets/[0]/id"
+        },
+        {
+          "producer_endpoint": "/subnets/{subnetName}",
+          "producer_method": "PUT",
+          "producer_resource_name": "name",
+          "consumer_param": "subnets/[0]/name"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "subnets/[0]/properties"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "subnets/[0]/properties/addressPrefix"
+        }
+      ]
+    }
+  }
+}

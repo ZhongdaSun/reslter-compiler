@@ -1,14 +1,14 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
     "test_inconsistent_casing_paths": 5,
     "test_post_patch_dependency": 5,
-    "test_frontend_port_id": 2,
-    "test_ip_configurations_get": 4,
-    "test_subnet_id": 4,
+    "test_frontend_port_id": 100,
+    "test_ip_configurations_get": 100,
+    "test_subnet_id": 100,
     "test_body_dependency_cycles": 100,
     "test_circular_path": 100,
     "test_put_createorupdate": 0,

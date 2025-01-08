@@ -427,7 +427,7 @@ class Parameters:
 
                 payload = LeafNode(LeafProperty(name="",
                                                 payload=constant_payload,
-                                                is_readonly=SchemaUtilities.get_property_bool(parameter, "readOnly"),
+                                                is_readonly=SchemaUtilities.get_property_read_only(parameter),
                                                 is_required=is_required))
 
             else:

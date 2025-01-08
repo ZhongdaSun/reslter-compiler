@@ -165,11 +165,6 @@
               }
             }
           ],
-          "x-ms-examples": {
-            "Create subnet": {
-              "$ref": "./examples/create_subnet.json"
-            }
-          },
           "responses": {
             "201": {
               "description": "Success",
@@ -198,11 +193,6 @@
               }
             }
           ],
-          "x-ms-examples": {
-            "Create vnet": {
-              "$ref": "./examples/create_application_gateway.json"
-            }
-          },
           "responses": {
             "201": {
               "description": "Success",

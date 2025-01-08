@@ -1,0 +1,2616 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "applicationGatewayName",
+            "pathToParameter": [
+              "applicationGateways"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "applicationGateways",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "application__gateway"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "applicationGatewayName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "applicationGatewayName",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "applicationGateways",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "application__gateway"
+        ],
+        "AccessPath": "properties",
+        "AccessPathParts": {
+          "path": [
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "gatewayIPConfigurations",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]"
+          ]
+        },
+        "ResourceName": "gatewayIPConfigurations",
+        "ProducerParameterName": "configurations",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "etag",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "etag"
+              ]
+            }
+          }
+        },
+        "ContainerName": "gatewayIPConfigurations",
+        "BodyContainerName": "gatewayIPConfigurations",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "gateway__ip__configuration",
+          "ip__configuration",
+          "configuration",
+          "gateway__ip"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/etag",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "etag"
+          ]
+        },
+        "ResourceName": "etag",
+        "ProducerParameterName": "etag",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "gatewayIPConfigurations",
+        "BodyContainerName": "gatewayIPConfigurations",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "gateway__ip__configuration",
+          "ip__configuration",
+          "configuration",
+          "gateway__ip"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/name",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "gatewayIPConfigurations",
+        "BodyContainerName": "gatewayIPConfigurations",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "gateway__ip__configuration",
+          "ip__configuration",
+          "configuration",
+          "gateway__ip"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/properties",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "provisioningState",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "properties",
+                "provisioningState"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/properties/provisioningState",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "properties",
+            "provisioningState"
+          ]
+        },
+        "ResourceName": "provisioningState",
+        "ProducerParameterName": "state",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "subnet",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "properties",
+                "subnet"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/properties/subnet",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "properties",
+            "subnet"
+          ]
+        },
+        "ResourceName": "subnet",
+        "ProducerParameterName": "subnet",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "properties",
+                "subnet",
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnet",
+        "BodyContainerName": "subnet",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/properties/subnet/id",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "properties",
+            "subnet",
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/applicationGateways/{applicationGatewayName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "type",
+            "fullPath": {
+              "path": [
+                "properties",
+                "gatewayIPConfigurations",
+                "[0]",
+                "type"
+              ]
+            }
+          }
+        },
+        "ContainerName": "gatewayIPConfigurations",
+        "BodyContainerName": "gatewayIPConfigurations",
+        "PathContainerName": "applicationGateways",
+        "CandidateTypeNames": [
+          "gateway__ip__configuration",
+          "ip__configuration",
+          "configuration",
+          "gateway__ip"
+        ],
+        "AccessPath": "properties/gatewayIPConfigurations/[0]/type",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "gatewayIPConfigurations",
+            "[0]",
+            "type"
+          ]
+        },
+        "ResourceName": "type",
+        "ProducerParameterName": "type",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "networkInterfaceName",
+            "pathToParameter": [
+              "networkInterfaces"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "networkInterfaceName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "networkInterfaceName",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "etag",
+            "fullPath": {
+              "path": [
+                "etag"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "etag",
+        "AccessPathParts": {
+          "path": [
+            "etag"
+          ]
+        },
+        "ResourceName": "etag",
+        "ProducerParameterName": "etag",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "id",
+        "AccessPathParts": {
+          "path": [
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "location",
+            "fullPath": {
+              "path": [
+                "location"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "location",
+        "AccessPathParts": {
+          "path": [
+            "location"
+          ]
+        },
+        "ResourceName": "location",
+        "ProducerParameterName": "location",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "name",
+        "AccessPathParts": {
+          "path": [
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "properties",
+        "AccessPathParts": {
+          "path": [
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "enableAcceleratedNetworking",
+            "fullPath": {
+              "path": [
+                "properties",
+                "enableAcceleratedNetworking"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/enableAcceleratedNetworking",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "enableAcceleratedNetworking"
+          ]
+        },
+        "ResourceName": "enableAcceleratedNetworking",
+        "ProducerParameterName": "networking",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "Bool"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "enableIPForwarding",
+            "fullPath": {
+              "path": [
+                "properties",
+                "enableIPForwarding"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/enableIPForwarding",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "enableIPForwarding"
+          ]
+        },
+        "ResourceName": "enableIPForwarding",
+        "ProducerParameterName": "forwarding",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "Bool"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "hostedWorkloads",
+            "fullPath": {
+              "path": [
+                "properties",
+                "hostedWorkloads",
+                "[0]"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/hostedWorkloads/[0]",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "hostedWorkloads",
+            "[0]"
+          ]
+        },
+        "ResourceName": "hostedWorkloads",
+        "ProducerParameterName": "workloads",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "ipConfigurations",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]"
+          ]
+        },
+        "ResourceName": "ipConfigurations",
+        "ProducerParameterName": "configurations",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "etag",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "etag"
+              ]
+            }
+          }
+        },
+        "ContainerName": "ipConfigurations",
+        "BodyContainerName": "ipConfigurations",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "ip__configuration",
+          "configuration"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/etag",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "etag"
+          ]
+        },
+        "ResourceName": "etag",
+        "ProducerParameterName": "etag",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "ipConfigurations",
+        "BodyContainerName": "ipConfigurations",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "ip__configuration",
+          "configuration"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/id",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "ipConfigurations",
+        "BodyContainerName": "ipConfigurations",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "ip__configuration",
+          "configuration"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/name",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "ipConfigurations",
+        "BodyContainerName": "ipConfigurations",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "ip__configuration",
+          "configuration"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "primary",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "primary"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/primary",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "primary"
+          ]
+        },
+        "ResourceName": "primary",
+        "ProducerParameterName": "primary",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "Bool"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "privateIPAddress",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "privateIPAddress"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/privateIPAddress",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "privateIPAddress"
+          ]
+        },
+        "ResourceName": "privateIPAddress",
+        "ProducerParameterName": "address",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "privateIPAddressVersion",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "privateIPAddressVersion"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/privateIPAddressVersion",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "privateIPAddressVersion"
+          ]
+        },
+        "ResourceName": "privateIPAddressVersion",
+        "ProducerParameterName": "version",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": {
+          "Enum": [
+            "privateIPAddressVersion",
+            "String",
+            [
+              "IPv4",
+              "IPv6"
+            ],
+            null
+          ]
+        }
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "privateIPAllocationMethod",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "privateIPAllocationMethod"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/privateIPAllocationMethod",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "privateIPAllocationMethod"
+          ]
+        },
+        "ResourceName": "privateIPAllocationMethod",
+        "ProducerParameterName": "method",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": {
+          "Enum": [
+            "privateIPAllocationMethod",
+            "String",
+            [
+              "Static",
+              "Dynamic"
+            ],
+            null
+          ]
+        }
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "provisioningState",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "provisioningState"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/provisioningState",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "provisioningState"
+          ]
+        },
+        "ResourceName": "provisioningState",
+        "ProducerParameterName": "state",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "subnet",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "subnet"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/subnet",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "subnet"
+          ]
+        },
+        "ResourceName": "subnet",
+        "ProducerParameterName": "subnet",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "subnet",
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnet",
+        "BodyContainerName": "subnet",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/subnet/id",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "subnet",
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "subnet",
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnet",
+        "BodyContainerName": "subnet",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/subnet/name",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "subnet",
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "subnet",
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnet",
+        "BodyContainerName": "subnet",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/subnet/properties",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "subnet",
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "addressPrefix",
+            "fullPath": {
+              "path": [
+                "properties",
+                "ipConfigurations",
+                "[0]",
+                "properties",
+                "subnet",
+                "properties",
+                "addressPrefix"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/ipConfigurations/[0]/properties/subnet/properties/addressPrefix",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "ipConfigurations",
+            "[0]",
+            "properties",
+            "subnet",
+            "properties",
+            "addressPrefix"
+          ]
+        },
+        "ResourceName": "addressPrefix",
+        "ProducerParameterName": "prefix",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "macAddress",
+            "fullPath": {
+              "path": [
+                "properties",
+                "macAddress"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/macAddress",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "macAddress"
+          ]
+        },
+        "ResourceName": "macAddress",
+        "ProducerParameterName": "address",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "primary",
+            "fullPath": {
+              "path": [
+                "properties",
+                "primary"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/primary",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "primary"
+          ]
+        },
+        "ResourceName": "primary",
+        "ProducerParameterName": "primary",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "Bool"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "provisioningState",
+            "fullPath": {
+              "path": [
+                "properties",
+                "provisioningState"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/provisioningState",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "provisioningState"
+          ]
+        },
+        "ResourceName": "provisioningState",
+        "ProducerParameterName": "state",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "resourceGuid",
+            "fullPath": {
+              "path": [
+                "properties",
+                "resourceGuid"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/resourceGuid",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "resourceGuid"
+          ]
+        },
+        "ResourceName": "resourceGuid",
+        "ProducerParameterName": "guid",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "virtualMachine",
+            "fullPath": {
+              "path": [
+                "properties",
+                "virtualMachine"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/virtualMachine",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "virtualMachine"
+          ]
+        },
+        "ResourceName": "virtualMachine",
+        "ProducerParameterName": "machine",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "properties",
+                "virtualMachine",
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "virtualMachine",
+        "BodyContainerName": "virtualMachine",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "virtual__machine",
+          "machine"
+        ],
+        "AccessPath": "properties/virtualMachine/id",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "virtualMachine",
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "tags",
+            "fullPath": {
+              "path": [
+                "tags"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "tags",
+        "AccessPathParts": {
+          "path": [
+            "tags"
+          ]
+        },
+        "ResourceName": "tags",
+        "ProducerParameterName": "tags",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Object"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "type",
+            "fullPath": {
+              "path": [
+                "type"
+              ]
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "networkInterfaces",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPath": "type",
+        "AccessPathParts": {
+          "path": [
+            "type"
+          ]
+        },
+        "ResourceName": "type",
+        "ProducerParameterName": "type",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "ipConfigurationName",
+            "pathToParameter": [
+              "networkInterfaces",
+              "{networkInterfaceName}",
+              "ipConfigurations"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "ipConfigurations",
+        "PathContainerName": "ipConfigurations",
+        "CandidateTypeNames": [
+          "ip__configuration"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "ipConfigurationName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/networkInterfaces/{networkInterfaceName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "properties",
+                  "ipConfigurations",
+                  "[0]",
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "ipConfigurations",
+          "BodyContainerName": "ipConfigurations",
+          "PathContainerName": "networkInterfaces",
+          "CandidateTypeNames": [
+            "ip__configuration",
+            "configuration"
+          ],
+          "AccessPath": "properties/ipConfigurations/[0]/name",
+          "AccessPathParts": {
+            "path": [
+              "properties",
+              "ipConfigurations",
+              "[0]",
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": true,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "networkInterfaceName",
+            "pathToParameter": [
+              "networkInterfaces"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "networkInterfaces",
+        "PathContainerName": "ipConfigurations",
+        "CandidateTypeNames": [
+          "network__interface"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "networkInterfaceName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/networkInterfaces/{networkInterfaceName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "networkInterfaces",
+          "PathContainerName": "networkInterfaces",
+          "CandidateTypeNames": [
+            "network__interface"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "subnetName",
+            "pathToParameter": [
+              "subnets"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "subnetName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "subnetName",
+            "pathToParameter": [
+              "subnets"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "subnetName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "subnetName",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "id",
+        "AccessPathParts": {
+          "path": [
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "name",
+        "AccessPathParts": {
+          "path": [
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "properties",
+        "AccessPathParts": {
+          "path": [
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/subnets/{subnetName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "addressPrefix",
+            "fullPath": {
+              "path": [
+                "properties",
+                "addressPrefix"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "subnets",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "properties/addressPrefix",
+        "AccessPathParts": {
+          "path": [
+            "properties",
+            "addressPrefix"
+          ]
+        },
+        "ResourceName": "addressPrefix",
+        "ProducerParameterName": "prefix",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "virtualNetworkName",
+            "pathToParameter": [
+              "virtualNetworks"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "virtualNetworks",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "virtual__network"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "virtualNetworkName",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "DictionaryPayload": {
+        "payloadType": "UuidSuffix",
+        "primitiveType": "String",
+        "name": "virtualNetworkName",
+        "isObject": false
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "subnets",
+            "fullPath": {
+              "path": [
+                "subnets",
+                "[0]"
+              ]
+            }
+          }
+        },
+        "ContainerName": "virtualNetworks",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "virtual__network"
+        ],
+        "AccessPath": "subnets/[0]",
+        "AccessPathParts": {
+          "path": [
+            "subnets",
+            "[0]"
+          ]
+        },
+        "ResourceName": "subnets",
+        "ProducerParameterName": "subnets",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "subnets",
+                "[0]",
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "BodyContainerName": "subnets",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "subnets/[0]/id",
+        "AccessPathParts": {
+          "path": [
+            "subnets",
+            "[0]",
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "name",
+            "fullPath": {
+              "path": [
+                "subnets",
+                "[0]",
+                "name"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "BodyContainerName": "subnets",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "subnets/[0]/name",
+        "AccessPathParts": {
+          "path": [
+            "subnets",
+            "[0]",
+            "name"
+          ]
+        },
+        "ResourceName": "name",
+        "ProducerParameterName": "name",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/subnets/{subnetName}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "name",
+              "fullPath": {
+                "path": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "ContainerName": "subnets",
+          "PathContainerName": "subnets",
+          "CandidateTypeNames": [
+            "subnet"
+          ],
+          "AccessPath": "name",
+          "AccessPathParts": {
+            "path": [
+              "name"
+            ]
+          },
+          "ResourceName": "name",
+          "ProducerParameterName": "name",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "properties",
+            "fullPath": {
+              "path": [
+                "subnets",
+                "[0]",
+                "properties"
+              ]
+            }
+          }
+        },
+        "ContainerName": "subnets",
+        "BodyContainerName": "subnets",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "subnet"
+        ],
+        "AccessPath": "subnets/[0]/properties",
+        "AccessPathParts": {
+          "path": [
+            "subnets",
+            "[0]",
+            "properties"
+          ]
+        },
+        "ResourceName": "properties",
+        "ProducerParameterName": "properties",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/virtualNetworks/{virtualNetworkName}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "addressPrefix",
+            "fullPath": {
+              "path": [
+                "subnets",
+                "[0]",
+                "properties",
+                "addressPrefix"
+              ]
+            }
+          }
+        },
+        "ContainerName": "properties",
+        "BodyContainerName": "properties",
+        "PathContainerName": "virtualNetworks",
+        "CandidateTypeNames": [
+          "property"
+        ],
+        "AccessPath": "subnets/[0]/properties/addressPrefix",
+        "AccessPathParts": {
+          "path": [
+            "subnets",
+            "[0]",
+            "properties",
+            "addressPrefix"
+          ]
+        },
+        "ResourceName": "addressPrefix",
+        "ProducerParameterName": "prefix",
+        "IsNestedBodyResource": true,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  }
+]
