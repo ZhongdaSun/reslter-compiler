@@ -129,10 +129,29 @@
         "version": "1.0"
     },
     "paths": {
+        "/stores/": {
+            "get": {
+                "operationId": "get_stores",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/Store"
+                        }
+                    }
+                }
+            }
+        },
         "/stores/{storeId}/order": {
             "post": {
                 "operationId": "make_an_order",
                 "parameters": [
+                    {
+                        "in": "path",
+                        "name": "storeId",
+                        "required": true,
+                        "type": "integer"
+                    },
                     {
                         "name": "orderDetails",
                         "in": "body",
@@ -156,6 +175,37 @@
                     },
                     "404": {
                         "description": "Store not found."
+                    }
+                }
+            }
+        },
+        "/stores/{storeId}/order/{orderId}": {
+            "get": {
+                "operationId": "get_order",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "orderId",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "path",
+                        "name": "storeId",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/Order"
+                        }
+                    },
+                    "404": {
+                        "description": "Order not found."
                     }
                 }
             }

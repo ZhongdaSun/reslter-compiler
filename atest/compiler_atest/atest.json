@@ -23,7 +23,7 @@
     "test_path_annotation_in_separate_file": 0,
     "test_local_annotations": 0,
     "test_example_demo": 0,
-    "test_array_dep_multiple_items": 100,
+    "test_array_dep_multiple_items": 0,
     "test_custom_payload_swagger": 100,
     "test_custom_payload_content_type_swagger": 100,
     "test_empty_array_example": 0,
