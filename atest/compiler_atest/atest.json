@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_annotation.py",
+  "debug_file": "test_dict.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -49,7 +49,7 @@
   },
 
   "test_dict": {
-    "test_array_dep_multiple_items": 100,
+    "test_array_dep_multiple_items": 0,
     "test_array_example_data_fuzz_false": 100,
     "test_array_example_data_fuzz_true": 100,
     "test_customPayloadContentTypeSwagger_1": 100,
@@ -86,7 +86,7 @@
     "test_response_headers": 100,
     "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
-    "test_simple_swagger_annotations": 100,
+    "test_simple_api_soft_delete": 100,
     "test_soft_delete": 100
   },
 

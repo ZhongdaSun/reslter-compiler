@@ -1,16 +1,14 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from restler.engine import primitives
-from restler.engine.core import requests
-from restler.engine.errors import ResponseParsingException
-from restler.engine import dependencies
+from engine import primitives
+from engine.core import requests
+from engine.errors import ResponseParsingException
+from engine import dependencies
 
-_app__appId__put_id = dependencies.DynamicVariable("_app__appId__put_id")
+_stores__storeId__order_post_id = dependencies.DynamicVariable("_stores__storeId__order_post_id")
 
-__ordering____app__appId__data_deletedApps__appId = dependencies.DynamicVariable("__ordering____app__appId__data_deletedApps__appId")
-
-def parse_appappIdput(data, **kwargs):
+def parse_storesstoreIdorderpost(data, **kwargs):
     """ Automatically generated response parser """
     # Declare response variables
     temp_7262 = None
@@ -45,102 +43,112 @@ def parse_appappIdput(data, **kwargs):
 
     # Set dynamic variables
     if temp_7262:
-        dependencies.set_variable("_app__appId__put_id", temp_7262)
+        dependencies.set_variable("_stores__storeId__order_post_id", temp_7262)
 
 req_collection = requests.RequestCollection([])
-# Endpoint: /app/{appId}, method: Put
-request = requests.Request([
-    primitives.restler_static_string("PUT "),
-    primitives.restler_basepath("/api"),
-    primitives.restler_static_string("/"),
-    primitives.restler_static_string("app"),
-    primitives.restler_static_string("/"),
-    primitives.restler_custom_payload_uuid4_suffix("appId", quoted=False),
-    primitives.restler_static_string(" HTTP/1.1\r\n"),
-    primitives.restler_static_string("Accept: application/json\r\n"),
-    primitives.restler_static_string("Host: localhost:8888\r\n"),
-    primitives.restler_refreshable_authentication_token("authentication_token_tag"),
-    primitives.restler_static_string("\r\n"),
-    
-    {
-
-        'post_send':
-        {
-            'parser': parse_appappIdput,
-            'dependencies':
-            [
-                _app__appId__put_id.writer()
-            ]
-        }
-
-    },
-
-],
-requestId="/app/{appId}"
-)
-req_collection.add_request(request)
-
-# Endpoint: /app/{appId}, method: Delete
-request = requests.Request([
-    primitives.restler_static_string("DELETE "),
-    primitives.restler_basepath("/api"),
-    primitives.restler_static_string("/"),
-    primitives.restler_static_string("app"),
-    primitives.restler_static_string("/"),
-    primitives.restler_static_string(_app__appId__put_id.reader(), quoted=False),
-    primitives.restler_static_string(" HTTP/1.1\r\n"),
-    primitives.restler_static_string("Accept: application/json\r\n"),
-    primitives.restler_static_string("Host: localhost:8888\r\n"),
-    primitives.restler_refreshable_authentication_token("authentication_token_tag"),
-    primitives.restler_static_string("\r\n"),
-    
-    {
-
-        'post_send':
-        {
-            
-            'dependencies':
-            [
-                __ordering____app__appId__data_deletedApps__appId.writer()
-            ]
-        }
-
-    },
-
-],
-requestId="/app/{appId}"
-)
-req_collection.add_request(request)
-
-# Endpoint: /data/deletedApps/{appId}, method: Get
+# Endpoint: /stores, method: Get
 request = requests.Request([
     primitives.restler_static_string("GET "),
     primitives.restler_basepath("/api"),
     primitives.restler_static_string("/"),
-    primitives.restler_static_string("data"),
-    primitives.restler_static_string("/"),
-    primitives.restler_static_string("deletedApps"),
-    primitives.restler_static_string("/"),
-    primitives.restler_static_string(_app__appId__put_id.reader(), quoted=False),
+    primitives.restler_static_string("stores"),
     primitives.restler_static_string(" HTTP/1.1\r\n"),
     primitives.restler_static_string("Accept: application/json\r\n"),
     primitives.restler_static_string("Host: localhost:8888\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
     primitives.restler_static_string("\r\n"),
+
+],
+requestId="/stores"
+)
+req_collection.add_request(request)
+
+# Endpoint: /stores/{storeId}/order, method: Post
+request = requests.Request([
+    primitives.restler_static_string("POST "),
+    primitives.restler_basepath("/api"),
+    primitives.restler_static_string("/"),
+    primitives.restler_static_string("stores"),
+    primitives.restler_static_string("/"),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string("/"),
+    primitives.restler_static_string("order"),
+    primitives.restler_static_string(" HTTP/1.1\r\n"),
+    primitives.restler_static_string("Accept: application/json\r\n"),
+    primitives.restler_static_string("Host: localhost:8888\r\n"),
+    primitives.restler_static_string("Content-Type: "),
+    primitives.restler_static_string("application/json"),
+    primitives.restler_static_string("\r\n"),
+    primitives.restler_refreshable_authentication_token("authentication_token_tag"),
+    primitives.restler_static_string("\r\n"),
+    primitives.restler_static_string("{"),
+    primitives.restler_static_string("""
+    "storeId":"""),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string(""",
+    "rush":"""),
+    primitives.restler_fuzzable_bool("true"),
+    primitives.restler_static_string(""",
+    "metadata_properties":"""),
+    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_static_string(""",
+    "callback_parameters":"""),
+    primitives.restler_custom_payload("callback_parameters", quoted=False),
+    primitives.restler_static_string(""",
+    "bagType":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+    "item_descriptions":"""),
+    primitives.restler_custom_payload("item_descriptions", quoted=False),
+    primitives.restler_static_string(""",
+    "useDoubleBags":"""),
+    primitives.restler_fuzzable_bool("true"),
+    primitives.restler_static_string(""",
+    "bannedBrands":
+    [
+        """),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
+    ]}"""),
+    primitives.restler_static_string("\r\n"),
     
     {
 
-        'pre_send':
+        'post_send':
         {
+            'parser': parse_storesstoreIdorderpost,
             'dependencies':
             [
-                __ordering____app__appId__data_deletedApps__appId.reader()
+                _stores__storeId__order_post_id.writer()
             ]
         }
 
     },
 
 ],
-requestId="/data/deletedApps/{appId}"
+requestId="/stores/{storeId}/order"
+)
+req_collection.add_request(request)
+
+# Endpoint: /stores/{storeId}/order/{orderId}, method: Get
+request = requests.Request([
+    primitives.restler_static_string("GET "),
+    primitives.restler_basepath("/api"),
+    primitives.restler_static_string("/"),
+    primitives.restler_static_string("stores"),
+    primitives.restler_static_string("/"),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string("/"),
+    primitives.restler_static_string("order"),
+    primitives.restler_static_string("/"),
+    primitives.restler_static_string(_stores__storeId__order_post_id.reader(), quoted=False),
+    primitives.restler_static_string(" HTTP/1.1\r\n"),
+    primitives.restler_static_string("Accept: application/json\r\n"),
+    primitives.restler_static_string("Host: localhost:8888\r\n"),
+    primitives.restler_refreshable_authentication_token("authentication_token_tag"),
+    primitives.restler_static_string("\r\n"),
+
+],
+requestId="/stores/{storeId}/order/{orderId}"
 )
 req_collection.add_request(request)

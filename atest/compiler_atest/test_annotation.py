@@ -68,10 +68,10 @@ class TestAnnotation(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_simple_swagger_annotations"))
-    def test_simple_swagger_annotations(self):
+        DebugConfig().get_cases_config(module_name, "test_simple_api_soft_delete"))
+    def test_simple_api_soft_delete(self):
         result, msg = compile_spec(module_name,
-                                   'simple_swagger_annotations', [], "")
+                                   'simple_api_soft_delete', [], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
