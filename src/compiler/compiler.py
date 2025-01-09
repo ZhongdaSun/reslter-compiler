@@ -1322,7 +1322,7 @@ def generate_request_path_primitives(request_id: RequestId,
                 else:
                     path.append(Constant(PrimitiveType.String, format_path_parameter(part.value)))
             elif declared_parameter is None and request_id.xMsPath is None:
-                break
+                continue
             else:
                 logger.write_to_main(f"path_parameters={path_parameters}, "
                                      f"declared_parameter={path_parameters[declared_parameter]}",

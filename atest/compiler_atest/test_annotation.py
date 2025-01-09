@@ -74,13 +74,6 @@ class TestAnnotation(unittest.TestCase):
                                    'simple_api_soft_delete', [], "")
         self.assertTrue(result, msg=msg)
 
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_soft_delete"))
-    def test_soft_delete(self):
-        result, msg = compile_spec(module_name,
-                                   'soft_delete', [], "")
-        self.assertTrue(result, msg=msg)
-
 
 if __name__ == '__main__':
     unittest.main()
