@@ -1,0 +1,239 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/resource",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "resource"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "responseParser": {
+          "writerVariables": [
+            {
+              "requestId": {
+                "endpoint": "/resource",
+                "method": "Post"
+              },
+              "accessPathParts": {
+                "path": [
+                  "id"
+                ]
+              },
+              "primitiveType": "Int",
+              "kind": "BodyResponseProperty"
+            }
+          ],
+          "headerWriterVariables": []
+        },
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/resource/{resourceId}",
+        "method": "Put"
+      },
+      "method": "Put",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "resource"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Int",
+            "variableName": "_resource_post_id",
+            "isWriter": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "bodyParameters",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Object",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "InternalNode": [
+                          {
+                            "name": "resource",
+                            "propertyType": "Property",
+                            "isRequired": false,
+                            "isReadOnly": false
+                          },
+                          [
+                            {
+                              "InternalNode": [
+                                {
+                                  "name": "",
+                                  "propertyType": "Object",
+                                  "isRequired": false,
+                                  "isReadOnly": false
+                                },
+                                [
+                                  {
+                                    "LeafNode": {
+                                      "name": "id",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Int",
+                                          "defaultValue": "1"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "name",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}

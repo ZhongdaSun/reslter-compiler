@@ -239,6 +239,7 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'custom_payload_content_type_swagger', [],
                                    "customPayloadContentTypeSwagger.json")
         self.assertTrue(result, msg=msg)
+
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_array_example"))
     def test_array_example(self):
@@ -296,7 +297,6 @@ class TestSwaggerOnly(unittest.TestCase):
                                    "global_path_parameters.json")
         self.assertTrue(result, msg=msg)
 
-
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_demo"))
     def test_example_demo(self):
@@ -320,7 +320,6 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'array_dep_multiple_items', [],
                                    "array_dep_multiple_items.json")
         self.assertTrue(result, msg=msg)
-
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_get_path_dependencies"))
@@ -370,7 +369,6 @@ class TestSwaggerOnly(unittest.TestCase):
                                    "input_producer_spec.json")
         self.assertTrue(result, msg=msg)
 
-
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_simple_api_soft_delete"))
     def test_simple_api_soft_delete(self):
@@ -386,6 +384,54 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'ordering_test', [], "ordering_test.json")
         self.assertTrue(result, msg=msg)
 
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_response_headers"))
+    def test_response_headers(self):
+        result, msg = compile_spec(module_name,
+                                   'response_headers', [], "response_headers.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_same_body_dep"))
+    def test_same_body_dep(self):
+        result, msg = compile_spec(module_name,
+                                   'same_body_dep', [], "same_body_dep.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_soft_delete"))
+    def test_soft_delete(self):
+        result, msg = compile_spec(module_name,
+                                   'soft_delete', [], "soft_delete.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_secgroup_example"))
+    def test_secgroup_example(self):
+        result, msg = compile_spec(module_name,
+                                   'secgroup_example', [], "secgroup_example.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_multipleIdenticalUuidSuffix"))
+    def test_multipleIdenticalUuidSuffix(self):
+        result, msg = compile_spec(module_name,
+                                   'multipleIdenticalUuidSuffix', [], "multipleIdenticalUuidSuffix.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_example_demo_yaml"))
+    def test_example_demo_yaml(self):
+        result, msg = compile_spec(module_name,
+                                   'example_demo_yaml', [], "example_demo.yaml")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_example_demo_1"))
+    def test_example_demo_1(self):
+        result, msg = compile_spec(module_name,
+                                   'example_demo_1', [], "example_demo_1.json")
+        self.assertTrue(result, msg=msg)
 
 if __name__ == '__main__':
     unittest.main()

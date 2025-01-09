@@ -1,0 +1,526 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/stores",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "stores"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/stores",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "stores"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "responseParser": {
+          "writerVariables": [
+            {
+              "requestId": {
+                "endpoint": "/stores",
+                "method": "Post"
+              },
+              "accessPathParts": {
+                "path": [
+                  "id"
+                ]
+              },
+              "primitiveType": "Int",
+              "kind": "BodyResponseProperty"
+            }
+          ],
+          "headerWriterVariables": []
+        },
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/stores/{storeId}/order",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "stores"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Int",
+            "variableName": "_stores_post_id",
+            "isWriter": false
+          }
+        },
+        {
+          "Constant": [
+            "String",
+            "order"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "orderDetails",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Object",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "LeafNode": {
+                          "name": "storeId",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Int",
+                              "defaultValue": "1"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "LeafNode": {
+                          "name": "rush",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Bool",
+                              "defaultValue": "true"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "LeafNode": {
+                          "name": "bagType",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "String",
+                              "defaultValue": "fuzzstring"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "InternalNode": [
+                          {
+                            "name": "items",
+                            "propertyType": "Array",
+                            "isRequired": false,
+                            "isReadOnly": false
+                          },
+                          [
+                            {
+                              "InternalNode": [
+                                {
+                                  "name": "",
+                                  "propertyType": "Object",
+                                  "isRequired": false,
+                                  "isReadOnly": false
+                                },
+                                [
+                                  {
+                                    "LeafNode": {
+                                      "name": "name",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "code",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Int",
+                                          "defaultValue": "1"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "groceryItemTags",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Object",
+                                          "defaultValue": "{ \"fuzz\": false }"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "storeId",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Int",
+                                          "defaultValue": "1"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "expirationMaxDate",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "DateTime",
+                                          "defaultValue": "2019-06-26T20:20:39+00:00"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          ]
+                        ]
+                      },
+                      {
+                        "LeafNode": {
+                          "name": "useDoubleBags",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Bool",
+                              "defaultValue": "true"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
+                        "InternalNode": [
+                          {
+                            "name": "bannedBrands",
+                            "propertyType": "Array",
+                            "isRequired": false,
+                            "isReadOnly": false
+                          },
+                          [
+                            {
+                              "LeafNode": {
+                                "name": "",
+                                "payload": {
+                                  "Fuzzable": {
+                                    "primitiveType": "String",
+                                    "defaultValue": "fuzzstring"
+                                  }
+                                },
+                                "isRequired": false,
+                                "isReadOnly": false
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "responseParser": {
+          "writerVariables": [
+            {
+              "requestId": {
+                "endpoint": "/stores/{storeId}/order",
+                "method": "Post"
+              },
+              "accessPathParts": {
+                "path": [
+                  "id"
+                ]
+              },
+              "primitiveType": "Int",
+              "kind": "BodyResponseProperty"
+            }
+          ],
+          "headerWriterVariables": []
+        },
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/stores/{storeId}/order/{orderId}",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "stores"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Int",
+            "variableName": "_stores_post_id",
+            "isWriter": false
+          }
+        },
+        {
+          "Constant": [
+            "String",
+            "order"
+          ]
+        },
+        {
+          "DynamicObject": {
+            "primitiveType": "Int",
+            "variableName": "_stores__storeId__order_post_id",
+            "isWriter": false
+          }
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}

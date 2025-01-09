@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -47,7 +47,14 @@
     "test_nested_objects_naming": 0,
     "test_path_annotation": 0,
     "test_simple_api_soft_delete": 100,
-    "test_ordering_test": 0
+    "test_ordering_test": 0,
+    "test_response_headers": 100,
+    "test_same_body_dep": 0,
+    "test_soft_delete": 2,
+    "test_secgroup_example": 100,
+    "test_multipleIdenticalUuidSuffix": 0,
+    "test_example_demo_yaml": 100,
+    "test_example_demo_1": 0
   },
 
   "test_dict": {
@@ -59,7 +66,7 @@
     "test_customPayloadSwagger_1": 100,
     "test_customPayloadSwagger_2": 100,
     "test_customPayloadSwagger_3": 100,
-    "test_example_demo_dict": 100,
+    "test_example_demo_1": 100,
     "test_headers_with_dict": 0,
     "test_maindict": 0,
     "test_example_demo_yaml_with_dict": 100,
