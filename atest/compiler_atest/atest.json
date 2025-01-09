@@ -50,7 +50,7 @@
 
   "test_dict": {
     "test_array_dep_multiple_items": 0,
-    "test_array_example_data_fuzz_false": 100,
+    "test_array_example_data_fuzz_false": 0,
     "test_array_example_data_fuzz_true": 100,
     "test_customPayloadContentTypeSwagger_1": 100,
     "test_customPayloadContentTypeSwagger_2": 100,
