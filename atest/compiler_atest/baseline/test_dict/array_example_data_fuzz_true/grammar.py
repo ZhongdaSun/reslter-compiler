@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from restler.engine import primitives
-from restler.engine.core import requests
-from restler.engine.errors import ResponseParsingException
-from restler.engine import dependencies
+from engine import primitives
+from engine.core import requests
+from engine.errors import ResponseParsingException
+from engine import dependencies
 
 _stores__storeId__order_post_id = dependencies.DynamicVariable("_stores__storeId__order_post_id")
 
@@ -75,28 +75,19 @@ request = requests.Request([
     primitives.restler_static_string("order"),
     primitives.restler_static_string("?"),
     primitives.restler_static_string("apiVersion="),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["2020-02-02"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("&"),
     primitives.restler_static_string("expiration="),
-    primitives.restler_fuzzable_int("1", examples=["10"]),
+    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string("&"),
     primitives.restler_static_string("arrayQueryParameter="),
+    primitives.restler_fuzzable_number("1.23"),
     primitives.restler_static_string("&"),
     primitives.restler_static_string("arrayQueryParameter2="),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["a"]),
-    primitives.restler_static_string("&"),
-    primitives.restler_static_string("arrayQueryParameter2="),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["b"]),
-    primitives.restler_static_string("&"),
-    primitives.restler_static_string("arrayQueryParameter2="),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["c"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("&"),
     primitives.restler_static_string("arrayQueryParameter3="),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["ddd"]),
-    primitives.restler_static_string(","),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["eee"]),
-    primitives.restler_static_string(","),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False, examples=["fff"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string(" HTTP/1.1\r\n"),
     primitives.restler_static_string("Accept: application/json\r\n"),
     primitives.restler_static_string("Host: localhost:8888\r\n"),
@@ -108,24 +99,33 @@ request = requests.Request([
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
     "storeId":"""),
-    primitives.restler_fuzzable_int("1", examples=['"23456"']),
+    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string(""",
     "rush":"""),
-    primitives.restler_fuzzable_bool("true", examples=["true"]),
+    primitives.restler_fuzzable_bool("true"),
     primitives.restler_static_string(""",
     "bagType":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["paperfestive"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
     "item_descriptions":
     [
+        """),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
     ],
     "item_feedback":
     [
         """),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["great"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string("""
+    ],
+    "useDoubleBags":"""),
+    primitives.restler_fuzzable_bool("true"),
     primitives.restler_static_string(""",
+    "bannedBrands":
+    [
         """),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["awesome"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string("""
     ]}"""),
     primitives.restler_static_string("\r\n"),
