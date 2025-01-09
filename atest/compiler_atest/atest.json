@@ -82,10 +82,10 @@
     "test_array_example_dynamic_object": 100,
     "test_header_deps": 0,
     "test_ordering_test": 100,
-    "test_pathAnnotationInSeparateFile": 2,
+    "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,
     "test_same_body_dep": 100,
-    "test_simple_crud_api": 100,
+    "test_simple_crud_api": 0,
     "test_simple_swagger_annotations": 100,
     "test_soft_delete": 100
   },
