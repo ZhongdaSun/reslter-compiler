@@ -85,6 +85,13 @@ class TestDict(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_example_demo_yaml_with_dict"))
+    def test_example_demo_yaml_with_dict(self):
+        result, msg = compile_spec(module_name,
+                                   'example_demo_yaml_with_dict', [], "")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_headers_with_dict"))
     def test_headers_with_dict(self):
         result, msg = compile_spec(module_name,

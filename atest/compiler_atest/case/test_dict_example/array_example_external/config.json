@@ -1,17 +1,20 @@
 {
-  "SwaggerSpecFilePath": [
-    "secgroup_example.json"
-  ],
-  "CustomDictionaryFilePath": "dict_secgroup_example.json",
-  "IncludeOptionalParameters": true,
+  "SwaggerSpecConfig": [{
+    "SpecFilePath":  "array_example.json",
+    "DictionaryFilePath": "example_demo_dictionary.json"
+  }],
+  "ExampleConfigFiles": [{
+    "filePath": "example_config_file.json",
+    "exactCopy": false
+  }],
   "UseHeaderExamples": true,
   "UsePathExamples": false,
-  "UseQueryExamples": false,
-  "UseBodyExamples": false,
+  "UseQueryExamples": true,
+  "UseBodyExamples": true,
   "UseAllExamplePayloads": false,
   "DiscoverExamples": false,
   "ExamplesDirectory": "",
-  "DataFuzzing": true,
+  "DataFuzzing": false,
   "ReadOnlyFuzz": false,
   "ResolveQueryDependencies": true,
   "ResolveBodyDependencies": true,
