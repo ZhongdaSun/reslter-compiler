@@ -1,7 +1,8 @@
 {
   "SwaggerSpecFilePath": [
-    "no_params.json"
+    "simple_swagger_all_param_types.json"
   ],
+  "CustomDictionaryFilePath": "simple_swagger_all_param_types_dict.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,

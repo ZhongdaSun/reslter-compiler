@@ -60,9 +60,11 @@
                         "LeafNode": {
                           "name": "id",
                           "payload": {
-                            "Fuzzable": {
+                            "Custom": {
+                              "payloadType": "String",
                               "primitiveType": "String",
-                              "defaultValue": "fuzzstring"
+                              "payloadValue": "id",
+                              "isObject": false
                             }
                           },
                           "isRequired": false,

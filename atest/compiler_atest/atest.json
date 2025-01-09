@@ -65,7 +65,7 @@
     "test_multipleIdenticalUuidSuffix": 100,
     "test_no_param": 100,
     "test_secgroup_example": 100,
-    "test_simple_swagger_all_param_types": 100
+    "test_simple_swagger_all_param_types": 0
   },
 
   "test_dict_annotation":{

@@ -1,9 +1,8 @@
 {
   "SwaggerSpecFilePath": [
-    "/opt/AutoTest/swagger/dictionaryTests/no_params.json"
+    "multipleIdenticalUuidSuffix.json"
   ],
-  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
-  "CustomDictionaryFilePath": "/opt/AutoTest/swagger/dictionaryTests/inject_custom_payloads_dict.json",
+  "CustomDictionaryFilePath": "multipleIdenticalUuidSuffixDict.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,
