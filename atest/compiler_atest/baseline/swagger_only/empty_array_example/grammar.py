@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from engine import primitives
-from engine.core import requests
-from engine.errors import ResponseParsingException
-from engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _stores__storeId__order_post_id = dependencies.DynamicVariable("_stores__storeId__order_post_id")
 

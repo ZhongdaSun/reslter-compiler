@@ -1,22 +1,20 @@
 {
   "SwaggerSpecFilePath": [
-    "/opt/AutoTest/swagger/array_example.json"
+    "header_deps.json"
   ],
-  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
-  "CustomDictionaryFilePath": "/RESTler/restler/Compile/defaultDict.json",
-  "AnnotationFilePath": "/opt/AutoTest/swagger/array_example_annotations.json",
+  "AnnotationFilePath": "header_deps_annotations.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,
-  "UseQueryExamples": true,
-  "UseBodyExamples": true,
+  "UseQueryExamples": false,
+  "UseBodyExamples": false,
   "UseAllExamplePayloads": false,
   "DiscoverExamples": false,
   "ExamplesDirectory": "",
   "DataFuzzing": true,
   "ReadOnlyFuzz": false,
   "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": false,
+  "ResolveBodyDependencies": true,
   "ResolveHeaderDependencies": false,
   "UseRefreshableToken": true,
   "AllowGetProducers": false,
