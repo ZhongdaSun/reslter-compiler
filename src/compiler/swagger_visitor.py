@@ -62,7 +62,7 @@ class SchemaUtilities:
 
     @staticmethod
     def get_correct_example_value(example_object, param_type):
-        if param_type is None or param_type == "":
+        if param_type is None or param_type == "" or example_object is None:
             return example_object
         if isinstance(example_object, dict) and param_type == "object":
             return example_object
@@ -89,19 +89,33 @@ class SchemaUtilities:
             if param_type in ["number"]:
                 if isinstance(example_object, float) or isinstance(example_object, int):
                     return example_object
+                else:
+                    raise Exception(
+                        f"{example_object} can't be changed to {param_type}.")
             elif param_type in ["int", "integer"]:
                 if isinstance(example_object, int):
                     return example_object
                 elif isinstance(example_object, str):
                     return JsonSerialization.serialize(example_object)
+                else:
+                    raise Exception(
+                        f"{example_object} can't be changed to {param_type}.")
             elif param_type in ["bool", "boolean"]:
+                def str_to_bool(s):
+                    return s.lower() in ['true', '1', 'yes', 'y', 't']
                 if isinstance(example_object, bool):
                     return example_object
+                elif isinstance(example_object, str):
+                    return f"\"{example_object}\""
+                else:
+                    raise Exception(
+                        f"{example_object} can't be changed to {param_type}.")
             elif param_type in ["str", "string"]:
                 if isinstance(example_object, str):
                     return example_object
-
-    # formatExampleValue
+                else:
+                    raise Exception(
+                        f"{example_object} can't be changed to {param_type}.")
     @staticmethod
     def format_example_value(example_object: Any) -> str:
         if isinstance(example_object, str):
