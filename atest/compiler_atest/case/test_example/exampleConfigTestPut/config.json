@@ -20,7 +20,7 @@
   "UseAllExamplePayloads": false,
   "DiscoverExamples": false,
   "ExamplesDirectory": "",
-  "DataFuzzing": true,
+  "DataFuzzing": false,
   "ReadOnlyFuzz": false,
   "ResolveQueryDependencies": true,
   "ResolveBodyDependencies": true,

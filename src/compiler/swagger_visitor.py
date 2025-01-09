@@ -1,5 +1,6 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
+import json
 from typing import Union
 import re
 
@@ -121,7 +122,7 @@ class SchemaUtilities:
         if isinstance(example_object, str):
             return example_object
         else:
-            return JsonSerialization.serialize(example_object)
+            return json.dumps(example_object, separators=(',', ':'))
 
     # Get an example value as a string, either directly from the 'example' attribute or
     # from the extension 'Examples' property.
