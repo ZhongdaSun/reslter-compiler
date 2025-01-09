@@ -1,0 +1,67 @@
+[01/08/2025 08:41:04] Generating grammar...
+[01/08/2025 08:41:05] Getting requests...
+[01/08/2025 08:41:05] Getting dependencies...
+[01/08/2025 08:41:05] Getting path consumers...
+[01/08/2025 08:41:05] Getting query consumers...
+[01/08/2025 08:41:05] Getting header consumers...
+[01/08/2025 08:41:05] Getting body consumers...
+[01/08/2025 08:41:05] Getting producers...
+[01/08/2025 08:41:05] Done processing producers
+[01/08/2025 08:41:05] Compute dependencies
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }[[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+
+01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+01/08/2025 08:41:05] Done dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Second pass dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/sites/{name}/slots/{slot}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Done dependencies for request { endpoint = "/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks"
+  xMsPath = None
+  method = Put }
+[01/08/2025 08:41:05] Getting ordering constraints...
+[01/08/2025 08:41:05] Dependency analysis completed.
+[01/08/2025 08:41:05] Generating request primitives...
+Writing new dictionary to /RESTler/restler/Compile/dict.json
+[01/08/2025 08:41:05] Generating python grammar...
+[01/08/2025 08:41:05] Get requests
+[01/08/2025 08:41:05] Done get requests
+[01/08/2025 08:41:05] Done generating python grammar.
+Workflow completed.  See /RESTler/restler/Compile for REST-ler grammar.

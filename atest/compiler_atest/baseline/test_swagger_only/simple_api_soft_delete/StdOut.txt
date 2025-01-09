@@ -1,0 +1,91 @@
+[01/09/2025 09:48:29] Generating grammar...
+[01/09/2025 09:48:30] Getting requests...
+[01/09/2025 09:48:30] Getting dependencies...
+[01/09/2025 09:48:30] Getting path consumers...
+[01/09/2025 09:48:30] Getting query consumers...
+[01/09/2025 09:48:30] Getting header consumers...
+[01/09/2025 09:48:30] Getting body consumers...
+[01/09/2025 09:48:30] Getting producers...
+[01/09/2025 09:48:30] Done processing producers
+[01/09/2025 09:48:30] Compute dependencies
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+[[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }[01/09/2025 09:48:30[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[] 01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/data/deletedApps/{appId}"
+  xMsPath = None
+  method = Get }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Second pass dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Put }
+[01/09/2025 09:48:30] Done dependencies for request { endpoint = "/app/{appId}"
+  xMsPath = None
+  method = Delete }
+[01/09/2025 09:48:30] Getting ordering constraints...
+[01/09/2025 09:48:30] Dependency analysis completed.
+[01/09/2025 09:48:30] Generating request primitives...
+Writing new dictionary to /RESTler/restler/Compile/dict.json
+[01/09/2025 09:48:30] Generating python grammar...
+[01/09/2025 09:48:30] Get requests
+[01/09/2025 09:48:30] Done get requests
+[01/09/2025 09:48:30] Done generating python grammar.
+Workflow completed.  See /RESTler/restler/Compile for REST-ler grammar.
