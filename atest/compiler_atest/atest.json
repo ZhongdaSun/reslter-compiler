@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_dict_example.py",
+  "debug_file": "test_dict.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
