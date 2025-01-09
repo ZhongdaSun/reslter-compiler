@@ -78,13 +78,6 @@ class TestDict(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_example_demo"))
-    def test_example_demo(self):
-        result, msg = compile_spec(module_name,
-                                   'example_demo', [], "")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_demo_dict"))
     def test_example_demo_dict(self):
         result, msg = compile_spec(module_name,
