@@ -95,6 +95,7 @@
     "test_array_example": 0,
     "test_body_param": 100,
     "test_exampleConfigTestPut": 100,
-    "test_optional_params": 100
+    "test_optional_params": 0,
+    "test_optional_params_query_config": 0
   }
 }

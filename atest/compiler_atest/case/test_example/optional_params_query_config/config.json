@@ -11,7 +11,7 @@
   "UsePathExamples": false,
   "UseQueryExamples": false,
   "UseBodyExamples": false,
-  "UseAllExamplePayloads": false,
+  "UseAllExamplePayloads": true,
   "DiscoverExamples": false,
   "ExamplesDirectory": "",
   "DataFuzzing": true,

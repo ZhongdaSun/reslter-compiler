@@ -1022,9 +1022,8 @@ class Request:
                     if item.variable_name != "/":
                         dict_list.append(item.__dict__())
                 elif isinstance(item, FuzzablePayload):
-                    if ConfigSetting().UsePathExamples:
-                        if self.id.has_example:
-                            dict_list.append(item.example_dict())
+                    if ConfigSetting().UsePathExamples and self.id.has_example:
+                        dict_list.append(item.example_dict())
                     else:
                         dict_list.append(item.path_dict())
                 else:
@@ -1048,7 +1047,7 @@ class Request:
                     self.id.has_example = True
 
         return_value = []
-        if self.id.has_example:
+        if self.id.has_example and (ConfigSetting().UseQueryExamples or ConfigSetting().UseBodyExamples):
             example_schema = {"ParameterList": example_dict_list}
             return_value.append(("Examples", example_schema))
             if ConfigSetting().DataFuzzing:
@@ -1081,7 +1080,7 @@ class Request:
         logger.write_to_main(f"len(schema_dict_list)={len(schema_dict_list)}"
                              f", len(dict_list)={len(dict_list)}", ConfigSetting().LogConfig.grammar)
 
-        if self.id.has_example:
+        if self.id.has_example and ConfigSetting().UseHeaderExamples:
             param_examples = dict()
             param_examples["ParameterList"] = examples_dict_list
             return_value.append(("Examples", param_examples))
