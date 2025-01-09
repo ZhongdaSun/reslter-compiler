@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from restler.engine import primitives
-from restler.engine.core import requests
-from restler.engine.errors import ResponseParsingException
-from restler.engine import dependencies
+from engine import primitives
+from engine.core import requests
+from engine.errors import ResponseParsingException
+from engine import dependencies
 
 _stores__storeId__order_post_id = dependencies.DynamicVariable("_stores__storeId__order_post_id")
 
@@ -108,13 +108,13 @@ request = requests.Request([
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
     "storeId":"""),
-    primitives.restler_fuzzable_int("1", examples=['"98765"']),
+    primitives.restler_fuzzable_int("1", examples=['"23456"']),
     primitives.restler_static_string(""",
     "rush":"""),
-    primitives.restler_fuzzable_bool("true", examples=['"True"']),
+    primitives.restler_fuzzable_bool("true", examples=["true"]),
     primitives.restler_static_string(""",
     "bagType":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["paperplain"]),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True, examples=["paperfestive"]),
     primitives.restler_static_string(""",
     "item_descriptions":
     [

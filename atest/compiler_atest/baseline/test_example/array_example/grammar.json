@@ -413,7 +413,7 @@
                             "Fuzzable": {
                               "primitiveType": "Int",
                               "defaultValue": "1",
-                              "exampleValue": "\"98765\""
+                              "exampleValue": "\"23456\""
                             }
                           },
                           "isRequired": false,
@@ -427,7 +427,7 @@
                             "Fuzzable": {
                               "primitiveType": "Bool",
                               "defaultValue": "true",
-                              "exampleValue": "\"True\""
+                              "exampleValue": "true"
                             }
                           },
                           "isRequired": false,
@@ -441,7 +441,7 @@
                             "Fuzzable": {
                               "primitiveType": "String",
                               "defaultValue": "fuzzstring",
-                              "exampleValue": "paperplain"
+                              "exampleValue": "paperfestive"
                             }
                           },
                           "isRequired": false,

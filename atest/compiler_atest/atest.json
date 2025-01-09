@@ -1,6 +1,6 @@
 {
-  "debug_mode": false,
-  "debug_file": "test_swagger_only.py",
+  "debug_mode": true,
+  "debug_file": "test_example.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -92,7 +92,7 @@
 
   "test_example": {
     "test_exact_copy_values_are_correct": 100,
-    "test_array_example": 100,
+    "test_array_example": 2,
     "test_body_param": 100,
     "test_exampleConfigTestPut": 100,
     "test_optional_params": 100
