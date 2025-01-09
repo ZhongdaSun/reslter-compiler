@@ -1030,7 +1030,7 @@ class Request:
                     dict_list.append(item.__dict__())
         return dict_list
 
-    def query_body_to_json(self, parameters):
+    def query_body_to_json(self, parameters, use_example: bool):
         schema_dict_list = []
         example_dict_list = []
         if parameters is not None:
@@ -1047,7 +1047,7 @@ class Request:
                     self.id.has_example = True
 
         return_value = []
-        if self.id.has_example and (ConfigSetting().UseQueryExamples or ConfigSetting().UseBodyExamples):
+        if self.id.has_example and use_example:
             example_schema = {"ParameterList": example_dict_list}
             return_value.append(("Examples", example_schema))
             if ConfigSetting().DataFuzzing:
@@ -1103,8 +1103,8 @@ class Request:
             "method": self.id.method.name,
             "basePath": self.basePath,
             "path": self.pathtoJson(),
-            "queryParameters": self.query_body_to_json(self.queryParameters),
-            "bodyParameters": self.query_body_to_json(self.bodyParameters),
+            "queryParameters": self.query_body_to_json(self.queryParameters, ConfigSetting().UseQueryExamples),
+            "bodyParameters": self.query_body_to_json(self.bodyParameters, ConfigSetting().UseBodyExamples),
             "headerParameters": self.header_to_json(self.headerParameters),
             "token": "Refreshable" if self.token == TokenKind.Refreshable else "Static",
             "headers": self.headers,

@@ -93,7 +93,7 @@
   "test_example": {
     "test_exact_copy_values_are_correct": 0,
     "test_array_example": 0,
-    "test_body_param": 100,
+    "test_body_param": 0,
     "test_exampleConfigTestPut": 100,
     "test_optional_params": 0,
     "test_optional_params_query_config": 0

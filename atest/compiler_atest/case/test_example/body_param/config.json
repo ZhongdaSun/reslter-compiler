@@ -1,0 +1,25 @@
+{
+  "SwaggerSpecFilePath": [
+    "body_param.json"
+  ],
+  "ExampleConfigFiles": [{
+    "filePath": "body_param_example.json",
+    "exactCopy": false
+  }],
+  "IncludeOptionalParameters": true,
+  "UseHeaderExamples": false,
+  "UsePathExamples": false,
+  "UseQueryExamples": false,
+  "UseBodyExamples": true,
+  "UseAllExamplePayloads": false,
+  "DiscoverExamples": false,
+  "ExamplesDirectory": "",
+  "DataFuzzing": true,
+  "ReadOnlyFuzz": false,
+  "ResolveQueryDependencies": true,
+  "ResolveBodyDependencies": true,
+  "ResolveHeaderDependencies": false,
+  "UseRefreshableToken": true,
+  "AllowGetProducers": false,
+  "TrackFuzzedParameterNames": false
+}
