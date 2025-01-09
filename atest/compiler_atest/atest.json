@@ -1,5 +1,5 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -28,6 +28,7 @@
     "test_custom_payload_content_type_swagger": 100,
     "test_empty_array_example": 0,
     "test_object_example": 0,
+    "test_null_test_swagger": 0,
     "test_array_example": 0,
     "test_required_params_include_optional_parameters": 100,
     "test_required_params_not_include_optional_parameters": 100,

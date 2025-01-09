@@ -208,6 +208,16 @@ class TestSwaggerOnly(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_null_test_swagger"))
+    def test_null_test_swagger(self):
+        temp = business_config["DataFuzzing"]
+        business_config["DataFuzzing"] = True
+        result, msg = compile_spec('swagger_only',
+                                   'null_test_swagger', [], "null_test_swagger.json")
+        self.assertTrue(result, msg=msg)
+        business_config["DataFuzzing"] = temp
+
+    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_no_params"))
     def test_no_params(self):
         result, msg = compile_spec('swagger_only',

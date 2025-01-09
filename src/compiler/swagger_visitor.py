@@ -62,6 +62,8 @@ class SchemaUtilities:
 
     @staticmethod
     def get_correct_example_value(example_object, param_type):
+        if param_type is None or param_type == "":
+            return example_object
         if isinstance(example_object, dict) and param_type == "object":
             return example_object
         elif isinstance(example_object, list) and param_type == "array":
