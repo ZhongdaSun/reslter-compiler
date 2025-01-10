@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_dict.py",
+  "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -52,7 +52,7 @@
     "test_same_body_dep": 0,
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
-    "test_example_demo_yaml": 2,
+    "test_example_demo_yaml": 0,
     "test_example_demo_1": 0
   },
 
@@ -90,7 +90,7 @@
     "test_response_headers": 100,
     "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
-    "test_simple_api_soft_delete": 2
+    "test_simple_api_soft_delete": 100
   },
 
   "test_example": {

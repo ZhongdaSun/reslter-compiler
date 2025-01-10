@@ -2,7 +2,7 @@
   "SwaggerSpecFilePath": [
     "required_params.json"
   ],
-  "IncludeOptionalParameters": false,
+  "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,
   "UseQueryExamples": true,

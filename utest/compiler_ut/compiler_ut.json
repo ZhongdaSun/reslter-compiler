@@ -73,7 +73,7 @@
     "test_path_parameter_substrings": 4
   },
   "test_config": {
-    "test_swagger_config_custom_dictionary_sanity_1": 0,
+    "test_swagger_config_custom_dictionary_sanity_1": 2,
     "test_swagger_config_custom_dictionary_sanity_2": 0,
     "test_swagger_config_custom_annotations_sanity_1": 0,
     "test_swagger_config_custom_annotations_sanity_2": 0,

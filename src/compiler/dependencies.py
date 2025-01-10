@@ -439,32 +439,32 @@ def get_same_body_input_producer(consumer: Consumer,
         if consumer.consumer_id.body_container_name is not None:
             candidate_input_producers = producers.get_same_payload_producers(producer_resource_name,
                                                                              consumer.consumer_id.request_id)
+            if candidate_input_producers is not None:
+                for p in candidate_input_producers:
+                    if p.container_name is None:
+                        raise ValueError("The producer container must always exist in same payload producers.")
 
-            for p in candidate_input_producers:
-                if p.container_name is None:
-                    raise ValueError("The producer container must always exist in same payload producers.")
+                    if p.request_id.endpoint != consumer.consumer_id.request_id.endpoint:
+                        raise ValueError(
+                            f"The endpoints should be identical: producer: {p.id.request_id.endpoint} "
+                            f"consumer: {consumer.consumer_id.request_id.endpoint}")
 
-                if p.request_id.endpoint != consumer.consumer_id.request_id.endpoint:
-                    raise ValueError(
-                        f"The endpoints should be identical: producer: {p.id.request_id.endpoint} "
-                        f"consumer: {consumer.consumer_id.request_id.endpoint}")
+                    matching_producer_type_names = [consumer_name
+                                                    for consumer_name in consumer.consumer_id.candidate_type_names
+                                                    if consumer_name in p.candidate_type_names]
+                    # Use the longest matching word
+                    matching_producer_type_names.sort(key=len, reverse=True)
 
-                matching_producer_type_names = [consumer_name
-                                                for consumer_name in consumer.consumer_id.candidate_type_names
-                                                if consumer_name in p.candidate_type_names]
-                # Use the longest matching word
-                matching_producer_type_names.sort(key=len, reverse=True)
+                    matching_type_name = next(iter(matching_producer_type_names))
 
-                matching_type_name = next(iter(matching_producer_type_names))
-
-                if matching_type_name is not None:
-                    # Heuristic: only infer a producer if it is higher in the tree than the consumer
-                    # This helps avoid incorrectly assigned producers from child properties of
-                    # this payload
-                    is_producer_higher = (len(p.access_path_parts.path) <
-                                          len(consumer.consumer_id.access_path_parts.path))
-                    if is_producer_higher and not is_self_referencing():
-                        producer = (matching_type_name, p)
+                    if matching_type_name is not None:
+                        # Heuristic: only infer a producer if it is higher in the tree than the consumer
+                        # This helps avoid incorrectly assigned producers from child properties of
+                        # this payload
+                        is_producer_higher = (len(p.access_path_parts.path) <
+                                              len(consumer.consumer_id.access_path_parts.path))
+                        if is_producer_higher and not is_self_referencing():
+                            producer = (matching_type_name, p)
 
         return producer if producer else None
 
