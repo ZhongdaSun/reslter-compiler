@@ -40,6 +40,7 @@ from compiler.config import ConfigSetting, UninitializedError
 TAB = "\t"
 RETURN = "\r\n"
 SPACE = " "
+SPACE_4 = 4 * f"{SPACE}"
 SPACE_20 = 24 * f"{SPACE}"
 BRACE = "{}"
 
@@ -322,7 +323,7 @@ class NameGenerators:
     def generate_dynamic_object_ordering_constraint_variable_definition(source_request_id, target_request_id):
         var_name = DynamicObjectNaming.generate_ordering_constraint_variable_name(source_request_id,
                                                                                   target_request_id, "_")
-        return f"{var_name} = dependencies.DynamicVariable(\"{var_name}\")"
+        return f"{var_name} = dependencies.DynamicVariable(\"{var_name}\")\n"
 
     @staticmethod
     def generate_producer_endpoint_response_parser_function_name(request_id):
@@ -333,7 +334,7 @@ class NameGenerators:
         var_name = DynamicObjectNaming.generate_dynamic_object_variable_name(request_id,
                                                                              response_access_path_parts,
                                                                              "_")
-        return f"{var_name} = dependencies.DynamicVariable(\"{var_name}\")"
+        return f"{var_name} = dependencies.DynamicVariable(\"{var_name}\")\n"
 
 
 def format_restler_static_string_constant(primitive_type: RequestPrimitiveType):
@@ -378,8 +379,11 @@ def format_restler_fuzzable_string(primitive_type: RequestPrimitiveType):
             return (f"primitives.restler_fuzzable_date({quoted_default_string}, "
                     f"quoted={primitive_type.primitive_data.is_quoted}{example_parameter}{tracked_param_name})")
         elif primitive_type.type == RequestPrimitiveTypeEnum.Restler_fuzzable_bool:
-            return (f"primitives.restler_fuzzable_bool({quoted_default_string}, "
-                    f"quoted={primitive_type.primitive_data.is_quoted}{example_parameter}{tracked_param_name})")
+            if example_parameter or tracked_param_name:
+                return (f"primitives.restler_fuzzable_bool({quoted_default_string}"
+                        f" {example_parameter}{tracked_param_name})")
+            else:
+                return f"primitives.restler_fuzzable_bool({quoted_default_string})"
         elif primitive_type.type == RequestPrimitiveTypeEnum.Restler_fuzzable_int:
             return (f"primitives.restler_fuzzable_int({quoted_default_string}"
                     f"{example_parameter}{tracked_param_name})")
@@ -391,7 +395,7 @@ def format_restler_fuzzable_string(primitive_type: RequestPrimitiveType):
 def format_restler_fuzzable_datetime(primitive_type: RequestPrimitiveType):
     str_value, delim = quote_string_for_python_grammar(primitive_type.primitive_data.default_value)
     quoted_default_string = f"{delim}{str_value}{delim}"
-    example_parameter = get_example_primitive_parameter(primitive_type.primitive_data.default_value)
+    example_parameter = get_example_primitive_parameter(primitive_type.primitive_data.example_value)
     tracked_param_name = get_tracked_param_primitive_parameter(
         primitive_type.primitive_data.tracked_parameter_name)
     return (f"primitives.restler_fuzzable_datetime({quoted_default_string}, "
@@ -404,8 +408,11 @@ def format_restler_fuzzable_object(primitive_type: RequestPrimitiveType):
     example_parameter = get_example_primitive_parameter(primitive_type.primitive_data.example_value)
     tracked_param_name = get_tracked_param_primitive_parameter(
         primitive_type.primitive_data.tracked_parameter_name)
-    return (f"primitives.restler_fuzzable_object({quoted_default_string}, "
-            f"quoted={primitive_type.primitive_data.is_quoted}{example_parameter}{tracked_param_name})")
+    if example_parameter or tracked_param_name:
+        return (f"primitives.restler_fuzzable_object({quoted_default_string}"
+                f" {example_parameter}{tracked_param_name})")
+    else:
+        return f"primitives.restler_fuzzable_object({quoted_default_string})"
 
 
 """
@@ -425,10 +432,6 @@ def format_restler_fuzzable_group(primitive_type: RequestPrimitiveType):
             f"{primitive_type.primitive_data.default_value}, "
             f"quoted={primitive_type.primitive_data.is_quoted}"
             f"{get_example_primitive_parameter(primitive_type.primitive_data.example_value)})")
-
-
-def format_restler_fuzzable_bool(primitive_type: RequestPrimitiveType):
-    return format_restler_fuzzable_string(primitive_type)
 
 
 def format_restler_fuzzable_int(primitive_type: RequestPrimitiveType):
@@ -502,7 +505,7 @@ DefaultRequestPrimitiveTypeEnum = {
     # RequestPrimitiveTypeEnum.Restler_fuzzable_delim: format_restler_fuzzable_delim,
     RequestPrimitiveTypeEnum.Restler_fuzzable_uuid4: format_restler_fuzzable_uuid4,
     RequestPrimitiveTypeEnum.Restler_fuzzable_group: format_restler_fuzzable_group,
-    RequestPrimitiveTypeEnum.Restler_fuzzable_bool: format_restler_fuzzable_bool,
+    RequestPrimitiveTypeEnum.Restler_fuzzable_bool: format_restler_fuzzable_string,
     RequestPrimitiveTypeEnum.Restler_fuzzable_int: format_restler_fuzzable_string,
     RequestPrimitiveTypeEnum.Restler_fuzzable_number: format_restler_fuzzable_string,
     RequestPrimitiveTypeEnum.Restler_multipart_formdata: format_restler_multipart_formdata,
@@ -624,7 +627,7 @@ def format_header_parameter_name(name):
 
 def get_tab_indented_line_start(level):
     if level > 0:
-        tabs = "\t" * level
+        tabs = SPACE_4 * level
         return "\n" + tabs
     else:
         return ""
@@ -686,7 +689,7 @@ def format_json_body_parameter(
                                 if str_index is not None and str_index != "" and str_index != "\n":
                                     s, delim = quote_string_for_python_grammar(s)
                         # value = ", " + s
-                        f_value = format_property_name(s, tab_seq, False)
+                        f_value = format_property_name(s, tab_level * SPACE_4, False)
                         logger.write_to_main(f"f_value={f_value.primitive_data.default_value}",
                                              ConfigSetting().LogConfig.code_generate)
                         f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
@@ -697,7 +700,7 @@ def format_json_body_parameter(
                     cs.append(inner)
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
         if property_type == PrimitiveType.Object:
-            left = [RequestPrimitiveType.static_string_constant(tab_seq + "{")]
+            left = [RequestPrimitiveType.static_string_constant(tab_level * SPACE_4 + "{")]
             right = [RequestPrimitiveType.static_string_constant(tab_seq + "}")]
             if tab_level == 0:
                 result = left + cs + right
@@ -901,7 +904,6 @@ def generate_python_parameter(parameter_source,
             elif parameter_kind == ParameterKind.Header:
                 name_seq.append(format_header_parameter_name(request_parameter.name))
             else:
-                pass
                 tab_seq = get_tab_indented_line_start(level)
                 name_seq.append(format_property_name(p.name, tab_seq))
             logger.write_to_main("name_seq={}".format(name_seq), ConfigSetting().LogConfig.code_generate)
@@ -1272,7 +1274,8 @@ def generate_python_from_request_element(request_element,
                 [RequestPrimitiveType.static_string_constant(r"\r\n")])
     elif request_element[0] == RequestElementType.Headers:
         return [RequestPrimitiveType.static_string_constant(f"{name}: {content}" + r"\r\n")
-                for name, content in request_element[1]]
+                if content is not None else RequestPrimitiveType.static_string_constant(f"{name}: " + r"\r\n")
+                for name, content in request_element[1] ]
     elif request_element[0] == RequestElementType.HttpVersion:
         string_value = f"{SPACE}HTTP/{request_element[1]}" + r"\r\n"
         return [RequestPrimitiveType.static_string_constant(value=string_value)]
@@ -1404,14 +1407,14 @@ def generate_python_request(request: Request):
 
     request_id_comment = (f"# Endpoint: {request.id.endpoint}, "
                           f"method: {request.id.method.name}\n")
-    grammar_request_id = 4 * f"{SPACE}" + f"requestId=\"{request.id.endpoint}\""
+    grammar_request_id = f"requestId=\"{request.id.endpoint}\""
 
     assign_and_add = (request_id_comment +
                       "request = requests.Request([\n" +
                       definition +
                       "],\n" +
                       f"{grammar_request_id}\n)\n" +
-                      "req_collection.add_request(request)\n\n")
+                      "req_collection.add_request(request)\n")
     return assign_and_add
 
 
@@ -1473,7 +1476,7 @@ def get_response_parsers(requests: List[Request]):
     # STOPPED HERE:
     # also do 'if true' for header parsing and body parsing where 'true' is
     # if there are actually variables to parse out of there.
-    def format_parser_function(parser):
+    def format_parser_function(parser, index):
         function_name = NameGenerators.generate_producer_endpoint_response_parser_function_name(
             parser.writer_variables[0].request_id)
 
@@ -1511,7 +1514,7 @@ def get_response_parsers(requests: List[Request]):
             {boolean_conversion_statement or ""}
         except Exception as error:
             # This is not an error, since some properties are not always returned
-            pass
+            pass\n\n
         """
 
         response_body_parsing_statements = get_response_parsing_statements(
@@ -1539,7 +1542,7 @@ def get_response_parsers(requests: List[Request]):
         pass
         """ % header_parsing_statements
 
-        function_definition = f"""\n
+        function_definition = f"""
 def {function_name}(data, **kwargs):
     \"\"\" Automatically generated response parser \"\"\"
     # Declare response variables
@@ -1547,6 +1550,7 @@ def {function_name}(data, **kwargs):
     {'\n    '.join(ps[0] for ps in response_header_parsing_statements)}
     if 'headers' in kwargs:      
         headers = kwargs['headers']
+
 
     # Parse body if needed
     if data:
@@ -1557,7 +1561,7 @@ def {function_name}(data, **kwargs):
             raise ResponseParsingException("Exception parsing response, data was not valid json: {BRACE}".format(error))
         pass
 
-        # Try to extract each dynamic object
+    # Try to extract each dynamic object
 
         {body_parsing_statements}{header_parser_info if len(response_header_parsing_statements) > 0 else ""}
     # If no dynamic objects were extracted, throw.
@@ -1566,18 +1570,19 @@ def {function_name}(data, **kwargs):
 
     # Set dynamic variables
     {'\n    '.join(ps[2] + "\n        " + ps[3]
-                   for ps in response_body_parsing_statements + response_header_parsing_statements)}"""
+                   for ps in response_body_parsing_statements + response_header_parsing_statements)}\n"""
+        if index > 0:
+            function_definition = "\n" + function_definition
         return PythonGrammarElementType.ResponseParserDefinition, function_definition  # 返回创建的函数定义
 
     response_parsers_with_parser_function = [rp for rp in response_parsers
                                              if len(rp.writer_variables) + len(rp.header_writer_variables) > 0]
 
     result = (dynamic_objects_from_body + dynamic_objects_from_headers + dynamic_objects_from_input +
-              dynamic_objects_from_ordering_constraints)  # + [(PythonGrammarElementType.DynamicObjectDefinition, "\n")]
+              dynamic_objects_from_ordering_constraints)
 
-    # 通过格式化解析器函数并将其添加到结果中
-    for rp in response_parsers_with_parser_function:
-        result = result + [format_parser_function(rp)]
+    for index, rp in enumerate(response_parsers_with_parser_function):
+        result = result + [format_parser_function(rp, index)]
 
     return result
 
@@ -1585,9 +1590,11 @@ def {function_name}(data, **kwargs):
 # getRequests
 def get_requests(requests: list[Request]) -> str:
     generated_requests_str = ""
-    for request in requests:
+    for index, request in enumerate(requests):
         print(f"Generated Grammar Python:{request.id.endpoint}")
         generated_requests_str = generated_requests_str + generate_python_request(request)
+        if index < len(requests) - 1:
+            generated_requests_str = generated_requests_str + "\n"
 
     return generated_requests_str
 
@@ -1679,6 +1686,7 @@ def generate_python_from_request(request: Request, merge_static_strings):
                 new_primitive_seq.extend(get_merged_static_string_seq(next_list))
 
             processed_elements.extend(filtered_primitives[:2] + new_primitive_seq)
+            processed_elements.append(RequestPrimitiveType.static_string_constant(r"\r\n"))
         else:
             processed_elements.extend(primitives)
 
@@ -1735,12 +1743,12 @@ class PythonGrammarElement:
 
 
 def generate_python_grammar(grammar_definition: GrammarDefinition):
-    import_statements = [PythonGrammarElement.import_func("__future__", "print_function"),
-                         PythonGrammarElement.import_func(None, "json"),
-                         PythonGrammarElement.import_func("restler.engine", "primitives"),
-                         PythonGrammarElement.import_func("restler.engine.core", "requests"),
-                         PythonGrammarElement.import_func("restler.engine.errors", "ResponseParsingException"),
-                         PythonGrammarElement.import_func("restler.engine", "dependencies")
+    import_statements = [PythonGrammarElement.import_func("__future__", "print_function\n"),
+                         PythonGrammarElement.import_func(None, "json\n"),
+                         PythonGrammarElement.import_func("restler.engine", "primitives\n"),
+                         PythonGrammarElement.import_func("restler.engine.core", "requests\n"),
+                         PythonGrammarElement.import_func("restler.engine.errors", "ResponseParsingException\n"),
+                         PythonGrammarElement.import_func("restler.engine", "dependencies\n")
                          ]
 
     response_parsers = get_response_parsers(grammar_definition.Requests)
@@ -1749,10 +1757,10 @@ def generate_python_grammar(grammar_definition: GrammarDefinition):
     requests_list = PythonGrammarElement.requests_func(requests)
     logger.write_to_main(f"result={requests_list}, type(result)={requests_list}",
                          ConfigSetting().LogConfig.code_generate)
-    result = (([PythonGrammarElement.comment_func("\"\"\" THIS IS AN AUTOMATICALLY GENERATED FILE!\"\"\""),
+    result = (([PythonGrammarElement.comment_func("\"\"\" THIS IS AN AUTOMATICALLY GENERATED FILE!\"\"\"\n"),
                 *import_statements]) + response_parsers +
               [PythonGrammarElement.request_collection_definition_func(
-                  "\nreq_collection = requests.RequestCollection([])")]
+                  "req_collection = requests.RequestCollection([])\n")]
               + [requests_list])
     return result
 
@@ -1783,10 +1791,13 @@ def generate_code(grammar_definition: GrammarDefinition, write_function):
         code_element = code_gen_element(element)
         logger.write_to_main(f"code_element={code_element}, type(code_element)={type(code_element)}",
                              ConfigSetting().LogConfig.code_generate)
-        if i == (len(grammar) - 1):
+        write_function(code_element)
+        """
+        if i == (len(grammar)):
             write_function(code_element)
         else:
             write_function(code_element + "\n")
+        """
 
 
 def generate_custom_value_gen_template(dictionary_text):

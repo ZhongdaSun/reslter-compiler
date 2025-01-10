@@ -1339,7 +1339,13 @@ def generate_request_path_primitives(request_id: RequestId,
         elif part.part_type == PathPartType.Constant:
             path.append(Constant(PrimitiveType.String, part.value))
         elif part.part_type == PathPartType.Separator:
-            path.append(Constant(PrimitiveType.String, "/"))
+            current_element = Constant(PrimitiveType.String, "/")
+            if len(path) > 0:
+                last_element = path[-1]
+                if not current_element.__eq__(last_element):
+                    path.append(current_element)
+            else:
+                path.append(current_element)
     return path
 
 

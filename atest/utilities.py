@@ -129,34 +129,34 @@ class DebugConfigCases:
 
 
 def read_and_clean_file(file_path):
-    """读取文件并去除空行和行首尾空格"""
+    cleaned_lines = []
     with open(file_path, 'r') as file:
-        cleaned_lines = []
         for line in file:
             cleaned_line = line.strip()
-            while "temp_" in cleaned_line:
-                start_1 = cleaned_line.index("temp_")
-                substr = cleaned_line[start_1:start_1 + len("temp_") + 4]
-                cleaned_line = cleaned_line.replace(substr, "temp")
-
-            if cleaned_line:  # 忽略空行
+            if "temp_" in cleaned_line:
+                while "temp_" in cleaned_line:
+                    start_1 = cleaned_line.index("temp_")
+                    substr = cleaned_line[start_1:start_1 + len("temp_") + 4]
+                    cleaned_line = cleaned_line.replace(substr, "temp")
                 cleaned_lines.append(cleaned_line)
+            else:
+                cleaned_lines.append(line)
     return cleaned_lines
 
 
 def get_line_differences(expected_file_path, actual_file_path):
     cleaned_expected_file = read_and_clean_file(expected_file_path)
     cleaned_actual_file = read_and_clean_file(actual_file_path)
-    # 使用 difflib 进行比较
-    diff = difflib.unified_diff(cleaned_expected_file, cleaned_expected_file, lineterm='')
-    differences_found = False
-    str_value = ""
-    for line in diff:
-        if line:  # 只打印非空行
-            str_value = str_value + "\n" + line
-            differences_found = True
-
-    return differences_found, str_value
+    if len(cleaned_actual_file) != len(cleaned_actual_file):
+        return False, f"Different length of two files:{len(expected_file_path)} and {len(cleaned_actual_file)}."
+    else:
+        differences_found = False
+        str_value = "\n"
+        for index, line in enumerate(cleaned_actual_file):
+            if cleaned_actual_file[index].strip() != cleaned_expected_file[index].strip():
+                str_value = str_value + cleaned_actual_file[index] + "----" + cleaned_expected_file[index] + "\n"
+                differences_found = True
+        return differences_found, str_value
 
 
 def get_random_grammar_output_directory_path():
@@ -358,7 +358,7 @@ def compile_spec(father_dir: str, dir_name: str, checking_more: [], swagger_only
                                        f"does not match baseline. First difference: {diff}")
             return True, "Finish"
         else:
-            return found_diff, diff
+            return False, diff
     else:
         return False, (f"Grammar file: {Constants.DefaultJsonGrammarFileName}"
                        f"does not match baseline. First difference: {diff}")

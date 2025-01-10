@@ -283,6 +283,12 @@ class Constant:
         dict_value["Constant"] = [self.primitive_type.name, self.variable_name]
         return dict_value
 
+    def __eq__(self, other):
+        if isinstance(other, Constant):
+            if self.primitive_type == other.primitive_type and self.variable_name == other.variable_name:
+                return True
+        return False
+
     def example_dict(self):
         return self.__dict__()
 

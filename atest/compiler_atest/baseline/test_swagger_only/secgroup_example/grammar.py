@@ -5,6 +5,7 @@ from restler.engine import primitives
 from restler.engine.core import requests
 from restler.engine.errors import ResponseParsingException
 from restler.engine import dependencies
+
 req_collection = requests.RequestCollection([])
 # Endpoint: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}, method: Put
 request = requests.Request([
