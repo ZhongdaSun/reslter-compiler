@@ -1,6 +1,6 @@
 {
-  "debug_mode": false,
-  "debug_file": "test_swagger_only.py",
+  "debug_mode": true,
+  "debug_file": "test_dict.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -52,7 +52,7 @@
     "test_same_body_dep": 0,
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
-    "test_example_demo_yaml": 100,
+    "test_example_demo_yaml": 2,
     "test_example_demo_1": 0
   },
 
@@ -68,7 +68,7 @@
     "test_example_demo_1": 100,
     "test_headers_with_dict": 0,
     "test_maindict": 0,
-    "test_example_demo_yaml_with_dict": 100,
+    "test_example_demo_yaml_with_dict": 0,
     "test_multipleIdenticalUuidSuffix": 100,
     "test_no_param": 100,
     "test_secgroup_example": 100,

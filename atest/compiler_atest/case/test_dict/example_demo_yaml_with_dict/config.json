@@ -1,12 +1,10 @@
 {
   "SwaggerSpecConfig": [
     {
-      "SpecFilePath": "/opt/AutoTest/example_demo1/example_demo1.json",
-      "DictionaryFilePath": "/opt/AutoTest/example_demo1/example_demo_dictionary.json"
+      "SpecFilePath": "example_demo.yaml",
+      "DictionaryFilePath": "example_demo_dictionary.json"
     }
   ],
-  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
-  "CustomDictionaryFilePath": "/RESTler/restler/Compile/defaultDict.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,

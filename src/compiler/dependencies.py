@@ -1373,7 +1373,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                          header_dependencies: bool,
                          allow_get_producers: bool,
                          data_fuzzing: bool,
-                         per_resource_dictionaries: {},
+                         per_resource_dictionaries: dict,
                          naming_convention: Optional[NamingConvention]) -> Tuple[
     Dict[Union[AccessPath, str], List[ProducerConsumerDependency]], List[
         OrderingConstraintVariable], MutationsDictionary]:
@@ -1465,7 +1465,7 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
     # getDependenciesForConsumer
     def get_dependencies_for_consumer(request_consumer: Consumer, all_producers: Producers):
 
-        endpoint = request_consumer.consumer_id.request_id.endpoint
+        endpoint = request_consumer.consumer_id.request_id.hex_hash
 
         per_resource_dict = None
         if endpoint in per_resource_dictionaries.keys():

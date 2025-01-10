@@ -1408,7 +1408,7 @@ def process_ordered_swagger_docs(swagger_docs: List[SwaggerDoc],
         if swagger_doc.dictionary:
             dictionary_name = f"dict_{i}"
             for req_id, _ in result:
-                per_resource_dictionaries[req_id.endpoint].append((dictionary_name, swagger_doc.dictionary))
+                per_resource_dictionaries[req_id.hex_hash].append((dictionary_name, swagger_doc.dictionary))
                 logger.write_to_main(f"{per_resource_dictionaries}", ConfigSetting().LogConfig.compiler)
 
     # Remove duplicates

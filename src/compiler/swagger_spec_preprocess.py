@@ -60,8 +60,9 @@ def get_spec_format(spec_file_path):
 def convert_yaml_to_json(yaml_file_path):
     with open(yaml_file_path, 'r') as spec_reader:
         yaml_data = yaml.safe_load(spec_reader)
+        spec_reader.close()
 
-    return json.dumps(yaml_data)
+    return yaml_data
 
 
 def get_json_spec(file_path):

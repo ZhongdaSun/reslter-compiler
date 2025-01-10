@@ -21,6 +21,7 @@ from compiler.swagger import SwaggerDoc
 from compiler.annotations import get_global_annotations_from_file
 from compiler.dictionary import (
     init_user_dictionary,
+    MutationsDictionary,
     get_dictionary,
     get_dictionary_from_string)
 from compiler.config import (
@@ -96,10 +97,7 @@ def get_swagger_data_for_doc(doc: SwaggerSpecConfigClass,
     if doc.DictionaryFilePath or doc.Dictionary:
         if doc.DictionaryFilePath:
             if os.path.exists(doc.DictionaryFilePath):
-                data = JsonSerialization.try_deeserialize_from_file(doc.DictionaryFilePath)
-                data.update(DefaultPrimitiveValues)
-                logger.write_to_main(f"data={data}", ConfigSetting().LogConfig.work_flow)
-                dictionary = get_dictionary_from_string(json.dumps(data))
+                dictionary = get_dictionary(doc.DictionaryFilePath)
             else:
                 print(f"ERROR: invalid path found in the list of dictionary files given: {doc.DictionaryFilePath}")
                 raise ValueError("Invalid dictionary file path")
