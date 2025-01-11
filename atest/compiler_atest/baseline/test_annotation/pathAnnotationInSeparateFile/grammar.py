@@ -1,7 +1,6 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-import json
 from restler.engine import primitives
 from restler.engine.core import requests
 from restler.engine.errors import ResponseParsingException

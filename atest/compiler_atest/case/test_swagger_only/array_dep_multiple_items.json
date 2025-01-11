@@ -161,11 +161,6 @@
                         }
                     }
                 ],
-                "x-ms-examples": {
-                    "Make an order": {
-                        "$ref": "../examples/make_order_empty_descriptions.json"
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Success",

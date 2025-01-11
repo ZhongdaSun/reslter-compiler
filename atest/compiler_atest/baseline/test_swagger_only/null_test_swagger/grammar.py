@@ -8,7 +8,6 @@ from restler.engine import dependencies
 
 _customer_post_id = dependencies.DynamicVariable("_customer_post_id")
 
-
 def parse_customerpost(data, **kwargs):
     """ Automatically generated response parser """
     # Declare response variables

@@ -334,7 +334,7 @@ class Parameters:
     # getParameterSerialization
     @staticmethod
     def get_parameter_serialization(p: Parameter):
-        parameter_serialization = ParameterSerialization(style=StyleKind.Form, explode=False, has_setting=False)
+        parameter_serialization = ParameterSerialization(style=StyleKind.Simple, explode=False, has_setting=False)
         if p.is_set("style") and p.is_set("explode"):
             parameter_serialization.has_setting = True
 

@@ -1,9 +1,11 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
+from __future__ import print_function
 import json
 from restler.engine import primitives
 from restler.engine.core import requests
 from restler.engine.errors import ResponseParsingException
 from restler.engine import dependencies
+
 _virtualNetworkTaps__tapName__put_id = dependencies.DynamicVariable("_virtualNetworkTaps__tapName__put_id")
 
 _publicIPAddresses__publicIpAddressName__put_id = dependencies.DynamicVariable("_publicIPAddresses__publicIpAddressName__put_id")

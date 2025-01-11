@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_swagger_only.py",
+  "debug_file": "test_dict.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -20,32 +20,32 @@
     "test_large_json_body_level_5": 100,
     "test_large_json_body_level_6": 100,
     "test_lowercase_paths": 0,
-    "test_path_annotation_in_separate_file": 20,
-    "test_local_annotations": 20,
+    "test_path_annotation_in_separate_file": 0,
+    "test_local_annotations": 0,
     "test_example_demo": 20,
-    "test_array_dep_multiple_items": 20,
+    "test_array_dep_multiple_items": 0,
     "test_custom_payload_swagger": 100,
     "test_custom_payload_content_type_swagger": 100,
     "test_empty_array_example": 0,
     "test_object_example": 0,
     "test_null_test_swagger": 20,
-    "test_array_example": 20,
+    "test_array_example": 0,
     "test_required_params_include_optional_parameters": 100,
     "test_required_params_not_include_optional_parameters": 100,
-    "test_get_path_dependencies": 20,
-    "test_uuidsuffix_test": 20,
-    "test_path_dictionary_payload": 20,
+    "test_get_path_dependencies": 0,
+    "test_uuidsuffix_test": 0,
+    "test_path_dictionary_payload": 0,
     "test_input_producer_spec": 100,
-    "test_no_params": 20,
+    "test_no_params": 0,
     "test_read_only": 20,
     "test_global_path_parameters": 0,
     "test_global_path_parameters_engine": 101,
     "test_put_createorupdate_engine": 101,
-    "test_simple_swagger_all_param_data_types": 20,
+    "test_simple_swagger_all_param_data_types": 0,
     "test_inline_examples": 0,
     "test_multiple_circular_paths": 0,
     "test_nested_objects_naming": 20,
-    "test_path_annotation": 20,
+    "test_path_annotation": 0,
     "test_simple_api_soft_delete": 100,
     "test_ordering_test": 0,
     "test_response_headers": 100,
@@ -58,7 +58,7 @@
 
   "test_dict": {
     "test_array_dep_multiple_items": 0,
-    "test_array_example_data_fuzz_false": 20,
+    "test_array_example_data_fuzz_false": 0,
     "test_array_example_data_fuzz_true": 0,
     "test_customPayloadContentTypeSwagger_1": 100,
     "test_customPayloadContentTypeSwagger_2": 100,
@@ -66,27 +66,27 @@
     "test_customPayloadSwagger_2": 100,
     "test_customPayloadSwagger_3": 100,
     "test_example_demo_1": 100,
-    "test_headers_with_dict": 20,
-    "test_maindict": 20,
-    "test_example_demo_yaml_with_dict": 20,
+    "test_headers_with_dict": 0,
+    "test_maindict": 0,
+    "test_example_demo_yaml_with_dict": 0,
     "test_multipleIdenticalUuidSuffix": 100,
     "test_no_param": 100,
     "test_secgroup_example": 100,
-    "test_simple_swagger_all_param_types": 20
+    "test_simple_swagger_all_param_types": 0
   },
 
   "test_dict_annotation":{
     "test_input_producer_spec": 100
   },
   "test_dict_example":{
-    "test_array_example_external": 20
+    "test_array_example_external": 0
   },
 
   "test_annotation": {
     "test_array_example_dynamic_object": 100,
-    "test_header_deps": 20,
+    "test_header_deps": 0,
     "test_ordering_test": 100,
-    "test_pathAnnotationInSeparateFile": 20,
+    "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,
     "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
@@ -94,11 +94,11 @@
   },
 
   "test_example": {
-    "test_exact_copy_values_are_correct": 20,
-    "test_array_example": 20,
+    "test_exact_copy_values_are_correct": 0,
+    "test_array_example": 0,
     "test_body_param": 20,
-    "test_exampleConfigTestPut": 20,
-    "test_optional_params": 20,
+    "test_exampleConfigTestPut": 0,
+    "test_optional_params": 0,
     "test_optional_params_query_config": 20
   }
 }

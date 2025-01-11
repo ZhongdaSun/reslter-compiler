@@ -381,7 +381,7 @@ def format_restler_fuzzable_string(primitive_type: RequestPrimitiveType):
         elif primitive_type.type == RequestPrimitiveTypeEnum.Restler_fuzzable_bool:
             if example_parameter or tracked_param_name:
                 return (f"primitives.restler_fuzzable_bool({quoted_default_string}"
-                        f" {example_parameter}{tracked_param_name})")
+                        f"{example_parameter}{tracked_param_name})")
             else:
                 return f"primitives.restler_fuzzable_bool({quoted_default_string})"
         elif primitive_type.type == RequestPrimitiveTypeEnum.Restler_fuzzable_int:
@@ -410,7 +410,7 @@ def format_restler_fuzzable_object(primitive_type: RequestPrimitiveType):
         primitive_type.primitive_data.tracked_parameter_name)
     if example_parameter or tracked_param_name:
         return (f"primitives.restler_fuzzable_object({quoted_default_string}"
-                f" {example_parameter}{tracked_param_name})")
+                f"{example_parameter}{tracked_param_name})")
     else:
         return f"primitives.restler_fuzzable_object({quoted_default_string})"
 
@@ -429,7 +429,7 @@ def format_restler_fuzzable_group(primitive_type: RequestPrimitiveType):
     # Implement the logic for Restler_fuzzable_group
     # Add conditions for other Restler primitives here
     return (f"primitives.restler_fuzzable_group("
-            f"{primitive_type.primitive_data.default_value}, "
+            f"{primitive_type.primitive_data.default_value},"
             f"quoted={primitive_type.primitive_data.is_quoted}"
             f"{get_example_primitive_parameter(primitive_type.primitive_data.example_value)})")
 
@@ -577,10 +577,10 @@ def get_restler_python_payload(payload, is_quoted):
                     if index == 0:
                         value_str = f"\'{item}\'"
                     else:
-                        value_str = value_str + f", \'{item}\'"
-                group_value = f"\"{payload.default_value.name}\", [{value_str}]"
+                        value_str = value_str + f",\'{item}\'"
+                group_value = f"\"{payload.default_value.name}\", [{value_str}]  "
                 request_primitive_type = RequestPrimitiveTypeData(default_value=group_value,
-                                                                  is_quoted=False,
+                                                                  is_quoted=is_quoted,
                                                                   example_value=exv,
                                                                   tracked_parameter_name=parameter_name)
                 return RequestPrimitiveType.fuzzable_group(data=request_primitive_type, dynamic_object=dynamic_object)
@@ -692,32 +692,49 @@ def format_json_body_parameter(
                         f_value = format_property_name(s, tab_level * SPACE_4, False)
                         logger.write_to_main(f"f_value={f_value.primitive_data.default_value}",
                                              ConfigSetting().LogConfig.code_generate)
-                        f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
+                        if f_value.primitive_data.default_value == "":
+                            f_value.primitive_data.default_value = ", " + tab_seq
+                        else:
+                            f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
                         cs.append(f_value)
                     else:
                         cs.append(inner)
                 else:
                     cs.append(inner)
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
-        if property_type == PrimitiveType.Object:
-            left = [RequestPrimitiveType.static_string_constant(tab_level * SPACE_4 + "{")]
-            right = [RequestPrimitiveType.static_string_constant(tab_seq + "}")]
+        if property_type == NestedType.Object:
             if tab_level == 0:
+                left = [RequestPrimitiveType.static_string_constant("{")]
+                right = [RequestPrimitiveType.static_string_constant(tab_seq + "}")]
                 result = left + cs + right
             else:
+                left = [RequestPrimitiveType.static_string_constant(tab_level * SPACE_4 + "{")]
+                right = [RequestPrimitiveType.static_string_constant(tab_seq + "}")]
                 result = [format_property_name(property_name, tab_seq)] + left + cs + right
-        elif property_type == PrimitiveType.Array:
-            left = [RequestPrimitiveType.static_string_constant(tab_seq + "[")]
+        elif property_type == NestedType.Array:
             right = [RequestPrimitiveType.static_string_constant(tab_seq + "]")]
             if tab_level == 0:
+                left = [RequestPrimitiveType.static_string_constant(tab_seq + "[")]
                 result = left + cs + right
             else:
-                restler_array = format_property_name(property_name, tab_seq)
-                restler_str = restler_array.primitive_data.default_value + tab_seq + "[" + get_tab_indented_line_start(
-                    tab_level + 1)
-                left = [RequestPrimitiveType.static_string_constant(restler_str)]
+                if len(cs) == 0:
+                    restler_array = format_property_name(property_name, tab_seq)
+                    restler_str = restler_array.primitive_data.default_value + tab_seq + "["
+                    left = [RequestPrimitiveType.static_string_constant(restler_str)]
+                else:
+                    restler_array = format_property_name(property_name, tab_seq)
+                    restler_str = restler_array.primitive_data.default_value + tab_seq + "[" + "\n"
+                    left = [RequestPrimitiveType.static_string_constant(restler_str)]
                 logger.write_to_main(f"cs={len(left + cs + right)}", ConfigSetting().LogConfig.code_generate)
                 result = left + cs + right
+        elif property_type == NestedType.Property:
+            if len(cs) > 1:
+                last_element = cs[-1]
+                value = last_element.primitive_data.default_value
+                if "}" in value:
+                    last_element.primitive_data.default_value = last_element.primitive_data.default_value + "\n"
+
+            result = [RequestPrimitiveType.static_string_constant(value=f"{tab_seq}\"{property_name}\":\n")] + cs
         else:
             result = cs
         logger.write_to_main(f"result={len(result)}", ConfigSetting().LogConfig.code_generate)
@@ -764,14 +781,17 @@ def format_header_array_parameters(parameter_name, inner_properties):
 # formatQueryArrayParameters
 def format_query_array_parameters(parameter_name: str, inner_properties: List[List[RequestPrimitiveType]],
                                   request_parameter: Optional[RequestParameter]) -> List[RequestPrimitiveType]:
-    # 默认的 explode 选项为 true
     # The default is "style: form, explode: true"
     exp_option = request_parameter.serialization.explode \
         if request_parameter and request_parameter.serialization else True
     style = request_parameter.serialization.style \
-        if request_parameter and request_parameter.serialization else StyleKind.Form
+        if request_parameter and request_parameter.serialization else StyleKind.Simple
     all_list_param: List[RequestPrimitiveType] = []
     cs = []
+    if len(inner_properties) == 0:
+        cs.append(format_query_parameter_name(parameter_name))
+        return cs
+
     for array_item_primitives in inner_properties:
         for item in array_item_primitives:
             if (item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant
@@ -792,21 +812,26 @@ def format_query_array_parameters(parameter_name: str, inner_properties: List[Li
             else:
                 cs.append(array_item_primitives)
         else:
-            if i == 0:
-                cs.append(format_query_parameter_name(parameter_name))
-                cs.append(array_item_primitives)
-            elif 0 < i < tail:
-                if request_parameter.serialization is None:
+            if style == StyleKind.Form:
+                if i == 0:
+                    cs.append(format_query_parameter_name(parameter_name))
+                    cs.append(array_item_primitives)
+                elif 0 < i < tail:
                     cs.append(RequestPrimitiveType.static_string_constant(value=","))
                     cs.append(array_item_primitives)
                 else:
-                    if style == StyleKind.Form:
-                        cs.append(RequestPrimitiveType.static_string_constant(value=","))
-                        cs.append(array_item_primitives)
-                    else:
-                        raise NotImplementedError(f"Serialization type {style} is not implemented yet.")
+                    cs.append(array_item_primitives)
+            elif style == StyleKind.Simple:
+                if i < tail - 1:
+                    cs.append(format_query_parameter_name(parameter_name))
+                    cs.append(array_item_primitives)
+                    cs.append(RequestPrimitiveType.static_string_constant(value="&"))
+                else:
+                    cs.append(format_query_parameter_name(parameter_name))
+                    cs.append(array_item_primitives)
+
             else:
-                cs.append(array_item_primitives)
+                raise NotImplementedError(f"Serialization type {style} is not implemented yet.")
 
     # Handle if `exp_option` is false or cs is empty
     # if not exp_option or not cs:
@@ -888,7 +913,8 @@ def generate_python_parameter(parameter_source,
             elif primitive_type in [PrimitiveType.Object, PrimitiveType.Int, PrimitiveType.Bool, PrimitiveType.Number]:
                 return False
             elif isinstance(primitive_type, PrimitiveTypeEnum):
-                return is_primitive_type_quoted(primitive_type.primitive_type, primitive_type.value)
+                return is_primitive_type_quoted(primitive_type.primitive_type, False)
+
 
         # Exclude 'readonly' parameters
 
@@ -899,12 +925,12 @@ def generate_python_parameter(parameter_source,
         # Parameters from an example payload are always included
         if parameter_source == ParameterPayloadSource.Examples or include_property:
             name_seq = []
+            tab_seq = get_tab_indented_line_start(level)
             if parameter_kind == ParameterKind.Query:
                 name_seq.append(format_query_parameter_name(request_parameter.name))
             elif parameter_kind == ParameterKind.Header:
                 name_seq.append(format_header_parameter_name(request_parameter.name))
             else:
-                tab_seq = get_tab_indented_line_start(level)
                 name_seq.append(format_property_name(p.name, tab_seq))
             logger.write_to_main("name_seq={}".format(name_seq), ConfigSetting().LogConfig.code_generate)
             # 'needQuotes' must be based on the underlying type of the payload.
@@ -924,20 +950,21 @@ def generate_python_parameter(parameter_source,
             elif type(payload) is FuzzablePayload:
                 # Note: this is a current RESTler limitation -
                 # fuzzable values may not be set to null without changing the grammar.
-                need_quotes = is_primitive_type_quoted(payload.primitive_type, False)
+                if payload.primitive_type == PrimitiveType.Enum:
+                    need_quotes = is_primitive_type_quoted(payload.default_value, False)
+                else:
+                    need_quotes = is_primitive_type_quoted(payload.primitive_type, False)
                 is_fuzzable = True
             elif type(payload) is DynamicObject:
                 need_quotes = is_primitive_type_quoted(payload.primitive_type, False)
                 is_dynamic_object = True
             logger.write_to_main(f"need_quotes={need_quotes}", ConfigSetting().LogConfig.code_generate)
-            tab_seq = []
 
             payload_seq = []
             # If the value is a constant, quotes are inserted at compile time.
             # If the value is a fuzzable, quotes are inserted at run time, because
             # the user may choose to fuzz with quoted or unquoted values.
             if need_quotes and not is_fuzzable and not is_dynamic_object:
-                # payload_seq = [(RequestPrimitiveType.static_string_constant(value="\""), level)]
                 payload_seq = [RequestPrimitiveType.static_string_constant(value="\"")]
                 logger.write_to_main("payload_seq={}".format(payload_seq), ConfigSetting().LogConfig.code_generate)
             is_quoted = parameter_kind == ParameterKind.Body and need_quotes and (is_fuzzable or is_dynamic_object)
@@ -947,9 +974,8 @@ def generate_python_parameter(parameter_source,
             payload_seq = payload_seq + [grammar]
 
             if need_quotes and not is_fuzzable and not is_dynamic_object:
-                # payload_seq = payload_seq + [(RequestPrimitiveType("\"", None, None), level)]
-                payload_seq = payload_seq + payload_seq
-            return tab_seq + name_seq + payload_seq
+                payload_seq = payload_seq + [RequestPrimitiveType.static_string_constant(value="\"")]
+            return name_seq + payload_seq
         else:
             return []
 
@@ -962,6 +988,7 @@ def generate_python_parameter(parameter_source,
         if parameter_source == ParameterPayloadSource.Examples or include_property:
             # check for the custom payload
             name_and_custom_payload_seq = None
+            tab_seq = get_tab_indented_line_start(level)
             if p.payload:
                 logger.write_to_main(f"p.payload={p.payload}", ConfigSetting().LogConfig.code_generate)
                 # custom payload should not be quoted
@@ -1206,10 +1233,10 @@ def generate_python_from_request_element(request_element,
                                 for request in parameter_list.request_parameters]
                             for primitives in parameters:
                                 if primitives:
-                                    filter_out = filter_out + primitives
+                                    filter_out = (filter_out + primitives +
+                                                  [RequestPrimitiveType.static_string_constant(r"\r\n")])
                             logger.write_to_main("filter_out={}".format(filter_out),
                                                  ConfigSetting().LogConfig.code_generate)
-                            filter_out = filter_out + [RequestPrimitiveType.static_string_constant(r"\r\n")]
                     else:
                         raise UnsupportedType(
                             f"This request parameters payload type is not supported: {request_element[0]}")
@@ -1488,7 +1515,7 @@ def get_response_parsers(requests: List[Request]):
                 # dynamic_variable_name = f"{w.request_id.endpoint}_{'_'.join(access_path.path)}"  # todo
                 dynamic_variable_name = DynamicObjectNaming.generate_dynamic_object_variable_name(
                     w.request_id, access_path, "_")
-                temp_variable_name = f"temp_{random.randint(0, 9999)}"
+                temp_variable_name = f"temp_{random.randint(1000, 9999)}"
                 empty_init_statement = f"{temp_variable_name} = None"
 
                 data_source = "data" if variable_kind == DynamicObjectVariableKind.BodyResponsePropertyKind \
