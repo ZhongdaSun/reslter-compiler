@@ -338,8 +338,8 @@ class Parameters:
         if p.is_set("style") and p.is_set("explode"):
             parameter_serialization.has_setting = True
 
-        style = SchemaUtilities.get_property_string(p, "style")
-        explode = SchemaUtilities.get_property_bool(p, "explode")
+        style = SchemaUtilities.get_property(p, "style")
+        explode = SchemaUtilities.get_property(p, "explode")
         if style is not None:
             if style.lower() == "form":
                 parameter_serialization.style = StyleKind.Form
@@ -392,10 +392,10 @@ class Parameters:
                                     parameter: Parameter,
                                     schema_cache):
         body_name = "__body__"
-        parameter_name = SchemaUtilities.get_property_string(parameter, "name")
-        parameter_in = SchemaUtilities.get_property_string(parameter, "in")
-        parameter_type = SchemaUtilities.get_property_string(parameter, "type")
-        is_required = SchemaUtilities.get_property_bool(parameter, "required")
+        parameter_name = SchemaUtilities.get_property(parameter, "name")
+        parameter_in = SchemaUtilities.get_property(parameter, "in")
+        parameter_type = SchemaUtilities.get_property(parameter, "type")
+        is_required = SchemaUtilities.get_property(parameter, "required")
         found_parameter = None
 
         for r in example_payload.parameter_examples:
@@ -507,7 +507,7 @@ class Parameters:
                     if parameter.type == "array":
                         raise Exception("Arrays in path examples are not supported yet.")
                     else:
-                        spec_example_value = SchemaUtilities.get_examples_from_parameter(parameter)
+                        spec_example_value = SchemaUtilities.try_get_schema_example_value(parameter)
                         logger.write_to_main(f"spec_example_value={spec_example_value}",
                                              ConfigSetting().LogConfig.compiler)
                         property_payload = generate_grammar_element_for_schema(
@@ -565,19 +565,15 @@ class Parameters:
                        schema_cache: SchemaCache) -> RequestParameterList:
 
         def generate_parameter_payload(parameter: Parameter):
-            spec_example_value = SchemaUtilities.get_examples_from_parameter(parameter)
-            parameter_name = SchemaUtilities.get_property_string(parameter, "name")
-            is_required = True
-            if parameter.is_set("required"):
-                is_required = getattr(parameter, parameter.get_private_name("required"))
+            parameter_name = SchemaUtilities.get_property(parameter, "name")
 
             parameter_payload = generate_grammar_element_for_schema(
                 swagger_doc=swagger_doc,
                 schema=parameter,
-                example_value=spec_example_value,
-                generate_fuzzable_payloads_for_examples=True,
+                example_value=None,
+                generate_fuzzable_payloads_for_examples=False,
                 track_parameters=ConfigSetting().TrackFuzzedParameterNames,
-                is_required=is_required,
+                is_required=SchemaUtilities.get_property(parameter, "required"),
                 parents=[],
                 schema_cache=schema_cache,
                 cont=None)
@@ -586,9 +582,6 @@ class Parameters:
             payload = None
             if isinstance(parameter_payload, LeafNode):
                 fp = parameter_payload.leaf_property.payload
-                is_required = parameter_payload.leaf_property.is_required
-                is_readonly = parameter_payload.leaf_property.is_readonly
-
                 if isinstance(fp, Fuzzable):
                     logger.write_to_main(f"fp={fp}", ConfigSetting().LogConfig.compiler)
                     leaf_property = parameter_payload.leaf_property
@@ -654,132 +647,7 @@ class Parameters:
             logger.write_to_main(f"result={type(item)}", ConfigSetting().LogConfig.compiler)
         return result
 
-    """
-    @staticmethod
-    def get_all_parameters(swagger_method_definition: RequestInfo,
-                           example_config,
-                           data_fuzzing,
-                           track_parameters,
-                           json_property_max_depth):
-        all_parameters = Parameters.get_spec_parameters(swagger_method_definition, parameter_kind)
-        return Parameters.get_parameters(all_parameters, example_config, data_fuzzing, track_parameters,
-                                         json_property_max_depth)
-    """
-    """
-    # it is OPEN API SPEC
-    @staticmethod
-    def get_body(swagger_method_definition,
-                 example_config,
-                 schema_cache):
-        body_name = "__body__"
-        for item in swagger_method_definition:
-            if item.schema is None:
-                if swagger_method_definition["RequestBody"] and swagger_method_definition["RequestBody"]["Content"]:
-                    content = next((x for x in swagger_method_definition["RequestBody"]["Content"] if
-                                    x["Key"] == "application/json" or x["Key"] == "*/*"), None)
 
-                    if content:
-                        body_name = swagger_method_definition["RequestBody"]["Name"] if \
-                            swagger_method_definition["RequestBody"]["Name"] else body_name
-
-                        if not content["Schema"]:
-                            print(
-                                f"Error: found body ({body_name}) with null schema. "
-                                f"This may be due to an invalid OpenAPI spec.")
-                            return body_name, None
-                        else:
-                            body_schema = content["Schema"]["ActualSchema"]
-                    else:
-                        body_schema = None
-                else:
-                    parameter = next(iter(Parameters.get_spec_parameters(
-                        swagger_method_definition, "Body")), None)
-                    body_name = parameter.name if parameter else body_name
-                    body_schema = parameter["ActualSchema"] if parameter else None
-
-                if body_schema:
-                    open_api_parameter = {
-                        "Name": body_name,
-                        "Schema": body_schema,
-                        "Kind": "Body",
-                        "IsRequired": True
-                    }
-                return Parameters.get_parameters(swagger_doc=swagger_method_definition,
-                                                 parameter_list=[open_api_parameter],
-                                                 example_config=example_config,
-                                                 schema_cache=schema_cache)
-            else:
-                return [Parameters.get_parameters(swagger_doc=swagger_method_definition,
-                                                  parameter_list=item,
-                                                  example_config=example_config,
-                                                  schema_cache=schema_cache)]
-    @staticmethod
-    def get_body(swagger_method_definition, example_config, data_fuzzing, track_parameters, json_property_max_depth):
-        body_name = "__body__"
-        body_schema = None
-
-        # Check if the RequestBody exists and has content
-        if swagger_method_definition.RequestBody is not None and \
-                swagger_method_definition.RequestBody.Content is not None:
-
-            # Look for "application/json" or "*/*" content types
-            content = next(
-                (c for key, c in swagger_method_definition.RequestBody.Content.items()
-                 if key in ["application/json", "*/*"]),
-                None
-            )
-
-            if content is not None:
-                # Use the RequestBody name if available, otherwise default to "__body__"
-                body_name = (
-                    swagger_method_definition.RequestBody.Name
-                    if swagger_method_definition.RequestBody.Name
-                    else body_name
-                )
-
-                if content.Schema is None:
-                    print(f"Error: found body ({body_name}) with null schema. This may be due to an invalid OpenAPI spec.")
-                else:
-                    body_schema = content.Schema.ActualSchema
-        else:
-            # Fallback to parameters of kind "Body"
-            parameter = next(
-                iter(
-                    get_spec_parameters(swagger_method_definition, "Body")
-                ),
-                None
-            )
-
-            if parameter is not None:
-                body_name = parameter.Name
-                body_schema = parameter.ActualSchema
-
-        if body_schema is not None:
-            # Create an OpenApiParameter for the body
-            open_api_parameter = OpenApiParameter()
-            open_api_parameter.Name = body_name
-            open_api_parameter.Schema = body_schema
-            open_api_parameter.Kind = "Body"
-            open_api_parameter.IsRequired = True
-
-            # Process the body parameter
-            return get_parameters(
-                [open_api_parameter],
-                example_config,
-                data_fuzzing,
-                track_parameters,
-                json_property_max_depth
-            )
-        else:
-            # No body: pass an empty sequence to get_parameters
-            return get_parameters(
-                [],
-                example_config,
-                data_fuzzing,
-                track_parameters,
-                json_property_max_depth
-            )
-    """
 class XMsPaths:
     @staticmethod
     def replace_with_original_paths(req: RequestId):
@@ -1520,31 +1388,26 @@ def get_request_data(swagger_doc: SwaggerDoc,
             # If examples are being discovered, output them in the 'Examples' directory
             if not ConfigSetting().ReadOnlyFuzz or request_id.method in ReaderMethods:
                 print(f"{ep} path parameter start")
-                path_parameters = Parameters.path_parameters(swagger_doc,
-                                                             item,
-                                                             ep,
-                                                             example_config if ConfigSetting().UsePathExamples else None,
-                                                             schema_cache)
+                path_parameters = (
+                    Parameters.path_parameters(swagger_doc,
+                                               item,
+                                               ep,
+                                               example_config if ConfigSetting().UsePathExamples else None,
+                                               schema_cache))
 
                 all_query_parameters = []
                 logger.write_to_main(f"item.queryParameters={len(item.queryParameters)}",
                                      ConfigSetting().LogConfig.compiler)
                 if len(item.queryParameters) > 0:
                     print(f"{ep} query parameter.")
-                    all_query_parameters = Parameters.get_parameters(swagger_doc,
-                                                                     item,
-                                                                     item.queryParameters,
-                                                                     example_config,
-                                                                     schema_cache)
+                    all_query_parameters = (
+                        Parameters.get_parameters(swagger_doc,
+                                                  item,
+                                                  item.queryParameters,
+                                                  example_config if ConfigSetting().UseQueryExamples else None,
+                                                  schema_cache))
 
                 body = []
-
-                # todo it is OPENAPI 3.0
-                # Determine if body examples should be used
-                use_body_examples = ConfigSetting().UseBodyExamples
-
-                # Decide on the example configuration to pass
-                example_config_to_use = example_config if use_body_examples else None
 
                 if len(item.bodyParameters) > 0:
                     logger.write_to_main(f"item.bodyParameters={item.bodyParameters}",
@@ -1553,18 +1416,10 @@ def get_request_data(swagger_doc: SwaggerDoc,
                     body = Parameters.get_parameters(swagger_doc,
                                                      item,
                                                      item.bodyParameters,
-                                                     example_config,
+                                                     example_config if ConfigSetting().UseBodyExamples else None,
                                                      schema_cache)
 
                     # Call the get_body function and assign the result to the body variable
-                    """
-                    body = Parameters.get_body(
-                        swagger_doc,
-                        item.bodyParameters,
-                        example_config_to_use,  # Pass the chosen example config
-                        schema_cache
-                    )
-                    """
 
                 headers = []
                 if item.headerParameters and len(item.headerParameters) > 0:
@@ -1620,11 +1475,10 @@ def get_request_data(swagger_doc: SwaggerDoc,
                         body_response_schema = None
                         if (response_value.is_set("type") or response_value.is_set("$ref")
                                 or response_value.is_set("schema")):
-                            example_value = SchemaUtilities.get_property_dict(response_value, "examples")
                             body_response_schema = (
                                 generate_grammar_element_for_schema(swagger_doc,
                                                                     response_value,
-                                                                    example_value,
+                                                                    None,
                                                                     False,
                                                                     False,
                                                                     True,
@@ -1638,12 +1492,6 @@ def get_request_data(swagger_doc: SwaggerDoc,
                         # Convert links in the response to annotations
                         # todo Remove this source code because these functionalities are only supported in openapi3
                         link_annotations = None
-                        """
-                        if getattr(response_value, response_value.get_private_name("$ref")):
-                            link_item = getattr(response_value, response_value.get_private_name("$ref"))
-                            link_annotations = get_annotations_from_openapi_links(request_id, link_item, swagger_doc) \
-                                if link_item is not None else []
-                        """
 
                         response_info = ResponseInfo(body_response_schema=body_response_schema,
                                                      header_response_schema=header_response,

@@ -104,6 +104,7 @@ class SchemaUtilities:
             elif param_type in ["bool", "boolean"]:
                 def str_to_bool(s):
                     return s.lower() in ['true', '1', 'yes', 'y', 't']
+
                 if isinstance(example_object, bool):
                     return example_object
                 elif isinstance(example_object, str):
@@ -117,6 +118,7 @@ class SchemaUtilities:
                 else:
                     raise Exception(
                         f"{example_object} can't be changed to {param_type}.")
+
     @staticmethod
     def format_example_value(example_object: Any) -> str:
         if isinstance(example_object, str):
@@ -127,47 +129,18 @@ class SchemaUtilities:
     # Get an example value as a string, either directly from the 'example' attribute or
     # from the extension 'Examples' property.
     @staticmethod
-    def try_get_schema_example_value(schema: Schema):
+    def try_get_schema_example_value(schema: Union[Schema, Parameter]):
         if schema.is_set("example"):
             value = getattr(schema, schema.get_private_name("example"))
             return SchemaUtilities.format_example_value(value)
         elif schema.is_set("examples"):
             extension_data_example = getattr(schema, schema.get_private_name("examples"))
-
             if extension_data_example:
                 examples = extension_data_example if isinstance(extension_data_example, dict) else {}
                 spec_example_values = [SchemaUtilities.format_example_value(example_value) for example_value in
                                        examples.values()]
                 return spec_example_values[0]
         return None
-
-    #  Get the example from the schema.
-    # 'None' will be returned if the example for an
-    #  object or array cannot be successfully parsed.
-    # tryGetSchemaExampleAsString
-    @staticmethod
-    def try_get_schema_example_as_string(schema: Schema) -> Optional[str]:
-        return SchemaUtilities.try_get_schema_example_value(schema)
-
-    """
-    # tryParseJToken
-    @staticmethod
-    def try_parse_jtoken(example_value: str) -> Optional[Any]:
-        try:
-            # return JToken.Parse(example_value)
-            return None
-        except Exception as ex:
-            return None
-    """
-
-    # tryGetSchemaExampleAsJToken
-    @staticmethod
-    def try_get_schema_example_as_jtoken(schema: Schema) -> Optional[Any]:
-        value_as_string = SchemaUtilities.try_get_schema_example_value(schema)
-        if value_as_string:
-            return value_as_string  # todo SchemaUtilities.try_parse_jtoken(value_as_string)
-        else:
-            return None
 
     @staticmethod
     def get_grammar_primitive_type_with_default_value(object_type: str,
@@ -233,45 +206,20 @@ class SchemaUtilities:
         return fuzzable_value
 
     @staticmethod
-    def get_extension_data_boolean_property_value(extension_data: dict,
-                                                  extension_data_key_name: str) -> Optional[bool]:
-        logger.write_to_main(f"extension_data={extension_data}, extension_data_key_name={extension_data_key_name}",
-                             ConfigSetting().LogConfig.swagger_visitor)
-        if not extension_data:
-            return None
-        else:
-            if extension_data_key_name in extension_data:
-                value = extension_data[extension_data_key_name]
-                logger.write_to_main(f"value={value}", ConfigSetting().LogConfig.swagger_visitor)
-                if isinstance(value, bool):
-                    return value
-                else:
-                    try:
-                        bool_value = bool(value)
-                        return bool_value
-                    except ValueError:
-                        print(
-                            f"WARNING: property {extension_data_key_name} has invalid value for field {value}, "
-                            f"expected boolean")
-                        return None
-            else:
-                return None
+    def get_property_read_only(schema: Union[Schema, Parameter, Response]) -> bool:
+        return (SchemaUtilities.get_property(schema, "readonly") or
+                SchemaUtilities.get_property(schema, "readOnly"))
 
     @staticmethod
-    def get_property_bool(schema: Union[Schema, Parameter, Response], name: str) -> bool:
+    def get_property(schema: Union[Schema, Parameter, Response], name: str) -> Union[dict, Schema, str, bool, None]:
         if name in ["readonly", "required", "explode", "readOnly"]:
             return bool(getattr(schema, schema.get_private_name(name))) if schema.is_set(name) else False
-        else:
-            raise Exception(f"property name: {name} is wrong!")
-
-    @staticmethod
-    def get_property_read_only(schema: Union[Schema, Parameter, Response]) -> bool:
-        return (SchemaUtilities.get_property_bool(schema, "readonly") or
-                SchemaUtilities.get_property_bool(schema, "readOnly"))
-
-    @staticmethod
-    def get_property_string(schema: Union[Schema, Parameter, Response], name: str) -> str:
-        if name in ["type", "name", "format", "in", "style"]:
+        elif name in ["properties", "examples", "example", "$ref", "schema", "items"]:
+            if schema.is_set(name):
+                return getattr(schema, schema.get_private_name(name))
+            else:
+                return None
+        elif name in ["type", "name", "format", "in", "style"]:
             if schema.is_set(name):
                 result = getattr(schema, schema.get_private_name(name))
                 if isinstance(result, str):
@@ -283,49 +231,6 @@ class SchemaUtilities:
                     raise Exception(f"{name} is {result}. Its type is not string")
             else:
                 return ""
-        else:
-            raise Exception(f"property name: {name} is wrong!")
-
-    @staticmethod
-    def get_property_schema(schema: Union[Schema, Parameter, Response], name: str) -> Optional[Schema]:
-        if name in ["$ref", "schema", "items"]:
-            if schema.is_set(name):
-                return getattr(schema, schema.get_private_name(name))
-            else:
-                return None
-        else:
-            raise Exception(f"property name: {name} is wrong!")
-
-    @staticmethod
-    def get_examples_from_parameter(p):
-        def get_schema_example():
-            if p is None:
-                return None
-            else:
-                return SchemaUtilities.try_get_schema_example_as_jtoken(p)
-
-        def get_parameter_example():
-
-            example_value = None
-            if p.is_set("examples"):
-                example_value = SchemaUtilities.get_property_dict(p, "examples")
-            elif p.is_set("example"):
-                example_value = SchemaUtilities.get_property_dict(p, "example")
-            return example_value
-
-        parameter_example = get_parameter_example()
-        if parameter_example:
-            return parameter_example
-        else:
-            return get_schema_example()
-
-    @staticmethod
-    def get_property_dict(schema: Union[Schema, Parameter, Response], name: str) -> Optional[dict]:
-        if name in ["properties", "examples", "example"]:
-            if schema.is_set(name):
-                return getattr(schema, schema.get_private_name(name))
-            else:
-                return None
         else:
             raise Exception(f"property name: {name} is wrong!")
 
@@ -343,9 +248,8 @@ class Cycle:
 
 
 class SchemaCache:
-    cache = defaultdict(CachedGrammarTree)  # Python 中的字典不需要指定线程安全性，但可以使用 threading 模块实现
+    cache = defaultdict(CachedGrammarTree)
 
-    # 用于跟踪循环引用的集合
     cycles = set()
 
     def __init__(self):
@@ -375,7 +279,6 @@ class SchemaCache:
 
         if should_cache:
             self.cache[schema] = CachedGrammarTree(grammar_element)
-        # 如果是循环的根，移除循环跟踪
         if cycle_root is not None:
             self.cycles.remove(cycle_root)
 
@@ -422,46 +325,14 @@ class GenerateGrammarElements:
             else:
                 return raw_value
 
-    @staticmethod
-    def extract_property_from_object(property_name, object_type, example_obj, parents=None):
-        logger.write_to_main(f"property_name={property_name}, object_type={object_type}, "
-                             f"example_obj={example_obj}, parents={parents}", ConfigSetting().LogConfig.swagger_visitor)
-        if not property_name and object_type != "array":
-            message = f"non-array should always have a property name. Property type: {object_type}"
-            parent_property_names = ".".join([p.Name for p in parents]) if parents else ""
-            property_info = f"Property name: {property_name}, parent properties: {parent_property_names}"
-            raise Exception(f"{message} {property_info}")
-
-        if example_obj:
-            if object_type == "array":
-                pv = example_obj
-                include_property = True
-            else:
-                example_value = example_obj.get(property_name)
-                if example_value is None:
-                    pv = None
-                    include_property = False
-                else:
-                    pv = example_value
-                    include_property = True
-        else:
-            pv = None
-            include_property = True
-
-        return pv, include_property
-
-    @staticmethod
-    def extract_property_from_array(example_obj):
-        return GenerateGrammarElements.extract_property_from_object("", "array", example_obj)
-
 
 # getFuzzableValueForProperty
 def get_fuzzable_value_for_property(property_name: str,
                                     property_schema: Schema,
                                     enumeration,
                                     example_value: Optional):
-    property_type = SchemaUtilities.get_property_string(property_schema, "type").lower()
-    property_format = SchemaUtilities.get_property_string(property_schema, "format")
+    property_type = SchemaUtilities.get_property(property_schema, "type").lower()
+    property_format = SchemaUtilities.get_property(property_schema, "format")
 
     if property_type in ["string", "number", "int", "boolean", "integer", "bool"]:
         if enumeration is None:
@@ -568,7 +439,7 @@ class ExampleHelpers:
 
     @staticmethod
     def try_get_array_schema_example(schema):
-        schema_example_value = SchemaUtilities.try_get_schema_example_as_jtoken(schema)
+        schema_example_value = SchemaUtilities.try_get_schema_example_value(schema)
         schema_array_examples = ExampleHelpers.get_array_examples(schema_example_value)
 
         if schema_array_examples is None or not schema_array_examples:
@@ -586,36 +457,17 @@ def process_property(swagger_doc: SwaggerDoc,
                      parents: list,
                      schema_cache: SchemaCache,
                      cont):
-    def get_property_example_value(property_example):
-        # Currently, only one example value is available in NJsonSchema
-        # TODO: check if multiple example values are supported through
-        # extension properties.
-        return SchemaUtilities.try_get_schema_example_as_jtoken(property_example)
-
     # If an example value was not specified, also check for a locally defined example
     # in the Swagger specification.
-    property_type = SchemaUtilities.get_property_string(property_schema, "type").lower()
-    property_required = SchemaUtilities.get_property_bool(property_schema, "required")
+    property_type = SchemaUtilities.get_property(property_schema, "type").lower()
+    property_required = SchemaUtilities.get_property(property_schema, "required")
     is_readonly = SchemaUtilities.get_property_read_only(property_schema)
-    if len(ConfigSetting().ExampleConfigFiles) > 0 or ConfigSetting().ExampleConfigFilePath is not None:
-        if (property_payload_example_value is None and
-                property_schema.is_set("example") or property_schema.is_set("examples")):
-            property_payload_example_value = SchemaUtilities.get_examples_from_parameter(property_schema)
-    else:
-        if property_schema.is_set("example") or property_schema.is_set("examples"):
-            property_payload_example_value = SchemaUtilities.get_examples_from_parameter(property_schema)
-            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}",
-                                 ConfigSetting().LogConfig.swagger_visitor)
-            property_payload_example_value = SchemaUtilities.get_correct_example_value(property_payload_example_value,
-                                                                                       property_type)
-            logger.write_to_main(f"property_payload_example_value={property_payload_example_value}",
-                                 ConfigSetting().LogConfig.swagger_visitor)
-
     if property_type in ["string", "number", "int", "boolean", "integer", "bool", "object"]:
         fuzzable_property_payload = get_fuzzable_value_for_property(property_name,
                                                                     property_schema,
                                                                     try_get_enumeration(property_schema),
-                                                                    get_property_example_value(property_schema))
+                                                                    SchemaUtilities.try_get_schema_example_value(
+                                                                        property_schema))
         if property_payload_example_value is not None:
             property_payload_example_value = GenerateGrammarElements.format_jtoken_property(property_type,
                                                                                             property_payload_example_value)
@@ -628,6 +480,9 @@ def process_property(swagger_doc: SwaggerDoc,
                                  ConfigSetting().LogConfig.swagger_visitor)
 
             if generate_fuzzable_payload:
+                # Replace the default payload with the example payload, preserving type information.
+                # 'generateFuzzablePayload' is specified a schema example is found for the parent
+                # object (e.g. an array).
                 fuzzable_property_payload.example_value = example_property_payload
             else:
                 fuzzable_property_payload = Constant(primitive_type=get_primitive_type_from_string(property_type),
@@ -671,7 +526,7 @@ def process_property(swagger_doc: SwaggerDoc,
         if not property_schema.is_set("items"):
             raise Exception("Invalid array schema: found array property without a declared element")
         array_item = getattr(property_schema, property_schema.get_private_name("items"))
-        array_type = SchemaUtilities.get_property_string(array_item, "type").lower()
+        array_type = SchemaUtilities.get_property(array_item, "type").lower()
         inner_array_property = InnerProperty(name=property_name,
                                              payload=None,
                                              property_type=NestedType.Array,
@@ -813,43 +668,37 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
 
     def get_actual_schema(s):
         if isinstance(s, Schema):
-            logger.write_to_main(f"p={SchemaUtilities.get_property_string(s, "name")}, "
-                                 f"s.$ref={SchemaUtilities.get_property_schema(s, "$ref")}, "
-                                 f"s.type={SchemaUtilities.get_property_string(s, "type")}",
+            logger.write_to_main(f"p={SchemaUtilities.get_property(s, "name")}, "
+                                 f"s.$ref={SchemaUtilities.get_property(s, "$ref")}, "
+                                 f"s.type={SchemaUtilities.get_property(s, "type")}",
                                  ConfigSetting().LogConfig.swagger_visitor)
             return s
         elif isinstance(s, Parameter):
-            child_schema = SchemaUtilities.get_property_schema(s, "schema")
+            child_schema = SchemaUtilities.get_property(s, "schema")
             if child_schema is not None:
-                logger.write_to_main(f"p={SchemaUtilities.get_property_string(s, "name")}, "
-                                     f"s.$ref={SchemaUtilities.get_property_string(s, "in")}, "
-                                     f"s.type={SchemaUtilities.get_property_string(s, "type")}"
-                                     f"s.schema={SchemaUtilities.get_property_schema(s, "schema")}",
+                logger.write_to_main(f"p={SchemaUtilities.get_property(s, "name")}, "
+                                     f"s.$ref={SchemaUtilities.get_property(s, "in")}, "
+                                     f"s.type={SchemaUtilities.get_property(s, "type")}"
+                                     f"s.schema={SchemaUtilities.get_property(s, "schema")}",
                                      ConfigSetting().LogConfig.swagger_visitor)
                 return get_actual_schema(child_schema)
             else:
                 return s
         elif isinstance(s, Response):
-            child_schema = SchemaUtilities.get_property_schema(s, "schema")
+            child_schema = SchemaUtilities.get_property(s, "schema")
             if child_schema is not None:
                 return get_actual_schema(child_schema)
             else:
-                child_schema = SchemaUtilities.get_property_schema(s, "$ref")
+                child_schema = SchemaUtilities.get_property(s, "$ref")
                 if child_schema is not None:
                     return get_actual_schema(child_schema)
                 else:
                     return s
 
     def generate_grammar_element(final_schema: Schema, example_value_info: Optional, parents: list):
-        schema_example = None
-        if example_value_info is not None:
-            schema_example = example_value_info
-        elif final_schema.is_set("example") or final_schema.is_set("examples"):
-            schema_example = SchemaUtilities.get_examples_from_parameter(final_schema)
         all_of_parameter_schemas = []
         properties_of_parameter_schema = []
         reference_of_parameter_schema = []
-
         if final_schema.is_set("allOf"):
             all_of_param = getattr(final_schema, final_schema.get_private_name("allOf"))
             logger.write_to_main(f"all_of_param={all_of_param}", ConfigSetting().LogConfig.swagger_visitor)
@@ -857,7 +706,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                 for ao in all_of_param:
                     element = generate_grammar_element_for_schema(swagger_doc,
                                                                   ao,
-                                                                  schema_example,
+                                                                  example_value_info,
                                                                   generate_fuzzable_payloads_for_examples,
                                                                   track_parameters,
                                                                   True,
@@ -874,27 +723,28 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                      ConfigSetting().LogConfig.swagger_visitor)
 
         if final_schema.is_set("$ref"):
-            reference = SchemaUtilities.get_property_schema(final_schema, "$ref")
+            reference = SchemaUtilities.get_property(final_schema, "$ref")
             ref = get_definition_ref(reference)
-            required_field = SchemaUtilities.get_property_bool(final_schema, "required")
             logger.write_to_main(f"reference={reference} ", ConfigSetting().LogConfig.swagger_visitor)
             print(f"{reference} start")
             if ref.ref_type == RefResolution.LocalDefinitionRef:
                 ret_value = get_definition_reference(ref_location=ref.file_name, spec=swagger_doc.definitions)
                 for key, value in ret_value.items():
-                    properties_schema = SchemaUtilities.get_property_dict(value, "properties")
+                    properties_schema = SchemaUtilities.get_property(value, "properties")
                     if len(properties_schema) > 0:
                         logger.write_to_main(f"key={key}", ConfigSetting().LogConfig.swagger_visitor)
-                        element = generate_grammar_element_for_schema(swagger_doc=swagger_doc,
-                                                                      schema=value,
-                                                                      example_value=schema_example,
-                                                                      generate_fuzzable_payloads_for_examples=
-                                                                      generate_fuzzable_payloads_for_examples,
-                                                                      track_parameters=track_parameters,
-                                                                      is_required=required_field,
-                                                                      parents=[final_schema] + parents,
-                                                                      schema_cache=schema_cache,
-                                                                      cont=None)
+                        element = (
+                            generate_grammar_element_for_schema(swagger_doc=swagger_doc,
+                                                                schema=value,
+                                                                example_value=example_value_info,
+                                                                generate_fuzzable_payloads_for_examples=
+                                                                generate_fuzzable_payloads_for_examples,
+                                                                track_parameters=track_parameters,
+                                                                is_required=SchemaUtilities.get_property(final_schema,
+                                                                                                         "required"),
+                                                                parents=[final_schema] + parents,
+                                                                schema_cache=schema_cache,
+                                                                cont=None))
                         if isinstance(element, InternalNode):
                             reference_of_parameter_schema.extend(element.leaf_properties)
                         elif isinstance(element, LeafNode):
@@ -903,7 +753,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                         element = process_property(swagger_doc=swagger_doc,
                                                    property_name="",
                                                    property_schema=value,
-                                                   property_payload_example_value=schema_example,
+                                                   property_payload_example_value=example_value_info,
                                                    generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
                                                    track_parameters=track_parameters,
                                                    parents=parents,
@@ -918,7 +768,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
             print(f"{reference} end")
 
         if final_schema.is_set("properties"):
-            properties_schema = SchemaUtilities.get_property_dict(final_schema, "properties")
+            properties_schema = SchemaUtilities.get_property(final_schema, "properties")
             if len(properties_schema) > 0:
                 logger.write_to_main(f"properties_schema={properties_schema} ",
                                      ConfigSetting().LogConfig.swagger_visitor)
@@ -927,27 +777,29 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     required_field = getattr(final_schema, final_schema.get_private_name("required"))
 
                 for key, value in properties_schema.items():
-                    readonly = SchemaUtilities.get_property_read_only(value)
-                    prop_type = SchemaUtilities.get_property_string(value, "type")
-                    required = SchemaUtilities.get_property_bool(value, "required")
+                    prop_type = SchemaUtilities.get_property(value, "type")
+                    required = SchemaUtilities.get_property(value, "required")
                     if isinstance(required_field, list):
                         required = True if key in required_field else False
                         if not value.is_set("required"):
                             value.update_field("required", required)
                     # schema includes field required, update the information into the sub-schema.
                     final_example = None
-                    if schema_example is not None and isinstance(schema_example, dict):
-                        if key in schema_example.keys():
-                            property_payload_example_value = schema_example[key]
+                    if (generate_fuzzable_payloads_for_examples
+                            and example_value_info is not None and isinstance(example_value_info, dict)):
+                        if key in example_value_info.keys():
+                            property_payload_example_value = example_value_info[key]
                             final_example = SchemaUtilities.get_correct_example_value(property_payload_example_value,
                                                                                       prop_type)
                             logger.write_to_main(f"property_payload_example_value={final_example}",
                                                  ConfigSetting().LogConfig.swagger_visitor)
                         else:
                             continue
+                    if generate_fuzzable_payloads_for_examples and final_example is None:
+                        continue
                     logger.write_to_main(f"key={key}", ConfigSetting().LogConfig.swagger_visitor)
                     print(f"properties:{key} start")
-                    sub_properties = SchemaUtilities.get_property_dict(value, "properties")
+                    sub_properties = SchemaUtilities.get_property(value, "properties")
                     if value.is_set("$ref") or value.is_set("schema") or len(sub_properties) > 0:
                         node = generate_grammar_element_for_schema(swagger_doc=swagger_doc,
                                                                    schema=value,
@@ -966,13 +818,13 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                           is_readonly=False)
                         if isinstance(node, InternalNode):
                             if value.is_set("$ref"):
-                                reference_name = SchemaUtilities.get_property_schema(value, "$ref")
+                                reference_name = SchemaUtilities.get_property(value, "$ref")
                                 ref_def = get_definition_ref(reference_name)
                                 if ref_def.ref_type == RefResolution.LocalDefinitionRef:
                                     ref_def_value = get_definition_reference(ref_location=ref_def.file_name,
-                                                                         spec=swagger_doc.definitions)
+                                                                             spec=swagger_doc.definitions)
                                     for def_values in ref_def_value.values():
-                                        properties_schema = SchemaUtilities.get_property_dict(def_values, "properties")
+                                        properties_schema = SchemaUtilities.get_property(def_values, "properties")
                                         if len(properties_schema) > 0:
                                             element = InternalNode(inner_property=internal_property,
                                                                    leaf_properties=[node])
@@ -1013,13 +865,12 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         if len(all_of_parameter_schemas) > 0:
             final_parameter_schema = final_parameter_schema + all_of_parameter_schemas
 
-        if len(final_parameter_schema) > 0:
-            grammar_element = InternalNode(InnerProperty(name="", payload=None,
-                                                         property_type=NestedType.Object,
-                                                         is_required=is_required, is_readonly=False),
-                                           final_parameter_schema)
+        grammar_element = InternalNode(InnerProperty(name="", payload=None,
+                                                     property_type=NestedType.Object,
+                                                     is_required=is_required, is_readonly=False),
+                                       final_parameter_schema)
 
-        schema_cache.add(final_schema, parents, grammar_element, schema_example)
+        schema_cache.add(final_schema, parents, grammar_element, example_value_info)
 
         if final_schema in parents:
             schema_cache.add_cycle([final_schema] + parents)
@@ -1034,7 +885,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
     # fix issue in test_schema, large_json_body.json #/definitions/Customer
     found_cycle = schema in parents
     if not found_cycle and schema.is_set("$ref"):
-        reference = SchemaUtilities.get_property_schema(schema, "$ref")
+        reference = SchemaUtilities.get_property(schema, "$ref")
         ref = get_definition_ref(reference)
         logger.write_to_main(f"reference={reference} ", ConfigSetting().LogConfig.swagger_visitor)
         if ref.ref_type == RefResolution.LocalDefinitionRef:
@@ -1048,27 +899,27 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         logger.write_to_main(f"found_cycle={found_cycle}, len(parents)={len(parents)}, "
                              f"json_property_max_depth={ConfigSetting().JsonPropertyMaxDepth}",
                              ConfigSetting().LogConfig.swagger_visitor)
-        parameter_name = SchemaUtilities.get_property_string(schema, "name")
+        parameter_name = SchemaUtilities.get_property(schema, "name")
         if found_cycle and example_value is not None:
             raise UnsupportedRecursiveExample(f"{example_value}")
         if schema.is_set("type"):
-            p_type = SchemaUtilities.get_property_string(schema, "type")
+            p_type = SchemaUtilities.get_property(schema, "type")
             if p_type == "array":
                 payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
                                           default_value="{}",
                                           example_value=example_value,
                                           parameter_name=parameter_name,
                                           dynamic_object=None)
-                if schema.is_set('items'):
-                    p_item = getattr(schema, "items")
-                    if p_item.is_set("type"):
-                        p_item_type = SchemaUtilities.get_property_string(p_item, "type")
-                        if p_item_type != "array":
-                            payload = get_fuzzable_value_for_property(
-                                SchemaUtilities.get_property_string(p_item, "name"),
-                                p_item,
-                                try_get_enumeration(p_item),
-                                SchemaUtilities.try_get_schema_example_as_jtoken(p_item))
+                p_item = SchemaUtilities.get_property(schema, "items")
+                if p_item is not None:
+                    p_item_type = SchemaUtilities.get_property(p_item, "type")
+                    if p_item_type != "array" and p_item_type != "":
+                        payload = get_fuzzable_value_for_property(
+                            SchemaUtilities.get_property(p_item, "name"),
+                            p_item,
+                            try_get_enumeration(p_item),
+                            SchemaUtilities.try_get_schema_example_value(p_item))
+
                 leaf_properties = [LeafProperty("",
                                                 payload,
                                                 is_required=is_required,
@@ -1084,7 +935,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     property_name=parameter_name,
                     property_schema=schema,
                     enumeration=try_get_enumeration(schema),
-                    example_value=SchemaUtilities.try_get_schema_example_as_jtoken(schema))
+                    example_value=SchemaUtilities.try_get_schema_example_value(schema))
         else:
             payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
                                       default_value="{}",
@@ -1110,15 +961,13 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
             p_properties = None
             # body local definition
             if isinstance(child, Schema):
-                p_properties = getattr(child, "properties")
+                p_properties = SchemaUtilities.get_property(child, "properties")
                 if not child.is_set("required"):
-                    child_required = SchemaUtilities.get_property_bool(schema, "required")
+                    child_required = SchemaUtilities.get_property(schema, "required")
                     child.update_field("required", child_required)
             if child.is_set("type"):
-                p_type = SchemaUtilities.get_property_string(child, "type")
-                p_parameter_name = SchemaUtilities.get_property_string(schema, "name")
-                example_value = SchemaUtilities.get_correct_example_value(example_value, p_type)
-                logger.write_to_main(f"example_value={example_value}", ConfigSetting().LogConfig.swagger_visitor)
+                p_type = SchemaUtilities.get_property(child, "type")
+                p_parameter_name = SchemaUtilities.get_property(schema, "name")
                 if p_properties is not None and len(p_properties) > 0:
                     return generate_grammar_element_for_schema(swagger_doc=swagger_doc,
                                                                schema=child,
@@ -1143,7 +992,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     leaf_node.leaf_property.name = ""
                     return leaf_node
                 else:
-                    if child.is_set("items") is None:
+                    if not child.is_set("items"):
                         raise Exception("Invalid array schema: found array property without a declared element")
                     return process_property(swagger_doc=swagger_doc,
                                             property_name="",
