@@ -602,7 +602,7 @@ def get_restler_python_payload(payload, is_quoted):
             return RequestPrimitiveType.custom_payload_query(value=payload.payload_value,
                                                              dynamic_object=dynamic_object)
     elif type(payload) is DynamicObject:
-        return RequestPrimitiveType.static_string_variable(f"{payload.variable_name}.reader()", False)
+        return RequestPrimitiveType.static_string_variable(f"{payload.variable_name}.reader()", is_quoted)
     elif type(payload) is PayloadParts:
         raise Exception("Expected primitive payload")
 
@@ -675,6 +675,7 @@ def format_json_body_parameter(
         # The payload is not specified at this level, so use the one specified at lower levels.
         # The inner properties must be comma separated
         start_second_item = 0
+        need_new_line = False
         for index, item in enumerate(inner_properties):
             # Filter empty elements, which are the result of filtered child properties
             for loop, inner in enumerate(item):
@@ -694,9 +695,15 @@ def format_json_body_parameter(
                         logger.write_to_main(f"f_value={f_value.primitive_data.default_value}",
                                              ConfigSetting().LogConfig.code_generate)
                         if f_value.primitive_data.default_value == "":
-                            f_value.primitive_data.default_value = ",\n"
+                            if tab_level > 1:
+                                f_value.primitive_data.default_value = tab_seq + ",\n"
+                            else:
+                                f_value.primitive_data.default_value = ",\n"
                         else:
-                            f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
+                            if need_new_line:
+                                f_value.primitive_data.default_value = tab_seq + ", " + f_value.primitive_data.default_value
+                            else:
+                                f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
                         cs.append(f_value)
                     else:
                         cs.append(inner)
@@ -705,6 +712,13 @@ def format_json_body_parameter(
             if start_second_item == 0:
                 if len(item) > 0:
                     start_second_item = 1
+            if len(item) > 0:
+                last_item = item[-1]
+                if last_item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
+                    need_new_line = True
+                else:
+                    need_new_line = False
+
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
         if property_type == NestedType.Object:
             if tab_level == 0:
@@ -746,7 +760,10 @@ def format_json_body_parameter(
                 last_element = cs[-1]
                 value = last_element.primitive_data.default_value
                 if "}" in value:
-                    last_element.primitive_data.default_value = last_element.primitive_data.default_value + "\n"
+                    if tab_level == 1:
+                        last_element.primitive_data.default_value = last_element.primitive_data.default_value + "\n"
+                    else:
+                        last_element.primitive_data.default_value = last_element.primitive_data.default_value
 
             result = [RequestPrimitiveType.static_string_constant(value=f"{tab_seq}\"{property_name}\":\n")] + cs
         else:
