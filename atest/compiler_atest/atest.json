@@ -1,6 +1,6 @@
 {
-  "debug_mode": true,
-  "debug_file": "test_dict.py",
+  "debug_mode": false,
+  "debug_file": "test_example.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
   "test_swagger_only": {
@@ -42,7 +42,7 @@
     "test_global_path_parameters_engine": 101,
     "test_put_createorupdate_engine": 101,
     "test_simple_swagger_all_param_data_types": 0,
-    "test_inline_examples": 0,
+    "test_inline_examples": 20,
     "test_multiple_circular_paths": 0,
     "test_nested_objects_naming": 20,
     "test_path_annotation": 0,
@@ -96,9 +96,10 @@
   "test_example": {
     "test_exact_copy_values_are_correct": 0,
     "test_array_example": 0,
-    "test_body_param": 20,
+    "test_body_param": 0,
     "test_exampleConfigTestPut": 0,
     "test_optional_params": 0,
-    "test_optional_params_query_config": 20
+    "test_optional_params_query_config": 0,
+    "test_optional_params_include": 0
   }
 }

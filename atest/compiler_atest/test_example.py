@@ -59,6 +59,13 @@ class TestExample(unittest.TestCase):
                                    'optional_params_query_config', [], "")
         self.assertTrue(result, msg=msg)
 
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_optional_params_include"))
+    def test_optional_params_include(self):
+        result, msg = compile_spec(module_name,
+                                   'optional_params_include', [], "")
+        self.assertTrue(result, msg=msg)
+
 
 if __name__ == '__main__':
     unittest.main()

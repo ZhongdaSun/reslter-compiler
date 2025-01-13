@@ -631,14 +631,11 @@ class Parameters:
                              f"len(example_payloads)={len(example_payloads)}", ConfigSetting().LogConfig.compiler)
 
         if len(example_payloads) > 0 and len(schema_payload) > 0:
-            swagger_method_definition.request_id.has_example = True
             example_payloads_list = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
             result = example_payloads_list + [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         elif len(example_payloads) > 0 and len(schema_payload) == 0:
-            swagger_method_definition.request_id.has_example = True
             result = [(ParameterPayloadSource.Examples, ParameterList(example_payloads))]
         elif len(example_payloads) == 0 and len(schema_payload) > 0:
-            swagger_method_definition.request_id.has_example = False
             logger.write_to_main(f"schema_payload={schema_payload}", ConfigSetting().LogConfig.compiler)
             result = [(ParameterPayloadSource.Schema, ParameterList(schema_payload))]
         else:
@@ -1427,7 +1424,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                     headers = Parameters.get_parameters(swagger_doc,
                                                         item,
                                                         item.headerParameters,
-                                                        example_config,
+                                                        example_config if ConfigSetting().UseHeaderExamples else None,
                                                         schema_cache)
 
                 request_parameters = RequestParameters(path=path_parameters,

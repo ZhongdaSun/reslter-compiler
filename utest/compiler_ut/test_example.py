@@ -522,8 +522,8 @@ class TestExampleGrammar(unittest.TestCase):
 
         config = {
             'IncludeOptionalParameters': True,
-            'UseQueryExamples': None,
-            'UseBodyExamples': None,
+            'UseQueryExamples': True,
+            'UseBodyExamples': True,
             'GrammarOutputDirectoryPath': source_dir,
             'SwaggerSpecFilePath': [os.path.join(SWAGGER_DIR, "inline_examples.json")]
         }

@@ -1086,11 +1086,17 @@ class Request:
         logger.write_to_main(f"len(schema_dict_list)={len(schema_dict_list)}"
                              f", len(dict_list)={len(dict_list)}", ConfigSetting().LogConfig.grammar)
 
-        if self.id.has_example and ConfigSetting().UseHeaderExamples:
-            param_examples = dict()
-            param_examples["ParameterList"] = examples_dict_list
-            return_value.append(("Examples", param_examples))
-            if ConfigSetting().DataFuzzing:
+        if ConfigSetting().UseHeaderExamples:
+            if ((ConfigSetting().UseQueryExamples or ConfigSetting().UseBodyExamples) and self.id.has_example
+                    or ((not ConfigSetting().UseQueryExamples and not ConfigSetting().UseBodyExamples)
+                        and (ConfigSetting().ExampleConfigFilePath is not None or len(ConfigSetting().ExampleConfigFiles) > 0))):
+                param_examples = dict()
+                param_examples["ParameterList"] = examples_dict_list
+                return_value.append(("Examples", param_examples))
+                if ConfigSetting().DataFuzzing:
+                    param_schema = {"ParameterList": schema_dict_list}
+                    return_value.append(("Schema", param_schema))
+            else:
                 param_schema = {"ParameterList": schema_dict_list}
                 return_value.append(("Schema", param_schema))
         else:

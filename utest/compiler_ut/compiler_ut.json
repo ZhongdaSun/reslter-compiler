@@ -1,6 +1,6 @@
 {
   "debug_mode": false,
-  "debug_file": "test_dependencies.py",
+  "debug_file": "test_example.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
   "compiler_ut": true,
@@ -49,9 +49,9 @@
     "test_logic_example_in_grammar_with_dependencies": 0,
     "test_body_dependency_nested_object_can_be_inferred_via_parent": 0,
     "test_nested_objects_naming_sanity_test": 0,
-    "test_body_payload_contains_both_producer_and_consumer": 2,
+    "test_body_payload_contains_both_producer_and_consumer": 20,
     "test_get_dependencies_can_be_inferred_from_body_payload": 0,
-    "test_inline_examples_used_instead_of_fuzzstring": 0,
+    "test_inline_examples_used_instead_of_fuzzstring": 2,
     "test_exact_copy_values_are_correct": 0,
     "test_examples_with_optional_parameters": 0,
     "test_replace_entire_body_with_example": 0
@@ -73,7 +73,7 @@
     "test_path_parameter_substrings": 4
   },
   "test_config": {
-    "test_swagger_config_custom_dictionary_sanity_1": 2,
+    "test_swagger_config_custom_dictionary_sanity_1": 20,
     "test_swagger_config_custom_dictionary_sanity_2": 0,
     "test_swagger_config_custom_annotations_sanity_1": 0,
     "test_swagger_config_custom_annotations_sanity_2": 0,

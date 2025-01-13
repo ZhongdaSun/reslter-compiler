@@ -1,0 +1,145 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/products",
+        "method": "Post"
+      },
+      "method": "Post",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "products"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Examples",
+          {
+            "ParameterList": [
+              {
+                "name": "required-param",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring",
+                        "exampleValue": "a"
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "optional-param",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring",
+                        "exampleValue": "b"
+                      }
+                    },
+                    "isRequired": false,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "required-param",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring"
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              },
+              {
+                "name": "optional-param",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "String",
+                        "defaultValue": "fuzzstring"
+                      }
+                    },
+                    "isRequired": false,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Examples",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}
