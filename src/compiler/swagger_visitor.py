@@ -129,10 +129,9 @@ class SchemaUtilities:
     # Get an example value as a string, either directly from the 'example' attribute or
     # from the extension 'Examples' property.
     @staticmethod
-    def try_get_schema_example_value(schema: Union[Schema, Parameter]):
+    def try_get_schema_example_value(schema: Union[Schema, Parameter, Response]):
         if schema.is_set("example"):
-            value = getattr(schema, schema.get_private_name("example"))
-            return SchemaUtilities.format_example_value(value)
+            return getattr(schema, schema.get_private_name("example"))
         elif schema.is_set("examples"):
             extension_data_example = getattr(schema, schema.get_private_name("examples"))
             if extension_data_example:
@@ -478,15 +477,17 @@ def process_property(swagger_doc: SwaggerDoc,
                                  f"property_payload_example_value={property_payload_example_value} "
                                  f"generate_fuzzable_payload={generate_fuzzable_payload} ",
                                  ConfigSetting().LogConfig.swagger_visitor)
-
+            fuzzable_property_payload.example_value = example_property_payload
+            """
             if generate_fuzzable_payload:
-                # Replace the default payload with the example payload, preserving type information.
-                # 'generateFuzzablePayload' is specified a schema example is found for the parent
-                # object (e.g. an array).
-                fuzzable_property_payload.example_value = example_property_payload
+               # Replace the default payload with the example payload, preserving type information.
+               # 'generateFuzzablePayload' is specified a schema example is found for the parent
+               # object (e.g. an array).
+               fuzzable_property_payload.example_value = example_property_payload
             else:
                 fuzzable_property_payload = Constant(primitive_type=get_primitive_type_from_string(property_type),
                                                      variable_name=example_property_payload)
+            """
         else:
             fuzzable_property_payload.example_value = property_payload_example_value
         logger.write_to_main(f"property_payload={fuzzable_property_payload}", ConfigSetting().LogConfig.swagger_visitor)
@@ -785,8 +786,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                             value.update_field("required", required)
                     # schema includes field required, update the information into the sub-schema.
                     final_example = None
-                    if (generate_fuzzable_payloads_for_examples
-                            and example_value_info is not None and isinstance(example_value_info, dict)):
+                    if example_value_info is not None and isinstance(example_value_info, dict):
                         if key in example_value_info.keys():
                             property_payload_example_value = example_value_info[key]
                             final_example = SchemaUtilities.get_correct_example_value(property_payload_example_value,
@@ -797,6 +797,10 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                             continue
                     if generate_fuzzable_payloads_for_examples and final_example is None:
                         continue
+                    if not generate_fuzzable_payloads_for_examples:
+                        spec_example_value = SchemaUtilities.try_get_schema_example_value(value)
+                        if spec_example_value is not None:
+                            final_example = spec_example_value
                     logger.write_to_main(f"key={key}", ConfigSetting().LogConfig.swagger_visitor)
                     print(f"properties:{key} start")
                     sub_properties = SchemaUtilities.get_property(value, "properties")
@@ -959,6 +963,8 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
             child = get_actual_schema(schema)
             logger.write_to_main(f"child={child}， type(child)={type(child)}", ConfigSetting().LogConfig.swagger_visitor)
             p_properties = None
+            if not generate_fuzzable_payloads_for_examples and example_value is None:
+                example_value = SchemaUtilities.try_get_schema_example_value(child)
             # body local definition
             if isinstance(child, Schema):
                 p_properties = SchemaUtilities.get_property(child, "properties")
@@ -1005,4 +1011,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                             cont=id)
 
             else:
+                if not generate_fuzzable_payloads_for_examples and example_value is None:
+                    example_value = SchemaUtilities.try_get_schema_example_value(schema)
                 return generate_grammar_element(child, example_value, parents)

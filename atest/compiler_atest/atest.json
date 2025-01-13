@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_swagger_only.py",
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -42,7 +42,7 @@
     "test_global_path_parameters_engine": 101,
     "test_put_createorupdate_engine": 101,
     "test_simple_swagger_all_param_data_types": 0,
-    "test_inline_examples": 20,
+    "test_inline_examples": 0,
     "test_multiple_circular_paths": 0,
     "test_nested_objects_naming": 20,
     "test_path_annotation": 0,
