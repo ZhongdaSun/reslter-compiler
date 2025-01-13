@@ -1091,7 +1091,7 @@ def get_example_primitive_parameter(exv):
     if exv is None:
         return ""
     else:
-        if exv == "None":
+        if exv == "None" or exv == {"Some": None}:
             return ", examples=[None]"
         else:
             from compiler.swagger_visitor import SchemaUtilities

@@ -16,6 +16,7 @@ def parse_customerpost(data, **kwargs):
     if 'headers' in kwargs:
         headers = kwargs['headers']
 
+
     # Parse body if needed
     if data:
 
@@ -25,14 +26,16 @@ def parse_customerpost(data, **kwargs):
             raise ResponseParsingException("Exception parsing response, data was not valid json: {}".format(error))
         pass
 
-        # Try to extract each dynamic object
+    # Try to extract each dynamic object
 
         try:
             temp_7262 = str(data["id"])
-
+            
         except Exception as error:
             # This is not an error, since some properties are not always returned
             pass
+
+
 
     # If no dynamic objects were extracted, throw.
     if not (temp_7262):
@@ -41,7 +44,6 @@ def parse_customerpost(data, **kwargs):
     # Set dynamic variables
     if temp_7262:
         dependencies.set_variable("_customer_post_id", temp_7262)
-
 
 req_collection = requests.RequestCollection([])
 # Endpoint: /customer, method: Post
@@ -80,22 +82,22 @@ request = requests.Request([
         }
     }"""),
     primitives.restler_static_string("\r\n"),
-
+    
     {
 
         'post_send':
-            {
-                'parser': parse_customerpost,
-                'dependencies':
-                    [
-                        _customer_post_id.writer()
-                    ]
-            }
+        {
+            'parser': parse_customerpost,
+            'dependencies':
+            [
+                _customer_post_id.writer()
+            ]
+        }
 
     },
 
 ],
-    requestId="/customer"
+requestId="/customer"
 )
 req_collection.add_request(request)
 
@@ -117,12 +119,12 @@ request = requests.Request([
     primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("view-option: "),
-    primitives.restler_fuzzable_group("view-option", ['detailed', 'minimal'], quoted=False),
+    primitives.restler_fuzzable_group("view-option", ['detailed','minimal']  ,quoted=False),
     primitives.restler_static_string("\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
     primitives.restler_static_string("\r\n"),
 
 ],
-    requestId="/customer/{customerId}"
+requestId="/customer/{customerId}"
 )
 req_collection.add_request(request)

@@ -62,9 +62,16 @@ class SchemaUtilities:
         pass
 
     @staticmethod
-    def get_correct_example_value(example_object, param_type):
-        if param_type is None or param_type == "" or example_object is None:
-            return example_object
+    def get_correct_example_value(example_object, param_type: str):
+        if param_type is None or param_type == "":
+           return example_object
+
+        if example_object is None:
+            if param_type == 'object':
+                return {"Some": None}
+            else:
+                return example_object
+
         if isinstance(example_object, dict) and param_type == "object":
             return example_object
         elif isinstance(example_object, list) and param_type == "array":
@@ -124,7 +131,10 @@ class SchemaUtilities:
         if isinstance(example_object, str):
             return example_object
         else:
-            return json.dumps(example_object, separators=(',', ':'))
+            if example_object == {"Some": None}:
+                return example_object
+            else:
+                return json.dumps(example_object, separators=(',', ':'))
 
     # Get an example value as a string, either directly from the 'example' attribute or
     # from the extension 'Examples' property.
@@ -468,8 +478,8 @@ def process_property(swagger_doc: SwaggerDoc,
                                                                     SchemaUtilities.try_get_schema_example_value(
                                                                         property_schema))
         if property_payload_example_value is not None:
-            property_payload_example_value = GenerateGrammarElements.format_jtoken_property(property_type,
-                                                                                            property_payload_example_value)
+            property_payload_example_value = (
+                GenerateGrammarElements.format_jtoken_property(property_type, property_payload_example_value))
 
             example_property_payload = SchemaUtilities.format_example_value(property_payload_example_value)
 
