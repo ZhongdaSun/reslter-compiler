@@ -674,12 +674,13 @@ def format_json_body_parameter(
         result = []
         # The payload is not specified at this level, so use the one specified at lower levels.
         # The inner properties must be comma separated
+        start_second_item = 0
         for index, item in enumerate(inner_properties):
             # Filter empty elements, which are the result of filtered child properties
             for loop, inner in enumerate(item):
                 logger.write_to_main(f"inner={inner.primitive_data.default_value}, type={inner.type}",
                                      ConfigSetting().LogConfig.code_generate)
-                if index > 0 and inner and loop == 0:
+                if start_second_item > 0 and inner and loop == 0:
                     if inner.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
                         raw_value = inner.primitive_data.default_value
                         s, delim = quote_string_for_python_grammar(raw_value)
@@ -693,7 +694,7 @@ def format_json_body_parameter(
                         logger.write_to_main(f"f_value={f_value.primitive_data.default_value}",
                                              ConfigSetting().LogConfig.code_generate)
                         if f_value.primitive_data.default_value == "":
-                            f_value.primitive_data.default_value = ", " + tab_seq
+                            f_value.primitive_data.default_value = ",\n"
                         else:
                             f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
                         cs.append(f_value)
@@ -701,6 +702,9 @@ def format_json_body_parameter(
                         cs.append(inner)
                 else:
                     cs.append(inner)
+            if start_second_item == 0:
+                if len(item) > 0:
+                    start_second_item = 1
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
         if property_type == NestedType.Object:
             if tab_level == 0:
@@ -728,6 +732,16 @@ def format_json_body_parameter(
                 logger.write_to_main(f"cs={len(left + cs + right)}", ConfigSetting().LogConfig.code_generate)
                 result = left + cs + right
         elif property_type == NestedType.Property:
+            # test_path_annotation:
+            # primitives.restler_static_string(""",
+            # "storeProperties":
+            #    {
+            #        "tags":"""),
+            # primitives.restler_static_string(_stores_post_metadata.reader(), quoted=False),
+            # primitives.restler_static_string("""
+            #    }
+            #    ,
+            # the comma will be start in a new line.
             if len(cs) > 1:
                 last_element = cs[-1]
                 value = last_element.primitive_data.default_value
@@ -918,8 +932,8 @@ def generate_python_parameter(parameter_source,
 
         # Exclude 'readonly' parameters
 
-        # include_property = not p.is_readonly and (p.is_required or ConfigSetting().IncludeOptionalParameters)
-        include_property = (p.is_required or ConfigSetting().IncludeOptionalParameters)
+        include_property = not p.is_readonly and (p.is_required or ConfigSetting().IncludeOptionalParameters)
+        # include_property = (p.is_required or ConfigSetting().IncludeOptionalParameters)
         logger.write_to_main(f"p={p}, parameter_source={parameter_source}，include_property={include_property}",
                              ConfigSetting().LogConfig.code_generate)
         # Parameters from an example payload are always included
@@ -1136,11 +1150,11 @@ def get_parameter_list_payload(parameters: list[tuple[ParameterPayloadSource, Re
 
 # getExamplePayload
 def get_example_payload(query_or_body_parameters: list[tuple[ParameterPayloadSource, RequestParametersPayload]]) -> (
-        Optional)[Example]:
+        Optional)[ParameterList]:
     example_payload = None
     for payload_source, payload_value in query_or_body_parameters:
         if payload_source == ParameterPayloadSource.DictionaryCustomPayload:
-            if isinstance(payload_value, Example):
+            if isinstance(payload_value, ParameterList):
                 example_payload = payload_value
                 break
     return example_payload
@@ -1156,13 +1170,6 @@ def get_merged_static_string_seq(str_list: list[str]):
     #  Transformed below to valid:
     #              "id":""");
     #     static_string('"');
-    """
-    if merged_string.endswith("\""):
-        return [RequestPrimitiveType.static_string_constant(merged_string[:-1]),
-                RequestPrimitiveType.static_string_constant("\"")]
-    else:
-        return [RequestPrimitiveType.static_string_constant(merged_string)]
-    """
     mapped_str = [
         "null" if s is None else s
         for s in str_list
@@ -1700,7 +1707,7 @@ def generate_python_from_request(request: Request, merge_static_strings):
             new_primitive_seq = []
             next_list = []
 
-            for primitive in filtered_primitives[2:]:
+            for primitive in filtered_primitives[1:]:
                 if primitive.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
                     next_list.append(primitive.primitive_data.default_value)
                 else:
@@ -1712,7 +1719,7 @@ def generate_python_from_request(request: Request, merge_static_strings):
             if next_list:
                 new_primitive_seq.extend(get_merged_static_string_seq(next_list))
 
-            processed_elements.extend(filtered_primitives[:2] + new_primitive_seq)
+            processed_elements.extend(filtered_primitives[:1] + new_primitive_seq)
             processed_elements.append(RequestPrimitiveType.static_string_constant(r"\r\n"))
         else:
             processed_elements.extend(primitives)
