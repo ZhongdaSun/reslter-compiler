@@ -1273,12 +1273,14 @@ def generate_python_from_request_element(request_element,
             if isinstance(parameter_list, ParameterList):
                 parameters = []
                 tail = len(parameter_list.request_parameters)
-                for i, request in enumerate(parameter_list.request_parameters):
+                query_start = 0
+                for request in parameter_list.request_parameters:
                     current_parameter = generate_python_parameter(parameter_source, ParameterKind.Query, request)
-                    if 0 < i < tail:
-                        parameters = parameters + [RequestPrimitiveType.static_string_constant("&")]
                     if len(current_parameter) > 0:
+                        if 0 < query_start < tail:
+                            parameters = parameters + [RequestPrimitiveType.static_string_constant("&")]
                         parameters = parameters + current_parameter
+                        query_start = 1
 
                 if not parameters:
                     return []
