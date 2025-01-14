@@ -1,9 +1,7 @@
 {
   "SwaggerSpecFilePath": [
-    "/opt/AutoTest/test_schema/level_1/large_json_body.json"
+    "large_json_body.json"
   ],
-  "GrammarOutputDirectoryPath": "/RESTler/restler/Compile",
-  "CustomDictionaryFilePath": "/RESTler/restler/Compile/defaultDict.json",
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,
   "UsePathExamples": false,
@@ -20,5 +18,5 @@
   "UseRefreshableToken": true,
   "AllowGetProducers": false,
   "TrackFuzzedParameterNames": false,
-  "JsonPropertyMaxDepth": 4
+  "JsonPropertyMaxDepth": 8
 }

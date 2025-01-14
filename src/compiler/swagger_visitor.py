@@ -64,7 +64,7 @@ class SchemaUtilities:
     @staticmethod
     def get_correct_example_value(example_object, param_type: str):
         if param_type is None or param_type == "":
-           return example_object
+            return example_object
 
         if example_object is None:
             if param_type == 'object':
@@ -920,7 +920,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
             p_type = SchemaUtilities.get_property(schema, "type")
             if p_type == "array":
                 payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
-                                          default_value="{}",
+                                          default_value="{ }",
                                           example_value=example_value,
                                           parameter_name=parameter_name,
                                           dynamic_object=None)
@@ -952,7 +952,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     example_value=SchemaUtilities.try_get_schema_example_value(schema))
         else:
             payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
-                                      default_value="{}",
+                                      default_value="{ }",
                                       example_value=example_value,
                                       parameter_name=parameter_name,
                                       dynamic_object=None)

@@ -166,6 +166,14 @@ class TestSwaggerOnly(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_large_json_body_level_8"))
+    def test_large_json_body_level_8(self):
+        business_config["JsonPropertyMaxDepth"] = 8
+        result, msg = compile_spec(module_name,
+                                   'large_json_body_level_8', [], "large_json_body.json")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_read_only"))
     def test_read_only(self):
         result, msg = compile_spec(module_name,
