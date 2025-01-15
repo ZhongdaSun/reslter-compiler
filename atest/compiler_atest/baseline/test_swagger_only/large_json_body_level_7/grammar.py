@@ -94,11 +94,9 @@ request = requests.Request([
     primitives.restler_static_string(""",
                                     "level8properties":
                                     [
-                                        {
-                                            "object_level_8":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+                                        """),
+    primitives.restler_fuzzable_object("{ }"),
     primitives.restler_static_string("""
-                                        }
                                     ]
                                 }
                             ,

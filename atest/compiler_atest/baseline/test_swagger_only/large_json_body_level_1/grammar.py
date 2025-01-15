@@ -60,83 +60,15 @@ request = requests.Request([
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
     "properties":
-        {
-            "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-            "address":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-            "nickname":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-            "relatives":
-            [
-                """),
+        """),
     primitives.restler_fuzzable_object("{ }"),
     primitives.restler_static_string("""
-            ],
-            "orderProfile":
-                {
-                    "recentOrders":
-                    [
-                        {
-                            "recentOrder":
-                                {
-                                    "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                                    "tags":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string(""",
-                                    "object_level_6":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string(""",
-                                    "level8properties":
-                                    [
-                                        {
-                                            "object_level_8":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string("""
-                                        }
-                                    ]
-                                }
-                            ,
-                            "object_level_5":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string("""
-                        }
-                    ],
-                    "object_level_3":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string(""",
-                    "rushOrderItem":
-                        {
-                            "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                            "tags":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string(""",
-                            "object_level_4":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string("""
-                        }
-                }
-            ,
-            "object_level_2":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string("""
-        }
     ,
     "name":"""),
     primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
     "object_level_1":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
-    primitives.restler_static_string(""",
-    "id":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_fuzzable_object("{ }"),
     primitives.restler_static_string("}"),
     primitives.restler_static_string("\r\n"),
 

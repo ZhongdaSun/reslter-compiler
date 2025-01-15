@@ -261,9 +261,12 @@ class SchemaCache:
 
     cycles = set()
 
+    definition_cache = defaultdict()
+
     def __init__(self):
         self.cache = {}
         self.cycles = set()
+        self.definition_cache = {}
 
     def add_cycle(self, schema_list):
         logger.write_to_main(f"schema_list={schema_list}", ConfigSetting().LogConfig.swagger_visitor)
@@ -290,6 +293,17 @@ class SchemaCache:
             self.cache[schema] = CachedGrammarTree(grammar_element)
         if cycle_root is not None:
             self.cycles.remove(cycle_root)
+
+    def add_definition_cache(self, ref_definition, value):
+        if ref_definition not in self.definition_cache.keys():
+            self.definition_cache[ref_definition] = value
+
+    def remove_definition_cache(self, ref_definition):
+        if ref_definition in self.definition_cache.keys():
+            self.definition_cache.pop(ref_definition)
+
+    def try_get_definition_cache(self, ref_definition):
+        return self.definition_cache.get(ref_definition, None)
 
 
 class GenerateGrammarElements:
@@ -472,39 +486,57 @@ def process_property(swagger_doc: SwaggerDoc,
     property_required = SchemaUtilities.get_property(property_schema, "required")
     is_readonly = SchemaUtilities.get_property_read_only(property_schema)
     if property_type in ["string", "number", "int", "boolean", "integer", "bool", "object"]:
-        fuzzable_property_payload = get_fuzzable_value_for_property(property_name,
-                                                                    property_schema,
-                                                                    try_get_enumeration(property_schema),
-                                                                    SchemaUtilities.try_get_schema_example_value(
-                                                                        property_schema))
-        if property_payload_example_value is not None:
-            property_payload_example_value = (
-                GenerateGrammarElements.format_jtoken_property(property_type, property_payload_example_value))
+        if property_type == "object" and (ConfigSetting().JsonPropertyMaxDepth is not None
+                                          and len(parents) >= ConfigSetting().JsonPropertyMaxDepth):
+            if property_payload_example_value is not None:
+                property_payload_example_value = (
+                    GenerateGrammarElements.format_jtoken_property(property_type, property_payload_example_value))
 
-            example_property_payload = SchemaUtilities.format_example_value(property_payload_example_value)
-
-            logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
-                                 f"property_payload_example_value={property_payload_example_value} "
-                                 f"generate_fuzzable_payload={generate_fuzzable_payload} ",
-                                 ConfigSetting().LogConfig.swagger_visitor)
-            fuzzable_property_payload.example_value = example_property_payload
-            """
-            if generate_fuzzable_payload:
-               # Replace the default payload with the example payload, preserving type information.
-               # 'generateFuzzablePayload' is specified a schema example is found for the parent
-               # object (e.g. an array).
-               fuzzable_property_payload.example_value = example_property_payload
-            else:
-                fuzzable_property_payload = Constant(primitive_type=get_primitive_type_from_string(property_type),
-                                                     variable_name=example_property_payload)
-            """
+                property_payload_example_value = SchemaUtilities.format_example_value(property_payload_example_value)
+            object_payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
+                                             default_value="{ }",
+                                             example_value=property_payload_example_value,
+                                             parameter_name=property_name,
+                                             dynamic_object=None)
+            return LeafNode(leaf_property=LeafProperty(name=property_name,
+                                                       payload=object_payload,
+                                                       is_required=property_required,
+                                                       is_readonly=is_readonly))
         else:
-            fuzzable_property_payload.example_value = property_payload_example_value
-        logger.write_to_main(f"property_payload={fuzzable_property_payload}", ConfigSetting().LogConfig.swagger_visitor)
-        return LeafNode(leaf_property=LeafProperty(name=property_name,
-                                                   payload=fuzzable_property_payload,
-                                                   is_required=property_required,
-                                                   is_readonly=is_readonly))
+            fuzzable_property_payload = get_fuzzable_value_for_property(property_name,
+                                                                        property_schema,
+                                                                        try_get_enumeration(property_schema),
+                                                                        SchemaUtilities.try_get_schema_example_value(
+                                                                            property_schema))
+            if property_payload_example_value is not None:
+                property_payload_example_value = (
+                    GenerateGrammarElements.format_jtoken_property(property_type, property_payload_example_value))
+
+                example_property_payload = SchemaUtilities.format_example_value(property_payload_example_value)
+
+                logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
+                                     f"property_payload_example_value={property_payload_example_value} "
+                                     f"generate_fuzzable_payload={generate_fuzzable_payload} ",
+                                     ConfigSetting().LogConfig.swagger_visitor)
+                fuzzable_property_payload.example_value = example_property_payload
+                """
+                if generate_fuzzable_payload:
+                   # Replace the default payload with the example payload, preserving type information.
+                   # 'generateFuzzablePayload' is specified a schema example is found for the parent
+                   # object (e.g. an array).
+                   fuzzable_property_payload.example_value = example_property_payload
+                else:
+                    fuzzable_property_payload = Constant(primitive_type=get_primitive_type_from_string(property_type),
+                                                         variable_name=example_property_payload)
+                """
+            else:
+                fuzzable_property_payload.example_value = property_payload_example_value
+            logger.write_to_main(f"property_payload={fuzzable_property_payload}",
+                                 ConfigSetting().LogConfig.swagger_visitor)
+            return LeafNode(leaf_property=LeafProperty(name=property_name,
+                                                       payload=fuzzable_property_payload,
+                                                       is_required=property_required,
+                                                       is_readonly=is_readonly))
     elif property_type is None:
         logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
                              f"property_payload_example_value={property_payload_example_value} "
@@ -536,6 +568,7 @@ def process_property(swagger_doc: SwaggerDoc,
                              ConfigSetting().LogConfig.swagger_visitor)
         if not property_schema.is_set("items"):
             raise Exception("Invalid array schema: found array property without a declared element")
+
         array_item = getattr(property_schema, property_schema.get_private_name("items"))
         array_type = SchemaUtilities.get_property(array_item, "type").lower()
         inner_array_property = InnerProperty(name=property_name,
@@ -543,8 +576,23 @@ def process_property(swagger_doc: SwaggerDoc,
                                              property_type=NestedType.Array,
                                              is_required=property_required,
                                              is_readonly=is_readonly)
-
         if array_type == "":
+            if ConfigSetting().JsonPropertyMaxDepth is not None:
+                if len(parents) >= ConfigSetting().JsonPropertyMaxDepth:
+                    return InternalNode(inner_property=inner_array_property, leaf_properties=[])
+                if len(parents) + 1 == ConfigSetting().JsonPropertyMaxDepth:
+                    payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
+                                              default_value="{ }",
+                                              example_value=property_payload_example_value,
+                                              parameter_name=property_name,
+                                              dynamic_object=None)
+                    leaf_node = LeafNode(leaf_property=LeafProperty(name="",
+                                                                    payload=payload,
+                                                                    is_required=property_required,
+                                                                    is_readonly=is_readonly))
+
+                    return InternalNode(inner_property=inner_array_property, leaf_properties=[leaf_node])
+
             if property_payload_example_value is None:
                 array_with_elements = generate_grammar_element_for_schema(swagger_doc,
                                                                           array_item,
@@ -633,30 +681,6 @@ def process_property(swagger_doc: SwaggerDoc,
                     return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
                 else:
                     raise ValueError("An array should be an internal node.")
-    elif property_type == "object":
-        logger.write_to_main(f"property_type={property_type}, property_required={property_required} "
-                             f"property_payload_example_value={property_payload_example_value} "
-                             f"generate_fuzzable_payload={generate_fuzzable_payload} ",
-                             ConfigSetting().LogConfig.swagger_visitor)
-        obj_tree = generate_grammar_element_for_schema(swagger_doc,
-                                                       property_schema,
-                                                       property_payload_example_value,
-                                                       generate_fuzzable_payload,
-                                                       track_parameters,
-                                                       property_required,
-                                                       parents,
-                                                       schema_cache,
-                                                       cont)
-        logger.write_to_main(f"obj_tree={obj_tree}", ConfigSetting().LogConfig.swagger_visitor)
-        if isinstance(obj_tree, LeafNode):
-            return cont(obj_tree)
-        elif isinstance(obj_tree, InternalNode):
-            inner_property = InnerProperty("",
-                                           payload=None,
-                                           property_type=NestedType.Object,
-                                           is_required=property_required,
-                                           is_readonly=is_readonly)
-            return InternalNode(inner_property, obj_tree.leaf_properties)
 
     else:
         raise ValueError(f"Found unsupported type in body parameters: {property_type}")
@@ -707,10 +731,13 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     return s
 
     def generate_grammar_element(final_schema: Schema, example_value_info: Optional, parents: list):
+
         all_of_parameter_schemas = []
         properties_of_parameter_schema = []
         reference_of_parameter_schema = []
-        if final_schema.is_set("allOf"):
+        if (final_schema.is_set("allOf") and ((ConfigSetting().JsonPropertyMaxDepth is not None
+                                               and len(parents) < ConfigSetting().JsonPropertyMaxDepth)
+                                              or ConfigSetting().JsonPropertyMaxDepth is None)):
             all_of_param = getattr(final_schema, final_schema.get_private_name("allOf"))
             logger.write_to_main(f"all_of_param={all_of_param}", ConfigSetting().LogConfig.swagger_visitor)
             if len(all_of_param) > 0:
@@ -743,6 +770,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                 for key, value in ret_value.items():
                     properties_schema = SchemaUtilities.get_property(value, "properties")
                     if len(properties_schema) > 0:
+                        schema_cache.add_definition_cache(ref_definition=reference, value=key)
                         logger.write_to_main(f"key={key}", ConfigSetting().LogConfig.swagger_visitor)
                         element = (
                             generate_grammar_element_for_schema(swagger_doc=swagger_doc,
@@ -760,6 +788,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                             reference_of_parameter_schema.extend(element.leaf_properties)
                         elif isinstance(element, LeafNode):
                             reference_of_parameter_schema.append(element)
+                        schema_cache.remove_definition_cache(ref_definition=reference)
                     else:
                         element = process_property(swagger_doc=swagger_doc,
                                                    property_name="",
@@ -815,43 +844,58 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                     print(f"properties:{key} start")
                     sub_properties = SchemaUtilities.get_property(value, "properties")
                     if value.is_set("$ref") or value.is_set("schema") or len(sub_properties) > 0:
-                        node = generate_grammar_element_for_schema(swagger_doc=swagger_doc,
-                                                                   schema=value,
-                                                                   example_value=final_example,
-                                                                   generate_fuzzable_payloads_for_examples=
-                                                                   generate_fuzzable_payloads_for_examples,
-                                                                   track_parameters=track_parameters,
-                                                                   is_required=required,
-                                                                   parents=parents,
-                                                                   schema_cache=schema_cache,
-                                                                   cont=None)
                         internal_property = InnerProperty(name=key,
                                                           payload=None,
                                                           property_type=NestedType.Property,
                                                           is_required=required,
                                                           is_readonly=False)
-                        if isinstance(node, InternalNode):
-                            if value.is_set("$ref"):
-                                reference_name = SchemaUtilities.get_property(value, "$ref")
-                                ref_def = get_definition_ref(reference_name)
-                                if ref_def.ref_type == RefResolution.LocalDefinitionRef:
-                                    ref_def_value = get_definition_reference(ref_location=ref_def.file_name,
-                                                                             spec=swagger_doc.definitions)
-                                    for def_values in ref_def_value.values():
-                                        properties_schema = SchemaUtilities.get_property(def_values, "properties")
-                                        if len(properties_schema) > 0:
-                                            element = InternalNode(inner_property=internal_property,
-                                                                   leaf_properties=[node])
-                                        else:
-                                            element = InternalNode(inner_property=internal_property,
-                                                                   leaf_properties=node.leaf_properties)
-                                        properties_of_parameter_schema.append(element)
-                        elif isinstance(node, LeafNode):
+                        if (ConfigSetting().JsonPropertyMaxDepth is not None
+                                and len(parents) >= ConfigSetting().JsonPropertyMaxDepth):
+                            object_payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
+                                                             default_value="{ }",
+                                                             example_value=example_value,
+                                                             parameter_name=SchemaUtilities.get_property(schema,
+                                                                                                         "name"),
+                                                             dynamic_object=None)
+                            node = LeafNode(leaf_property=LeafProperty(name="",
+                                                                       payload=object_payload,
+                                                                       is_required=required,
+                                                                       is_readonly=is_readonly))
                             element = InternalNode(inner_property=internal_property, leaf_properties=[node])
                             properties_of_parameter_schema.append(element)
-                            logger.write_to_main(f"key={key}, properties_schema[key]={properties_schema[key]} "
-                                                 f"element={node.__dict__()}",
-                                                 ConfigSetting().LogConfig.swagger_visitor)
+                        else:
+                            node = generate_grammar_element_for_schema(swagger_doc=swagger_doc,
+                                                                       schema=value,
+                                                                       example_value=final_example,
+                                                                       generate_fuzzable_payloads_for_examples=
+                                                                       generate_fuzzable_payloads_for_examples,
+                                                                       track_parameters=track_parameters,
+                                                                       is_required=required,
+                                                                       parents=parents,
+                                                                       schema_cache=schema_cache,
+                                                                       cont=None)
+                            if isinstance(node, InternalNode):
+                                if value.is_set("$ref"):
+                                    reference_name = SchemaUtilities.get_property(value, "$ref")
+                                    ref_def = get_definition_ref(reference_name)
+                                    if ref_def.ref_type == RefResolution.LocalDefinitionRef:
+                                        ref_def_value = get_definition_reference(ref_location=ref_def.file_name,
+                                                                                 spec=swagger_doc.definitions)
+                                        for def_values in ref_def_value.values():
+                                            properties_schema = SchemaUtilities.get_property(def_values, "properties")
+                                            if len(properties_schema) > 0:
+                                                element = InternalNode(inner_property=internal_property,
+                                                                       leaf_properties=[node])
+                                            else:
+                                                element = InternalNode(inner_property=internal_property,
+                                                                       leaf_properties=node.leaf_properties)
+                                            properties_of_parameter_schema.append(element)
+                            elif isinstance(node, LeafNode):
+                                element = InternalNode(inner_property=internal_property, leaf_properties=[node])
+                                properties_of_parameter_schema.append(element)
+                                logger.write_to_main(f"key={key}, properties_schema[key]={value} "
+                                                     f"element={node.__dict__()}",
+                                                     ConfigSetting().LogConfig.swagger_visitor)
                     else:
                         element = process_property(swagger_doc=swagger_doc,
                                                    property_name=key,
@@ -900,67 +944,32 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
     found_cycle = schema in parents
     if not found_cycle and schema.is_set("$ref"):
         reference = SchemaUtilities.get_property(schema, "$ref")
-        ref = get_definition_ref(reference)
-        logger.write_to_main(f"reference={reference} ", ConfigSetting().LogConfig.swagger_visitor)
-        if ref.ref_type == RefResolution.LocalDefinitionRef:
-            ret_value = get_definition_reference(ref_location=ref.file_name, spec=swagger_doc.definitions)
-            for values in ret_value.values():
-                found_cycle = values in parents
-                if found_cycle:
-                    break
-    if found_cycle or (ConfigSetting().JsonPropertyMaxDepth is not None
-                       and len(parents) > ConfigSetting().JsonPropertyMaxDepth):
-        logger.write_to_main(f"found_cycle={found_cycle}, len(parents)={len(parents)}, "
-                             f"json_property_max_depth={ConfigSetting().JsonPropertyMaxDepth}",
-                             ConfigSetting().LogConfig.swagger_visitor)
-        parameter_name = SchemaUtilities.get_property(schema, "name")
-        if found_cycle and example_value is not None:
-            raise UnsupportedRecursiveExample(f"{example_value}")
-        if schema.is_set("type"):
-            p_type = SchemaUtilities.get_property(schema, "type")
-            if p_type == "array":
-                payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
-                                          default_value="{ }",
-                                          example_value=example_value,
-                                          parameter_name=parameter_name,
-                                          dynamic_object=None)
-                p_item = SchemaUtilities.get_property(schema, "items")
-                if p_item is not None:
-                    p_item_type = SchemaUtilities.get_property(p_item, "type")
-                    if p_item_type != "array" and p_item_type != "":
-                        payload = get_fuzzable_value_for_property(
-                            SchemaUtilities.get_property(p_item, "name"),
-                            p_item,
-                            try_get_enumeration(p_item),
-                            SchemaUtilities.try_get_schema_example_value(p_item))
+        schema_definition = schema_cache.try_get_definition_cache(ref_definition=reference)
+        if schema_definition is not None:
+            found_cycle = True
 
-                leaf_properties = [LeafProperty("",
-                                                payload,
-                                                is_required=is_required,
-                                                is_readonly=is_readonly)] if payload else []
-                inner_property = InnerProperty(name="",
-                                               payload=None,
-                                               property_type=NestedType.Array,
-                                               is_required=is_required,
-                                               is_readonly=is_readonly)
-                return InternalNode(inner_property=inner_property, leaf_properties=leaf_properties)
-            else:
-                payload = get_fuzzable_value_for_property(
-                    property_name=parameter_name,
-                    property_schema=schema,
-                    enumeration=try_get_enumeration(schema),
-                    example_value=SchemaUtilities.try_get_schema_example_value(schema))
-        else:
-            payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
-                                      default_value="{ }",
-                                      example_value=example_value,
-                                      parameter_name=parameter_name,
-                                      dynamic_object=None)
+    logger.write_to_main(f"found_cycle={found_cycle}, len(parents)={len(parents)}, "
+                         f"json_property_max_depth={ConfigSetting().JsonPropertyMaxDepth}",
+                         ConfigSetting().LogConfig.swagger_visitor)
+
+    parameter_name = SchemaUtilities.get_property(schema, "name")
+    if found_cycle and example_value is not None:
+        raise UnsupportedRecursiveExample(f"{example_value}")
+    if found_cycle:
+        payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
+                                  default_value="{ }",
+                                  example_value=example_value,
+                                  parameter_name=parameter_name,
+                                  dynamic_object=None)
         return LeafNode(leaf_property=LeafProperty(name="",
                                                    payload=payload,
                                                    is_required=is_required,
                                                    is_readonly=is_readonly))
-    elif example_value is None and cached_property is not None:
+    if (ConfigSetting().JsonPropertyMaxDepth is not None
+            and len(parents) > ConfigSetting().JsonPropertyMaxDepth):
+        return generate_grammar_element(schema, example_value, parents)
+
+    if example_value is None and cached_property is not None:
         logger.write_to_main(f"cached_property.tree={type(cached_property.tree)}",
                              ConfigSetting().LogConfig.swagger_visitor)
         return cached_property.tree

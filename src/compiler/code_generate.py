@@ -55,22 +55,7 @@ class UnsupportedAccessPath(Exception):
         super().__init__(msg)
 
 
-# 请求中的基本类型数据类
 class RequestPrimitiveTypeData:
-    """
-    表示请求中的基本类型数据。该类封装了默认值、是否带引号、示例值、跟踪的参数名称等信息。
-
-    @param default_value: 请求中基本类型的默认值
-    @type  default_value: str
-    @param is_quoted: 是否带引号
-    @type  is_quoted: bool
-    @param example_value: 示例值
-    @type  example_value: None or str
-    @param tracked_parameter_name: 跟踪的参数名称
-    @type  tracked_parameter_name: None or str
-
-    """
-
     def __init__(self, default_value: str, is_quoted: bool,
                  example_value: Union[str, None],
                  tracked_parameter_name: Union[str, None]):
@@ -85,9 +70,6 @@ DynamicObjectWriter: TypeAlias = str
 
 # IMPORTANT ! All primitives must be supported in restler/engine/primitives.py
 class RequestPrimitiveTypeEnum(enum.Enum):
-    """
-    表示RESTler语法中支持的请求基本类型枚举。该枚举包含不同类型的请求，如静态字符串、可变字符串、可变日期时间等。
-    """
     Restler_static_string_constant = 0,
     Restler_static_string_variable = 1,
     Restler_static_string_jtoken_delim = 2,
@@ -121,29 +103,12 @@ class RequestPrimitiveType:
 
     def __init__(self, request_data: RequestPrimitiveTypeData,
                  dynamic_object: Union[DynamicObjectWriter, None]):
-        """
-        初始化请求数据基本类型及动态对象。
-
-        @param request_data: 请求中的基本类型数据
-        @type  request_data: RequestPrimitiveTypeData
-        @param dynamic_object: 是否带引号
-        @type  dynamic_object: None or DynamicObjectWriter
-        """
         self.primitive_data = request_data
         self.dynamic_object = dynamic_object
         self.type = RequestPrimitiveTypeEnum.Restler_static_string_constant
 
     @classmethod
     def static_string_constant(cls, value):
-        """
-        创建静态常量的请求基本类型。
-
-        @param value: 静态字符串常量
-        @type  value: str
-
-        @return: 请求基本类型类对象
-        @rtype : RequestPrimitiveType
-        """
         primitive_type = RequestPrimitiveTypeData(default_value=value, is_quoted=False, example_value=None,
                                                   tracked_parameter_name=None)
         obj = cls(request_data=primitive_type, dynamic_object=None)
@@ -152,17 +117,6 @@ class RequestPrimitiveType:
 
     @classmethod
     def static_string_variable(cls, value: str, is_quoted: bool):
-        """
-        创建静态字符串变量的请求基本类型。
-
-        @param value: 静态字符串变量类型
-        @type  value: str
-        @param is_quoted: 是否使用引号
-        @type  is_quoted: bool
-
-        @return: 请求基本类型类对象
-        @rtype : RequestPrimitiveType
-        """
         data = RequestPrimitiveTypeData(value, is_quoted, None, None)
         obj = cls(request_data=data, dynamic_object=None)
         obj.type = RequestPrimitiveTypeEnum.Restler_static_string_variable
@@ -170,17 +124,6 @@ class RequestPrimitiveType:
 
     @classmethod
     def static_string_jtoken_delim(cls, value: str, is_quoted: bool):
-        """
-        创建静态字符串JToken分隔符的请求基本类型。
-
-        @param value: 静态字符串变量类型
-        @type  value: str
-        @param is_quoted: 是否使用引号
-        @type  is_quoted: bool
-
-        @return: 请求基本类型类对象
-        @rtype : RequestPrimitiveType
-        """
         data = RequestPrimitiveTypeData(value, is_quoted, None, None)
         obj = cls(request_data=data, dynamic_object=None)
         obj.type = RequestPrimitiveTypeEnum.Restler_static_string_jtoken_delim
@@ -690,7 +633,6 @@ def format_json_body_parameter(
                             for str_index in str_value:
                                 if str_index is not None and str_index != "" and str_index != "\n":
                                     s, delim = quote_string_for_python_grammar(s)
-                        # value = ", " + s
                         f_value = format_property_name(s, tab_level * SPACE_4, False)
                         logger.write_to_main(f"f_value={f_value.primitive_data.default_value}",
                                              ConfigSetting().LogConfig.code_generate)
@@ -715,7 +657,10 @@ def format_json_body_parameter(
             if len(item) > 0:
                 last_item = item[-1]
                 if last_item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
-                    need_new_line = True
+                    if last_item.primitive_data.default_value == "]":
+                        need_new_line = False
+                    else:
+                        need_new_line = True
                 else:
                     need_new_line = False
 
@@ -741,7 +686,7 @@ def format_json_body_parameter(
                     left = [RequestPrimitiveType.static_string_constant(restler_str)]
                 else:
                     restler_array = format_property_name(property_name, tab_seq)
-                    restler_str = restler_array.primitive_data.default_value + tab_seq + "[" + "\n"
+                    restler_str = restler_array.primitive_data.default_value + tab_seq + "[\n"
                     left = [RequestPrimitiveType.static_string_constant(restler_str)]
                 logger.write_to_main(f"cs={len(left + cs + right)}", ConfigSetting().LogConfig.code_generate)
                 result = left + cs + right
@@ -759,7 +704,7 @@ def format_json_body_parameter(
             if len(cs) > 1:
                 last_element = cs[-1]
                 value = last_element.primitive_data.default_value
-                if "}" in value:
+                if last_element.type == RequestPrimitiveTypeEnum.Restler_static_string_constant and "}" in value:
                     if tab_level == 1:
                         last_element.primitive_data.default_value = last_element.primitive_data.default_value + "\n"
                     else:

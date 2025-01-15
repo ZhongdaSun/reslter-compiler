@@ -87,18 +87,13 @@ request = requests.Request([
     primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
                                     "tags":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_fuzzable_object("{ }"),
     primitives.restler_static_string(""",
                                     "object_level_6":"""),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_fuzzable_object("{ }"),
     primitives.restler_static_string(""",
                                     "level8properties":
                                     [
-                                        {
-                                            "object_level_8":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string("""
-                                        }
                                     ]
                                 }
                             ,

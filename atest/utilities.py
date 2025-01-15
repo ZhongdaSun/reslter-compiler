@@ -48,7 +48,6 @@ business_config = {
     "TrackFuzzedParameterNames": False
 }
 
-
 curr_dir = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -68,6 +67,7 @@ def DebugConfig():
 
 class DebugConfigCases:
     __instance = None
+    __skip_python_checking: bool
 
     @staticmethod
     def Instance():
@@ -100,16 +100,23 @@ class DebugConfigCases:
                 config_debug_module = json.load(data_handler)
                 self._config_data.update(config_debug_module)
             data_handler.close()
+        self.__skip_python_checking = self._config_data["skip_python"]
         DebugConfigCases.__instance = self
 
     def get_cases_config(self, test_module, test_func):
         if self._config_data["debug_mode"]:
             return not self._config_data[test_module][test_func] == 2
         else:
-            return False or self._config_data[test_module][test_func] != 0
+            return False or not self._config_data[test_module][test_func] in [0, 20]
+
+    def get_test_func_config(self, test_module, test_func):
+        return self._config_data[test_module][test_func]
 
     def get_debug_mode(self):
         return self._config_data["debug_mode"]
+
+    def get_skip_python(self):
+        return self._config_data["skip_python"]
 
     def get_debug_file(self):
         return self._config_data["debug_file"]
@@ -127,6 +134,14 @@ class DebugConfigCases:
     @swagger_only.setter
     def swagger_only(self, swagger_only):
         self.__swagger_only = swagger_only
+
+    @property
+    def skip_python_check(self):
+        return self.__skip_python_checking
+
+    @skip_python_check.setter
+    def skip_python_check(self, is_skip: bool):
+        self.__skip_python_checking = is_skip
 
 
 def read_and_clean_file(file_path):
@@ -344,6 +359,12 @@ def compile_spec(father_dir: str, dir_name: str, checking_more: [], swagger_only
     actual_grammar_file = os.path.join(grammar_dir, Constants.DefaultJsonGrammarFileName)
     expected_grammar_file = os.path.join(expected_grammar_dir, Constants.DefaultJsonGrammarFileName)
     no_diff, diff = compare_difference(actual_grammar_file, expected_grammar_file)
+    if DebugConfig().skip_python_check:
+        if no_diff:
+            return True, "Finish"
+        else:
+            return False, (f"Grammar file: {Constants.DefaultJsonGrammarFileName}"
+                           f" does not match baseline. First difference: {diff}")
     if no_diff:
         actual_grammar_file = os.path.join(grammar_dir, Constants.DefaultRestlerGrammarFileName)
         expected_grammar_file = os.path.join(expected_grammar_dir, Constants.DefaultRestlerGrammarFileName)
@@ -356,10 +377,10 @@ def compile_spec(father_dir: str, dir_name: str, checking_more: [], swagger_only
                     no_diff, diff = compare_difference(actual_grammar_file, expected_grammar_file)
                     if not no_diff:
                         return False, (f"Grammar file: {item}"
-                                       f"does not match baseline. First difference: {diff}")
+                                       f" does not match baseline. First difference: {diff}")
             return True, "Finish"
         else:
             return False, diff
     else:
         return False, (f"Grammar file: {Constants.DefaultJsonGrammarFileName}"
-                       f"does not match baseline. First difference: {diff}")
+                       f" does not match baseline. First difference: {diff}")

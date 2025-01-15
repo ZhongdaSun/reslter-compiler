@@ -596,7 +596,6 @@ class Parameters:
             return RequestParameter(name=parameter_name,
                                     payload=payload,
                                     serialization=Parameters.get_parameter_serialization(parameter))
-
         example_payloads = []
         print("Get Parameters")
         rest_of_payloads = []
@@ -606,7 +605,7 @@ class Parameters:
                     swagger_doc,
                     example_config[0],
                     parameter,
-                    schema_cache)
+                    SchemaCache())
                 logger.write_to_main(f"first_payload={first_payload}", ConfigSetting().LogConfig.compiler)
                 if first_payload is not None:
                     example_payloads.append(first_payload)
@@ -614,7 +613,7 @@ class Parameters:
                     rest_of_payload = Parameters.get_parameters_from_example(swagger_doc,
                                                                              e,
                                                                              parameter,
-                                                                             schema_cache)
+                                                                             SchemaCache())
                     if rest_of_payload is not None:
                         rest_of_payloads.append(rest_of_payload)
 
@@ -1325,7 +1324,6 @@ def get_request_data(swagger_doc: SwaggerDoc,
     logger.write_to_main(f"Get Request Data: swagger_doc)={swagger_doc}, "
                          f"len(user_specified_examples)={len(user_specified_examples)}",
                          ConfigSetting().LogConfig.compiler)
-    schema_cache = SchemaCache()
     request_data_seq = []
     if swagger_doc.paths is None:
         return []
@@ -1390,7 +1388,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                item,
                                                ep,
                                                example_config if ConfigSetting().UsePathExamples else None,
-                                               schema_cache))
+                                               SchemaCache()))
 
                 all_query_parameters = []
                 logger.write_to_main(f"item.queryParameters={len(item.queryParameters)}",
@@ -1402,7 +1400,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                   item,
                                                   item.queryParameters,
                                                   example_config if ConfigSetting().UseQueryExamples else None,
-                                                  schema_cache))
+                                                  SchemaCache()))
 
                 body = []
 
@@ -1414,7 +1412,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                      item,
                                                      item.bodyParameters,
                                                      example_config if ConfigSetting().UseBodyExamples else None,
-                                                     schema_cache)
+                                                     SchemaCache())
 
                     # Call the get_body function and assign the result to the body variable
 
@@ -1425,7 +1423,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                         item,
                                                         item.headerParameters,
                                                         example_config if ConfigSetting().UseHeaderExamples else None,
-                                                        schema_cache)
+                                                        SchemaCache())
 
                 request_parameters = RequestParameters(path=path_parameters,
                                                        header=headers,
@@ -1456,7 +1454,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                                             False,
                                                                             True,
                                                                             [],
-                                                                            schema_cache,
+                                                                            SchemaCache(),
                                                                             None))
                                     header_response_schema.append(header_schema)
                                     # todo NestedType
@@ -1480,7 +1478,7 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                                     False,
                                                                     True,
                                                                     [],
-                                                                    schema_cache,
+                                                                    SchemaCache(),
                                                                     None))
                             logger.write_to_main(f"body_response_schema={body_response_schema.__dict__()} "
                                                  f"type(body)={type(body_response_schema)}",

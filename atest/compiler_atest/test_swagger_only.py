@@ -19,6 +19,7 @@ class TestSwaggerOnly(unittest.TestCase):
 
     def tearDown(self):
         DebugConfig().swagger_only = False
+        DebugConfig().skip_python_check = DebugConfig().get_skip_python()
         business_config["JsonPropertyMaxDepth"] = None
 
     @custom_skip_decorator(
@@ -113,6 +114,8 @@ class TestSwaggerOnly(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_large_json_body"))
     def test_large_json_body(self):
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
@@ -121,6 +124,8 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_1"))
     def test_large_json_body_level_1(self):
         business_config["JsonPropertyMaxDepth"] = 1
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_1") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_1', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
@@ -129,6 +134,8 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_2"))
     def test_large_json_body_level_2(self):
         business_config["JsonPropertyMaxDepth"] = 2
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_2") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_2', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
@@ -136,6 +143,8 @@ class TestSwaggerOnly(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_3"))
     def test_large_json_body_level_3(self):
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_3") == 20:
+            DebugConfig().skip_python_check = True
         business_config["JsonPropertyMaxDepth"] = 3
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_3', [], "large_json_body.json")
@@ -145,6 +154,8 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_4"))
     def test_large_json_body_level_4(self):
         business_config["JsonPropertyMaxDepth"] = 4
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_4") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_4', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
@@ -153,6 +164,8 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_5"))
     def test_large_json_body_level_5(self):
         business_config["JsonPropertyMaxDepth"] = 5
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_5") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_5', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
@@ -161,16 +174,20 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_large_json_body_level_6"))
     def test_large_json_body_level_6(self):
         business_config["JsonPropertyMaxDepth"] = 6
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_6") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'large_json_body_level_6', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_large_json_body_level_8"))
-    def test_large_json_body_level_8(self):
-        business_config["JsonPropertyMaxDepth"] = 8
+        DebugConfig().get_cases_config(module_name, "test_large_json_body_level_7"))
+    def test_large_json_body_level_7(self):
+        business_config["JsonPropertyMaxDepth"] = 7
+        if DebugConfig().get_test_func_config(module_name, "test_large_json_body_level_7") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
-                                   'large_json_body_level_8', [], "large_json_body.json")
+                                   'large_json_body_level_7', [], "large_json_body.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -308,14 +325,8 @@ class TestSwaggerOnly(unittest.TestCase):
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_demo"))
     def test_example_demo(self):
-        result, msg = compile_spec(module_name,
-                                   'example_demo', [],
-                                   "example_demo.json")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_example_demo"))
-    def test_example_demo(self):
+        if DebugConfig().get_test_func_config(module_name, "test_example_demo") == 20:
+            DebugConfig().skip_python_check = True
         result, msg = compile_spec(module_name,
                                    'example_demo', [],
                                    "example_demo.json")
