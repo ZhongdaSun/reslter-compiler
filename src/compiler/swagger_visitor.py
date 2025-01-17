@@ -31,6 +31,7 @@ from compiler.swagger_spec_preprocess import (
 from swagger.objects import (
     Schema,
     Parameter,
+    Header,
     Response)
 
 from restler.utils import restler_logger as logger
@@ -1033,3 +1034,37 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                 if not generate_fuzzable_payloads_for_examples and example_value is None:
                     example_value = SchemaUtilities.try_get_schema_example_value(schema)
                 return generate_grammar_element(child, example_value, parents)
+
+        elif isinstance(schema, Header):
+            if schema.is_set("type"):
+                p_type = getattr(schema, schema.get_private_name("type"))
+
+                if p_type != "array":
+                    leaf_node = process_property(swagger_doc=swagger_doc,
+                                                 property_name="",
+                                                 property_schema=schema,
+                                                 property_payload_example_value=example_value,
+                                                 generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
+                                                 track_parameters=track_parameters,
+                                                 parents=parents,
+                                                 schema_cache=schema_cache,
+                                                 cont=id)
+                    leaf_node.leaf_property.name = ""
+                    return leaf_node
+                else:
+                    if not schema.is_set("items"):
+                        raise Exception("Invalid array schema: found array property without a declared element")
+                    return process_property(swagger_doc=swagger_doc,
+                                            property_name="",
+                                            property_schema=schema,
+                                            property_payload_example_value=example_value,
+                                            generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
+                                            track_parameters=track_parameters,
+                                            parents=parents,
+                                            schema_cache=schema_cache,
+                                            cont=id)
+
+            else:
+                child = getattr(schema, schema.get_private_name("schema"))
+                return generate_grammar_element(child, example_value, parents)
+

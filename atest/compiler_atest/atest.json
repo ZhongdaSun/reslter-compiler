@@ -10,8 +10,8 @@
     "test_frontend_port_id": 100,
     "test_ip_configurations_get": 100,
     "test_subnet_id": 100,
-    "test_body_dependency_cycles": 100,
-    "test_circular_path": 100,
+    "test_body_dependency_cycles": 930,
+    "test_circular_path": 0,
     "test_put_createorupdate": 0,
     "test_large_json_body": 20,
     "test_large_json_body_level_1": 20,
@@ -37,7 +37,7 @@
     "test_get_path_dependencies": 0,
     "test_uuidsuffix_test": 0,
     "test_path_dictionary_payload": 0,
-    "test_input_producer_spec": 100,
+    "test_input_producer_spec": 928,
     "test_no_params": 0,
     "test_read_only": 0,
     "test_global_path_parameters": 0,
@@ -86,7 +86,7 @@
 
   "test_annotation": {
     "test_array_example_dynamic_object": 100,
-    "test_header_deps": 0,
+    "test_header_deps": 2,
     "test_ordering_test": 100,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,

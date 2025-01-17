@@ -56,6 +56,7 @@ from compiler.dependency_analysis_types import (
     ProducerKind,
     get_path_from_string,
     sort_by_parameter_kind,
+    sort_by_method,
     debug_inferred_match_sort_order)
 from compiler.dictionary import MutationsDictionary, DictionarySetting
 
@@ -1124,8 +1125,19 @@ def find_producer(producers: Producers,
                                      ConfigSetting().LogConfig.dependencies or
                                      ConfigSetting().LogConfig.log_find_producer_with_resource_name)
                 if isinstance(item, ResponseProducer):
-                    # if isinstance(item, DictionaryPayload):
-                    possible_producers.insert(0, (mutations_dictionary, item))
+                    sorted_by_method = sort_by_method(item)
+                    if len(possible_producers) > 0:
+                        _, header_producer = possible_producers[0]
+                        if isinstance(header_producer, ResponseProducer):
+                            sorted_head_by_method = sort_by_method(header_producer)
+                            if sorted_head_by_method > sorted_by_method:
+                                possible_producers.insert(0, (mutations_dictionary, item))
+                            else:
+                                possible_producers.append((mutations_dictionary, item))
+                        else:
+                            possible_producers.insert(0, (mutations_dictionary, item))
+                    else:
+                        possible_producers.insert(0, (mutations_dictionary, item))
                 else:
                     possible_producers.append((mutations_dictionary, item))
             logger.write_to_main(f"producer={possible_producers}",

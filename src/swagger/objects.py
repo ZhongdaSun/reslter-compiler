@@ -197,6 +197,7 @@ class Header(six.with_metaclass(FieldMeta, BaseSchema)):
     __swagger_fields__ = {
         'collectionFormat': 'csv',
         'description': None,
+        'schema': None,
     }
 
     def _prim_(self, v, prim_factory, ctx=None):
@@ -212,7 +213,7 @@ class Response(six.with_metaclass(FieldMeta, BaseObj_v2_0)):
         '$ref': None,
 
         'schema': None,
-        'headers': {},
+        'headers': None,
         'type': None,
         'description': None,
         'examples': None,

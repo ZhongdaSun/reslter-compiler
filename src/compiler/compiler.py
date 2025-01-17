@@ -1440,11 +1440,11 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                              f", response_code = {response_code}", ConfigSetting().LogConfig.compiler)
                         response_value = item.Responses[response_code]
                         header_response = None
-                        if response_value.is_set("header"):
+                        if response_value.is_set("headers"):
                             header_response_schema = []
-                            h_value = getattr(response_value, response_value.get_private_name("header"))
+                            h_value = getattr(response_value, response_value.get_private_name("headers"))
                             if h_value is not None:
-                                for h_value_item in h_value.items():
+                                for key, h_value_item in h_value.items():
                                     print("Generate Response Headers Schema....")
                                     header_schema = (
                                         generate_grammar_element_for_schema(swagger_doc,
