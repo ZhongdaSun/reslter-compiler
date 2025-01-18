@@ -918,14 +918,14 @@ def generate_request_header_primitives(request_parameters: RequestParameters,
     logger.write_to_main(f"headers_specified_as_custom_payloads={headers_specified_as_custom_payloads}",
                          ConfigSetting().LogConfig.compiler)
     # No headers in Swagger
-    if request_parameters.header is None:
+    if len(request_parameters.header) == 0:
         logger.write_to_main(f"call get_injected_header_or_query_parameters", ConfigSetting().LogConfig.compiler)
         injected_custom_payload_header_parameters = get_injected_header_or_query_parameters(
             request_id=request_id,
             dictionary=dictionary,
             spec_parameters=[],
             custom_payload_type=CustomPayloadType.Header)
-        request_header_parameters = [(ParameterPayloadSource.DictionaryCustomPayload,
+        request_header_parameters = [(ParameterPayloadSource.Schema,
                                       ParameterList(request_parameters=injected_custom_payload_header_parameters))]
 
         return [request_header_parameters]

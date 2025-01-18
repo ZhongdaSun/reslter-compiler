@@ -1,0 +1,67 @@
+{
+  "restler_fuzzable_string": [
+    "str"
+  ],
+  "restler_fuzzable_string_unquoted": [
+    "str"
+  ],
+  "restler_fuzzable_datetime": [
+    "dt"
+  ],
+  "restler_fuzzable_datetime_unquoted": [
+    "dt"
+  ],
+  "restler_fuzzable_date": [
+    "d"
+  ],
+  "restler_fuzzable_date_unquoted": [
+    "d"
+  ],
+  "restler_fuzzable_uuid4": [
+    "id"
+  ],
+  "restler_fuzzable_uuid4_unquoted": [
+    "id"
+  ],
+  "restler_fuzzable_int": [
+    "1"
+  ],
+  "restler_fuzzable_number": [
+    "1.23"
+  ],
+  "restler_fuzzable_bool": [
+    "true"
+  ],
+  "restler_fuzzable_object": [
+    "{ \"fuzz\": false }"
+  ],
+  "restler_custom_payload": {
+    "/storeProperties/tags": [
+      "custom2"
+    ],
+    "code": [
+      "2"
+    ],
+    "count2": [
+      "4"
+    ],
+    "message": [
+      "hello"
+    ]
+  },
+  "restler_custom_payload_unquoted": {
+    "/storeProperties/tags": [
+      "custom2"
+    ],
+    "count2": [
+      "true"
+    ],
+    "message": [
+      "4"
+    ]
+  },
+  "restler_custom_payload_uuid4_suffix": {
+    "/storeProperties/tags": "storeprope",
+    "code": "code"
+  }
+}
