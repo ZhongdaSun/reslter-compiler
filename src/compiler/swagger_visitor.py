@@ -572,6 +572,9 @@ def process_property(swagger_doc: SwaggerDoc,
 
         array_item = getattr(property_schema, property_schema.get_private_name("items"))
         array_type = SchemaUtilities.get_property(array_item, "type").lower()
+        array_read_only = SchemaUtilities.get_property_read_only(array_item)
+        if array_read_only != is_readonly:
+            array_item.update_field("readonly", is_readonly)
         inner_array_property = InnerProperty(name=property_name,
                                              payload=None,
                                              property_type=NestedType.Array,

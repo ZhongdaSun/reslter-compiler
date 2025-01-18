@@ -152,15 +152,16 @@ def add_uuid_suffix_entry_for_consumer(
                                                                                    consumer_id.primitive_type)
     else:
         prefix_value = DynamicObjectNaming.generate_prefix_for_custom_uuid_suffix_payload(consumer_resource_name)
-        if dictionary.restler_custom_payload_uuid4_suffix is None:
-            dictionary.restler_custom_payload_uuid4_suffix = {}
-        dictionary.restler_custom_payload_uuid4_suffix[consumer_resource_name] = prefix_value
+        temp_dict = MutationsDictionary()
+        if temp_dict.restler_custom_payload_uuid4_suffix is None:
+            temp_dict.restler_custom_payload_uuid4_suffix = {}
+        temp_dict.restler_custom_payload_uuid4_suffix[consumer_resource_name] = prefix_value
 
-        parameter = dictionary.get_parameter_for_custom_payload_uuid_suffix(consumer_resource_name,
+        parameter = temp_dict.get_parameter_for_custom_payload_uuid_suffix(consumer_resource_name,
                                                                             consumer_id.access_path_parts,
                                                                             consumer_id.primitive_type)
 
-        return dictionary, parameter
+        return temp_dict, parameter
 
 
 # Create a producer that is identified by its path in the body only.
@@ -355,7 +356,8 @@ def get_create_or_update_producer(consumer: Consumer,
         # use a static value.
         dictionary, suffix_producer = add_uuid_suffix_entry_for_consumer(consumer_resource_name, dictionary,
                                                                          consumer.consumer_id)
-        logger.write_to_main(f"suffix_producer={suffix_producer}", ConfigSetting().LogConfig.dependencies)
+        logger.write_to_main(f"dictionary={dictionary.restler_custom_payload_uuid4_suffix} "
+                             f"suffix_producer={suffix_producer}", ConfigSetting().LogConfig.dependencies)
         # The producer is a dictionary payload.  The code below makes sure the new dictionary is correctly
         # updated above for this resource.
         return dictionary, suffix_producer
@@ -975,7 +977,8 @@ def find_producer_with_resource_name(producers: Producers,
                                                                  producer_parameter_name,
                                                                  path_parameter_index,
                                                                  bracketed_consumer_resource_name)
-        logger.write_to_main(f"producer={producer} input_producer_matches={input_producer_matches}",
+        logger.write_to_main(f"dictionary={dictionary.restler_custom_payload_uuid4_suffix} "
+                             f"producer={producer} input_producer_matches={input_producer_matches}",
                              ConfigSetting().LogConfig.dependencies or
                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
         if producer is not None:
