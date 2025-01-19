@@ -1,0 +1,8 @@
+{
+  "per_resource_settings": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}": {
+      "producer_timing_delay": 0
+    }
+  },
+  "max_combinations": 20
+}
