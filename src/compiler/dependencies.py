@@ -158,8 +158,8 @@ def add_uuid_suffix_entry_for_consumer(
         temp_dict.restler_custom_payload_uuid4_suffix[consumer_resource_name] = prefix_value
 
         parameter = temp_dict.get_parameter_for_custom_payload_uuid_suffix(consumer_resource_name,
-                                                                            consumer_id.access_path_parts,
-                                                                            consumer_id.primitive_type)
+                                                                           consumer_id.access_path_parts,
+                                                                           consumer_id.primitive_type)
 
         return temp_dict, parameter
 
@@ -2034,50 +2034,49 @@ class DependencyLookup:
                         producer_dict[consumer_id] = []
                     producer_dict[consumer_id].append((ProducerKind.Input, producer))
 
-        new_dep_list = dict()
+        new_dependencies_index = {}
         new_ordering_constraints = []
 
-        for item in dependencies_index:
-            for dep in dependencies_index[item]:
-                ordering_constraints = []
-
+        # Update the dependencies and ordering constraints
+        for key, dep_list in dependencies_index.items():
+            new_dep_list, new_order_constraints = [], []
+            for dep in dep_list:
                 if dep.producer is None:
-                    new_dep_list.setdefault(item, []).append(dep)
-                else:
-                    consumer_id = (
-                        dep.consumer.consumer_id.request_id.endpoint, dep.consumer.consumer_id.resource_reference)
+                    new_dep_list.append(dep)
+                    continue
 
-                    if consumer_id in producer_dict.keys():
-                        input_producer = next(
-                            ((dep_kind, input_producer_api_resource) for dep_kind, input_producer_api_resource in
-                             producer_dict[consumer_id] if dep_kind == ProducerKind.Input), None)
+                if dep.consumer.consumer_id.request_id.hex_hash in producer_dict:
+                    input_producer = next(
+                        (item for item in producer_dict[dep.consumer.consumer_id.request_id.hex_hash]
+                         if item[0] == ProducerKind.Input), None)
+                    if input_producer is None:
+                        new_dep_list.append(dep)
+                        continue
 
-                        if input_producer:
-                            input_producer_resource_id = (
-                                input_producer[1].request_id, input_producer[1].resource_reference)
+                    input_api_resource = input_producer[1]
 
-                            if input_producer_resource_id in producer_dict:
-                                response_producer = next(
-                                    ((dep_kind, response_producer_api_resource, response_producer) for
-                                     dep_kind, response_producer_api_resource, response_producer in
-                                     producer_dict[input_producer_resource_id] if
-                                     dep_kind == ProducerKind.Response), None)
-
-                                if response_producer:
-                                    new_ordering_constraint = (input_producer_resource_id[0], consumer_id[0])
-                                    new_dep = dep if response_producer is None else None
-                                    new_dep_list.setdefault(item, []).append(new_dep)
-                                    ordering_constraints.append(new_ordering_constraint)
-                            else:
-                                new_dep_list.setdefault(item, []).append(dep)
+                    if input_api_resource.request_id.hex_hash in producer_dict:
+                        response_producer = next(
+                            (item for item in producer_dict[input_api_resource.request_id.hex_hash] if item[0] == ProducerKind.Response),
+                            None)
+                        if response_producer is None:
+                            new_dep_list.append(dep)
                         else:
-                            new_dep_list.setdefault(item, []).append(dep)
+                            # Add an ordering constraint from the *input producer* writer to the consumer
+                            new_ordering_constraint = OrderingConstraintVariable(input_api_resource.request_id,
+                                                                                 dep.consumer.consumer_id.request_id)
+                            new_dep_list.append(ProducerConsumerDependency(dep.consumer, dep.producer))
+                            new_order_constraints.append(new_ordering_constraint)
                     else:
-                        new_dep_list.setdefault(item, []).append(dep)
+                        new_dep_list.append(dep)
+                else:
+                    new_dep_list.append(dep)
 
-                new_ordering_constraints.extend(ordering_constraints)
+            new_dependencies_index[key] = new_dep_list
+            new_ordering_constraints.extend(new_order_constraints)
 
-        return new_dep_list, ordering_constraints
+        # Return the updated dependencies and ordering constraints
+        return new_dependencies_index, ordering_constraints + new_ordering_constraints
 
     # getDependencyPayload
     @staticmethod

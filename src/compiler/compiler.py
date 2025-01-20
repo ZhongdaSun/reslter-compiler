@@ -190,21 +190,43 @@ def get_response_parsers(dependencies: List[ProducerConsumerDependency],
     # Step 1: Index the dependencies by request ID
     parsers = {}
     variable_map = {}
+
     # First, add all the requests for which an ordering constraint exists
     # Step 2: Add all requests for which an ordering constraint exists
-    for source, target in ordering_constraints:
-        parsers[source.request_id.hex_hash] = RequestDependencyData(None,
-                                                                    [],
-                                                                    [],
-                                                                    [])
-        parsers[target.request_id.hex_hash] = RequestDependencyData(None,
-                                                                    [],
-                                                                    [],
-                                                                    [])
-        parsers[source.request_id.hex_hash].ordering_constraint_writer_variables = get_ordering_constraint_variables(
-            list(filter(lambda x: x[0] == source, ordering_constraints)))
-        parsers[source.request_id.hex_hash].ordering_constraint_reader_variables = get_ordering_constraint_variables(
-            list(filter(lambda x: x[1] == target, ordering_constraints)))
+    for item in ordering_constraints:
+        if item.source_request_id.hex_hash not in parsers:
+            parsers[item.source_request_id.hex_hash] = RequestDependencyData(
+                response_parser=None,
+                input_writer_variables=[],
+                ordering_constraint_writer_variables=[item],
+                ordering_constraint_reader_variables=[]
+            )
+        else:
+            ordering_writer = parsers.get(item.source_request_id.hex_hash, None)
+            if ordering_writer is not None and len(ordering_writer.ordering_constraint_writer_variables) == 0:
+                parsers[item.source_request_id.hex_hash] = RequestDependencyData(
+                    response_parser=None,
+                    input_writer_variables=[],
+                    ordering_constraint_writer_variables=[item],
+                    ordering_constraint_reader_variables= ordering_writer.ordering_constraint_reader_variables
+                )
+
+        if item.target_request_id.hex_hash not in parsers:
+            parsers[item.target_request_id.hex_hash] = RequestDependencyData(
+                response_parser=None,
+                input_writer_variables=[],
+                ordering_constraint_writer_variables=[],
+                ordering_constraint_reader_variables=[item]
+            )
+        else:
+            ordering_reader = parsers.get(item.target_request_id.hex_hash, None)
+            if ordering_reader is not None and len(ordering_reader.ordering_constraint_reader_variables) == 0:
+                parsers[item.source_request_id.hex_hash] = RequestDependencyData(
+                    response_parser=None,
+                    input_writer_variables=[],
+                    ordering_constraint_writer_variables=ordering_reader.ordering_constraint_reader_variables,
+                    ordering_constraint_reader_variables= [item]
+                )
 
     # Step 3: Process dependencies with producers
     for dep in dependencies:
@@ -482,7 +504,6 @@ class Parameters:
                              ConfigSetting().LogConfig.compiler)
         if all_declared_path_parameters is None or len(all_declared_path_parameters) == 0:
             return ParameterList(request_parameters=None)
-
         path = get_path_from_string(endpoint, False)
         logger.write_to_main(f"path={path}", ConfigSetting().LogConfig.compiler)
         parameter_list = []
@@ -813,6 +834,7 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
         return name.startswith('/') and any(
             f"/{method.lower()}/" in name.lower() for method in SupportedOperationMethods)
 
+
     # Get the prefix for the request type payload
     prefix = get_request_type_payload_prefix(request_id.endpoint, request_id.method)
 
@@ -828,7 +850,7 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
     # Filter out any parameters that are request-specific and refer to a different request
     excluded_request_specific_parameters = \
         [name for name in parameters_specified_as_custom_payloads
-         if is_request_specific_name(name) and not name.startswith(prefix)]
+         if not is_request_specific_name(name)]
 
     # Filter out the spec parameters
     # Filter out Content-Type, because this is handled separately later, in order to

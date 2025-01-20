@@ -113,7 +113,6 @@ def parse_annotation(annotation: dict):
         else:
             raise ValueError("无效注解: 如果指定了 consumer_endpoint，必须指定 consumer_method")
 
-    # 获取消费者参数
     consumer_parameter = None
     if "consumer_param" in keys:
         str_consumer_param = annotation.get("consumer_param")
@@ -124,7 +123,6 @@ def parse_annotation(annotation: dict):
             consumer_parameter = AnnotationResourceReference(resource_name=str_consumer_param,
                                                              resource_path=EmptyAccessPath)
 
-    # 获取生产者参数
     producer_parameter = None
     if "producer_resource_name" in keys:
         str_producer_parameter = annotation.get("producer_resource_name")
@@ -136,7 +134,6 @@ def parse_annotation(annotation: dict):
             producer_parameter = AnnotationResourceReference(resource_name=str_producer_parameter,
                                                              resource_path=EmptyAccessPath)
 
-    # 处理 except 子句
     except_consumer_id = None
     if "except" in keys:
         list_except = annotation.get("except")
@@ -205,7 +202,7 @@ def get_annotations_from_json(annotation_json: list[dict]) -> list[ProducerConsu
                 annotations.append(parsed_ann)
         return annotations
     except Exception as e:
-        print(f"错误: 注解格式不正确。{str(e)}")
+        print(f"Error: Annotation format is incorrect {str(e)}")
         raise e
 
 
@@ -222,12 +219,12 @@ def get_annotations_from_json(annotation_json: list[dict]) -> list[ProducerConsu
 # getAnnotationsFromOpenapiLinks
 def get_global_annotations_from_file(file_path):
     """
-    从指定文件中加载全局注解
+    Load global annotations from a specified file
 
-    @param file_path: 文件路径
+    @param file_path: file path
     @type  file_path： str
 
-    @return: 解析后的全局注解列表
+    @return: Parsed Global Annotation List
     @rtype: list[ProducerConsumerAnnotation]
     """
     if os.path.exists(file_path):
@@ -239,8 +236,8 @@ def get_global_annotations_from_file(file_path):
         if global_ann:
             return global_ann
         else:
-            print("错误: 无效的注解文件: 必须包含键 'x-compiler-global-annotations'")
-            raise ValueError("无效的注解文件")
+            print("Error: Invalid annotation file: It must include the key 'x-compiler-global-annotations'")
+            raise ValueError("Invalid annotation file")
     else:
         return []
 

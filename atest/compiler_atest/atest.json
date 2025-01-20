@@ -1,5 +1,5 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_dict.py",
   "skip_python": false,
   "validate_grammar": true,
@@ -63,17 +63,17 @@
     "test_array_example_data_fuzz_false": 0,
     "test_array_example_data_fuzz_true": 0,
     "test_customPayloadContentTypeSwagger_1": 0,
-    "test_customPayloadContentTypeSwagger_2": 2,
-    "test_customPayloadSwagger_1": 0,
+    "test_customPayloadContentTypeSwagger_2": 100,
+    "test_customPayloadSwagger_1": 100,
     "test_customPayloadSwagger_2": 0,
     "test_customPayloadSwagger_3": 0,
     "test_example_demo_1": 100,
-    "test_headers_with_dict": 0,
+    "test_headers_with_dict": 100,
     "test_maindict": 0,
     "test_example_demo_yaml_with_dict": 0,
     "test_multipleIdenticalUuidSuffix": 100,
     "test_no_param": 100,
-    "test_secgroup_example": 100,
+    "test_secgroup_example": 0,
     "test_simple_swagger_all_param_types": 0
   },
 
@@ -86,8 +86,8 @@
 
   "test_annotation": {
     "test_array_example_dynamic_object": 100,
-    "test_header_deps": 2,
-    "test_ordering_test": 100,
+    "test_header_deps": 100,
+    "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,
     "test_same_body_dep": 100,

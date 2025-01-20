@@ -36,6 +36,7 @@ from compiler.grammar import (
 
 from restler.utils import restler_logger as logger
 from compiler.config import ConfigSetting, UninitializedError
+from compiler.access_paths import try_get_access_path_from_string
 
 TAB = "\t"
 RETURN = "\r\n"
@@ -1162,6 +1163,7 @@ def get_merged_static_string_seq(str_list: list[str]):
 # generatePythonFromRequestElement
 def generate_python_from_request_element(request_element,
                                          request_id: RequestId) -> [RequestPrimitiveType]:
+    global len
     logger.write_to_main(f"request_element={request_element}", ConfigSetting().LogConfig.code_generate)
     if request_element[0] == RequestElementType.Method:
         return [RequestPrimitiveType.static_string_constant(value=f"{str(request_element[1]).upper()}{SPACE}")]
@@ -1306,56 +1308,110 @@ def generate_python_from_request_element(request_element,
             # Handle ordering constraint variables
             ordering_constraint_variable_statements = [
                 generate_writer_statement(DynamicObjectNaming.generate_ordering_constraint_variable_name(
-                    constraint_variable.source_request_id, constraint_variable.target_request_id, "_"))
+                    constraint_variable.source_request_id,
+                    constraint_variable.target_request_id, "_"))
                 for constraint_variable in request_element[1].ordering_constraint_writer_variables
             ]
             all_writer_variable_statements.extend(ordering_constraint_variable_statements)
 
             # Reader variables
             reader_variables_list = [
-                generate_reader_statement(DynamicObjectNaming.generate_dynamic_object_variable_name(
-                    constraint_variable.source_request_id, constraint_variable.target_request_id, "_"))
+                generate_reader_statement(DynamicObjectNaming.generate_ordering_constraint_variable_name(
+                    constraint_variable.source_request_id,
+                    constraint_variable.target_request_id, "_"))
                 for constraint_variable in request_element[1].ordering_constraint_reader_variables
             ]
 
             # Prepare output
-            pre_send_element = ""
             primitive_element = []
-            if reader_variables_list and len(reader_variables_list) > 0:
+            if len(reader_variables_list) > 0 and len(all_writer_variable_statements) > 0:
                 pre_send_element = """
-'pre_send':
+        'pre_send':
         {
             'dependencies':
             [
                 %s
             ]
         }
-""" % "".join([' ' + stmt for stmt in reader_variables_list]) + "\n ]\n},"
-                # primitive_element = [RequestPrimitiveType.response_parser(f"{pre_send_element}")]
+""" % "".join([' ' + stmt for stmt in reader_variables_list])
+                if parser_statement != "":
+                    post_send_element = """
+        'post_send':
+        {
+            'parser': %s
+            'dependencies':
+            [
+                %s
+            ]
+        }
+    """ % (parser_statement, f",\n{SPACE_20}".join([stmt for stmt in all_writer_variable_statements]))
+                else:
+                    post_send_element = """
+        'post_send':
+        {
+            
+            'dependencies':
+            [
+                %s
+            ]
+        }
+    """ % (f",\n{SPACE_20}".join([stmt for stmt in all_writer_variable_statements]))
+                response_parser_element = """{
+        %s,
+        %s
+    },\n""" % (pre_send_element, post_send_element)
+                primitive_element = primitive_element + [RequestPrimitiveType.response_parser(response_parser_element)]
                 logger.write_to_main(f"pre_send_element={pre_send_element}", ConfigSetting().LogConfig.code_generate)
-
-            post_send_element = ""
-            if all_writer_variable_statements:
-                post_send_element = """{
+            elif len(reader_variables_list) > 0 or len(all_writer_variable_statements) > 0:
+                if len(reader_variables_list) > 0:
+                    pre_send_element = """{
+                
+        'pre_send':
+        {
+            'dependencies':
+            [
+                %s
+            ]
+        }
+        
+    },
+""" % "".join([' ' + stmt for stmt in reader_variables_list])
+                    primitive_element = primitive_element + [RequestPrimitiveType.response_parser(pre_send_element)]
+                    logger.write_to_main(f"pre_send_element={pre_send_element}", ConfigSetting().LogConfig.code_generate)
+                if len(all_writer_variable_statements) > 0:
+                    if parser_statement != "":
+                        post_send_element = """{
 
         'post_send':
-            {
-                'parser': %s
-                'dependencies':
-                    [
-                        %s
-                    ]
-            }
+        {
+            'parser': %s
+            'dependencies':
+            [
+                %s
+            ]
+        }
 
     },
     """ % (parser_statement, f",\n{SPACE_20}".join([stmt for stmt in all_writer_variable_statements]))
+                    else:
+                        post_send_element = """{
+
+        'post_send':
+        {
+            
+            'dependencies':
+            [
+                %s
+            ]
+        }
+
+    },
+    """ % (f",\n{SPACE_20}".join([stmt for stmt in all_writer_variable_statements]))
                 # post_send_element, _ = quote_string_for_python_grammar(post_send_element)
                 # post_send_element = "".join([stmt for stmt in all_writer_variable_statements])
-                primitive_element = primitive_element + [RequestPrimitiveType.response_parser(post_send_element)]
-                logger.write_to_main(f"post_send_element={post_send_element}", ConfigSetting().LogConfig.code_generate)
-
+                    primitive_element = primitive_element + [RequestPrimitiveType.response_parser(post_send_element)]
+                    logger.write_to_main(f"post_send_element={post_send_element}", ConfigSetting().LogConfig.code_generate)
             return primitive_element
-            # [ResponseParser(writer_variables=pre_send_element, header_writer_variables=post_send_element)]
         else:
             return []
 
@@ -1436,6 +1492,7 @@ def get_response_parsers(requests: List[Request]):
     dynamic_objects_from_headers = []
     dynamic_objects_from_input = []
     dynamic_objects_from_ordering_constraints = []
+    dynamic_object_variables = []
     for rp in response_parsers:
         variables = get_dynamic_object_definitions(rp.writer_variables)
 
@@ -1458,12 +1515,16 @@ def get_response_parsers(requests: List[Request]):
         variables = get_ordering_constraint_dynamic_object_definitions(d.ordering_constraint_writer_variables)
         for item in variables:
             if item is not None:
-                dynamic_objects_from_input.append((PythonGrammarElementType.DynamicObjectDefinition, item))
-        variables = get_ordering_constraint_dynamic_object_definitions(d.ordering_constraint_writer_variables)
+                if item not in dynamic_object_variables:
+                    dynamic_object_variables.append(item)
+                    dynamic_objects_from_input.append((PythonGrammarElementType.DynamicObjectDefinition, item))
+        variables = get_ordering_constraint_dynamic_object_definitions(d.ordering_constraint_reader_variables)
         for item in variables:
             if item is not None:
-                dynamic_objects_from_ordering_constraints.append(
-                    (PythonGrammarElementType.DynamicObjectDefinition, item))
+                if item not in dynamic_object_variables:
+                    dynamic_object_variables.append(item)
+                    dynamic_objects_from_ordering_constraints.append(
+                        (PythonGrammarElementType.DynamicObjectDefinition, item))
 
     dynamic_objects_from_body = list(dynamic_objects_from_body)
     dynamic_objects_from_headers = list(dynamic_objects_from_headers)

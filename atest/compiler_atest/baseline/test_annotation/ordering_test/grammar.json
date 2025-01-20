@@ -1,0 +1,246 @@
+{
+  "Requests": [
+    {
+      "id": {
+        "endpoint": "/products",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "products"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [],
+        "orderingConstraintReaderVariables": [
+          {
+            "sourceRequestId": {
+              "endpoint": "/managementTools",
+              "method": "Get"
+            },
+            "targetRequestId": {
+              "endpoint": "/products",
+              "method": "Get"
+            }
+          }
+        ]
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/services",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "services"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [
+          {
+            "sourceRequestId": {
+              "endpoint": "/services",
+              "method": "Get"
+            },
+            "targetRequestId": {
+              "endpoint": "/managementTools",
+              "method": "Get"
+            }
+          }
+        ],
+        "orderingConstraintReaderVariables": []
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
+        "endpoint": "/managementTools",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "managementTools"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "dependencyData": {
+        "inputWriterVariables": [],
+        "orderingConstraintWriterVariables": [
+          {
+            "sourceRequestId": {
+              "endpoint": "/managementTools",
+              "method": "Get"
+            },
+            "targetRequestId": {
+              "endpoint": "/products",
+              "method": "Get"
+            }
+          }
+        ],
+        "orderingConstraintReaderVariables": [
+          {
+            "sourceRequestId": {
+              "endpoint": "/services",
+              "method": "Get"
+            },
+            "targetRequestId": {
+              "endpoint": "/managementTools",
+              "method": "Get"
+            }
+          }
+        ]
+      },
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    }
+  ]
+}

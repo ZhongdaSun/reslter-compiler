@@ -866,6 +866,12 @@ class OrderingConstraintVariable:
         self.source_request_id = source_request_id
         self.target_request_id = target_request_id
 
+    def __dict__(self):
+        return {
+            "sourceRequestId": self.source_request_id.__dict__(),
+            "targetRequestId": self.target_request_id.__dict__()
+        }
+
 
 # Information needed to generate a response parser
 class ResponseParser:
@@ -935,11 +941,23 @@ class RequestDependencyData:
         for item in self.input_writer_variables:
             input_writer.append(item.__dict__())
             logger.write_to_main(f"{input_writer}", ConfigSetting().LogConfig.grammar)
-        dict_value = {"responseParser": self.response_parser.__dict__(),
-                      "inputWriterVariables": input_writer,
-                      "orderingConstraintWriterVariables": self.ordering_constraint_writer_variables,
-                      "orderingConstraintReaderVariables": self.ordering_constraint_reader_variables}
-        return dict_value
+        if self.response_parser is not None:
+
+            return {"responseParser": self.response_parser.__dict__(),
+                    "inputWriterVariables": input_writer,
+                    "orderingConstraintWriterVariables": [item.__dict__()
+                                                          for item in self.ordering_constraint_writer_variables],
+                    "orderingConstraintReaderVariables": [item.__dict__()
+                                                          for item in self.ordering_constraint_reader_variables]
+                    }
+        else:
+            return {
+                "inputWriterVariables": input_writer,
+                "orderingConstraintWriterVariables": [item.__dict__()
+                                                      for item in self.ordering_constraint_writer_variables],
+                "orderingConstraintReaderVariables": [item.__dict__()
+                                                      for item in self.ordering_constraint_reader_variables]
+            }
 
 
 class RequestElementType(enum.Enum):
@@ -1089,7 +1107,8 @@ class Request:
         if ConfigSetting().UseHeaderExamples:
             if ((ConfigSetting().UseQueryExamples or ConfigSetting().UseBodyExamples) and self.id.has_example
                     or ((not ConfigSetting().UseQueryExamples and not ConfigSetting().UseBodyExamples)
-                        and (ConfigSetting().ExampleConfigFilePath is not None or len(ConfigSetting().ExampleConfigFiles) > 0))):
+                        and (ConfigSetting().ExampleConfigFilePath is not None or len(
+                                ConfigSetting().ExampleConfigFiles) > 0))):
                 param_examples = dict()
                 param_examples["ParameterList"] = examples_dict_list
                 return_value.append(("Examples", param_examples))
@@ -1179,7 +1198,6 @@ class DynamicObjectNaming:
         target_endpoint_parts = re.split('|'.join(map(re.escape, DynamicObjectNaming.ReplaceTargets)),
                                          target_request_id.endpoint)
 
-        # 找到共同部分
         common_parts = []
         distinct_source_parts = []
         distinct_target_parts = []
@@ -1188,13 +1206,13 @@ class DynamicObjectNaming:
 
         for x, y in zipped:
             if x == y:
-                common_parts.append(x)
+                if x != "" and y != "":
+                    common_parts.append(x)
             else:
                 distinct_source_parts.append(x)
                 distinct_target_parts.append(y)
 
-        # 拼接结果
-        result = ["__ordering__"] + common_parts + distinct_source_parts + distinct_target_parts
+        result = ["__ordering___"] + common_parts + distinct_source_parts + distinct_target_parts
         return delimiter.join(result)
 
     @staticmethod
