@@ -113,10 +113,10 @@ class TestDict(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_no_param"))
-    def test_no_param(self):
+        DebugConfig().get_cases_config(module_name, "test_no_params"))
+    def test_no_params(self):
         result, msg = compile_spec(module_name,
-                                   'no_param', [], "")
+                                   'no_params', [], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(

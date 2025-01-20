@@ -72,7 +72,7 @@
     "test_maindict": 0,
     "test_example_demo_yaml": 0,
     "test_multipleIdenticalUuidSuffix": 100,
-    "test_no_param": 100,
+    "test_no_params": 0,
     "test_secgroup_example": 0,
     "test_simple_swagger_all_param_types": 0
   },
@@ -90,7 +90,7 @@
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,
-    "test_same_body_dep": 100,
+    "test_same_body_dep": 2,
     "test_simple_crud_api": 0,
     "test_simple_api_soft_delete": 100
   },
