@@ -148,7 +148,7 @@ def get_writer_variable(producer: Producer,
     elif isinstance(producer, ResponseProducer):
         rp = producer
         if isinstance(producer.resource_reference, HeaderResource):
-            access_path_parts = AccessPath([rp.resource_reference, "header"])  # handle ambiguity with body
+            access_path_parts = AccessPath([rp.resource_reference.name, "header"])  # handle ambiguity with body
         else:
             access_path_parts = rp.access_path_parts
         primitive_type = rp.primitive_type

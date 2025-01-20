@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_annotation.py",
   "skip_python": false,
   "validate_grammar": true,
@@ -50,7 +50,7 @@
     "test_path_annotation": 0,
     "test_simple_api_soft_delete": 100,
     "test_ordering_test": 0,
-    "test_response_headers": 100,
+    "test_response_headers": 928,
     "test_same_body_dep": 0,
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
@@ -89,7 +89,7 @@
     "test_header_deps": 0,
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
-    "test_response_headers": 100,
+    "test_response_headers": 2,
     "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
     "test_simple_api_soft_delete": 100

@@ -1494,22 +1494,23 @@ def get_response_parsers(requests: List[Request]):
     dynamic_objects_from_ordering_constraints = []
     dynamic_object_variables = []
     for rp in response_parsers:
-        variables = get_dynamic_object_definitions(rp.writer_variables)
+        if len(rp.writer_variables) > 0:
+            variables = get_dynamic_object_definitions(rp.writer_variables)
 
-        for item in variables:
-            if item is not None:
-                # fix issue: duplicate the dependencies issue
-                found = False
-                for definition, target_item in dynamic_objects_from_body:
-                    if target_item == item:
-                        found = True
-                if not found:
-                    dynamic_objects_from_body.append((PythonGrammarElementType.DynamicObjectDefinition, item))
-
-        variables = get_dynamic_object_definitions(rp.header_writer_variables)
-        for item in variables:
-            if item is not None:
-                dynamic_objects_from_headers.append((PythonGrammarElementType.DynamicObjectDefinition, item))
+            for item in variables:
+                if item is not None:
+                    # fix issue: duplicate the dependencies issue
+                    found = False
+                    for definition, target_item in dynamic_objects_from_body:
+                        if target_item == item:
+                            found = True
+                    if not found:
+                        dynamic_objects_from_body.append((PythonGrammarElementType.DynamicObjectDefinition, item))
+        if len(rp.header_writer_variables) > 0:
+            variables = get_dynamic_object_definitions(rp.header_writer_variables)
+            for item in variables:
+                if item is not None:
+                    dynamic_objects_from_headers.append((PythonGrammarElementType.DynamicObjectDefinition, item))
 
     for d in dependency_data:
         variables = get_ordering_constraint_dynamic_object_definitions(d.ordering_constraint_writer_variables)
@@ -1535,9 +1536,14 @@ def get_response_parsers(requests: List[Request]):
     # STOPPED HERE:
     # also do 'if true' for header parsing and body parsing where 'true' is
     # if there are actually variables to parse out of there.
-    def format_parser_function(parser, index):
-        function_name = NameGenerators.generate_producer_endpoint_response_parser_function_name(
-            parser.writer_variables[0].request_id)
+    def format_parser_function(parser, index_func):
+        function_name = ""
+        if len(parser.writer_variables) > 0:
+            function_name = NameGenerators.generate_producer_endpoint_response_parser_function_name(
+                parser.writer_variables[0].request_id)
+        elif len(parser.header_writer_variables) > 0:
+            function_name = NameGenerators.generate_producer_endpoint_response_parser_function_name(
+                parser.header_writer_variables[0].request_id)
 
         # getResponseParsers
         def get_response_parsing_statements(writer_variables, variable_kind: DynamicObjectVariableKind):
@@ -1549,12 +1555,17 @@ def get_response_parsers(requests: List[Request]):
                     w.request_id, access_path, "_")
                 temp_variable_name = f"temp_{random.randint(1000, 9999)}"
                 empty_init_statement = f"{temp_variable_name} = None"
-
-                data_source = "data" if variable_kind == DynamicObjectVariableKind.BodyResponsePropertyKind \
-                    else DynamicObjectVariableKind.HeaderKind
-                extract_data = "".join(
-                    [f'["{part}"]' if not part.startswith("[") else "[0]" for part in access_path.path])
-                parsing_statement = f"{temp_variable_name} = str({data_source}{extract_data})"
+                parsing_statement = ""
+                if variable_kind == DynamicObjectVariableKind.BodyResponsePropertyKind:
+                    data_source = "data"
+                    extract_data = "".join(
+                        [f'["{part}"]' if not part.startswith("[") else "[0]" for part in access_path.path])
+                    parsing_statement = f"{temp_variable_name} = str({data_source}{extract_data})"
+                elif variable_kind == DynamicObjectVariableKind.HeaderKind:
+                    data_source = access_path.path[-1]
+                    extract_data = "".join(
+                        [f'["{part}"]' if not part.startswith("[") else "[0]" for part in access_path.path[0:-1]])
+                    parsing_statement = f"{temp_variable_name} = str(headers{extract_data})"
 
                 init_check = f"if {temp_variable_name}:"
                 init_statement = f"dependencies.set_variable(\"{dynamic_variable_name}\", {temp_variable_name})"
@@ -1573,7 +1584,7 @@ def get_response_parsers(requests: List[Request]):
             {boolean_conversion_statement or ""}
         except Exception as error:
             # This is not an error, since some properties are not always returned
-            pass\n\n
+            pass
         """
 
         response_body_parsing_statements = get_response_parsing_statements(
@@ -1581,9 +1592,9 @@ def get_response_parsers(requests: List[Request]):
         response_header_parsing_statements = get_response_parsing_statements(
             parser.header_writer_variables, variable_kind=DynamicObjectVariableKind.HeaderKind)
 
-        body_parsing_statements = "".join(parsing_statement_with_try_except(ps[1], ps[5])
+        body_parsing_statements = "\n\n".join(parsing_statement_with_try_except(ps[1], ps[5])
                                           for ps in response_body_parsing_statements)
-        header_parsing_statements = "\n".join(parsing_statement_with_try_except(ps[1], ps[5])
+        header_parsing_statements = "".join(parsing_statement_with_try_except(ps[1], ps[5])
                                               for ps in response_header_parsing_statements)
 
         if len(response_body_parsing_statements + response_header_parsing_statements) == 1:
@@ -1594,12 +1605,17 @@ def get_response_parsers(requests: List[Request]):
                 ps[4] for ps in response_body_parsing_statements + response_header_parsing_statements) + "):"
 
         header_parser_info = """
-    # Header parsing
     if headers:
         # Try to extract dynamic objects from headers
-%s
-        pass
-        """ % header_parsing_statements
+        
+        %s
+        pass""" % header_parsing_statements
+
+        data_parser_info = """
+        try:
+            data = json.loads(data)
+        except Exception as error:
+            raise ResponseParsingException("Exception parsing response, data was not valid json: {}".format(error))"""
 
         function_definition = f"""
 def {function_name}(data, **kwargs):
@@ -1613,16 +1629,14 @@ def {function_name}(data, **kwargs):
 
     # Parse body if needed
     if data:
-
-        try:
-            data = json.loads(data)
-        except Exception as error:
-            raise ResponseParsingException("Exception parsing response, data was not valid json: {BRACE}".format(error))
+        {data_parser_info if len(response_body_parsing_statements) > 0 else ""}
         pass
 
     # Try to extract each dynamic object
-
-        {body_parsing_statements}{header_parser_info if len(response_header_parsing_statements) > 0 else ""}
+    
+        {body_parsing_statements if len(response_body_parsing_statements) > 0 else ""}
+    {header_parser_info if len(response_header_parsing_statements) > 0 else ""}
+    
     # If no dynamic objects were extracted, throw.
     {body_parser_info}
         raise ResponseParsingException("Error: all of the expected dynamic objects were not present in the response.")

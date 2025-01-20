@@ -1911,7 +1911,7 @@ class DependencyLookup:
             elif isinstance(producer, ResponseProducer):
                 if isinstance(producer.resource_reference, HeaderResource):
                     hr = producer.resource_reference
-                    access_path = AccessPath(path=[hr, "header"])
+                    access_path = AccessPath(path=[hr.name, "header"])
                     variable_name = DynamicObjectNaming.generate_dynamic_object_variable_name(
                         producer.request_id, access_path, "_")
                 else:
