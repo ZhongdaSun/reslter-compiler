@@ -1069,5 +1069,13 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
 
             else:
                 child = getattr(schema, schema.get_private_name("schema"))
-                return generate_grammar_element(child, example_value, parents)
+                return process_property(swagger_doc=swagger_doc,
+                                        property_name="",
+                                        property_schema=child,
+                                        property_payload_example_value=example_value,
+                                        generate_fuzzable_payload=generate_fuzzable_payloads_for_examples,
+                                        track_parameters=track_parameters,
+                                        parents=parents,
+                                        schema_cache=schema_cache,
+                                        cont=id)
 

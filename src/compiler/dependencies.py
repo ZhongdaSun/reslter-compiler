@@ -1627,23 +1627,26 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                 resource_name = ap.name
                 producers.add_response_producer(resource_name, producer)
         # Add the header name as a producer only
-        for header in request_data.response_headers:
-            resource_name = header[0]
-            header_payload = header[1]
-            if isinstance(header_payload, LeafNode):
-                primitive_type = get_payload_primitive_type(header_payload.leaf_property.payload)
-            elif isinstance(header_payload, InternalNode):
-                primitive_type = PrimitiveType.Object
-            else:
-                primitive_type = PrimitiveType.Unknown
+        if request_data.response_headers is not None and isinstance(request_data.response_headers, InternalNode):
+            leaf_properties = request_data.response_headers.leaf_properties
+            for item in leaf_properties:
+                resource_name = ""
+                header_payload = None
+                if isinstance(item, LeafNode):
+                    resource_name = item.leaf_property.name
+                    primitive_type = get_payload_primitive_type(item.leaf_property.payload)
+                elif isinstance(header_payload, InternalNode):
+                    primitive_type = PrimitiveType.Object
+                else:
+                    primitive_type = PrimitiveType.Unknown
 
-            producer = create_header_response_producer(
-                request_id=request_id,
-                header_parameter_name=resource_name,
-                naming_convention=naming_convention,
-                primitive_type=primitive_type
-            )
-            producers.add_response_producer(resource_name, producer)
+                producer = create_header_response_producer(
+                    request_id=request_id,
+                    header_parameter_name=resource_name,
+                    naming_convention=naming_convention,
+                    primitive_type=primitive_type
+                )
+                producers.add_response_producer(resource_name, producer)
 
         # Also check for input-only producers that should be added for this request.
         # At this time, only producers specified in annotations are supported.

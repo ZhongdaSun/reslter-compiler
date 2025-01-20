@@ -131,6 +131,7 @@ class HeaderContext(Context):
 
     __swagger_child__ = {
         'items': (None, ItemsContext),
+        'schema': (None, SchemaContext),
     }
     __swagger_ref_object__ = Header
 
@@ -141,7 +142,7 @@ class ResponseContext(Context):
 
     __swagger_child__ = {
         'schema': (None, SchemaContext),
-        'headers': (None, HeaderContext),
+        'headers': (ContainerType.dict_, HeaderContext),
     }
     __swagger_ref_object__ = Response
 

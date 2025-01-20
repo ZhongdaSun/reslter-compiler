@@ -1,6 +1,6 @@
 {
   "debug_mode": false,
-  "debug_file": "test_dict.py",
+  "debug_file": "test_annotation.py",
   "skip_python": false,
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -85,8 +85,8 @@
   },
 
   "test_annotation": {
-    "test_array_example_dynamic_object": 100,
-    "test_header_deps": 100,
+    "test_array_example_dynamic_object": 928,
+    "test_header_deps": 0,
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 100,

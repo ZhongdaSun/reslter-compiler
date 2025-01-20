@@ -850,7 +850,7 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
     # Filter out any parameters that are request-specific and refer to a different request
     excluded_request_specific_parameters = \
         [name for name in parameters_specified_as_custom_payloads
-         if not is_request_specific_name(name)]
+         if is_request_specific_name(name) and not name.startswith(prefix)]
 
     # Filter out the spec parameters
     # Filter out Content-Type, because this is handled separately later, in order to
@@ -1478,8 +1478,10 @@ def get_request_data(swagger_doc: SwaggerDoc,
                                                                             [],
                                                                             SchemaCache(),
                                                                             None))
+                                    if isinstance(header_schema, LeafNode):
+                                        header_schema.leaf_property.name = key
                                     header_response_schema.append(header_schema)
-                                    # todo NestedType
+                                # todo NestedType
                                 header_response = InternalNode(
                                     inner_property=InnerProperty(name="",
                                                                  payload=None,

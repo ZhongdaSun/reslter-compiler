@@ -187,7 +187,8 @@ class Parameter(six.with_metaclass(FieldMeta, BaseSchema)):
     def _prim_(self, v, prim_factory, ctx=None):
         logger.write_to_main("enter parameter __prim__")
         i = getattr(self, 'in')
-        return prim_factory.produce(self.schema, v, ctx) if i == 'body' else prim_factory.produce(self, v, ctx)
+        schema = getattr(self, 'schema')
+        return prim_factory.produce(schema, v, ctx) if i == 'body' else prim_factory.produce(self, v, ctx)
 
 
 class Header(six.with_metaclass(FieldMeta, BaseSchema)):
@@ -213,7 +214,7 @@ class Response(six.with_metaclass(FieldMeta, BaseObj_v2_0)):
         '$ref': None,
 
         'schema': None,
-        'headers': None,
+        'headers': {},
         'type': None,
         'description': None,
         'examples': None,
