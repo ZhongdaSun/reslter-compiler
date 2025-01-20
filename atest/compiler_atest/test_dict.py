@@ -78,24 +78,24 @@ class TestDict(unittest.TestCase):
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_example_demo_1"))
-    def test_example_demo_1(self):
+        DebugConfig().get_cases_config(module_name, "test_example_demo"))
+    def test_example_demo(self):
         result, msg = compile_spec(module_name,
-                                   'example_demo_1', [], "")
+                                   'example_demo', [], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_example_demo_yaml_with_dict"))
-    def test_example_demo_yaml_with_dict(self):
+        DebugConfig().get_cases_config(module_name, "test_example_demo_yaml"))
+    def test_example_demo_yaml(self):
         result, msg = compile_spec(module_name,
-                                   'example_demo_yaml_with_dict', [], "")
+                                   'example_demo_yaml', [], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_headers_with_dict"))
-    def test_headers_with_dict(self):
+        DebugConfig().get_cases_config(module_name, "test_headers"))
+    def test_headers(self):
         result, msg = compile_spec(module_name,
-                                   'headers_with_dict', [], "")
+                                   'headers', [], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
