@@ -403,10 +403,10 @@ def get_type_words(name: str, naming_convention: Optional[NamingConvention] = No
     :return: A list of words obtained from the input string.
     :raises ValueError: If the naming convention cannot be determined or if the name is invalid.
     """
-    if not isinstance(name, str):
-        raise TypeError("Input name must be a string.")
     if not name:
         return []
+    if not isinstance(name, str):
+        raise TypeError("Input name must be a string.")
 
     # Infer the naming convention if not provided
     type_naming_convention = naming_convention or get_convention(name)

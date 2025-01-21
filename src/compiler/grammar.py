@@ -522,7 +522,8 @@ class ProducerConsumerAnnotation:
     def __dict__(self):
         dict_value = {
             "producerId": self.producer_id.__dict__(),
-            "producerParameter": self.producer_parameter.__dict__()}
+            "producerParameter": self.producer_parameter.__dict__() if self.producer_parameter is not None else ""
+        }
         if self.consumer_parameter is not None:
             dict_value["consumerParameter"] = self.consumer_parameter.__dict__()
         return dict_value

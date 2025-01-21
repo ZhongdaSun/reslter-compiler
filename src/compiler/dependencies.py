@@ -680,7 +680,8 @@ def find_producer_with_resource_name(producers: Producers,
                                          ConfigSetting().LogConfig.dependencies or
                                          ConfigSetting().LogConfig.log_find_producer_with_resource_name)
                     if producer_parameter.resource_path is EmptyAccessPath:
-                        resource_name = "/".join(rp.access_path_parts.path) if rp.access_path is not None else ""
+                        resource_name = "/".join(rp.access_path_parts.path) \
+                            if rp.access_path is not None else rp.resource_name
                         logger.write_to_main(f"resource_name={resource_name}\n"
                                              f"resource_name={ann.producer_parameter.resource_name}",
                                              ConfigSetting().LogConfig.dependencies or
@@ -689,7 +690,8 @@ def find_producer_with_resource_name(producers: Producers,
                             annotation_response_producer = rp
                     else:
                         logger.write_to_main(f"rp.access_path_parts={rp.access_path_parts}\n"
-                                             f"ann.producer_parameter.resource_path={ann.producer_parameter.resource_path}",
+                                             f"ann.producer_parameter.resource_path="
+                                             f"{ann.producer_parameter.resource_path}",
                                              ConfigSetting().LogConfig.dependencies or
                                              ConfigSetting().LogConfig.log_find_producer_with_resource_name)
                         if producer_parameter.resource_path == rp.access_path_parts:
@@ -1635,6 +1637,8 @@ def extract_dependencies(request_data_list: list[(RequestId, RequestData)],
                 if isinstance(item, LeafNode):
                     resource_name = item.leaf_property.name
                     primitive_type = get_payload_primitive_type(item.leaf_property.payload)
+                    # todo test_response_headers in test_annotation. need more investigate
+                    # primitive_type = PrimitiveType.Object
                 elif isinstance(header_payload, InternalNode):
                     primitive_type = PrimitiveType.Object
                 else:

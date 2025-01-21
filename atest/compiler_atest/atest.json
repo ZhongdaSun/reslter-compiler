@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_dict.py",
+  "debug_file": "test_annotation.py",
   "skip_python": false,
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -64,7 +64,7 @@
     "test_array_example_data_fuzz_true": 0,
     "test_customPayloadContentTypeSwagger_1": 0,
     "test_customPayloadContentTypeSwagger_2": 100,
-    "test_customPayloadSwagger_1": 100,
+    "test_customPayloadSwagger_1": 0,
     "test_customPayloadSwagger_2": 0,
     "test_customPayloadSwagger_3": 0,
     "test_example_demo": 0,
@@ -89,8 +89,8 @@
     "test_header_deps": 0,
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
-    "test_response_headers": 100,
-    "test_same_body_dep": 2,
+    "test_response_headers": 928,
+    "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
     "test_simple_api_soft_delete": 100
   },
