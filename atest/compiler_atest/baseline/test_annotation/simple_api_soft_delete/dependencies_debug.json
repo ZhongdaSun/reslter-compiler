@@ -1,0 +1,237 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/app/{appId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "appId",
+            "pathToParameter": [
+              "app"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "app",
+        "PathContainerName": "app",
+        "CandidateTypeNames": [
+          "app"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "appId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/app/{appId}",
+              "method": "Put"
+            },
+            "ResourceReference": {
+              "PathResource": {
+                "name": "appId",
+                "pathToParameter": [
+                  "app"
+                ],
+                "responsePath": {
+                  "path": []
+                }
+              }
+            },
+            "ContainerName": "app",
+            "PathContainerName": "app",
+            "CandidateTypeNames": [
+              "app"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "appId",
+            "ProducerParameterName": "id",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Path"
+        },
+        {
+          "payloadType": "UuidSuffix",
+          "primitiveType": "String",
+          "name": "appId",
+          "isObject": false
+        },
+        true
+      ]
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/app/{appId}",
+          "method": "Delete"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "appId",
+            "pathToParameter": [
+              "app"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "app",
+        "PathContainerName": "app",
+        "CandidateTypeNames": [
+          "app"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "appId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/app/{appId}",
+            "method": "Put"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "app",
+          "PathContainerName": "app",
+          "CandidateTypeNames": [
+            "app"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/data/deletedApps/{appId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "appId",
+            "pathToParameter": [
+              "data",
+              "deletedApps"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "deletedApps",
+        "PathContainerName": "deletedApps",
+        "CandidateTypeNames": [
+          "deleted__app"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "appId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Path",
+      "annotation": {
+        "producerId": {
+          "endpoint": "/app/{appId}",
+          "method": "Put"
+        },
+        "consumerId": {
+          "endpoint": "/data/deletedApps/{appId}",
+          "method": "Get"
+        },
+        "producerParameter": {
+          "ResourceName": "appId"
+        },
+        "consumerParameter": {
+          "ResourceName": "appId"
+        }
+      }
+    },
+    "producer": {
+      "InputParameter": [
+        {
+          "id": {
+            "RequestId": {
+              "endpoint": "/app/{appId}",
+              "method": "Put"
+            },
+            "ResourceReference": {
+              "PathResource": {
+                "name": "appId",
+                "pathToParameter": [
+                  "app"
+                ],
+                "responsePath": {
+                  "path": []
+                }
+              }
+            },
+            "ContainerName": "app",
+            "PathContainerName": "app",
+            "CandidateTypeNames": [
+              "app"
+            ],
+            "AccessPathParts": {
+              "path": []
+            },
+            "ResourceName": "appId",
+            "ProducerParameterName": "id",
+            "IsNestedBodyResource": false,
+            "PrimitiveType": "String"
+          },
+          "parameterKind": "Path"
+        },
+        null,
+        false
+      ]
+    }
+  }
+]

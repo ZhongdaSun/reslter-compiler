@@ -1,0 +1,36 @@
+{
+  "/app/{appId}": {
+    "DELETE": {
+      "Path": [
+        {
+          "producer_endpoint": "/app/{appId}",
+          "producer_method": "PUT",
+          "producer_resource_name": "id",
+          "consumer_param": "appId"
+        }
+      ]
+    },
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "/app/{appId}",
+          "producer_method": "PUT",
+          "producer_resource_name": "appId",
+          "consumer_param": "appId"
+        }
+      ]
+    }
+  },
+  "/data/deletedApps/{appId}": {
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/app/{appId}",
+          "producer_method": "PUT",
+          "producer_resource_name": "appId",
+          "consumer_param": "appId"
+        }
+      ]
+    }
+  }
+}
