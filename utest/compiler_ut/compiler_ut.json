@@ -1,5 +1,5 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_example.py",
   "openapi_2.0": false,
   "openapi_3.0": false,

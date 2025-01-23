@@ -6,13 +6,13 @@ import random
 import difflib
 from deepdiff import DeepDiff
 
-from compiler.workflow import generate_restler_grammar, Constants
-from restler.restler import execute_restler
-from restler.restler import ExecuteParam
-from compiler.config import Config
-from restler.utils import restler_logger as logger
+from rest.compiler.workflow import generate_restler_grammar, Constants
+from rest.restler.restler import execute_restler
+from rest.restler.restler import ExecuteParam
+from rest.compiler.config import Config
+from rest.restler.utils import restler_logger as logger
 
-from compiler.utilities import JsonSerialization
+from rest.compiler.utilities import JsonSerialization
 
 Dict_Json = Constants.NewDictionaryFileName
 Dependencies_Json = Constants.DependenciesFileName

@@ -1,5 +1,5 @@
 {
-  "debug_mode": true,
+  "debug_mode": false,
   "debug_file": "test_annotation.py",
   "skip_python": false,
   "validate_grammar": true,
