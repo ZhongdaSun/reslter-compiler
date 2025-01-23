@@ -301,7 +301,7 @@ class MutationsDictionary:
             else:
                 raise ValueError("ParameterKind should be Query or Header in this context")
 
-            return None
+            return None, None
 
     # Note: per-endpoint dictionaries allow restricting a payload to a specific endpoint.
     def get_parameter_for_custom_payload(self, consumer_resource_name, access_path_parts, primitive_type,

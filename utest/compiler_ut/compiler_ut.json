@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_config.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
@@ -24,9 +24,9 @@
     },
   "test_dictionary": {
     "test_quoting_is_correct_in_the_grammar": 0,
-    "test_path_and_body_parameter_set_to_same_uuid_suffix_payload": 100,
+    "test_path_and_body_parameter_set_to_same_uuid_suffix_payload": 0,
     "test_custom_payload_query_and_header_is_correctly_injected_1": 0,
-    "test_custom_payload_query_and_header_is_correctly_injected_2": 100,
+    "test_custom_payload_query_and_header_is_correctly_injected_2": 0,
     "test_content_type_can_be_modified_via_custom_payload_header": 0,
     "test_generated_custom_value_generator_template_is_correct": 0,
     "test_date_format_is_preserved_after_deserialization_and_serialization": 0

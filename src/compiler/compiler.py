@@ -208,7 +208,7 @@ def get_response_parsers(dependencies: List[ProducerConsumerDependency],
                     response_parser=None,
                     input_writer_variables=[],
                     ordering_constraint_writer_variables=[item],
-                    ordering_constraint_reader_variables= ordering_writer.ordering_constraint_reader_variables
+                    ordering_constraint_reader_variables=ordering_writer.ordering_constraint_reader_variables
                 )
 
         if item.target_request_id.hex_hash not in parsers:
@@ -225,7 +225,7 @@ def get_response_parsers(dependencies: List[ProducerConsumerDependency],
                     response_parser=None,
                     input_writer_variables=[],
                     ordering_constraint_writer_variables=ordering_reader.ordering_constraint_reader_variables,
-                    ordering_constraint_reader_variables= [item]
+                    ordering_constraint_reader_variables=[item]
                 )
 
     # Step 3: Process dependencies with producers
@@ -617,6 +617,7 @@ class Parameters:
             return RequestParameter(name=parameter_name,
                                     payload=payload,
                                     serialization=Parameters.get_parameter_serialization(parameter))
+
         example_payloads = []
         print("Get Parameters")
         rest_of_payloads = []
@@ -829,11 +830,13 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
     """
     logger.write_to_main(f"spec_parameters={spec_parameters}", ConfigSetting().LogConfig.compiler)
 
-    def is_request_specific_name(name):
+    def is_request_specific_name(prefix, name):
         # Request-specific custom payloads are of the form <endpoint>/<method>/<parameter name>
-        return name.startswith('/') and any(
-            f"/{method.lower()}/" in name.lower() for method in SupportedOperationMethods)
-
+        if name.startswith(prefix):
+            return name.startswith('/') and any(
+                f"/{method.lower()}/" in name.lower() for method in SupportedOperationMethods)
+        else:
+            return False
 
     # Get the prefix for the request type payload
     prefix = get_request_type_payload_prefix(request_id.endpoint, request_id.method)
@@ -848,22 +851,23 @@ def get_injected_header_or_query_parameters(request_id: RequestId,
     else:
         raise ValueError(f"{custom_payload_type} is not supported in this context.")
     # Filter out any parameters that are request-specific and refer to a different request
-    excluded_request_specific_parameters = \
-        [name for name in parameters_specified_as_custom_payloads
-         if is_request_specific_name(name) and not name.startswith(prefix)]
+    # excluded_request_specific_parameters = \
+    #    [name for name in parameters_specified_as_custom_payloads
+    #     if is_request_specific_name(prefix, name)]
 
     # Filter out the spec parameters
     # Filter out Content-Type, because this is handled separately later, in order to
     # be able to fuzz or replace the content type Filter both the global content-type and the one for this specific
     # request.
     # Exclude Content-Type parameters (both global and request-specific)
-    excluded_content_type_parameter_names_in_custom_payload = [
-        "Content-Type",
-        get_request_type_payload_name(request_id.endpoint, request_id.method, "Content-Type")]
-
+    # excluded_content_type_parameter_names_in_custom_payload = [
+    #    "Content-Type",
+    #    get_request_type_payload_name(request_id.endpoint, request_id.method, "Content-Type")]
+    excluded_content_type_parameter_names_in_custom_payload = []
     # Combine excluded parameters and spec parameters
-    excluded_parameters = (spec_parameters + excluded_content_type_parameter_names_in_custom_payload +
-                           excluded_request_specific_parameters)
+    # excluded_parameters = (spec_parameters + excluded_content_type_parameter_names_in_custom_payload +
+    #                       excluded_request_specific_parameters)
+    excluded_parameters = (spec_parameters + excluded_content_type_parameter_names_in_custom_payload)
 
     injected_custom_payload_parameters = get_injected_custom_payload_parameters(dictionary,
                                                                                 custom_payload_type,
@@ -893,27 +897,38 @@ def get_content_type_header(request_parameters: RequestParameters,
 
         endpoint = request_id.endpoint if not request_id.xMsPath else request_id.xMsPath.get_endpoint()
 
-        found_custom_payload = dictionary.find_request_type_custom_payload(endpoint,
-                                                                           request_id.method,
-                                                                           content_type_header_name,
-                                                                           ParameterKind.Header)
+        payload_value, payload_type = dictionary.find_request_type_custom_payload(endpoint,
+                                                                                  request_id.method,
+                                                                                  content_type_header_name,
+                                                                                  ParameterKind.Header)
 
-        if found_custom_payload:
-            payload_value = found_custom_payload[0]
-            payload_type = found_custom_payload[1]
-            custom_payload_obj = CustomPayload(payload_type=payload_type,
-                                               primitive_type=PrimitiveType.String,
-                                               payload_value=payload_value,
-                                               is_object=False,
-                                               dynamic_object=None)
-            leaf_node = LeafNode(leaf_property=LeafProperty(name="",
-                                                            payload=custom_payload_obj,
-                                                            is_required=True,
-                                                            is_readonly=False))
-            request_param = [RequestParameter(name=content_type_header_name,
-                                              payload=leaf_node,
-                                              serialization=None)]
-            result.append((ParameterPayloadSource.DictionaryCustomPayload, ParameterList(request_param)))
+        if payload_value is not None and payload_type is not None:
+            if (payload_value == get_request_type_payload_name(endpoint, request_id.method, content_type_header_name)
+                    and payload_type == ParameterKind.Header):
+                custom_payload_obj = Constant(primitive_type=PrimitiveType.String,
+                                              variable_name="application/json")
+                leaf_node = LeafNode(leaf_property=LeafProperty(name="",
+                                                                payload=custom_payload_obj,
+                                                                is_required=True,
+                                                                is_readonly=False))
+                request_param = [RequestParameter(name=content_type_header_name,
+                                                  payload=leaf_node,
+                                                  serialization=None)]
+                result.append((ParameterPayloadSource.DictionaryCustomPayload, ParameterList(request_param)))
+            else:
+                custom_payload_obj = CustomPayload(payload_type=payload_type,
+                                                   primitive_type=PrimitiveType.String,
+                                                   payload_value=payload_value,
+                                                   is_object=False,
+                                                   dynamic_object=None)
+                leaf_node = LeafNode(leaf_property=LeafProperty(name="",
+                                                                payload=custom_payload_obj,
+                                                                is_required=True,
+                                                                is_readonly=False))
+                request_param = [RequestParameter(name=content_type_header_name,
+                                                  payload=leaf_node,
+                                                  serialization=None)]
+                result.append((ParameterPayloadSource.DictionaryCustomPayload, ParameterList(request_param)))
         else:
             custom_payload_obj = Constant(primitive_type=PrimitiveType.String,
                                           variable_name="application/json")
@@ -973,7 +988,7 @@ def generate_request_header_primitives(request_parameters: RequestParameters,
     else:
 
         def is_content_length_param(name):
-            return name == "Content-Length"
+            return False  # name == "Content-Length"
 
         result = []
         for payload_source, request_headers in request_parameters.header:
@@ -1613,7 +1628,6 @@ def generate_request_grammar(swagger_docs: list[SwaggerDoc],
                                                                 host,
                                                                 new_dictionary,
                                                                 request_data_item.request_metadata)
-        print(f"{new_dictionary.__dict__()}")
         logger.write_to_main(f"new_dictionary={new_dictionary.restler_custom_payload}",
                              ConfigSetting().LogConfig.compiler)
         grammar.add(primitive)
