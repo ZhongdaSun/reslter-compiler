@@ -16,7 +16,6 @@ from compiler.grammar import (
 from compiler.config import ConfigSetting
 from restler.utils import restler_logger as logger
 
-
 inflect_engine = inflect.engine()
 
 
@@ -348,7 +347,6 @@ def custom_singularize(word: str) -> str:
     return '-'.join(singularized_parts)
 
 
-
 # getConvention
 # Infer the naming convention.
 # The naming convention is inferred from the container if present.
@@ -422,6 +420,7 @@ def get_type_words(name: str, naming_convention: Optional[NamingConvention] = No
     # Split the name based on its convention
     name_regex_split = RegexSplitMap[type_naming_convention]
     return [word.lower() for word in name_regex_split.split(name) if word]
+
 
 # Gets the candidate type names for this resource, based on its container.
 # This function currently uses heuristics to infer a set of possible type names
@@ -556,8 +555,8 @@ class ApiResource:
                       }
         if self.body_container_name is not None:
             dict_value["BodyContainerName"] = self.body_container_name
-
-        dict_value["PathContainerName"] = self.path_container_name
+        if self.path_container_name:
+            dict_value["PathContainerName"] = self.path_container_name
         dict_value["CandidateTypeNames"] = self.candidate_type_names
         if self.access_path is not None:
             dict_value["AccessPath"] = "/".join(self.access_path_parts.path)

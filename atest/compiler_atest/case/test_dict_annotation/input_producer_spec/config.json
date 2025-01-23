@@ -1,6 +1,6 @@
 {
   "SwaggerSpecFilePath": [
-    "put_createorupdate.json"
+    "input_producer_spec.json"
   ],
   "IncludeOptionalParameters": true,
   "UseHeaderExamples": true,

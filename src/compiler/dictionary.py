@@ -15,6 +15,7 @@ from compiler.utilities import JsonSerialization
 from compiler.config import ConfigSetting
 from restler.utils import restler_logger as logger
 
+
 class InvalidMutationsDictionaryFormat(Exception):
     def __init__(self, msg: str):
         super().__init__(msg)
@@ -60,7 +61,8 @@ def get_keys(map_list):
     keys = []
     for custom_payload_entries in map_list:
         if custom_payload_entries:
-            logger.write_to_main(f"custom_payload_entries={custom_payload_entries}", ConfigSetting().LogConfig.dictionary)
+            logger.write_to_main(f"custom_payload_entries={custom_payload_entries}",
+                                 ConfigSetting().LogConfig.dictionary)
             keys.extend(custom_payload_entries.keys())
     logger.write_to_main(f"key={keys}", ConfigSetting().LogConfig.dictionary)
     return keys
@@ -369,10 +371,10 @@ class MutationsDictionary:
             entry_value = next(iter(payload_entry.values()), None).strip()
             is_object = entry_value.startswith("{") or entry_value.startswith("[")
             return DictionaryPayload(payload_type=payload_type, primitive_type=primitive_type,
-                                      name=payload_name, is_object=is_object)
+                                     name=payload_name, is_object=is_object)
         elif payload_entry:
             return DictionaryPayload(payload_type=payload_type, primitive_type=primitive_type,
-                                      name=payload_name, is_object=False)
+                                     name=payload_name, is_object=False)
         else:
             return None
 

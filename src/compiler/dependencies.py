@@ -1145,6 +1145,38 @@ def find_producer(producers: Producers,
                         possible_producers.insert(0, (mutations_dictionary, item))
                 else:
                     possible_producers.append((mutations_dictionary, item))
+            if producer_parameter_name == consumer.consumer_id.resource_name:
+                if len(possible_producers) > 0:
+                    mutations_dictionary = possible_producers[0][0]
+                if per_request_dictionary:
+                    per_request_uuid_suffix_matches = per_request_dictionary.get_parameter_for_custom_payload_uuid_suffix(
+                        consumer.consumer_id.resource_name, consumer.consumer_id.access_path_parts,
+                        consumer.consumer_id.primitive_type) if per_request_dictionary else []
+                    if per_request_uuid_suffix_matches is not None:
+                        possible_producers.insert(0, (mutations_dictionary, per_request_uuid_suffix_matches))
+
+                global_uuid_suffix_matches = dictionary.get_parameter_for_custom_payload_uuid_suffix(
+                    consumer.consumer_id.resource_name,
+                    consumer.consumer_id.access_path_parts,
+                    consumer.consumer_id.primitive_type)
+                if global_uuid_suffix_matches is not None:
+                    possible_producers.insert(0, (mutations_dictionary, global_uuid_suffix_matches))
+                if per_request_dictionary:
+                    per_request_dictionary_matches = per_request_dictionary.get_parameter_for_custom_payload(
+                        consumer.consumer_id.resource_name,
+                        consumer.consumer_id.access_path_parts,
+                        consumer.consumer_id.primitive_type,
+                        consumer.parameter_kind) if per_request_dictionary else []
+                    for item in per_request_dictionary_matches:
+                        possible_producers.insert(0, (mutations_dictionary, item))
+                global_dictionary_matches = dictionary.get_parameter_for_custom_payload(
+                    consumer_resource_name=consumer.consumer_id.resource_name,
+                    access_path_parts=consumer.consumer_id.access_path_parts,
+                    primitive_type=consumer.consumer_id.primitive_type,
+                    parameter_kind=consumer.parameter_kind)
+                for item in global_dictionary_matches:
+                    possible_producers.insert(0, (mutations_dictionary, item))
+
             logger.write_to_main(f"producer={possible_producers}",
                                  ConfigSetting().LogConfig.dependencies or
                                  ConfigSetting().LogConfig.log_find_producer_with_resource_name)

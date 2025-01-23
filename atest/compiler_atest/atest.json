@@ -1,6 +1,6 @@
 {
-  "debug_mode": true,
-  "debug_file": "test_annotation.py",
+  "debug_mode": false,
+  "debug_file": "test_swagger_only.py",
   "skip_python": false,
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -63,7 +63,7 @@
     "test_array_example_data_fuzz_false": 0,
     "test_array_example_data_fuzz_true": 0,
     "test_customPayloadContentTypeSwagger_1": 0,
-    "test_customPayloadContentTypeSwagger_2": 100,
+    "test_customPayloadContentTypeSwagger_2": 200,
     "test_customPayloadSwagger_1": 0,
     "test_customPayloadSwagger_2": 0,
     "test_customPayloadSwagger_3": 0,
@@ -71,14 +71,14 @@
     "test_headers": 0,
     "test_maindict": 0,
     "test_example_demo_yaml": 0,
-    "test_multipleIdenticalUuidSuffix": 100,
+    "test_multipleIdenticalUuidSuffix": 0,
     "test_no_params": 0,
     "test_secgroup_example": 0,
     "test_simple_swagger_all_param_types": 0
   },
 
   "test_dict_annotation":{
-    "test_input_producer_spec": 100
+    "test_input_producer_spec": 2
   },
   "test_dict_example":{
     "test_array_example_external": 0
@@ -90,7 +90,7 @@
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 928,
-    "test_same_body_dep": 100,
+    "test_same_body_dep": 2,
     "test_simple_crud_api": 0,
     "test_simple_api_soft_delete": 100
   },

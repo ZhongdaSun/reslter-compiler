@@ -143,7 +143,7 @@ def get_writer_variable(producer: Producer,
     if isinstance(producer, InputParameter):
         input_parameter = producer
         access_path_parts = input_parameter.input_only_producer.get_input_parameter_access_path()
-        primitive_type = producer.input_only_producer.parameter_kind
+        primitive_type = producer.input_only_producer.primitive_type
         request_id = producer.input_only_producer.request_id
     elif isinstance(producer, ResponseProducer):
         rp = producer
@@ -1613,6 +1613,7 @@ def generate_request_grammar(swagger_docs: list[SwaggerDoc],
                                                                 host,
                                                                 new_dictionary,
                                                                 request_data_item.request_metadata)
+        print(f"{new_dictionary.__dict__()}")
         logger.write_to_main(f"new_dictionary={new_dictionary.restler_custom_payload}",
                              ConfigSetting().LogConfig.compiler)
         grammar.add(primitive)
