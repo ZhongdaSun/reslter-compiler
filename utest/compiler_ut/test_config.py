@@ -67,8 +67,8 @@ class TestConfig(unittest.TestCase):
         if "error" in per_resource_settings:
             self.fail(f"Engine settings error: {per_resource_settings['error']}")
         per_resource_settings_dict = per_resource_settings.get("per_resource_settings")
-        spec1_dict = per_resource_settings_dict.get("/first")
-        spec2_dict = per_resource_settings_dict.get("/second")
+        spec1_dict = per_resource_settings_dict.get("375272e3911df5877f2c053d1817f2f6af8b3322") # /first
+        spec2_dict = per_resource_settings_dict.get("5f5f1ed92746b6f8d9ba579bdd0aa053e2158637") # /second
         spec3_dict = per_resource_settings_dict.get("/third")
 
         def payload_contains(dictionary, payload_name, payload, is_uuid_suffix):

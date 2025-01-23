@@ -1,6 +1,6 @@
 {
   "debug_mode": true,
-  "debug_file": "test_config.py",
+  "debug_file": "test_example.py",
   "openapi_2.0": false,
   "openapi_3.0": false,
   "compiler_ut": true,
@@ -15,10 +15,10 @@
     "test_get_header_dependency_from_openapi_v3_links": 4,
     "test_full_path_to_body_parameter_in_dictionary_custom_payload": 0,
     "test_local_annotations_to_body_properties": 0,
-    "test_no_dependencies_when_same_body_in_unrelated_requests": 100,
+    "test_no_dependencies_when_same_body_in_unrelated_requests": 0,
     "test_dependencies_inferred_for_lowercase_container_and_object": 0,
     "test_inconsistent_camel_case_fixed_by_restler": 100,
-    "test_patch_request_body_parameter_producers_from_post": 100,
+    "test_patch_request_body_parameter_producers_from_post": 0,
     "test_array_dependencies_with_multiple_array_items": 0,
     "test_input_producers_work_with_annotations": 100
     },
@@ -43,11 +43,11 @@
     "test_empty_array_example_in_grammar_1": 0,
     "test_empty_array_example_in_grammar_2": 0,
     "test_empty_array_example_in_grammar_3": 0,
-    "test_header_example_with_and_without_dependencies": 100,
+    "test_header_example_with_and_without_dependencies": 0,
     "test_example_in_grammar_without_dependencies": 4,
     "test_example_in_grammar_with_dependencies": 4,
     "test_logic_example_in_grammar_with_dependencies": 0,
-    "test_body_dependency_nested_object_can_be_inferred_via_parent": 50,
+    "test_body_dependency_nested_object_can_be_inferred_via_parent": 0,
     "test_nested_objects_naming_sanity_test": 0,
     "test_body_payload_contains_both_producer_and_consumer": 100,
     "test_get_dependencies_can_be_inferred_from_body_payload": 0,
@@ -73,7 +73,7 @@
     "test_path_parameter_substrings": 4
   },
   "test_config": {
-    "test_swagger_config_custom_dictionary_sanity_1": 100,
+    "test_swagger_config_custom_dictionary_sanity_1": 0,
     "test_swagger_config_custom_dictionary_sanity_2": 0,
     "test_swagger_config_custom_annotations_sanity_1": 0,
     "test_swagger_config_custom_annotations_sanity_2": 0,
