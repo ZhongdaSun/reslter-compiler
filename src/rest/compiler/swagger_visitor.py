@@ -609,9 +609,10 @@ def process_property(swagger_doc: SwaggerDoc,
                                                                           cont)
                 logger.write_to_main(f"array_with_elements={array_with_elements.__dict__()}",
                                      ConfigSetting().LogConfig.swagger_visitor)
+                if isinstance(array_with_elements, LeafNode):
+                    array_with_elements.leaf_property.is_required = property_required
                 tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
                 return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
-
             else:
                 if isinstance(property_payload_example_value, list):
                     array_with_elements = []

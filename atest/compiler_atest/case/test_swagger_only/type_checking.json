@@ -1,0 +1,165 @@
+{
+  "basePath": "/api",
+  "consumes": [
+    "application/json"
+  ],
+  "host": "localhost:8888",
+  "info": {
+    "description": "A simple swagger spec that uses required and optional parameters",
+    "title": "Parameters example spec",
+    "version": "1.0"
+  },
+  "definitions": {
+    "ExampleObject": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "ExampleBody": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object"
+        },
+        "example_array": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExampleObject"
+          }
+        }
+      },
+      "required": [
+        "example_array",
+        "name"
+      ]
+    },
+    "Map«string,object»": {
+      "type": "object",
+      "title": "Map«string,object»"
+    },
+    "ExampleBody2": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "object"
+        },
+        "thingDataList": {
+          "type": "array",
+          "description": "set",
+          "items": {
+            "originalRef": "Map«string,object»",
+            "$ref": "#/definitions/Map«string,object»"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/v1/application/export": {
+      "post": {
+        "tags": [ "application-update-controller" ],
+        "summary": "导出升级列表",
+        "operationId": "exportUsingPOST",
+        "consumes": [ "application/json;charset=UTF-8" ],
+        "produces": [ "application/octet-stream" ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "params",
+            "description": "params",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "originalRef": "Map«string,object»",
+                "$ref": "#/definitions/Map«string,object»"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "object" }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/v1/kubernetes/namespaces/deployments/scale": {
+      "patch": {
+        "tags": [ "kubernetes-controller" ],
+        "operationId": "scaleDeploymentUsingPATCH",
+        "consumes": [ "application/json" ],
+        "produces": [ "*/*" ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "应用程序名称",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "nameSpace",
+            "in": "query",
+            "description": "命名空间",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "scaleCount",
+            "in": "query",
+            "description": "数量",
+            "required": true,
+            "type": "int",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "object" }
+          },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "swagger": "2.0"
+}

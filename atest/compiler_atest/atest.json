@@ -56,7 +56,8 @@
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
     "test_example_demo_1": 0,
-    "test_definition_type_schema": 0
+    "test_definition_type_schema": 0,
+    "test_type_checking": 2
   },
 
   "test_dict": {
