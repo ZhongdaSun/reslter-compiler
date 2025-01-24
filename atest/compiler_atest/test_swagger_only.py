@@ -445,5 +445,13 @@ class TestSwaggerOnly(unittest.TestCase):
                                    'example_demo_1', [], "example_demo_1.json")
         self.assertTrue(result, msg=msg)
 
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_definition_type_schema"))
+    def test_definition_type_schema(self):
+        result, msg = compile_spec(module_name,
+                                   'definition_type_schema', [], "definition_type_schema.json")
+        self.assertTrue(result, msg=msg)
+
+
 if __name__ == '__main__':
     unittest.main()

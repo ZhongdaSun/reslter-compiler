@@ -1,6 +1,6 @@
 {
   "debug_mode": false,
-  "debug_file": "test_annotation.py",
+  "debug_file": "test_swagger_only.py",
   "skip_python": false,
   "validate_grammar": true,
   "x-ms-examples": 4,
@@ -55,7 +55,8 @@
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
-    "test_example_demo_1": 0
+    "test_example_demo_1": 0,
+    "test_definition_type_schema": 0
   },
 
   "test_dict": {

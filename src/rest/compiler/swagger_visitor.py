@@ -788,10 +788,12 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                                 parents=[final_schema] + parents,
                                                                 schema_cache=schema_cache,
                                                                 cont=None))
+                        """
                         if isinstance(element, InternalNode):
                             reference_of_parameter_schema.extend(element.leaf_properties)
                         elif isinstance(element, LeafNode):
-                            reference_of_parameter_schema.append(element)
+                        """
+                        reference_of_parameter_schema.append(element)
                         schema_cache.remove_definition_cache(ref_definition=reference)
                     else:
                         element = process_property(swagger_doc=swagger_doc,
@@ -923,14 +925,20 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
         if len(properties_of_parameter_schema) > 0:
             final_parameter_schema = final_parameter_schema + properties_of_parameter_schema
         if len(reference_of_parameter_schema) > 0:
-            final_parameter_schema = final_parameter_schema + reference_of_parameter_schema
+            if len(reference_of_parameter_schema) == 1:
+                grammar_element = reference_of_parameter_schema[0]
+                if isinstance(grammar_element, InternalNode):
+                    grammar_element.inner_property.is_required = is_required
+            else:
+                final_parameter_schema = final_parameter_schema + reference_of_parameter_schema
         if len(all_of_parameter_schemas) > 0:
             final_parameter_schema = final_parameter_schema + all_of_parameter_schemas
 
-        grammar_element = InternalNode(InnerProperty(name="", payload=None,
-                                                     property_type=NestedType.Object,
-                                                     is_required=is_required, is_readonly=False),
-                                       final_parameter_schema)
+        if grammar_element is None:
+            grammar_element = InternalNode(InnerProperty(name="", payload=None,
+                                                         property_type=NestedType.Object,
+                                                         is_required=is_required, is_readonly=False),
+                                           final_parameter_schema)
 
         schema_cache.add(final_schema, parents, grammar_element, example_value_info)
 
@@ -1078,4 +1086,3 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                         parents=parents,
                                         schema_cache=schema_cache,
                                         cont=id)
-

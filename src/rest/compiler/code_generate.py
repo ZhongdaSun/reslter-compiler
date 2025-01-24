@@ -1818,10 +1818,10 @@ class PythonGrammarElement:
 def generate_python_grammar(grammar_definition: GrammarDefinition):
     import_statements = [PythonGrammarElement.import_func("__future__", "print_function\n"),
                          PythonGrammarElement.import_func(None, "json\n"),
-                         PythonGrammarElement.import_func("restler.engine", "primitives\n"),
-                         PythonGrammarElement.import_func("restler.engine.core", "requests\n"),
-                         PythonGrammarElement.import_func("restler.engine.errors", "ResponseParsingException\n"),
-                         PythonGrammarElement.import_func("restler.engine", "dependencies\n")
+                         PythonGrammarElement.import_func("rest.restler.engine", "primitives\n"),
+                         PythonGrammarElement.import_func("rest.restler.engine.core", "requests\n"),
+                         PythonGrammarElement.import_func("rest.restler.engine.errors", "ResponseParsingException\n"),
+                         PythonGrammarElement.import_func("rest.restler.engine", "dependencies\n")
                          ]
 
     response_parsers = get_response_parsers(grammar_definition.Requests)

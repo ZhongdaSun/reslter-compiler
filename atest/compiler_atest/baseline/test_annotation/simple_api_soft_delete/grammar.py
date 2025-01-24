@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from engine import primitives
-from engine.core import requests
-from engine.errors import ResponseParsingException
-from engine import dependencies
+from rest.restler.engine import primitives
+from rest.restler.engine.core import requests
+from rest.restler.engine.errors import ResponseParsingException
+from rest.restler.engine import dependencies
 
 _app__appId__put_id = dependencies.DynamicVariable("_app__appId__put_id")
 

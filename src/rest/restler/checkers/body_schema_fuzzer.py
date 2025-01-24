@@ -787,7 +787,7 @@ if __name__ == '__main__':
     with open(args.grammar, 'r') as fr:
         schema_str = fr.read()
         schema_json = json.loads(schema_str)
-
+    """
     for request_schema_json in schema_json['Requests']:
         request_schema = RequestSchema(request_schema_json)
 
@@ -796,3 +796,4 @@ if __name__ == '__main__':
                 sub_schemas = schema_fuzzer.run(request_schema.body)
                 assert(len(sub_schemas) != 0)
                 del sub_schemas
+    """
