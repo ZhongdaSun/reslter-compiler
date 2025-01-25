@@ -752,7 +752,8 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                                   example_value_info,
                                                                   generate_fuzzable_payloads_for_examples,
                                                                   track_parameters,
-                                                                  True,
+                                                                  SchemaUtilities.get_property(final_schema,
+                                                                                               "required"),
                                                                   parents,
                                                                   schema_cache,
                                                                   cont)
@@ -789,11 +790,6 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                                 parents=[final_schema] + parents,
                                                                 schema_cache=schema_cache,
                                                                 cont=None))
-                        """
-                        if isinstance(element, InternalNode):
-                            reference_of_parameter_schema.extend(element.leaf_properties)
-                        elif isinstance(element, LeafNode):
-                        """
                         reference_of_parameter_schema.append(element)
                         schema_cache.remove_definition_cache(ref_definition=reference)
                     else:
@@ -807,6 +803,7 @@ def generate_grammar_element_for_schema(swagger_doc: SwaggerDoc,
                                                    schema_cache=schema_cache,
                                                    cont=id)
                         reference_of_parameter_schema.append(element)
+
                     logger.write_to_main(f"key={key}, reference={reference} "
                                          f"element={element}", ConfigSetting().LogConfig.swagger_visitor)
                 logger.write_to_main(f"len(reference_of_parameter_schema)={len(reference_of_parameter_schema)} "

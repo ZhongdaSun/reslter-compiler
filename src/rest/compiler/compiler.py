@@ -149,9 +149,10 @@ def get_writer_variable(producer: Producer,
         rp = producer
         if isinstance(producer.resource_reference, HeaderResource):
             access_path_parts = AccessPath([rp.resource_reference.name, "header"])  # handle ambiguity with body
+            primitive_type = PrimitiveType.Object
         else:
             access_path_parts = rp.access_path_parts
-        primitive_type = rp.primitive_type
+            primitive_type = rp.primitive_type
         request_id = rp.request_id
     else:
         raise ValueError("Only input parameter and response producers have an associated dynamic object")

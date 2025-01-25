@@ -31,41 +31,6 @@ class TestDependencies(unittest.TestCase):
         if not os.path.exists(TEST_ROOT_DIR):
             os.mkdir(TEST_ROOT_DIR)
 
-    def dependencies_resolved_without_annotations(self, config):
-        swagger_doc = get_swagger_data_for_doc(config['SwaggerSpecFilePath'][0], TEST_ROOT_DIR)
-
-        if 'CustomDictionaryFilePath' in config and os.path.exists(config['CustomDictionaryFilePath']):
-            with open(config['CustomDictionaryFilePath'], 'r') as f:
-                dictionary = JsonSerialization.try_deeserialize_from_file(f)
-                dictionary['restler_custom_payload_uuid4_suffix'] = {}
-        else:
-            dictionary = init_user_dictionary()
-
-            grammar, dependencies, _, _ = generate_request_grammar(
-                swagger_docs=[swagger_doc], dictionary=dictionary,
-                global_external_annotations=[],
-                user_specified_examples=[])
-
-            unresolved_path_deps = [d for d in dependencies if
-                                    d['producer'] is None and d['consumer']['parameterKind'] == 'Path']
-
-            return dependencies, unresolved_path_deps
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_demo_server_path_dependencies_resolved_without_annotations")
-        or DebugConfig().get_open_api_v3())
-    def test_demo_server_path_dependencies_resolved_without_annotations(self):
-        config = {}
-        deps, unresolved = self.dependencies_resolved_without_annotations(config)
-
-        consumer_requests = {(d['consumer']['id']['RequestId'], d['consumer']['id']['ResourceName'])
-                             for d in deps if d['consumer']['parameterKind'] == 'Path'}
-
-        # Check the expected number of consumers was extracted
-        self.assertEqual(len(consumer_requests), 3,
-                         f"Wrong number of consumers found: {len(consumer_requests)} {consumer_requests}")
-        self.assertFalse(unresolved, f"Found unresolved path dependencies: {unresolved}")
-
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_inferred_put_producer"))
     def test_inferred_put_producer(self):

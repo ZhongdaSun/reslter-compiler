@@ -29,6 +29,7 @@ from rest.compiler.grammar import (
     AnnotationResourceReference,
     Custom,
     ParameterPayloadSource,
+    DefaultPrimitiveValues,
     LeafNode,
     InternalNode)
 from rest.compiler.apiresource import (
@@ -57,6 +58,7 @@ from rest.compiler.dependency_analysis_types import (
     get_path_from_string,
     sort_by_parameter_kind,
     sort_by_method,
+    PathPartType,
     debug_inferred_match_sort_order)
 from rest.compiler.dictionary import MutationsDictionary, DictionarySetting
 
@@ -1351,12 +1353,9 @@ def get_parameter_dependencies(parameter_kind: ParameterKind,
             resource_reference = QueryResource(resource_name)
         elif parameter_kind == ParameterKind.Body:
             resource_reference = BodyResource(name=resource_name, full_path=resource_access_path)
-        default_primitive_type = primitive_type
-        if default_primitive_type is None:
-            default_primitive_type = PrimitiveType.String
 
         consumer_id = ApiResource(request_id, resource_reference, naming_convention,
-                                  default_primitive_type)
+                                  primitive_type if primitive_type else PrimitiveType.String)
         annotation = find_annotation(global_annotations=global_annotations,
                                      link_annotations=link_annotations,
                                      local_annotations=annotated_requests,
@@ -1939,6 +1938,25 @@ class DependencyLookup:
                 producer = find_producer(values)
 
         if producer is None:
+            if isinstance(default_payload, Fuzzable) and consumer_resource_access_path is EmptyAccessPath:
+                # test_body_dependency_cycles and test_input_producer_spec for Fuzzable: String -> Object
+                # todo need more investigate.
+                path_parts = get_path_from_string(request_id.endpoint, False)
+                parameters = []
+                for part in path_parts.path:
+                    if part.part_type in [PathPartType.Parameter]:
+                        parameters.append(part.value)
+                if (default_payload.primitive_type == PrimitiveType.String
+                        and consumer_resource_name in parameters):
+                    if len(parameters) == 1:
+                        if (len(path_parts.path) == 2 or
+                                (len(path_parts.path) > 2 and request_id.method == OperationMethod.Put)):
+                            default_payload.primitive_type = PrimitiveType.Object
+                            default_payload.default_value = DefaultPrimitiveValues[PrimitiveType.Object]
+                    elif len(parameters) == 2 and request_id.method == OperationMethod.Put:
+                        if len(path_parts.path) > 4:
+                            default_payload.primitive_type = PrimitiveType.Object
+                            default_payload.default_value = DefaultPrimitiveValues[PrimitiveType.Object]
             return default_payload
         else:
             if isinstance(producer, OrderingConstraintProducer):
@@ -1954,11 +1972,32 @@ class DependencyLookup:
                     variable_name = DynamicObjectNaming.generate_dynamic_object_variable_name(
                         producer.request_id, producer.resource_reference.get_access_path_parts(), "_")
 
-                primitive_type = default_payload.primitive_type
-                if primitive_type is None:
-                    print(
-                        f"Warning: primitive type not available for {request_id} [resource: {consumer_resource_name}]")
+                # Mark the type of the dynamic object to be the type of the input parameter if available
+                if isinstance(default_payload, Fuzzable):
+                    primitive_type = default_payload.primitive_type
+                    if (consumer_resource_access_path is EmptyAccessPath
+                            and (default_payload.primitive_type == PrimitiveType.String
+                                 or default_payload.primitive_type == PrimitiveType.Array)):
+                        if (request_id.method == OperationMethod.Patch
+                                and producer.request_id.method == OperationMethod.Post):
+                            primitive_type = PrimitiveType.Object
+                        elif (request_id.method == OperationMethod.Get
+                              and producer.request_id.method == OperationMethod.Put):
+                            path_parts = get_path_from_string(request_id.endpoint, False)
+                            count = 0
+                            for part in path_parts.path:
+                                if part.part_type == PathPartType.Parameter:
+                                    count = count + 1
+                            if count == 1:
+                                primitive_type = PrimitiveType.Object
+                        elif (request_id.method == OperationMethod.Get
+                              and producer.request_id.method == OperationMethod.Post):
+                            if default_payload.primitive_type == PrimitiveType.Array:
+                                primitive_type = PrimitiveType.Object
+                else:
+                    print(f"Warning: primitive type not available for {request_id} [resource: {consumer_resource_name}]")
                     primitive_type = producer.primitive_type
+
                 return DynamicObject(primitive_type, variable_name, is_writer=False)
 
             elif isinstance(producer, InputParameter):

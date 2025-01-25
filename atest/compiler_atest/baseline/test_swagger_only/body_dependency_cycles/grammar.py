@@ -33,12 +33,22 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
-    "properties":
-        {
-            "enabled":"""),
+    "enabled":"""),
     primitives.restler_fuzzable_bool("true"),
     primitives.restler_static_string(""",
-            "virtualNetworks":
+    "virtualNetworks":
+    [
+        {
+            "name":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+            "key":"""),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string(""",
+            "resourceId":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+            "subnets":
             [
                 {
                     "name":"""),
@@ -46,25 +56,11 @@ request = requests.Request([
     primitives.restler_static_string(""",
                     "key":"""),
     primitives.restler_fuzzable_int("1"),
-    primitives.restler_static_string(""",
-                    "resourceId":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                    "subnets":
-                    [
-                        {
-                            "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                            "key":"""),
-    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string("""
-                        }
-                    ]
                 }
             ]
         }
-    }"""),
+    ]}"""),
     primitives.restler_static_string("\r\n"),
 
 ],
@@ -96,12 +92,22 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
-    "properties":
-        {
-            "enabled":"""),
+    "enabled":"""),
     primitives.restler_fuzzable_bool("true"),
     primitives.restler_static_string(""",
-            "virtualNetworks":
+    "virtualNetworks":
+    [
+        {
+            "name":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+            "key":"""),
+    primitives.restler_fuzzable_int("1"),
+    primitives.restler_static_string(""",
+            "resourceId":"""),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
+    primitives.restler_static_string(""",
+            "subnets":
             [
                 {
                     "name":"""),
@@ -109,25 +115,11 @@ request = requests.Request([
     primitives.restler_static_string(""",
                     "key":"""),
     primitives.restler_fuzzable_int("1"),
-    primitives.restler_static_string(""",
-                    "resourceId":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                    "subnets":
-                    [
-                        {
-                            "name":"""),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=True),
-    primitives.restler_static_string(""",
-                            "key":"""),
-    primitives.restler_fuzzable_int("1"),
     primitives.restler_static_string("""
-                        }
-                    ]
                 }
             ]
         }
-    }"""),
+    ]}"""),
     primitives.restler_static_string("\r\n"),
 
 ],

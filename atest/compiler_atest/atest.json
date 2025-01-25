@@ -7,20 +7,20 @@
   "test_swagger_only": {
     "test_inconsistent_casing_paths": 5,
     "test_frontend_port_id": 5,
-    "test_post_patch_dependency": 928,
-    "test_ip_configurations_get": 928,
-    "test_subnet_id": 928,
-    "test_body_dependency_cycles": 930,
+    "test_post_patch_dependency": 0,
+    "test_ip_configurations_get": 0,
+    "test_subnet_id": 0,
+    "test_body_dependency_cycles": 0,
     "test_circular_path": 0,
     "test_put_createorupdate": 0,
-    "test_large_json_body": 20,
-    "test_large_json_body_level_1": 20,
-    "test_large_json_body_level_2": 20,
-    "test_large_json_body_level_3": 20,
-    "test_large_json_body_level_4": 20,
-    "test_large_json_body_level_5": 20,
-    "test_large_json_body_level_6": 20,
-    "test_large_json_body_level_7": 20,
+    "test_large_json_body": 0,
+    "test_large_json_body_level_1": 2,
+    "test_large_json_body_level_2": 2,
+    "test_large_json_body_level_3": 0,
+    "test_large_json_body_level_4": 0,
+    "test_large_json_body_level_5": 2,
+    "test_large_json_body_level_6": 0,
+    "test_large_json_body_level_7": 0,
     "test_lowercase_paths": 0,
     "test_path_annotation_in_separate_file": 0,
     "test_local_annotations": 0,
@@ -37,7 +37,7 @@
     "test_get_path_dependencies": 0,
     "test_uuidsuffix_test": 0,
     "test_path_dictionary_payload": 0,
-    "test_input_producer_spec": 928,
+    "test_input_producer_spec": 0,
     "test_no_params": 0,
     "test_read_only": 0,
     "test_global_path_parameters": 0,
@@ -50,14 +50,14 @@
     "test_path_annotation": 0,
     "test_simple_api_soft_delete": 0,
     "test_ordering_test": 0,
-    "test_response_headers": 928,
+    "test_response_headers": 0,
     "test_same_body_dep": 0,
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
     "test_example_demo_1": 0,
     "test_definition_type_schema": 0,
-    "test_type_checking": 2
+    "test_type_checking": 100
   },
 
   "test_dict": {
@@ -83,18 +83,21 @@
     "test_input_producer_spec": 5
   },
   "test_dict_example":{
-    "test_array_example_external": 0
+    "test_array_example_external": 0,
+    "test_object_example": 0,
+    "test_example_in_grammar_without_dependencies": 0,
+    "test_example_in_grammar_with_dependencies": 0
   },
 
   "test_annotation": {
-    "test_array_example_dynamic_object": 928,
+    "test_array_example_dynamic_object": 0,
     "test_header_deps": 0,
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
-    "test_response_headers": 928,
-    "test_same_body_dep": 2,
+    "test_response_headers": 0,
+    "test_same_body_dep": 100,
     "test_simple_crud_api": 0,
-    "test_simple_api_soft_delete": 2
+    "test_simple_api_soft_delete": 100
   },
 
   "test_example": {

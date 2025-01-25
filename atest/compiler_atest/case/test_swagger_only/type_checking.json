@@ -64,24 +64,136 @@
           }
         }
       }
+    },
+    "ExampleBody3": {
+      "type": "object",
+      "properties": {
+        "alarmOrigin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cancelFlag": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "conditionMap": {
+          "type": "object",
+          "additionalProperties": {
+            "originalRef": "ConditionInfo",
+            "$ref": "#/definitions/ConditionInfo"
+          }
+        },
+        "ctrFlag": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ctrTableName": { "type": "string" },
+        "ctrTableNameZh": { "type": "string" },
+        "deleteFileInfo": { "type": "boolean" },
+        "exportFileName": { "type": "string" },
+        "exportFtpUrl": { "type": "string" },
+        "exportLanguage": { "type": "string" },
+        "exportNotifyPhones": { "type": "string" },
+        "exportType": { "type": "string" },
+        "exportUser": { "type": "string" },
+        "exportUserID": { "type": "string" },
+        "fieldNameArray": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "form": { "type": "object" },
+        "queryBuilder": { "type": "string" },
+        "regionL1Id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "regionL1IdArray": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "taskSql": { "type": "string" },
+        "taskType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ExampleBody3"
+    },
+    "ConditionInfo": {
+      "type": "object",
+      "properties": {
+        "andConditionInfos": {
+          "type": "array",
+          "items": {
+            "originalRef": "ConditionInfo",
+            "$ref": "#/definitions/ConditionInfo"
+          }
+        },
+        "bottomRight": {
+          "originalRef": "GeoPoint",
+          "$ref": "#/definitions/GeoPoint"
+        },
+        "endValue": { "type": "string" },
+        "fieldName": { "type": "string" },
+        "fieldType": {
+          "type": "string",
+          "enum": [ "OBJECT", "NESTED", "GEO" ]
+        },
+        "missingValue": { "type": "string" },
+        "nestedPath": { "type": "string" },
+        "not": { "type": "boolean" },
+        "opType": {
+          "type": "string",
+          "enum": [ "eq", "like", "in", "between", "lt", "le", "gt", "ge", "time", "exists", "script", "geo", "or", "and", "reg" ]
+        },
+        "orConditionInfos": {
+          "type": "array",
+          "items": {
+            "originalRef": "ConditionInfo",
+            "$ref": "#/definitions/ConditionInfo"
+          }
+        },
+        "startValue": { "type": "string" },
+        "topLeft": {
+          "originalRef": "GeoPoint",
+          "$ref": "#/definitions/GeoPoint"
+        },
+        "value": { "type": "string" },
+        "values": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "title": "ConditionInfo"
+    },
+    "GeoPoint": {
+      "type": "object",
+      "properties": {
+        "fragment": { "type": "boolean" },
+        "geohash": { "type": "string" },
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lon": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "GeoPoint"
     }
   },
   "paths": {
     "/v1/application/export": {
       "post": {
         "tags": [ "application-update-controller" ],
-        "summary": "导出升级列表",
-        "operationId": "exportUsingPOST",
+        "summary": "export the file",
         "consumes": [ "application/json;charset=UTF-8" ],
         "produces": [ "application/octet-stream" ],
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token",
-            "required": false,
-            "type": "string"
-          },
           {
             "in": "body",
             "name": "params",
@@ -109,7 +221,7 @@
         "deprecated": false
       }
     },
-    "/v1/kubernetes/namespaces/deployments/scale": {
+    "/v1/application/scale": {
       "patch": {
         "tags": [ "kubernetes-controller" ],
         "operationId": "scaleDeploymentUsingPATCH",
@@ -117,32 +229,9 @@
         "produces": [ "*/*" ],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Token",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "appName",
-            "in": "query",
-            "description": "应用程序名称",
-            "required": false,
-            "type": "string",
-            "allowEmptyValue": false
-          },
-          {
-            "name": "nameSpace",
-            "in": "query",
-            "description": "命名空间",
-            "required": false,
-            "type": "string",
-            "allowEmptyValue": false
-          },
-          {
             "name": "scaleCount",
             "in": "query",
-            "description": "数量",
+            "description": "count",
             "required": true,
             "type": "int",
             "allowEmptyValue": false
@@ -156,6 +245,37 @@
           "204": { "description": "No Content" },
           "401": { "description": "Unauthorized" },
           "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/v1/application/scale/order": {
+      "post": {
+        "tags": [ "queryservice-operate-controller" ],
+        "summary": "ExampleBody3",
+        "operationId": "listAlarmRecordUsingPOST_1",
+        "consumes": [ "application/json" ],
+        "produces": [ "*/*" ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "ExampleBody3",
+            "description": "example body 3",
+            "required": true,
+            "schema": {
+              "originalRef": "ExampleBody3",
+              "$ref": "#/definitions/ExampleBody3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
         },
         "deprecated": false
       }

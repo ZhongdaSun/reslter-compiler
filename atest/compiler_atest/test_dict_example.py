@@ -24,6 +24,27 @@ class TestExampleConfigTestPut(unittest.TestCase):
                                    'array_example_external', [], "")
         self.assertTrue(result, msg=msg)
 
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_object_example"))
+    def test_object_example(self):
+        result, msg = compile_spec(module_name,
+                                   'object_example', [], "")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_example_in_grammar_without_dependencies"))
+    def test_example_in_grammar_without_dependencies(self):
+        result, msg = compile_spec(module_name,
+                                   'example1_without_dependencies', [], "")
+        self.assertTrue(result, msg=msg)
+
+    @custom_skip_decorator(
+        DebugConfig().get_cases_config(module_name, "test_example_in_grammar_with_dependencies"))
+    def test_example_in_grammar_with_dependencies(self):
+        result, msg = compile_spec(module_name,
+                                   'example1_with_dependencies', [], "")
+        self.assertTrue(result, msg=msg)
+
 
 if __name__ == '__main__':
     unittest.main()

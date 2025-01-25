@@ -619,7 +619,7 @@ def format_json_body_parameter(
         # The payload is not specified at this level, so use the one specified at lower levels.
         # The inner properties must be comma separated
         start_second_item = 0
-        need_new_line = False
+        need_new_line = 1
         for index, item in enumerate(inner_properties):
             # Filter empty elements, which are the result of filtered child properties
             for loop, inner in enumerate(item):
@@ -643,10 +643,15 @@ def format_json_body_parameter(
                             else:
                                 f_value.primitive_data.default_value = ",\n"
                         else:
-                            if need_new_line:
-                                f_value.primitive_data.default_value = tab_seq + ", " + f_value.primitive_data.default_value
-                            else:
+                            if need_new_line == 0:
+                                f_value.primitive_data.default_value = tab_seq + SPACE_4 + ", " + f_value.primitive_data.default_value
+                            elif need_new_line == 1:
                                 f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
+                            else:
+                                if tab_level in [3, 4, 7, 8]:
+                                    f_value.primitive_data.default_value = ", " + f_value.primitive_data.default_value
+                                elif tab_level in [0, 1, 2, 5, 6]:
+                                    f_value.primitive_data.default_value = "\n, " + f_value.primitive_data.default_value
                         cs.append(f_value)
                     else:
                         cs.append(inner)
@@ -658,18 +663,36 @@ def format_json_body_parameter(
             if len(item) > 0:
                 last_item = item[-1]
                 if last_item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
-                    if last_item.primitive_data.default_value == "]":
-                        need_new_line = False
+                    if "]" in last_item.primitive_data.default_value:
+                        need_new_line = 1
                     else:
-                        need_new_line = True
+                        need_new_line = 0
                 else:
-                    need_new_line = False
+                    need_new_line = 1
+                """
+                elif (last_item.type == RequestPrimitiveTypeEnum.Restler_fuzzable_object
+                    and last_item.primitive_data.default_value == "{ }"):
+                    need_new_line = 2
+                """
+
 
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
         if property_type == NestedType.Object:
             if tab_level == 0:
                 left = [RequestPrimitiveType.static_string_constant("{")]
-                right = [RequestPrimitiveType.static_string_constant(tab_seq + "}")]
+                right = [RequestPrimitiveType.static_string_constant(f"{SPACE_4}" + "}")]
+                if len(cs) == 0:
+                    right = [RequestPrimitiveType.static_string_constant("}")]
+                elif len(cs) > 1:
+                    last_element = cs[-1]
+                    value = last_element.primitive_data.default_value
+                    if last_element.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
+                        if "}" not in value and "]" not in value:
+                            right = [RequestPrimitiveType.static_string_constant(f"\n{SPACE_4}" + "}")]
+                        elif "]" in value:
+                            right = [RequestPrimitiveType.static_string_constant("}")]
+                    else:
+                        right = [RequestPrimitiveType.static_string_constant("}")]
                 result = left + cs + right
             else:
                 left = [RequestPrimitiveType.static_string_constant(tab_level * SPACE_4 + "{")]
@@ -711,7 +734,7 @@ def format_json_body_parameter(
                     else:
                         last_element.primitive_data.default_value = last_element.primitive_data.default_value
 
-            result = [RequestPrimitiveType.static_string_constant(value=f"{tab_seq}\"{property_name}\":\n")] + cs
+            result = [RequestPrimitiveType.static_string_constant(value=f"{tab_seq}\"{property_name}\":\n{SPACE_4*2}")] + cs
         else:
             result = cs
         logger.write_to_main(f"result={len(result)}", ConfigSetting().LogConfig.code_generate)
@@ -1254,7 +1277,7 @@ def generate_python_from_request_element(request_element,
                     parameters = parameters + generate_python_parameter(parameter_source,
                                                                         ParameterKind.Body,
                                                                         request)
-
+                # parameters = parameters + [RequestPrimitiveType.static_string_constant(r"\r\n")]
                 logger.write_to_main(f"parameters={parameters}, "
                                      f"len(parameter_list.request_parameters)={len(parameter_list.request_parameters)}",
                                      ConfigSetting().LogConfig.code_generate)
@@ -1579,7 +1602,8 @@ def get_response_parsers(requests: List[Request]):
             return statements
 
         def parsing_statement_with_try_except(parsing_statement, boolean_conversion_statement):
-            return f"""try:
+            return f"""
+        try:
             {parsing_statement}
             {boolean_conversion_statement or ""}
         except Exception as error:
@@ -1592,7 +1616,7 @@ def get_response_parsers(requests: List[Request]):
         response_header_parsing_statements = get_response_parsing_statements(
             parser.header_writer_variables, variable_kind=DynamicObjectVariableKind.HeaderKind)
 
-        body_parsing_statements = "\n\n".join(parsing_statement_with_try_except(ps[1], ps[5])
+        body_parsing_statements = "\n".join(parsing_statement_with_try_except(ps[1], ps[5])
                                           for ps in response_body_parsing_statements)
         header_parsing_statements = "".join(parsing_statement_with_try_except(ps[1], ps[5])
                                               for ps in response_header_parsing_statements)
@@ -1605,9 +1629,9 @@ def get_response_parsers(requests: List[Request]):
                 ps[4] for ps in response_body_parsing_statements + response_header_parsing_statements) + "):"
 
         header_parser_info = """
+        
     if headers:
         # Try to extract dynamic objects from headers
-        
         %s
         pass""" % header_parsing_statements
 
@@ -1633,7 +1657,6 @@ def {function_name}(data, **kwargs):
         pass
 
     # Try to extract each dynamic object
-    
         {body_parsing_statements if len(response_body_parsing_statements) > 0 else ""}
     {header_parser_info if len(response_header_parsing_statements) > 0 else ""}
     
@@ -1694,16 +1717,13 @@ def generate_python_from_request(request: Request, merge_static_strings):
 
     # Gets either the schema or examples payload present in the list
     def process_request(body_parameters) -> Tuple[ParameterPayloadSource, Union[ParameterList, Example]]:
-        # 获取参数列表载荷和有效载荷源
         payload_source, parameter_list_payload = get_parameter_list_payload(body_parameters)
-        # 获取示例载荷
         example_payload = get_example_payload(body_parameters)
 
-        # 根据示例是否存在来决定返回内容
         if example_payload is not None:
-            return payload_source, example_payload  # 返回示例
+            return payload_source, example_payload
         else:
-            return payload_source, parameter_list_payload  # 返回参数列表
+            return payload_source, parameter_list_payload
 
     logger.write_to_main(f"request_header_elements={request_header_elements}", ConfigSetting().LogConfig.code_generate)
     """

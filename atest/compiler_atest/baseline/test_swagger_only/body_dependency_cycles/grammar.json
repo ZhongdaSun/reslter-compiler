@@ -70,10 +70,23 @@
                     },
                     [
                       {
+                        "LeafNode": {
+                          "name": "enabled",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Bool",
+                              "defaultValue": "true"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
                         "InternalNode": [
                           {
-                            "name": "properties",
-                            "propertyType": "Property",
+                            "name": "virtualNetworks",
+                            "propertyType": "Array",
                             "isRequired": false,
                             "isReadOnly": false
                           },
@@ -89,11 +102,37 @@
                                 [
                                   {
                                     "LeafNode": {
-                                      "name": "enabled",
+                                      "name": "name",
                                       "payload": {
                                         "Fuzzable": {
-                                          "primitiveType": "Bool",
-                                          "defaultValue": "true"
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "key",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Int",
+                                          "defaultValue": "1"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "resourceId",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
                                         }
                                       },
                                       "isRequired": false,
@@ -103,7 +142,7 @@
                                   {
                                     "InternalNode": [
                                       {
-                                        "name": "virtualNetworks",
+                                        "name": "subnets",
                                         "propertyType": "Array",
                                         "isRequired": false,
                                         "isReadOnly": false
@@ -143,69 +182,6 @@
                                                   "isRequired": false,
                                                   "isReadOnly": false
                                                 }
-                                              },
-                                              {
-                                                "LeafNode": {
-                                                  "name": "resourceId",
-                                                  "payload": {
-                                                    "Fuzzable": {
-                                                      "primitiveType": "String",
-                                                      "defaultValue": "fuzzstring"
-                                                    }
-                                                  },
-                                                  "isRequired": false,
-                                                  "isReadOnly": false
-                                                }
-                                              },
-                                              {
-                                                "InternalNode": [
-                                                  {
-                                                    "name": "subnets",
-                                                    "propertyType": "Array",
-                                                    "isRequired": false,
-                                                    "isReadOnly": false
-                                                  },
-                                                  [
-                                                    {
-                                                      "InternalNode": [
-                                                        {
-                                                          "name": "",
-                                                          "propertyType": "Object",
-                                                          "isRequired": false,
-                                                          "isReadOnly": false
-                                                        },
-                                                        [
-                                                          {
-                                                            "LeafNode": {
-                                                              "name": "name",
-                                                              "payload": {
-                                                                "Fuzzable": {
-                                                                  "primitiveType": "String",
-                                                                  "defaultValue": "fuzzstring"
-                                                                }
-                                                              },
-                                                              "isRequired": false,
-                                                              "isReadOnly": false
-                                                            }
-                                                          },
-                                                          {
-                                                            "LeafNode": {
-                                                              "name": "key",
-                                                              "payload": {
-                                                                "Fuzzable": {
-                                                                  "primitiveType": "Int",
-                                                                  "defaultValue": "1"
-                                                                }
-                                                              },
-                                                              "isRequired": false,
-                                                              "isReadOnly": false
-                                                            }
-                                                          }
-                                                        ]
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
                                               }
                                             ]
                                           ]
@@ -338,10 +314,23 @@
                     },
                     [
                       {
+                        "LeafNode": {
+                          "name": "enabled",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "Bool",
+                              "defaultValue": "true"
+                            }
+                          },
+                          "isRequired": false,
+                          "isReadOnly": false
+                        }
+                      },
+                      {
                         "InternalNode": [
                           {
-                            "name": "properties",
-                            "propertyType": "Property",
+                            "name": "virtualNetworks",
+                            "propertyType": "Array",
                             "isRequired": false,
                             "isReadOnly": false
                           },
@@ -357,11 +346,37 @@
                                 [
                                   {
                                     "LeafNode": {
-                                      "name": "enabled",
+                                      "name": "name",
                                       "payload": {
                                         "Fuzzable": {
-                                          "primitiveType": "Bool",
-                                          "defaultValue": "true"
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "key",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "Int",
+                                          "defaultValue": "1"
+                                        }
+                                      },
+                                      "isRequired": false,
+                                      "isReadOnly": false
+                                    }
+                                  },
+                                  {
+                                    "LeafNode": {
+                                      "name": "resourceId",
+                                      "payload": {
+                                        "Fuzzable": {
+                                          "primitiveType": "String",
+                                          "defaultValue": "fuzzstring"
                                         }
                                       },
                                       "isRequired": false,
@@ -371,7 +386,7 @@
                                   {
                                     "InternalNode": [
                                       {
-                                        "name": "virtualNetworks",
+                                        "name": "subnets",
                                         "propertyType": "Array",
                                         "isRequired": false,
                                         "isReadOnly": false
@@ -411,69 +426,6 @@
                                                   "isRequired": false,
                                                   "isReadOnly": false
                                                 }
-                                              },
-                                              {
-                                                "LeafNode": {
-                                                  "name": "resourceId",
-                                                  "payload": {
-                                                    "Fuzzable": {
-                                                      "primitiveType": "String",
-                                                      "defaultValue": "fuzzstring"
-                                                    }
-                                                  },
-                                                  "isRequired": false,
-                                                  "isReadOnly": false
-                                                }
-                                              },
-                                              {
-                                                "InternalNode": [
-                                                  {
-                                                    "name": "subnets",
-                                                    "propertyType": "Array",
-                                                    "isRequired": false,
-                                                    "isReadOnly": false
-                                                  },
-                                                  [
-                                                    {
-                                                      "InternalNode": [
-                                                        {
-                                                          "name": "",
-                                                          "propertyType": "Object",
-                                                          "isRequired": false,
-                                                          "isReadOnly": false
-                                                        },
-                                                        [
-                                                          {
-                                                            "LeafNode": {
-                                                              "name": "name",
-                                                              "payload": {
-                                                                "Fuzzable": {
-                                                                  "primitiveType": "String",
-                                                                  "defaultValue": "fuzzstring"
-                                                                }
-                                                              },
-                                                              "isRequired": false,
-                                                              "isReadOnly": false
-                                                            }
-                                                          },
-                                                          {
-                                                            "LeafNode": {
-                                                              "name": "key",
-                                                              "payload": {
-                                                                "Fuzzable": {
-                                                                  "primitiveType": "Int",
-                                                                  "defaultValue": "1"
-                                                                }
-                                                              },
-                                                              "isRequired": false,
-                                                              "isReadOnly": false
-                                                            }
-                                                          }
-                                                        ]
-                                                      ]
-                                                    }
-                                                  ]
-                                                ]
                                               }
                                             ]
                                           ]

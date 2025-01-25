@@ -190,7 +190,7 @@ class TestExampleGrammar(unittest.TestCase):
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_object_example_in_grammar_without_dependencies")
-        or DebugConfig().get_open_api_v2())
+        or DebugConfig().get_x_ms_examples())
     def test_object_example_in_grammar_without_dependencies(self):
         source_dir = os.path.join(TEST_ROOT_DIR, "object_example")
         if not os.path.exists(source_dir):
@@ -338,7 +338,7 @@ class TestExampleGrammar(unittest.TestCase):
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_in_grammar_without_dependencies")
-        or DebugConfig().get_open_api_v2())
+        or DebugConfig().get_x_ms_examples())
     def test_example_in_grammar_without_dependencies(self):
         source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):
@@ -365,7 +365,7 @@ class TestExampleGrammar(unittest.TestCase):
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_in_grammar_with_dependencies")
-        or DebugConfig().get_open_api_v2())
+        or DebugConfig().get_x_ms_examples())
     def test_example_in_grammar_with_dependencies(self):
         source_dir = os.path.join(TEST_ROOT_DIR, "example_demo1")
         if not os.path.exists(source_dir):

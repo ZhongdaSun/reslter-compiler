@@ -8,6 +8,8 @@ import unittest
 
 TEST_ROOT_DIR = os.path.join(os.getcwd(), "test_output")
 SWAGGER_DIR = os.path.join(os.getcwd(), "compiler_ut", "swagger")
+
+
 class NewSingletonError(Exception):
     pass
 
@@ -118,6 +120,9 @@ class DebugConfigCases:
             return not self._config_data[test_module][test_func] == 2
         else:
             return False or self._config_data[test_module][test_func] != 0
+
+    def get_x_ms_examples(self):
+        return not self._config_data["x-ms-examples"]
 
     def get_open_api_v2(self):
         return not self._config_data["openapi_2.0"]

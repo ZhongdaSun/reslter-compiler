@@ -8,24 +8,19 @@
       "description": "Description of the parameters of Private Access for a Web Site.",
       "type": "object",
       "properties": {
-        "properties": {
-          "description": "PrivateAccess resource specific properties",
-          "properties": {
-            "enabled": {
-              "description": "Whether private access is enabled or not.",
-              "type": "boolean"
-            },
-            "virtualNetworks": {
-              "description": "The Virtual Networks (and subnets) allowed to access the site privately.",
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/PrivateAccessVirtualNetwork"
-              }
-            }
-          },
-          "x-ms-client-flatten": true
+        "enabled": {
+          "description": "Whether private access is enabled or not.",
+          "type": "boolean"
+        },
+        "virtualNetworks": {
+          "description": "The Virtual Networks (and subnets) allowed to access the site privately.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateAccessVirtualNetwork"
+          }
         }
-      }
+      },
+      "x-ms-client-flatten": true
     },
     "PrivateAccessVirtualNetwork": {
       "description": "Description of a Virtual Network that is useable for private site access.",
