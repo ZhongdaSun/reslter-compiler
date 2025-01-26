@@ -45,6 +45,7 @@ SPACE_4 = 4 * f"{SPACE}"
 SPACE_20 = 24 * f"{SPACE}"
 BRACE = "{}"
 
+
 class UnsupportedType(Exception):
 
     def __init__(self, msg):
@@ -675,7 +676,6 @@ def format_json_body_parameter(
                     need_new_line = 2
                 """
 
-
         logger.write_to_main(f"cs={len(cs)}", ConfigSetting().LogConfig.code_generate)
         if property_type == NestedType.Object:
             if tab_level == 0:
@@ -702,6 +702,17 @@ def format_json_body_parameter(
             right = [RequestPrimitiveType.static_string_constant(tab_seq + "]")]
             if tab_level == 0:
                 left = [RequestPrimitiveType.static_string_constant(tab_seq + "[")]
+                if len(cs) > 0:
+                    for item in cs:
+                        if item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
+                            value = item.primitive_data.default_value
+                            if value != "":
+                                if "{" in value:
+                                    item.primitive_data.default_value = "\n" + SPACE_4 + item.primitive_data.default_value
+                                else:
+                                    break
+                        else:
+                            break
                 result = left + cs + right
             else:
                 if len(cs) == 0:
@@ -734,7 +745,8 @@ def format_json_body_parameter(
                     else:
                         last_element.primitive_data.default_value = last_element.primitive_data.default_value
 
-            result = [RequestPrimitiveType.static_string_constant(value=f"{tab_seq}\"{property_name}\":\n{SPACE_4*2}")] + cs
+            result = [RequestPrimitiveType.static_string_constant(
+                value=f"{tab_seq}\"{property_name}\":\n{SPACE_4 * 2}")] + cs
         else:
             result = cs
         logger.write_to_main(f"result={len(result)}", ConfigSetting().LogConfig.code_generate)
@@ -914,7 +926,6 @@ def generate_python_parameter(parameter_source,
                 return False
             elif isinstance(primitive_type, PrimitiveTypeEnum):
                 return is_primitive_type_quoted(primitive_type.primitive_type, False)
-
 
         # Exclude 'readonly' parameters
 
@@ -1298,7 +1309,7 @@ def generate_python_from_request_element(request_element,
     elif request_element[0] == RequestElementType.Headers:
         return [RequestPrimitiveType.static_string_constant(f"{name}: {content}" + r"\r\n")
                 if content is not None else RequestPrimitiveType.static_string_constant(f"{name}: " + r"\r\n")
-                for name, content in request_element[1] ]
+                for name, content in request_element[1]]
     elif request_element[0] == RequestElementType.HttpVersion:
         string_value = f"{SPACE}HTTP/{request_element[1]}" + r"\r\n"
         return [RequestPrimitiveType.static_string_constant(value=string_value)]
@@ -1400,7 +1411,8 @@ def generate_python_from_request_element(request_element,
     },
 """ % "".join([' ' + stmt for stmt in reader_variables_list])
                     primitive_element = primitive_element + [RequestPrimitiveType.response_parser(pre_send_element)]
-                    logger.write_to_main(f"pre_send_element={pre_send_element}", ConfigSetting().LogConfig.code_generate)
+                    logger.write_to_main(f"pre_send_element={pre_send_element}",
+                                         ConfigSetting().LogConfig.code_generate)
                 if len(all_writer_variable_statements) > 0:
                     if parser_statement != "":
                         post_send_element = """{
@@ -1430,10 +1442,11 @@ def generate_python_from_request_element(request_element,
 
     },
     """ % (f",\n{SPACE_20}".join([stmt for stmt in all_writer_variable_statements]))
-                # post_send_element, _ = quote_string_for_python_grammar(post_send_element)
-                # post_send_element = "".join([stmt for stmt in all_writer_variable_statements])
+                    # post_send_element, _ = quote_string_for_python_grammar(post_send_element)
+                    # post_send_element = "".join([stmt for stmt in all_writer_variable_statements])
                     primitive_element = primitive_element + [RequestPrimitiveType.response_parser(post_send_element)]
-                    logger.write_to_main(f"post_send_element={post_send_element}", ConfigSetting().LogConfig.code_generate)
+                    logger.write_to_main(f"post_send_element={post_send_element}",
+                                         ConfigSetting().LogConfig.code_generate)
             return primitive_element
         else:
             return []
@@ -1617,9 +1630,9 @@ def get_response_parsers(requests: List[Request]):
             parser.header_writer_variables, variable_kind=DynamicObjectVariableKind.HeaderKind)
 
         body_parsing_statements = "\n".join(parsing_statement_with_try_except(ps[1], ps[5])
-                                          for ps in response_body_parsing_statements)
+                                            for ps in response_body_parsing_statements)
         header_parsing_statements = "".join(parsing_statement_with_try_except(ps[1], ps[5])
-                                              for ps in response_header_parsing_statements)
+                                            for ps in response_header_parsing_statements)
 
         if len(response_body_parsing_statements + response_header_parsing_statements) == 1:
             body_parser_info = "if not (" + ', '.join(

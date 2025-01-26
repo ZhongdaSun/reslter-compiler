@@ -144,6 +144,138 @@
       "requestMetadata": {
         "isLongRunningOperation": false
       }
+    },
+    {
+      "id": {
+        "endpoint": "/producer",
+        "method": "Put"
+      },
+      "method": "Put",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "producer"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "msgs",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Array",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "InternalNode": [
+                          {
+                            "name": "",
+                            "propertyType": "Object",
+                            "isRequired": true,
+                            "isReadOnly": false
+                          },
+                          [
+                            {
+                              "LeafNode": {
+                                "name": "content",
+                                "payload": {
+                                  "Fuzzable": {
+                                    "primitiveType": "Object",
+                                    "defaultValue": "{ \"fuzz\": false }"
+                                  }
+                                },
+                                "isRequired": false,
+                                "isReadOnly": false
+                              }
+                            },
+                            {
+                              "LeafNode": {
+                                "name": "msgType",
+                                "payload": {
+                                  "Fuzzable": {
+                                    "primitiveType": "String",
+                                    "defaultValue": "fuzzstring"
+                                  }
+                                },
+                                "isRequired": false,
+                                "isReadOnly": false
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
     }
   ]
 }

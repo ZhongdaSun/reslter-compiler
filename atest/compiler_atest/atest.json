@@ -14,11 +14,11 @@
     "test_circular_path": 0,
     "test_put_createorupdate": 0,
     "test_large_json_body": 0,
-    "test_large_json_body_level_1": 2,
-    "test_large_json_body_level_2": 2,
+    "test_large_json_body_level_1": 20,
+    "test_large_json_body_level_2": 20,
     "test_large_json_body_level_3": 0,
     "test_large_json_body_level_4": 0,
-    "test_large_json_body_level_5": 2,
+    "test_large_json_body_level_5": 20,
     "test_large_json_body_level_6": 0,
     "test_large_json_body_level_7": 0,
     "test_lowercase_paths": 0,
@@ -56,7 +56,7 @@
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
     "test_example_demo_1": 0,
-    "test_definition_type_schema": 0,
+    "test_definition_type_schema": 2,
     "test_type_checking": 100
   },
 

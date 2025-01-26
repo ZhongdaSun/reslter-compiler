@@ -10,6 +10,20 @@
     "version": "1.0"
   },
   "definitions": {
+    "SyncMsg": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "object",
+          "description": "消息内容，用key,value表示"
+        },
+        "msgType": {
+          "type": "string",
+          "description": "消息类型，客户端自定义"
+        }
+      },
+      "title": "SyncMsg"
+    },
     "ExampleObject": {
       "properties": {
         "name": {
@@ -87,7 +101,34 @@
           }
         }
       }
-      }
     },
+    "/producer": {
+      "put": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "msgs",
+            "description": "send message",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "originalRef": "SyncMsg",
+                "$ref": "#/definitions/SyncMsg"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Server not found."
+          }
+        }
+      }
+    }
+  },
   "swagger": "2.0"
 }
