@@ -104,14 +104,6 @@
       "get": {
         "parameters": [
           {
-            "name": "scaleCount",
-            "in": "query",
-            "description": "count",
-            "required": true,
-            "type": "int",
-            "allowEmptyValue": false
-          },
-          {
             "in": "body",
             "name": "serviceIds",
             "description": "serviceIds",

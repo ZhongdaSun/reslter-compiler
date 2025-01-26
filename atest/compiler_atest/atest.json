@@ -31,7 +31,7 @@
     "test_empty_array_example": 0,
     "test_object_example": 0,
     "test_null_test_swagger": 0,
-    "test_array_example": 0,
+    "test_array_example": 2,
     "test_required_params_include_optional_parameters": 0,
     "test_required_params_not_include_optional_parameters": 0,
     "test_get_path_dependencies": 0,
@@ -56,8 +56,8 @@
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
     "test_example_demo_1": 0,
-    "test_definition_type_schema": 2,
-    "test_type_checking": 100
+    "test_definition_type_schema": 0,
+    "test_type_checking": 2
   },
 
   "test_dict": {

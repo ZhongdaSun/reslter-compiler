@@ -164,24 +164,7 @@
         [
           "Schema",
           {
-            "ParameterList": [
-              {
-                "name": "scaleCount",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Fuzzable": {
-                        "primitiveType": "Object",
-                        "defaultValue": "{ \"fuzz\": false }"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              }
-            ]
+            "ParameterList": []
           }
         ]
       ],
