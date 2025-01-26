@@ -706,11 +706,8 @@ def format_json_body_parameter(
                     for item in cs:
                         if item.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
                             value = item.primitive_data.default_value
-                            if value != "":
-                                if "{" in value:
-                                    item.primitive_data.default_value = "\n" + SPACE_4 + item.primitive_data.default_value
-                                else:
-                                    break
+                            if value == "":
+                                item.primitive_data.default_value = "\n"
                         else:
                             break
                 result = left + cs + right
@@ -1767,14 +1764,14 @@ def generate_python_from_request(request: Request, merge_static_strings):
         logger.write_to_main(f"request_element={len(request_element)}", ConfigSetting().LogConfig.code_generate)
 
         if request_element[0] == RequestElementType.Body and merge_static_strings and len(primitives) > 1:
-            filtered_primitives = [
-                p
-                for p in primitives
-                if not (p.type == RequestPrimitiveTypeEnum.Restler_static_string_jtoken_delim and
-                        not p.primitive_data.default_value) and
-                   not (p.type == RequestPrimitiveTypeEnum.Restler_static_string_constant and
-                        (p.primitive_data.default_value is None or not p.primitive_data.default_value.strip()))
-            ]
+            filtered_primitives = []
+            for p in primitives:
+                if p.type == RequestPrimitiveTypeEnum.Restler_static_string_constant:
+                    if p.primitive_data.default_value is not None:
+                        # if p.primitive_data.default_value.strip():
+                            filtered_primitives.append(p)
+                else:
+                    filtered_primitives.append(p)
 
             new_primitive_seq = []
             next_list = []

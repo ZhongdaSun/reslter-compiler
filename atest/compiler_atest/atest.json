@@ -1,5 +1,5 @@
 {
-  "debug_mode": false,
+  "debug_mode": true,
   "debug_file": "test_swagger_only.py",
   "skip_python": false,
   "validate_grammar": true,

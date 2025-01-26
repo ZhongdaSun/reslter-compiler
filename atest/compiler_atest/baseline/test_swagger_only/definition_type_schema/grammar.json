@@ -147,6 +147,130 @@
     },
     {
       "id": {
+        "endpoint": "/customers",
+        "method": "Get"
+      },
+      "method": "Get",
+      "basePath": "/api",
+      "path": [
+        {
+          "Constant": [
+            "String",
+            "customers"
+          ]
+        }
+      ],
+      "queryParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "scaleCount",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Fuzzable": {
+                        "primitiveType": "Object",
+                        "defaultValue": "{ \"fuzz\": false }"
+                      }
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "bodyParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": [
+              {
+                "name": "serviceIds",
+                "payload": {
+                  "InternalNode": [
+                    {
+                      "name": "",
+                      "propertyType": "Array",
+                      "isRequired": true,
+                      "isReadOnly": false
+                    },
+                    [
+                      {
+                        "LeafNode": {
+                          "name": "",
+                          "payload": {
+                            "Fuzzable": {
+                              "primitiveType": "String",
+                              "defaultValue": "fuzzstring"
+                            }
+                          },
+                          "isRequired": true,
+                          "isReadOnly": false
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "headerParameters": [
+        [
+          "Schema",
+          {
+            "ParameterList": []
+          }
+        ],
+        [
+          "DictionaryCustomPayload",
+          {
+            "ParameterList": [
+              {
+                "name": "Content-Type",
+                "payload": {
+                  "LeafNode": {
+                    "name": "",
+                    "payload": {
+                      "Constant": [
+                        "String",
+                        "application/json"
+                      ]
+                    },
+                    "isRequired": true,
+                    "isReadOnly": false
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "token": "Refreshable",
+      "headers": [
+        [
+          "Accept",
+          "application/json"
+        ],
+        [
+          "Host",
+          "localhost:8888"
+        ]
+      ],
+      "httpVersion": "1.1",
+      "requestMetadata": {
+        "isLongRunningOperation": false
+      }
+    },
+    {
+      "id": {
         "endpoint": "/producer",
         "method": "Put"
       },
