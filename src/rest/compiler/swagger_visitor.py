@@ -580,112 +580,80 @@ def process_property(swagger_doc: SwaggerDoc,
                                              property_type=NestedType.Array,
                                              is_required=property_required,
                                              is_readonly=is_readonly)
-        if array_type == "":
-            if ConfigSetting().JsonPropertyMaxDepth is not None:
-                if len(parents) >= ConfigSetting().JsonPropertyMaxDepth:
-                    return InternalNode(inner_property=inner_array_property, leaf_properties=[])
-                if len(parents) + 1 == ConfigSetting().JsonPropertyMaxDepth:
-                    payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
-                                              default_value="{ }",
-                                              example_value=property_payload_example_value,
-                                              parameter_name=property_name,
-                                              dynamic_object=None)
-                    leaf_node = LeafNode(leaf_property=LeafProperty(name="",
-                                                                    payload=payload,
-                                                                    is_required=property_required,
-                                                                    is_readonly=is_readonly))
+        if array_type == "" and ConfigSetting().JsonPropertyMaxDepth is not None:
+            if len(parents) >= ConfigSetting().JsonPropertyMaxDepth:
+                return InternalNode(inner_property=inner_array_property, leaf_properties=[])
+            if len(parents) + 1 == ConfigSetting().JsonPropertyMaxDepth:
+                payload = FuzzablePayload(primitive_type=PrimitiveType.Object,
+                                          default_value="{ }",
+                                          example_value=property_payload_example_value,
+                                          parameter_name=property_name,
+                                          dynamic_object=None)
+                leaf_node = LeafNode(leaf_property=LeafProperty(name="",
+                                                                payload=payload,
+                                                                is_required=property_required,
+                                                                is_readonly=is_readonly))
 
-                    return InternalNode(inner_property=inner_array_property, leaf_properties=[leaf_node])
-
-            if property_payload_example_value is None:
-                array_with_elements = generate_grammar_element_for_schema(swagger_doc,
-                                                                          array_item,
-                                                                          property_payload_example_value,
-                                                                          generate_fuzzable_payload,
-                                                                          track_parameters,
-                                                                          property_required,
-                                                                          [property_schema] + parents,
-                                                                          schema_cache,
-                                                                          cont)
-                logger.write_to_main(f"array_with_elements={array_with_elements.__dict__()}",
-                                     ConfigSetting().LogConfig.swagger_visitor)
-                if isinstance(array_with_elements, LeafNode):
-                    array_with_elements.leaf_property.is_required = property_required
+                return InternalNode(inner_property=inner_array_property, leaf_properties=[leaf_node])
+        if array_type in ["", "array", "object"] and property_payload_example_value is None:
+            array_with_elements = generate_grammar_element_for_schema(swagger_doc,
+                                                                      array_item,
+                                                                      property_payload_example_value,
+                                                                      generate_fuzzable_payload,
+                                                                      track_parameters,
+                                                                      property_required,
+                                                                      [property_schema] + parents,
+                                                                      schema_cache,
+                                                                      cont)
+            logger.write_to_main(f"array_with_elements={array_with_elements.__dict__()}",
+                                 ConfigSetting().LogConfig.swagger_visitor)
+            if isinstance(array_with_elements, LeafNode):
+                array_with_elements.leaf_property.is_required = property_required
+            tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
+            return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
+        elif (property_payload_example_value is None or
+              (property_payload_example_value is not None
+               and not (isinstance(property_payload_example_value, list) and not isinstance(property_payload_example_value, dict)))):
+            array_with_elements = process_property(swagger_doc,
+                                                   "",
+                                                   array_item,
+                                                   property_payload_example_value,
+                                                   generate_fuzzable_payload,
+                                                   track_parameters,
+                                                   [property_schema] + parents,
+                                                   schema_cache,
+                                                   cont)
+            if isinstance(array_with_elements, LeafNode):
+                array_with_elements.leaf_property.is_required = property_required
                 tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
                 return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
             else:
-                if isinstance(property_payload_example_value, list):
-                    array_with_elements = []
-                    for item in property_payload_example_value:
-                        array_with_element = generate_grammar_element_for_schema(swagger_doc,
-                                                                                 array_item,
-                                                                                 item,
-                                                                                 generate_fuzzable_payload,
-                                                                                 track_parameters,
-                                                                                 property_required,
-                                                                                 [property_schema] + parents,
-                                                                                 schema_cache,
-                                                                                 cont)
-                        if isinstance(array_with_element, InternalNode):
-                            tree = add_tracked_parameter_name(array_with_element, property_name, is_readonly)
-                            array_with_elements.append(tree)
-                    return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
+                raise ValueError("An array should be an internal node.")
+        elif (property_payload_example_value is not None and
+              (isinstance(property_payload_example_value, list) or isinstance(property_payload_example_value, dict))):
+            if isinstance(property_payload_example_value, dict):
+                property_payload_example_value = property_payload_example_value.values()
+            array_with_elements = []
+            for item in property_payload_example_value:
+                example_property_payload = GenerateGrammarElements.format_jtoken_property(array_type,
+                                                                                          item)
+                item_value = SchemaUtilities.format_example_value(example_property_payload)
+                elements = process_property(swagger_doc,
+                                            "",
+                                            array_item,
+                                            item_value,
+                                            generate_fuzzable_payload,
+                                            track_parameters,
+                                            parents,
+                                            schema_cache,
+                                            cont)
+                if isinstance(elements, LeafNode):
+                    elements.leaf_property.is_required = property_required
+                    tree = add_tracked_parameter_name(elements, property_name, is_readonly)
+                    array_with_elements.append(tree)
+            return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
         else:
-            if property_payload_example_value is None:
-                if array_type in ["array", "object"]:
-                    array_with_elements = generate_grammar_element_for_schema(swagger_doc,
-                                                                              array_item,
-                                                                              property_payload_example_value,
-                                                                              generate_fuzzable_payload,
-                                                                              track_parameters,
-                                                                              property_required,
-                                                                              [property_schema] + parents,
-                                                                              schema_cache,
-                                                                              cont)
-                    if isinstance(array_with_elements, InternalNode):
-                        tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
-                        return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
-                    else:
-                        raise ValueError("An array should be an internal node.")
-                else:
-                    array_with_elements = process_property(swagger_doc,
-                                                           "",
-                                                           array_item,
-                                                           property_payload_example_value,
-                                                           generate_fuzzable_payload,
-                                                           track_parameters,
-                                                           [property_schema] + parents,
-                                                           schema_cache,
-                                                           cont)
-                    if isinstance(array_with_elements, LeafNode):
-                        array_with_elements.leaf_property.is_required = property_required
-                        tree = add_tracked_parameter_name(array_with_elements, property_name, is_readonly)
-                        return InternalNode(inner_property=inner_array_property, leaf_properties=[tree])
-                    else:
-                        raise ValueError("An array should be an internal node.")
-            else:
-                if isinstance(property_payload_example_value, list):
-                    array_with_elements = []
-                    for item in property_payload_example_value:
-                        example_property_payload = GenerateGrammarElements.format_jtoken_property(array_type,
-                                                                                                  item)
-                        item_value = SchemaUtilities.format_example_value(example_property_payload)
-                        elements = process_property(swagger_doc,
-                                                    "",
-                                                    array_item,
-                                                    item_value,
-                                                    generate_fuzzable_payload,
-                                                    track_parameters,
-                                                    parents,
-                                                    schema_cache,
-                                                    cont)
-                        if isinstance(elements, LeafNode):
-                            elements.leaf_property.is_required = property_required
-                            tree = add_tracked_parameter_name(elements, property_name, is_readonly)
-                            array_with_elements.append(tree)
-                    return InternalNode(inner_property=inner_array_property, leaf_properties=array_with_elements)
-                else:
-                    raise ValueError("An array should be an internal node.")
+            raise ValueError("An array should be an internal node.")
 
     else:
         raise ValueError(f"Found unsupported type in body parameters: {property_type}")
