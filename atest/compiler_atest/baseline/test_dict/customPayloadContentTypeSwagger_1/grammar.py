@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _stores_post_id = dependencies.DynamicVariable("_stores_post_id")
 
@@ -310,9 +310,6 @@ request = requests.Request([
     primitives.restler_fuzzable_datetime("2019-06-26T20:20:39+00:00", quoted=False),
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("Content-Type: "),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
-    primitives.restler_static_string("\r\n"),
-    primitives.restler_static_string("Content-Type: "),
     primitives.restler_custom_payload("/stores/{storeId}/order3/post/Content-Type", quoted=False),
     primitives.restler_static_string("\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
@@ -396,9 +393,6 @@ request = requests.Request([
     primitives.restler_static_string("Host: localhost:8888\r\n"),
     primitives.restler_static_string("submittedDate: "),
     primitives.restler_fuzzable_datetime("2019-06-26T20:20:39+00:00", quoted=False),
-    primitives.restler_static_string("\r\n"),
-    primitives.restler_static_string("Content-Type: "),
-    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("Content-Type: "),
     primitives.restler_static_string("application/json"),

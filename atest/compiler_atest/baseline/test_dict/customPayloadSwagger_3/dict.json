@@ -63,5 +63,7 @@
   "restler_custom_payload_uuid4_suffix": {
     "/storeProperties/tags": "storeprope",
     "code": "code"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

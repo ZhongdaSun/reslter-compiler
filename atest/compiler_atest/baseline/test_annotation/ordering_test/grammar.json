@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "products"
           ]
         }
@@ -88,6 +94,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "services"
           ]
         }
@@ -162,6 +174,12 @@
       "method": "Get",
       "basePath": "/api",
       "path": [
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
         {
           "Constant": [
             "String",

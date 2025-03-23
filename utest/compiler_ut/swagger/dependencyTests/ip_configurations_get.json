@@ -294,13 +294,6 @@
         "description": "Creates or updates a network interface.",
         "parameters": [
           {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group."
-          },
-          {
             "name": "networkInterfaceName",
             "in": "path",
             "required": true,
@@ -330,9 +323,6 @@
               "$ref": "#/definitions/NetworkInterface"
             }
           }
-        },
-        "x-ms-examples": {
-          "Create network interface": { "$ref": "./examples/create_network_interface.json" }
         },
         "x-ms-long-running-operation": true
       }
@@ -410,11 +400,6 @@
             }
           }
         ],
-        "x-ms-examples": {
-          "Create subnet": {
-            "$ref": "./examples/create_subnet.json"
-          }
-        },
         "responses": {
           "201": {
             "description": "Success",
@@ -443,11 +428,6 @@
             }
           }
         ],
-        "x-ms-examples": {
-          "Create vnet": {
-            "$ref": "./examples/create_application_gateway.json"
-          }
-        },
         "responses": {
           "201": {
             "description": "Success",
@@ -476,11 +456,6 @@
             }
           }
         ],
-        "x-ms-examples": {
-          "Create vnet": {
-            "$ref": "./examples/create_vnet_with_subnet.json"
-          }
-        },
         "responses": {
           "201": {
             "description": "Success",

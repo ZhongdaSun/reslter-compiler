@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "sites"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -23,7 +35,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "slots"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -91,7 +115,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "sites"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -103,7 +139,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "slots"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -171,7 +219,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "sites"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -183,7 +243,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "slots"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

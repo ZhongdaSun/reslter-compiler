@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "customer"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

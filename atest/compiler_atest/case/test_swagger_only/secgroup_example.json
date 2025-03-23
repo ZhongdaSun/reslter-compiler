@@ -25,6 +25,13 @@
         "description": "Creates or updates an application security group.",
         "parameters": [
           {
+            "name": "subscriptionId",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "description": "The name of the resource group."
+          },
+          {
             "name": "resourceGroupName",
             "in": "path",
             "required": true,

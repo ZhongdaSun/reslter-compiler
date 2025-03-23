@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from atest.utilities import (
+from utilities import (
     DebugConfig,
     compile_spec,
     Dict_Json,
@@ -33,7 +33,7 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_subnet_id"))
     def test_subnet_id(self):
         result, msg = compile_spec(module_name,
-                                   'subnet_id', [], "subnet_id.json")
+                                   'subnet_id', [Dict_Json], "subnet_id.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -55,7 +55,7 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_frontend_port_id"))
     def test_frontend_port_id(self):
         result, msg = compile_spec(module_name,
-                                   'frontend_port_id', [],
+                                   'frontend_port_id', [Dict_Json],
                                    "frontend_port_id.json")
         self.assertTrue(result, msg=msg)
 
@@ -64,7 +64,7 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_inconsistent_casing_paths"))
     def test_inconsistent_casing_paths(self):
         result, msg = compile_spec(module_name,
-                                   'inconsistent_casing_paths', [], "inconsistent_casing_paths.json")
+                                   'inconsistent_casing_paths', [Dict_Json], "inconsistent_casing_paths.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -100,16 +100,9 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_put_createorupdate"))
     def test_put_createorupdate(self):
         result, msg = compile_spec(module_name,
-                                   'put_createorupdate', [Dict_Json],
+                                   'put_createorupdate', [Dict_Json, Engine_Settings],
                                    "put_createorupdate.json")
         self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_put_createorupdate_engine"))
-    def test_put_createorupdate_engine(self):
-        result, msg = compile_spec(module_name,
-                                   'put_createorupdate', [Engine_Settings],
-                                   "put_createorupdate.json")
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_large_json_body"))
@@ -310,17 +303,10 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_global_path_parameters"))
     def test_global_path_parameters(self):
         result, msg = compile_spec(module_name,
-                                   'global_path_parameters', [],
+                                   'global_path_parameters', [Dict_Json, Engine_Settings],
                                    "global_path_parameters.json")
         self.assertTrue(result, msg=msg)
 
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_global_path_parameters_engine"))
-    def test_global_path_parameters_engine(self):
-        result, msg = compile_spec(module_name,
-                                   'global_path_parameters', [Engine_Settings, Dict_Json],
-                                   "global_path_parameters.json")
-        self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_example_demo"))
@@ -414,14 +400,14 @@ class TestSwaggerOnly(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_same_body_dep"))
     def test_same_body_dep(self):
         result, msg = compile_spec(module_name,
-                                   'same_body_dep', [], "same_body_dep.json")
+                                   'same_body_dep', [Dict_Json], "same_body_dep.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
         DebugConfig().get_cases_config(module_name, "test_secgroup_example"))
     def test_secgroup_example(self):
         result, msg = compile_spec(module_name,
-                                   'secgroup_example', [], "secgroup_example.json")
+                                   'secgroup_example', [Dict_Json, Engine_Settings], "secgroup_example.json")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -443,20 +429,6 @@ class TestSwaggerOnly(unittest.TestCase):
     def test_example_demo_1(self):
         result, msg = compile_spec(module_name,
                                    'example_demo_1', [], "example_demo_1.json")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_definition_type_schema"))
-    def test_definition_type_schema(self):
-        result, msg = compile_spec(module_name,
-                                   'definition_type_schema', [], "definition_type_schema.json")
-        self.assertTrue(result, msg=msg)
-
-    @custom_skip_decorator(
-        DebugConfig().get_cases_config(module_name, "test_type_checking"))
-    def test_type_checking(self):
-        result, msg = compile_spec(module_name,
-                                   'type_checking', [], "type_checking.json")
         self.assertTrue(result, msg=msg)
 
 

@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
@@ -69,6 +75,12 @@
       "method": "Post",
       "basePath": "/api",
       "path": [
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
         {
           "Constant": [
             "String",
@@ -156,7 +168,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -165,6 +189,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -452,7 +482,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -465,7 +507,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "order"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

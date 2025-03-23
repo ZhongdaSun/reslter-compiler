@@ -25,7 +25,7 @@ import sys
 import re
 import unittest
 import warnings
-from atest.utilities import DebugConfigCases, DebugConfig
+from utilities import DebugConfigCases, DebugConfig
 
 
 if not sys.warnoptions:
@@ -122,10 +122,7 @@ if __name__ == "__main__":
         file_name = DebugConfig().get_debug_file()
         tests = get_tests_file_name(file_name, DebugConfig().get_debug_module())
     else:
-        if DebugConfig().get_debug_module() == "compiler_atest":
-            path_name = os.path.join(os.getcwd(), "compiler_atest")
-        else:
-            path_name = os.path.join(args.directory)
+        path_name = os.path.join(os.getcwd(), "compiler_atest")
         tests = get_tests(path_name)
 
     suite = unittest.TestSuite(tests)

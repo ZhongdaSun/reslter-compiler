@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
@@ -46,7 +52,7 @@
                             "Fuzzable": {
                               "primitiveType": "Int",
                               "defaultValue": "1",
-                              "exampleValue": "\"xyz\""
+                              "exampleValue": "xyz"
                             }
                           },
                           "isRequired": false,
@@ -100,7 +106,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -119,7 +125,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -203,7 +221,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",

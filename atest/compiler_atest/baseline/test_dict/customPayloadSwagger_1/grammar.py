@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _stores_post_id = dependencies.DynamicVariable("_stores_post_id")
 
@@ -114,6 +114,9 @@ request = requests.Request([
     primitives.restler_static_string(" HTTP/1.1\r\n"),
     primitives.restler_static_string("Accept: application/json\r\n"),
     primitives.restler_static_string("Host: localhost:8888\r\n"),
+    primitives.restler_static_string("Content-Type: "),
+    primitives.restler_static_string("application/json"),
+    primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("extra_header1: "),
     primitives.restler_custom_payload_header("extra_header1"),
     primitives.restler_static_string("\r\n"),
@@ -122,9 +125,6 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("spec_header1: "),
     primitives.restler_custom_payload_header("spec_header1"),
-    primitives.restler_static_string("\r\n"),
-    primitives.restler_static_string("Content-Type: "),
-    primitives.restler_static_string("application/json"),
     primitives.restler_static_string("\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
     primitives.restler_static_string("\r\n"),
@@ -181,6 +181,9 @@ request = requests.Request([
     primitives.restler_static_string(" HTTP/1.1\r\n"),
     primitives.restler_static_string("Accept: application/json\r\n"),
     primitives.restler_static_string("Host: localhost:8888\r\n"),
+    primitives.restler_static_string("Content-Type: "),
+    primitives.restler_static_string("application/json"),
+    primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("extra_header1: "),
     primitives.restler_custom_payload_header("extra_header1"),
     primitives.restler_static_string("\r\n"),
@@ -189,9 +192,6 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
     primitives.restler_static_string("spec_header1: "),
     primitives.restler_custom_payload_header("spec_header1"),
-    primitives.restler_static_string("\r\n"),
-    primitives.restler_static_string("Content-Type: "),
-    primitives.restler_static_string("application/json"),
     primitives.restler_static_string("\r\n"),
     primitives.restler_refreshable_authentication_token("authentication_token_tag"),
     primitives.restler_static_string("\r\n"),

@@ -1,8 +1,9 @@
 import unittest
 import os
 
-from atest.utilities import (
+from utilities import (
     DebugConfig,
+    Dict_Json,
     compile_spec,
     custom_skip_decorator)
 
@@ -21,7 +22,7 @@ class TestInputProducerSpec(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_input_producer_spec"))
     def test_input_producer_spec(self):
         result, msg = compile_spec(module_name,
-                                   'input_producer_spec', [], "")
+                                   'input_producer_spec', [Dict_Json], "")
         self.assertTrue(result, msg=msg)
 
 

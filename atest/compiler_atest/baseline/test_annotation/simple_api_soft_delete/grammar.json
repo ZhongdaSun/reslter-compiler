@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "app"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -123,7 +135,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "app"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -191,13 +215,31 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "data"
           ]
         },
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "deletedApps"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

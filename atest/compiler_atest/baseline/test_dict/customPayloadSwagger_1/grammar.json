@@ -11,13 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -88,7 +94,7 @@
       ],
       "headerParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -205,7 +211,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -218,7 +236,7 @@
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -381,7 +399,7 @@
       ],
       "headerParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -492,7 +510,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -501,6 +531,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -883,7 +919,7 @@
       ],
       "headerParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {

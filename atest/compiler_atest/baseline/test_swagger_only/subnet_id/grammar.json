@@ -11,12 +11,24 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "subnets"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "DynamicObject": {
-            "primitiveType": "Object",
+            "primitiveType": "String",
             "variableName": "_subnets__subnetName__put_name",
             "isWriter": false
           }
@@ -79,7 +91,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "subnets"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -319,7 +343,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "applicationGateways"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -583,7 +619,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "virtualNetworks"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

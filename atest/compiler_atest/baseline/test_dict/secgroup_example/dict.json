@@ -55,5 +55,7 @@
     "tapConfigurationName": "tap-config",
     "virtualNetworkName": "vnet",
     "virtualNetworkPeeringName": "vnet-peering"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

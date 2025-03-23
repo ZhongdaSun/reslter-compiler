@@ -2,21 +2,5 @@
   "SwaggerSpecFilePath": [
     "large_json_body.json"
   ],
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": false,
-  "UseBodyExamples": false,
-  "UseAllExamplePayloads": false,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
-  "DataFuzzing": false,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false,
   "JsonPropertyMaxDepth": 5
 }

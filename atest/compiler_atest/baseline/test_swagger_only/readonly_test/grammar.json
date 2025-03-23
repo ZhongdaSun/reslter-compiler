@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "resource"
           ]
         }
@@ -174,7 +180,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -216,7 +222,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "resource"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -265,7 +283,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",

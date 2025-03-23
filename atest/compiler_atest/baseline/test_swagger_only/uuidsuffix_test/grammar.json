@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "customer"
           ]
         }
@@ -183,7 +189,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -225,7 +231,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "customer"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -334,7 +352,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",

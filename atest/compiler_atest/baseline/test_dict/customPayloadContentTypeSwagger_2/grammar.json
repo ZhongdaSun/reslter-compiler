@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
@@ -35,62 +41,7 @@
         [
           "Schema",
           {
-            "ParameterList": [
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              }
-            ]
+            "ParameterList": []
           }
         ],
         [
@@ -150,7 +101,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -273,62 +236,7 @@
         [
           "Schema",
           {
-            "ParameterList": [
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              }
-            ]
+            "ParameterList": []
           }
         ],
         [
@@ -382,7 +290,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -391,6 +311,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -721,62 +647,7 @@
         [
           "Schema",
           {
-            "ParameterList": [
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              }
-            ]
+            "ParameterList": []
           }
         ],
         [
@@ -789,10 +660,12 @@
                   "LeafNode": {
                     "name": "",
                     "payload": {
-                      "Constant": [
-                        "String",
-                        "application/json"
-                      ]
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
+                        "isObject": false
+                      }
                     },
                     "isRequired": true,
                     "isReadOnly": false
@@ -830,7 +703,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -839,6 +724,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -1168,60 +1059,6 @@
                     "isReadOnly": false
                   }
                 }
-              },
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
               }
             ]
           }
@@ -1236,10 +1073,12 @@
                   "LeafNode": {
                     "name": "",
                     "payload": {
-                      "Constant": [
-                        "String",
-                        "application/json"
-                      ]
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
+                        "isObject": false
+                      }
                     },
                     "isRequired": true,
                     "isReadOnly": false
@@ -1277,7 +1116,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -1286,6 +1137,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -1599,76 +1456,6 @@
                     "isReadOnly": false
                   }
                 }
-              },
-              {
-                "name": "Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Fuzzable": {
-                        "primitiveType": "String",
-                        "defaultValue": "fuzzstring"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
               }
             ]
           }
@@ -1683,10 +1470,12 @@
                   "LeafNode": {
                     "name": "",
                     "payload": {
-                      "Constant": [
-                        "String",
-                        "application/json"
-                      ]
+                      "Custom": {
+                        "payloadType": "Header",
+                        "primitiveType": "String",
+                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
+                        "isObject": false
+                      }
                     },
                     "isRequired": true,
                     "isReadOnly": false
@@ -1724,7 +1513,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -1733,6 +1534,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -2040,76 +1847,6 @@
                       "Fuzzable": {
                         "primitiveType": "DateTime",
                         "defaultValue": "2019-06-26T20:20:39+00:00"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Fuzzable": {
-                        "primitiveType": "String",
-                        "defaultValue": "fuzzstring"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order2/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order2/post/Content-Type",
-                        "isObject": false
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "/stores/{storeId}/order3/post/Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Custom": {
-                        "payloadType": "Header",
-                        "primitiveType": "String",
-                        "payloadValue": "/stores/{storeId}/order3/post/Content-Type",
-                        "isObject": false
                       }
                     },
                     "isRequired": true,

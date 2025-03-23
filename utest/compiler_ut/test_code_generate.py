@@ -1,12 +1,12 @@
 import unittest
 import os
 import shutil
-from rest.compiler.code_generate import (
+from compiler.code_generate import (
     format_restler_primitive,
     generate_python_parameter,
     SPACE,
     get_requests)
-from rest.compiler.grammar import (
+from compiler.grammar import (
     Constant,
     LeafNode,
     PrimitiveType,
@@ -25,9 +25,9 @@ from rest.compiler.grammar import (
     InternalNode,
     InnerProperty,
     ParameterKind)
-from rest.compiler.config import Config, ConfigSetting
+from compiler.config import Config, ConfigSetting
 
-from rest.compiler.workflow import generate_restler_grammar, Constants
+from compiler.workflow import generate_restler_grammar, Constants
 from compiler_ut.utilities import (
     TEST_ROOT_DIR,
     SWAGGER_DIR,

@@ -184,15 +184,72 @@
         }
       },
       "title": "GeoPoint"
+    },
+    "MeterUnit": {
+      "type": "object",
+      "properties": {
+        "meterId": { "type": "string" },
+        "unitId": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "title": "MeterUnit"
+    },
+    "外部服务返回结果对象模型": {
+      "type": "object",
+      "properties": {
+        "childPaths": {
+          "type": "array",
+          "example": [
+            {
+              "meterId": "31004_-1210018023",
+              "unitId": [ "1" ]
+            }
+          ],
+          "description": "查询的仪表及其子单元信息",
+          "items": {
+            "$ref": "#/definitions/MeterUnit",
+            "originalRef": "MeterUnit"
+          }
+        }
+      },
+      "title": "外部服务返回结果对象模型"
     }
   },
   "paths": {
-    "/v1/application/export": {
+    "/order": {
       "post": {
-        "tags": [ "application-update-controller" ],
-        "summary": "export the file",
-        "consumes": [ "application/json;charset=UTF-8" ],
-        "produces": [ "application/octet-stream" ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "params",
+            "description": "params",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/外部服务返回结果对象模型",
+              "originalRef": "外部服务返回结果对象模型"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/外部服务返回结果对象模型",
+              "originalRef": "外部服务返回结果对象模型"
+            }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/producer/custorm": {
+      "post": {
         "parameters": [
           {
             "in": "body",
@@ -221,12 +278,9 @@
         "deprecated": false
       }
     },
-    "/v1/application/scale": {
+    "/custorm": {
       "patch": {
-        "tags": [ "kubernetes-controller" ],
         "operationId": "scaleDeploymentUsingPATCH",
-        "consumes": [ "application/json" ],
-        "produces": [ "*/*" ],
         "parameters": [
           {
             "name": "scaleCount",
@@ -249,13 +303,8 @@
         "deprecated": false
       }
     },
-    "/v1/application/scale/order": {
+    "/producer": {
       "post": {
-        "tags": [ "queryservice-operate-controller" ],
-        "summary": "ExampleBody3",
-        "operationId": "listAlarmRecordUsingPOST_1",
-        "consumes": [ "application/json" ],
-        "produces": [ "*/*" ],
         "parameters": [
           {
             "in": "body",

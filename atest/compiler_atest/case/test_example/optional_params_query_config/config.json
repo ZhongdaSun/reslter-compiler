@@ -6,20 +6,7 @@
   "filePath": "optional_params_example.json",
   "exactCopy": false
   }],
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": false,
-  "UseBodyExamples": false,
-  "UseAllExamplePayloads": true,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
   "DataFuzzing": true,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false
+  "UseQueryExamples": false,
+  "UseBodyExamples": false
 }

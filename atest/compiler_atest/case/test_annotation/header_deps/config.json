@@ -2,21 +2,5 @@
   "SwaggerSpecFilePath": [
     "header_deps.json"
   ],
-  "AnnotationFilePath": "header_deps_annotations.json",
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": false,
-  "UseBodyExamples": false,
-  "UseAllExamplePayloads": false,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
-  "DataFuzzing": true,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false
+  "AnnotationFilePath": "header_deps_annotations.json"
 }

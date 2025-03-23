@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
@@ -72,7 +78,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -80,6 +98,12 @@
             "primitiveType": "Int",
             "defaultValue": "1"
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -286,7 +310,7 @@
                             "Fuzzable": {
                               "primitiveType": "Int",
                               "defaultValue": "1",
-                              "exampleValue": "\"23456\""
+                              "exampleValue": "23456"
                             }
                           },
                           "isRequired": false,
@@ -462,7 +486,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -474,7 +510,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "order"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

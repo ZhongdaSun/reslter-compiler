@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _archive__archiveId__put_id = dependencies.DynamicVariable("_archive__archiveId__put_id")
 
@@ -97,7 +97,7 @@ request = requests.Request([
     primitives.restler_fuzzable_string("fuzzstring", quoted=True),
     primitives.restler_static_string(""",
     "id":"""),
-    primitives.restler_fuzzable_int("1"),
+    primitives.restler_custom_payload_uuid4_suffix("archiveId", writer=_archive__archiveId__put_archiveId_path.writer(), quoted=False),
     primitives.restler_static_string("}"),
     primitives.restler_static_string("\r\n"),
     

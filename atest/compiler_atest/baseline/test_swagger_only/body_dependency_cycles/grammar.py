@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 req_collection = requests.RequestCollection([])
 # Endpoint: /sites/{name}/slots/{slot}/privateAccess/virtualNetworks, method: Put
@@ -14,11 +14,11 @@ request = requests.Request([
     primitives.restler_static_string("/"),
     primitives.restler_static_string("sites"),
     primitives.restler_static_string("/"),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("/"),
     primitives.restler_static_string("slots"),
     primitives.restler_static_string("/"),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("/"),
     primitives.restler_static_string("privateAccess"),
     primitives.restler_static_string("/"),
@@ -77,7 +77,7 @@ request = requests.Request([
     primitives.restler_static_string("/"),
     primitives.restler_static_string("sites"),
     primitives.restler_static_string("/"),
-    primitives.restler_fuzzable_object("{ \"fuzz\": false }"),
+    primitives.restler_fuzzable_string("fuzzstring", quoted=False),
     primitives.restler_static_string("/"),
     primitives.restler_static_string("privateAccess"),
     primitives.restler_static_string("/"),

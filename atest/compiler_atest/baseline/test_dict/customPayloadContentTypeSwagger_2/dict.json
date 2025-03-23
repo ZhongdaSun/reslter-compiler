@@ -40,5 +40,6 @@
     "/stores/{storeId}/order3/post/Content-Type": [
       "application/zzz"
     ]
-  }
+  },
+  "restler_custom_payload_query": {}
 }

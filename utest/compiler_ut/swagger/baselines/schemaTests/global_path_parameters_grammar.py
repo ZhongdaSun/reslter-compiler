@@ -1,10 +1,11 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from engine import primitives
-from engine.core import requests
-from engine.errors import ResponseParsingException
-from engine import dependencies
+from rest.restler.engine import primitives
+from rest.restler.engine.core import requests
+from rest.restler.engine.errors import ResponseParsingException
+from rest.restler.engine import dependencies
+
 req_collection = requests.RequestCollection([])
 # Endpoint: /customer/{customerId}, method: Put
 request = requests.Request([
@@ -21,6 +22,6 @@ request = requests.Request([
     primitives.restler_static_string("\r\n"),
 
 ],
-requestId="/customer/{customerId}"
+    requestId="/customer/{customerId}"
 )
 req_collection.add_request(request)

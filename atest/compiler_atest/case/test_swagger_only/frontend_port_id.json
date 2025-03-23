@@ -328,7 +328,7 @@
             "in": "path",
             "name": "subnetName",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -347,7 +347,7 @@
               "in": "path",
               "name": "subnetName",
               "required": true,
-              "type": "String"
+              "type": "string"
             },
             {
               "in": "body",
@@ -375,7 +375,7 @@
               "in": "path",
               "name": "applicationGatewayName",
               "required": true,
-              "type": "String"
+              "type": "string"
             },
             {
               "name": "parameters",
@@ -403,7 +403,7 @@
               "in": "path",
               "name": "virtualNetworkName",
               "required": true,
-              "type": "String"
+              "type": "string"
             },
             {
               "name": "parameters",

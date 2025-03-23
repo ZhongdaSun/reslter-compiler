@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 req_collection = requests.RequestCollection([])
 # Endpoint: /stores, method: Post
@@ -24,7 +24,7 @@ request = requests.Request([
     primitives.restler_static_string("{"),
     primitives.restler_static_string("""
     "window":"""),
-    primitives.restler_fuzzable_int("1", examples=['"xyz"']),
+    primitives.restler_fuzzable_int("1", examples=["xyz"]),
     primitives.restler_static_string("}"),
     primitives.restler_static_string("\r\n"),
 

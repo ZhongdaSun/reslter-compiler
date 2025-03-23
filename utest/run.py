@@ -124,7 +124,7 @@ if __name__ == "__main__":
         tests = get_tests_file_name(file_name, args.directory)
     else:
         if DebugConfig().get_debug_compiler() and DebugConfig().get_debug_reslter():
-            tests = get_tests(args.directory)
+            tests = get_tests(os.getcwd())
         elif DebugConfig().get_debug_compiler():
             path_name = os.path.join(os.getcwd(), "compiler_ut")
             tests = get_tests(path_name)

@@ -4,21 +4,5 @@
       "SpecFilePath": "response_headers.json",
       "AnnotationFilePath": "response_headers_annotations.json"
     }
-  ],
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": false,
-  "UseBodyExamples": false,
-  "UseAllExamplePayloads": false,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
-  "DataFuzzing": true,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false
+  ]
 }

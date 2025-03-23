@@ -34,5 +34,7 @@
     "publicIpAddressName": "publicipad",
     "tapConfigurationName": "tapconfigu",
     "tapName": "tapname"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

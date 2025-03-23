@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -20,6 +32,12 @@
             "variableName": "_archive__archiveId__put_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Fuzzable": {
@@ -85,13 +103,25 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
           "Custom": {
             "payloadType": "UuidSuffix",
-            "primitiveType": "String",
+            "primitiveType": "Int",
             "payloadValue": "archiveId",
             "isObject": false,
             "dynamicObject": {
@@ -156,9 +186,16 @@
                         "LeafNode": {
                           "name": "id",
                           "payload": {
-                            "Fuzzable": {
+                            "Custom": {
+                              "payloadType": "UuidSuffix",
                               "primitiveType": "Int",
-                              "defaultValue": "1"
+                              "payloadValue": "archiveId",
+                              "isObject": false,
+                              "dynamicObject": {
+                                "primitiveType": "Int",
+                                "variableName": "_archive__archiveId__put_archiveId_path",
+                                "isWriter": false
+                              }
                             }
                           },
                           "isRequired": false,
@@ -264,7 +301,7 @@
                 "path"
               ]
             },
-            "primitiveType": "String",
+            "primitiveType": "Int",
             "kind": "InputParameter"
           }
         ],

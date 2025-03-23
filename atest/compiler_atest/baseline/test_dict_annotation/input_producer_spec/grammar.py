@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _archive_post_hash_query = dependencies.DynamicVariable("_archive_post_hash_query")
 
@@ -13,6 +13,7 @@ _archive_post_name = dependencies.DynamicVariable("_archive_post_name")
 _archive_post_tag = dependencies.DynamicVariable("_archive_post_tag")
 
 _file__fileId__post_fileId_path = dependencies.DynamicVariable("_file__fileId__post_fileId_path")
+
 req_collection = requests.RequestCollection([])
 # Endpoint: /archive/{archiveId}/{label}, method: Get
 request = requests.Request([

@@ -11,14 +11,32 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "sites"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -27,15 +45,33 @@
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
         },
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "privateAccess"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -261,7 +297,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "Microsoft.Web"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -271,15 +319,33 @@
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
         },
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "privateAccess"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {

@@ -81,7 +81,7 @@
             "in": "path",
             "name": "archiveId",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "query",
@@ -112,7 +112,7 @@
             "in": "path",
             "name": "fileId",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -127,7 +127,7 @@
             "in": "path",
             "name": "fileId",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -145,7 +145,7 @@
             "in": "path",
             "name": "fileId",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {

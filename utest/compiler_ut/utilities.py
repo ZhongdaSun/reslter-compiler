@@ -2,7 +2,7 @@ import json
 import os
 import random
 import difflib
-from rest.compiler.utilities import JsonSerialization
+from compiler.utilities import JsonSerialization
 from deepdiff import DeepDiff
 import unittest
 

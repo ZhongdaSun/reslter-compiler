@@ -2,14 +2,14 @@ import unittest
 import os
 import datetime
 from datetime import datetime as dt
-from restler.engine.primitives import CandidateValues, CandidateValuesPool
-from restler.restler_settings import RestlerSettings
-from restler.engine.core.requests import Request
-import restler.engine.primitives as primitives
-import restler.engine.core.requests as requests
-from restler.engine.errors import InvalidDictionaryException
-import restler.engine.core.request_utilities as request_utilities
-from restler.checkers.invalid_value_checker import get_test_values
+from rest.restler.engine.primitives import CandidateValues, CandidateValuesPool
+from rest.restler.restler_settings import RestlerSettings
+from rest.restler.engine.core.requests import Request
+import rest.restler.engine.primitives as primitives
+import rest.restler.engine.core.requests as requests
+from rest.restler.engine.errors import InvalidDictionaryException
+import rest.restler.engine.core.request_utilities as request_utilities
+from rest.restler.checkers.invalid_value_checker import get_test_values
 import typing
 
 

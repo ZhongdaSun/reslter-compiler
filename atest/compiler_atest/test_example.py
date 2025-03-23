@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from atest.utilities import (
+from utilities import (
     DebugConfig,
     compile_spec,
     custom_skip_decorator)

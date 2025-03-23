@@ -32,5 +32,7 @@
   "restler_custom_payload_uuid4_suffix": {
     "orderId": "orderid",
     "storeId": "storeid"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

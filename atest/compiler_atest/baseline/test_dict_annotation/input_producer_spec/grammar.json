@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -19,6 +31,12 @@
             "primitiveType": "String",
             "defaultValue": "fuzzstring"
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "DynamicObject": {
@@ -30,7 +48,7 @@
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -104,6 +122,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
           ]
         }
@@ -121,7 +145,7 @@
                     "payload": {
                       "Custom": {
                         "payloadType": "Query",
-                        "primitiveType": "String",
+                        "primitiveType": "Number",
                         "payloadValue": "hash",
                         "isObject": false,
                         "dynamicObject": {
@@ -262,7 +286,7 @@
                 "query"
               ]
             },
-            "primitiveType": "String",
+            "primitiveType": "Number",
             "kind": "InputParameter"
           },
           {
@@ -310,7 +334,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -476,7 +512,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -486,7 +534,7 @@
             "payloadValue": "fileId",
             "isObject": false,
             "dynamicObject": {
-              "primitiveType": "Object",
+              "primitiveType": "String",
               "variableName": "_file__fileId__post_fileId_path",
               "isWriter": false
             }
@@ -495,7 +543,7 @@
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -593,12 +641,24 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "DynamicObject": {
-            "primitiveType": "Object",
+            "primitiveType": "String",
             "variableName": "_file__fileId__post_fileId_path",
             "isWriter": false
           }
@@ -606,7 +666,7 @@
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {
@@ -680,12 +740,24 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "DynamicObject": {
-            "primitiveType": "Object",
+            "primitiveType": "String",
             "variableName": "_file__fileId__post_fileId_path",
             "isWriter": false
           }
@@ -693,7 +765,7 @@
       ],
       "queryParameters": [
         [
-          "Schema",
+          "DictionaryCustomPayload",
           {
             "ParameterList": [
               {

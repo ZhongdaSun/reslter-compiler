@@ -1,9 +1,10 @@
 import unittest
 import os
 
-from atest.utilities import (
+from utilities import (
     DebugConfig,
     compile_spec,
+    Dict_Json,
     custom_skip_decorator)
 
 module_name = os.path.basename(__file__).rsplit(".py", 1)[0]
@@ -57,7 +58,7 @@ class TestAnnotation(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_same_body_dep"))
     def test_same_body_dep(self):
         result, msg = compile_spec(module_name,
-                                   'same_body_dep', [], "")
+                                   'same_body_dep', [Dict_Json], "")
         self.assertTrue(result, msg=msg)
 
     @custom_skip_decorator(
@@ -71,7 +72,7 @@ class TestAnnotation(unittest.TestCase):
         DebugConfig().get_cases_config(module_name, "test_simple_api_soft_delete"))
     def test_simple_api_soft_delete(self):
         result, msg = compile_spec(module_name,
-                                   'simple_api_soft_delete', [], "")
+                                   'simple_api_soft_delete', [Dict_Json], "")
         self.assertTrue(result, msg=msg)
 
 

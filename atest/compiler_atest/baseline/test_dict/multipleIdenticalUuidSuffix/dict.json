@@ -34,5 +34,7 @@
   "restler_custom_payload_uuid4_suffix": {
     "/resource/id": "resourceprefix",
     "resourceId": "resourceprefix"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

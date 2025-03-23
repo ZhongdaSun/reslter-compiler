@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 _subnets__subnetName__put_id = dependencies.DynamicVariable("_subnets__subnetName__put_id")
 
@@ -242,7 +242,7 @@ request = requests.Request([
                         {
                             "frontendIPConfiguration":
                                 {
-                                    "id":/applicationGateways/"""),
+                                    "id":///applicationGateways///"""),
     primitives.restler_custom_payload_uuid4_suffix("applicationGatewayName", quoted=False),
     primitives.restler_static_string("/frontendIPConfigurations/"),
     primitives.restler_custom_payload_uuid4_suffix("frontendIPConfigurations_name", quoted=False),
@@ -251,7 +251,7 @@ request = requests.Request([
                             ,
                             "frontendPort":
                                 {
-                                    "id":/applicationGateways/"""),
+                                    "id":///applicationGateways///"""),
     primitives.restler_custom_payload_uuid4_suffix("applicationGatewayName", quoted=False),
     primitives.restler_static_string("/frontendPorts/"),
     primitives.restler_custom_payload_uuid4_suffix("frontendPorts_name", quoted=False),

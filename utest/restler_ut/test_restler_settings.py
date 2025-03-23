@@ -7,15 +7,15 @@ import json
 import os
 import re
 
-from restler.engine.transport_layer.response import HttpResponse
-from restler.engine.core.request_utilities import str_to_hex_def as hex_def
-from restler.restler_settings import RestlerSettings
-from restler.restler_settings import NewSingletonError
-from restler.restler_settings import UninitializedError
-from restler.restler_settings import InvalidValueError
-from restler.restler_settings import OptionValidationError
-from restler.restler_settings import MAX_REQUEST_EXECUTION_TIME_MAX
-from restler.engine import primitives
+from rest.restler.engine.transport_layer.response import HttpResponse
+from rest.restler.engine.core.request_utilities import str_to_hex_def as hex_def
+from rest.restler.restler_settings import RestlerSettings
+from rest.restler.restler_settings import NewSingletonError
+from rest.restler.restler_settings import UninitializedError
+from rest.restler.restler_settings import InvalidValueError
+from rest.restler.restler_settings import OptionValidationError
+from rest.restler.restler_settings import MAX_REQUEST_EXECUTION_TIME_MAX
+from rest.restler.engine import primitives
 
 class RestlerSettingsTest(unittest.TestCase):
     def tearDown(self):

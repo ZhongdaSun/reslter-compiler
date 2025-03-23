@@ -1,10 +1,10 @@
 """ THIS IS AN AUTOMATICALLY GENERATED FILE!"""
 from __future__ import print_function
 import json
-from rest.restler.engine import primitives
-from rest.restler.engine.core import requests
-from rest.restler.engine.errors import ResponseParsingException
-from rest.restler.engine import dependencies
+from restler.engine import primitives
+from restler.engine.core import requests
+from restler.engine.errors import ResponseParsingException
+from restler.engine import dependencies
 
 req_collection = requests.RequestCollection([])
 # Endpoint: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}, method: Put
@@ -13,6 +13,8 @@ request = requests.Request([
     primitives.restler_basepath(""),
     primitives.restler_static_string("/"),
     primitives.restler_static_string("subscriptions"),
+    primitives.restler_static_string("/"),
+    primitives.restler_fuzzable_number("1.23"),
     primitives.restler_static_string("/"),
     primitives.restler_static_string("resourceGroups"),
     primitives.restler_static_string("/"),

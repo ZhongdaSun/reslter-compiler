@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "system-environments"
           ]
         }
@@ -121,12 +127,24 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "system-environments"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "DynamicObject": {
-            "primitiveType": "Object",
+            "primitiveType": "String",
             "variableName": "_system_environments_post_id",
             "isWriter": false
           }

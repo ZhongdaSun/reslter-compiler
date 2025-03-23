@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -19,6 +31,12 @@
             "primitiveType": "String",
             "defaultValue": "fuzzstring"
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Fuzzable": {
@@ -81,6 +99,12 @@
       "method": "Post",
       "basePath": "/api",
       "path": [
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
         {
           "Constant": [
             "String",
@@ -221,7 +245,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "archive"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -366,13 +402,25 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
         }
       ],
@@ -433,13 +481,25 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
         }
       ],
@@ -500,13 +560,25 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "file"
           ]
         },
         {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
+        {
           "Fuzzable": {
-            "primitiveType": "Object",
-            "defaultValue": "{ \"fuzz\": false }"
+            "primitiveType": "String",
+            "defaultValue": "fuzzstring"
           }
         }
       ],

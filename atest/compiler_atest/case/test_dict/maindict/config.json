@@ -12,21 +12,5 @@
       "SpecFilePath": "swagger3.json"
     }
   ],
-  "CustomDictionaryFilePath": "maindict.json",
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": true,
-  "UseBodyExamples": true,
-  "UseAllExamplePayloads": false,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
-  "DataFuzzing": true,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false
+  "CustomDictionaryFilePath": "maindict.json"
 }

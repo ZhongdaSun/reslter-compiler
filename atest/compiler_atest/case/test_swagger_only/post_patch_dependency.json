@@ -48,7 +48,7 @@
             "in": "path",
             "name": "system-environment-id",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",

@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "one"
           ]
         }
@@ -70,7 +76,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -86,6 +92,12 @@
       "method": "Get",
       "basePath": "",
       "path": [
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
         {
           "Constant": [
             "String",
@@ -148,7 +160,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",

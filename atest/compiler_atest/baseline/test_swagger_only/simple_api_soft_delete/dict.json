@@ -31,5 +31,7 @@
   "restler_custom_payload_unquoted": {},
   "restler_custom_payload_uuid4_suffix": {
     "appId": "appid"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

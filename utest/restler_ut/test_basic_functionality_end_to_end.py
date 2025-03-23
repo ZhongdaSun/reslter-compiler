@@ -15,10 +15,10 @@ import glob
 import shutil
 import subprocess
 import json
-import restler.utils.restler_logger as logger
-import restler.utils.import_utilities as import_utilities
-import restler.utils.logging.trace_db as trace_db
-from restler.utils.logging.serializer_base import *
+import rest.restler.utils.restler_logger as logger
+import rest.restler.utils.import_utilities as import_utilities
+import rest.restler.utils.logging.trace_db as trace_db
+from rest.restler.utils.logging.serializer_base import *
 from collections import namedtuple
 from pathlib import Path
 from log_parser import *

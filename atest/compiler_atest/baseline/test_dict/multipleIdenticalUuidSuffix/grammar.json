@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "resource"
           ]
         }
@@ -72,13 +78,25 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "resource"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
           "Custom": {
             "payloadType": "UuidSuffix",
-            "primitiveType": "String",
+            "primitiveType": "Int",
             "payloadValue": "resourceId",
             "isObject": false
           }

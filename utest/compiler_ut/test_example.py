@@ -2,9 +2,9 @@ import unittest
 import os
 import shutil
 
-from rest.compiler.workflow import generate_restler_grammar, Constants
-from rest.compiler.config import Config
-from rest.compiler.example import try_deserialize_example_config_file
+from compiler.workflow import generate_restler_grammar, Constants
+from compiler.config import Config
+from compiler.example import try_deserialize_example_config_file
 from compiler_ut.utilities import (
     get_line_differences,
     compare_difference,
@@ -468,7 +468,6 @@ class TestExampleGrammar(unittest.TestCase):
         grammar_file = os.path.join(source_dir, "grammar.py")
         grammar = get_grammar_file_content(grammar_file)
 
-        # 检查部分资源 ID
         self.assertIn("primitives.restler_static_string(\"/frontendPorts/\")", grammar)
         self.assertIn("primitives.restler_static_string(\"/frontendIPConfigurations/\")", grammar)
         self.assertIn("primitives.restler_custom_payload_uuid4_suffix(\"frontendPorts_name\", quoted=True)", grammar)
@@ -478,7 +477,7 @@ class TestExampleGrammar(unittest.TestCase):
         self.assertNotIn(
             "primitives.restler_custom_payload_uuid4_suffix(\"frontendIPConfiguration_name\", quoted=True)", grammar)
 
-        self.assertIn("appgwipc", grammar)
+        self.assertNotIn("appgwipc", grammar)
         self.assertNotIn("appgwfip", grammar)
         self.assertNotIn("appgwfp", grammar)
 

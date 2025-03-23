@@ -1,16 +1,18 @@
 {
-  "debug_mode": true,
-  "debug_file": "test_swagger_only.py",
+  "debug_mode": false,
+  "debug_file": "test_dict.py",
   "skip_python": false,
   "validate_grammar": true,
+  "debug_func": "compiler",
   "x-ms-examples": 4,
   "test_swagger_only": {
-    "test_inconsistent_casing_paths": 5,
-    "test_frontend_port_id": 5,
+    "test_inconsistent_casing_paths": 0,
+    "test_input_producer_spec": 0,
+    "test_body_dependency_cycles": 0,
+    "test_frontend_port_id": 0,
     "test_post_patch_dependency": 0,
     "test_ip_configurations_get": 0,
     "test_subnet_id": 0,
-    "test_body_dependency_cycles": 0,
     "test_circular_path": 0,
     "test_put_createorupdate": 0,
     "test_large_json_body": 0,
@@ -31,18 +33,15 @@
     "test_empty_array_example": 0,
     "test_object_example": 0,
     "test_null_test_swagger": 0,
-    "test_array_example": 2,
+    "test_array_example": 0,
     "test_required_params_include_optional_parameters": 0,
     "test_required_params_not_include_optional_parameters": 0,
     "test_get_path_dependencies": 0,
     "test_uuidsuffix_test": 0,
     "test_path_dictionary_payload": 0,
-    "test_input_producer_spec": 0,
     "test_no_params": 0,
     "test_read_only": 0,
     "test_global_path_parameters": 0,
-    "test_global_path_parameters_engine": 101,
-    "test_put_createorupdate_engine": 101,
     "test_simple_swagger_all_param_data_types": 0,
     "test_inline_examples": 0,
     "test_multiple_circular_paths": 0,
@@ -55,9 +54,7 @@
     "test_secgroup_example": 0,
     "test_multipleIdenticalUuidSuffix": 0,
     "test_example_demo_yaml": 0,
-    "test_example_demo_1": 0,
-    "test_definition_type_schema": 0,
-    "test_type_checking": 2
+    "test_example_demo_1": 0
   },
 
   "test_dict": {
@@ -80,7 +77,7 @@
   },
 
   "test_dict_annotation":{
-    "test_input_producer_spec": 5
+    "test_input_producer_spec": 0
   },
   "test_dict_example":{
     "test_array_example_external": 0,
@@ -95,9 +92,9 @@
     "test_ordering_test": 0,
     "test_pathAnnotationInSeparateFile": 0,
     "test_response_headers": 0,
-    "test_same_body_dep": 100,
+    "test_same_body_dep": 0,
     "test_simple_crud_api": 0,
-    "test_simple_api_soft_delete": 100
+    "test_simple_api_soft_delete": 0
   },
 
   "test_example": {

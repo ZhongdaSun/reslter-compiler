@@ -78,13 +78,13 @@
             "in": "path",
             "name": "name",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "path",
             "name": "slot",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -112,7 +112,7 @@
             "in": "path",
             "name": "name",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",

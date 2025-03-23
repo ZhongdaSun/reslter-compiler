@@ -1,6 +1,6 @@
 import unittest
 
-from restler.engine.core.request_utilities import parse_authentication_tokens, NO_TOKEN_SPECIFIED, \
+from rest.restler.engine.core.request_utilities import parse_authentication_tokens, NO_TOKEN_SPECIFIED, \
     NO_SHADOW_TOKEN_SPECIFIED
 
 

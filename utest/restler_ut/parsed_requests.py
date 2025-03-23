@@ -4,7 +4,7 @@
 """ Test helper classes created from parsing request strings """
 from collections import OrderedDict
 
-from restler.engine.transport_layer.response import DELIM
+from rest.restler.engine.transport_layer.response import DELIM
 
 UNIT_TEST_RESOURCE_IDENTIFIER = '<test!>'
 

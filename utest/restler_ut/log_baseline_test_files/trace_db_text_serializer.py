@@ -1,5 +1,5 @@
 import os
-from restler.utils.logging.serializer_base import *
+from rest.restler.utils.logging.serializer_base import *
 
 
 class TraceDbTextWriter(TraceLogWriterBase):

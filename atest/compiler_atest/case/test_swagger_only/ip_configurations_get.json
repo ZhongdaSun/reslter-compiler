@@ -294,13 +294,6 @@
         "description": "Creates or updates a network interface.",
         "parameters": [
           {
-            "name": "resourceGroupName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the resource group."
-          },
-          {
             "name": "networkInterfaceName",
             "in": "path",
             "required": true,
@@ -377,7 +370,7 @@
             "in": "path",
             "name": "subnetName",
             "required": true,
-            "type": "String"
+            "type": "string"
           }
         ],
         "responses": {
@@ -396,7 +389,7 @@
             "in": "path",
             "name": "subnetName",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "in": "body",
@@ -424,7 +417,7 @@
             "in": "path",
             "name": "applicationGatewayName",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "parameters",
@@ -452,7 +445,7 @@
             "in": "path",
             "name": "virtualNetworkName",
             "required": true,
-            "type": "String"
+            "type": "string"
           },
           {
             "name": "parameters",

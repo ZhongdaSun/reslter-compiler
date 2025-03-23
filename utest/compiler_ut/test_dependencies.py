@@ -3,12 +3,12 @@ import os
 import json
 import shutil
 
-from rest.compiler.workflow import generate_restler_grammar, Constants, get_swagger_data_for_doc
+from compiler.workflow import generate_restler_grammar, Constants, get_swagger_data_for_doc
 
-from rest.compiler.config import Config
-from rest.compiler.utilities import JsonSerialization
-from rest.compiler.dictionary import init_user_dictionary
-from rest.compiler.compiler import generate_request_grammar
+from compiler.config import Config
+from compiler.utilities import JsonSerialization
+from compiler.dictionary import init_user_dictionary
+from compiler.compiler import generate_request_grammar
 from compiler_ut.utilities import (
     get_line_differences,
     get_grammar_file_content,

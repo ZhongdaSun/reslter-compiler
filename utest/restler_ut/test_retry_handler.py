@@ -3,7 +3,7 @@
 
 import unittest
 import time
-from restler.engine.core.retry_handler import RetryHandler, RetryStrategy, RetryLimitExceeded
+from rest.restler.engine.core.retry_handler import RetryHandler, RetryStrategy, RetryLimitExceeded
 
 
 class RetryHandlerTest(unittest.TestCase):

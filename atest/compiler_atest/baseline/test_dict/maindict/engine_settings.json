@@ -1,0 +1,17 @@
+{
+  "per_resource_settings": {
+    "/first": {
+      "custom_dictionary": "dict_0.json"
+    },
+    "/first/{storeId}/order/{orderId}": {
+      "custom_dictionary": "dict_0.json"
+    },
+    "/second": {
+      "custom_dictionary": "dict_1.json"
+    },
+    "/second/{storeId}/order": {
+      "custom_dictionary": "dict_1.json"
+    }
+  },
+  "max_combinations": 20
+}

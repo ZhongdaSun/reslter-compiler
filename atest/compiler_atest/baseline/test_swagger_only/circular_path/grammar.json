@@ -11,7 +11,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "customer"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -60,7 +72,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -79,7 +91,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "customer"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -223,7 +247,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",
@@ -239,6 +263,12 @@
       "method": "Post",
       "basePath": "",
       "path": [
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
+        },
         {
           "Constant": [
             "String",
@@ -379,7 +409,7 @@
         ],
         [
           "Host",
-          null
+          ""
         ]
       ],
       "httpVersion": "1.1",

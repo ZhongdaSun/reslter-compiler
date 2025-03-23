@@ -33,5 +33,7 @@
     "applicationGatewayName": "applicatio",
     "subnetName": "subnetname",
     "virtualNetworkName": "virtualnet"
-  }
+  },
+  "restler_custom_payload_header": {},
+  "restler_custom_payload_query": {}
 }

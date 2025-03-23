@@ -11,6 +11,12 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
           ]
         }
@@ -95,7 +101,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -272,7 +290,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -281,6 +311,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -667,7 +703,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -676,6 +724,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -1062,7 +1116,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -1071,6 +1137,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -1384,22 +1456,6 @@
                     "isReadOnly": false
                   }
                 }
-              },
-              {
-                "name": "Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Fuzzable": {
-                        "primitiveType": "String",
-                        "defaultValue": "fuzzstring"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
               }
             ]
           }
@@ -1457,7 +1513,19 @@
         {
           "Constant": [
             "String",
+            "/"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
             "stores"
+          ]
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
           ]
         },
         {
@@ -1466,6 +1534,12 @@
             "variableName": "_stores_post_id",
             "isWriter": false
           }
+        },
+        {
+          "Constant": [
+            "String",
+            "/"
+          ]
         },
         {
           "Constant": [
@@ -1773,22 +1847,6 @@
                       "Fuzzable": {
                         "primitiveType": "DateTime",
                         "defaultValue": "2019-06-26T20:20:39+00:00"
-                      }
-                    },
-                    "isRequired": true,
-                    "isReadOnly": false
-                  }
-                }
-              },
-              {
-                "name": "Content-Type",
-                "payload": {
-                  "LeafNode": {
-                    "name": "",
-                    "payload": {
-                      "Fuzzable": {
-                        "primitiveType": "String",
-                        "defaultValue": "fuzzstring"
                       }
                     },
                     "isRequired": true,

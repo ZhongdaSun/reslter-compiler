@@ -11,21 +11,5 @@
       "filePath": "exampleConfigTestConfig2.json",
       "exactCopy": true
     }
-  ],
-  "IncludeOptionalParameters": true,
-  "UseHeaderExamples": true,
-  "UsePathExamples": false,
-  "UseQueryExamples": true,
-  "UseBodyExamples": true,
-  "UseAllExamplePayloads": false,
-  "DiscoverExamples": false,
-  "ExamplesDirectory": "",
-  "DataFuzzing": false,
-  "ReadOnlyFuzz": false,
-  "ResolveQueryDependencies": true,
-  "ResolveBodyDependencies": true,
-  "ResolveHeaderDependencies": false,
-  "UseRefreshableToken": true,
-  "AllowGetProducers": false,
-  "TrackFuzzedParameterNames": false
+  ]
 }

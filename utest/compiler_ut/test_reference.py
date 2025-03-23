@@ -3,8 +3,8 @@ import os
 import unittest
 import shutil
 
-from rest.compiler.workflow import generate_restler_grammar, Constants
-from rest.compiler.config import Config, ConfigSetting, convert_to_abs_path
+from compiler.workflow import generate_restler_grammar, Constants
+from compiler.config import Config, ConfigSetting, convert_to_abs_path
 from compiler_ut.utilities import (
     get_grammar_file_content,
     TEST_ROOT_DIR,
